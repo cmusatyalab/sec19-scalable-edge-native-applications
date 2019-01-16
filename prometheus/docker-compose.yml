@@ -1,5 +1,6 @@
 version: '3.2'
 volumes:
+    prometheus_data: {}
     grafana_data: {}
 services:
   prometheus:
@@ -11,6 +12,7 @@ services:
     - --config.file=/etc/prometheus/prometheus.yml
     volumes:
     - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    - prometheus_data:/prometheus
     depends_on:
     - cadvisor
   cadvisor:
