@@ -27,6 +27,7 @@ services:
     - /var/lib/docker/:/var/lib/docker:ro
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana
     depends_on:
       - prometheus
     ports:
