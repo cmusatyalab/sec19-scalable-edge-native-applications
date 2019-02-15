@@ -1,6 +1,8 @@
-# edge-resource-management
+# Edge Resource Management Research Study
 
-## cadvisor, prometheus, and Grafana
+## Infrastructure
+
+### cadvisor, prometheus, and Grafana Setup
 
 cadvisor is metric collection tool.
 prometheus is a time-series database.
