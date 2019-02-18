@@ -1,20 +1,10 @@
 version: '3.2'
 volumes:
-    prometheus_data: {}
-    grafana_data: {}
+    res_prometheus_data:
+        external: true
+    res_grafana_data: 
+        external: true
 services:
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    ports:
-    - 9090:9090
-    command:
-    - --config.file=/etc/prometheus/prometheus.yml
-    volumes:
-    - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    - prometheus_data:/prometheus
-    depends_on:
-    - cadvisor
   cadvisor:
     image: google/cadvisor:latest
     container_name: cadvisor
@@ -25,6 +15,18 @@ services:
     - /var/run:/var/run:rw
     - /sys:/sys:ro
     - /var/lib/docker/:/var/lib/docker:ro
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+    - 9090:9090
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+    - ./prometheus-config.yml:/etc/prometheus/prometheus.yml:ro
+    - res_prometheus_data:/prometheus
+    depends_on:
+    - cadvisor
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -33,6 +35,6 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - grafana_data:/var/lib/grafana
+      - res_grafana_data:/var/lib/grafana
     env_file:
       - ./grafana.env
