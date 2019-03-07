@@ -14,12 +14,14 @@ import redis
 import time
 
 
-def send_frame_to_redis(frame, redis_client):
-    redis_client.publish('feeds', (frame.tobytes(), time.time()))
+def send_frame_redis(frame, redis_client):
+    # move to send frame?
+    frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
+    redis_client.lpush('feeds', (frame_bytes, time.time()))
 
 
 def send_frame(frame, *args, **kwargs):
-    send_frame_to_redis(frame, *args, **kwargs)
+    send_frame_redis(frame, *args, **kwargs)
 
 
 def get_frame(cam):
