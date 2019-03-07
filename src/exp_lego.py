@@ -12,6 +12,7 @@ import fire
 import numpy as np
 from logzero import logger
 
+import const
 import redis
 from lego import lego
 from utils import timeit
@@ -26,7 +27,7 @@ class RedisConnector(object):
 
     def get(self):
         # blocking
-        item = self.client.brpop(['feeds'])
+        item = self.client.brpop([const.REDIS_STREAM_CHAN])
         return item
 
 

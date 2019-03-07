@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/home/junjuew/miniconda3/envs/resource-management/bin/python",
+    "python.formatting.autopep8Args": ["--ignore", "E402"]
+}

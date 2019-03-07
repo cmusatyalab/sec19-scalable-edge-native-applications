@@ -4,20 +4,20 @@ from __future__ import absolute_import, division, print_function
 
 import multiprocessing
 import os
+import time
 
 import cv2
 import fire
 from logzero import logger
 from twisted.internet import reactor, task
 
+import const
 import redis
-import time
 
 
 def send_frame_redis(frame, redis_client):
-    # move to send frame?
     frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
-    redis_client.lpush('feeds', (frame_bytes, time.time()))
+    redis_client.lpush(const.REDIS_STREAM_CHAN, (frame_bytes, time.time()))
 
 
 def send_frame(frame, *args, **kwargs):

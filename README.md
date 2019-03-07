@@ -13,3 +13,11 @@ grafana is a visualization tool.
 ```bash
 python src/exp_lego.py 'data/traces/lego_196/%010d.jpg'
 ```
+
+## Development setup
+
+```bash
+cd src
+vim .envrc
+alembic upgrade
+```
