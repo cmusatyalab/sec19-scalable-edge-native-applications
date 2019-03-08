@@ -19,14 +19,15 @@
 #   limitations under the License.
 #
 
-import config
 import random
 import sys
 from base64 import b64decode, b64encode
 
 import cv2
 import numpy as np
-import zhuocv as zc
+from lego import config
+from lego import zhuocv as zc
+
 
 def bitmap2syn_img(bitmap):
     '''
@@ -61,15 +62,23 @@ def bitmap2guidance_img(bitmap, diff_piece, action, max_height=100, max_width=10
         col_idx_start = col_idx_start * scale
         col_idx_end = (col_idx_end + 1) * scale - 1
         if action == config.ACTION_ADD:
-            cv2.line(img_guidance, (col_idx_start, row_idx_start), (col_idx_start, row_idx_end), (255, 0, 255), 2)
-            cv2.line(img_guidance, (col_idx_end, row_idx_start), (col_idx_end, row_idx_end), (255, 0, 255), 2)
-            cv2.line(img_guidance, (col_idx_start, row_idx_start), (col_idx_end, row_idx_start), (255, 0, 255), 2)
-            cv2.line(img_guidance, (col_idx_start, row_idx_end), (col_idx_end, row_idx_end), (255, 0, 255), 2)
+            cv2.line(img_guidance, (col_idx_start, row_idx_start),
+                     (col_idx_start, row_idx_end), (255, 0, 255), 2)
+            cv2.line(img_guidance, (col_idx_end, row_idx_start),
+                     (col_idx_end, row_idx_end), (255, 0, 255), 2)
+            cv2.line(img_guidance, (col_idx_start, row_idx_start),
+                     (col_idx_end, row_idx_start), (255, 0, 255), 2)
+            cv2.line(img_guidance, (col_idx_start, row_idx_end),
+                     (col_idx_end, row_idx_end), (255, 0, 255), 2)
         elif action == config.ACTION_REMOVE:
-            cv2.line(img_guidance, (col_idx_start, row_idx_start), (col_idx_start, row_idx_end), (0, 255, 255), 2)
-            cv2.line(img_guidance, (col_idx_end, row_idx_start), (col_idx_end, row_idx_end), (0, 255, 255), 2)
-            cv2.line(img_guidance, (col_idx_start, row_idx_start), (col_idx_end, row_idx_start), (0, 255, 255), 2)
-            cv2.line(img_guidance, (col_idx_start, row_idx_end), (col_idx_end, row_idx_end), (0, 255, 255), 2)
+            cv2.line(img_guidance, (col_idx_start, row_idx_start),
+                     (col_idx_start, row_idx_end), (0, 255, 255), 2)
+            cv2.line(img_guidance, (col_idx_end, row_idx_start),
+                     (col_idx_end, row_idx_end), (0, 255, 255), 2)
+            cv2.line(img_guidance, (col_idx_start, row_idx_start),
+                     (col_idx_end, row_idx_start), (0, 255, 255), 2)
+            cv2.line(img_guidance, (col_idx_start, row_idx_end),
+                     (col_idx_end, row_idx_end), (0, 255, 255), 2)
 
     return img_guidance
 
@@ -85,18 +94,22 @@ def bitmap2guidance_animation(bitmap, action, diff_piece=None, diff_piece2=None,
         scale = min(scale1, scale2)
         width_large = int(width * scale)
         height_large = int(height * scale)
-        img_large = np.ones((max_height, max_width, img.shape[2]), dtype=np.uint8) * 128
+        img_large = np.ones(
+            (max_height, max_width, img.shape[2]), dtype=np.uint8) * 128
         img_stuff = img_large[(max_height - height_large) / 2: (max_height - height_large) / 2 + height_large,
                               (max_width - width_large) / 2: (max_width - width_large) / 2 + width_large]
-        img_resized = cv2.resize(img, (width_large, height_large), interpolation=cv2.INTER_NEAREST)
+        img_resized = cv2.resize(
+            img, (width_large, height_large), interpolation=cv2.INTER_NEAREST)
         img_stuff[:, :, :] = img_resized  # this is like copyTo in c++
 
         if direction == config.DIRECTION_UP:
-            img_stuff[int(row_idx * scale): int((row_idx + 1) * scale), int(col_idx_start * scale)                      : int((col_idx_end + 1) * scale), :] = [128, 128, 128]
+            img_stuff[int(row_idx * scale): int((row_idx + 1) * scale), int(
+                col_idx_start * scale): int((col_idx_end + 1) * scale), :] = [128, 128, 128]
             img_stuff[int((row_idx - ratio) * scale): int((row_idx + 1 - ratio) * scale),
                       int(col_idx_start * scale): int((col_idx_end + 1) * scale), :] = shift_color
         elif direction == config.DIRECTION_DOWN:
-            img_stuff[int(row_idx * scale): int((row_idx + 1) * scale), int(col_idx_start * scale)                      : int((col_idx_end + 1) * scale), :] = [128, 128, 128]
+            img_stuff[int(row_idx * scale): int((row_idx + 1) * scale), int(
+                col_idx_start * scale): int((col_idx_end + 1) * scale), :] = [128, 128, 128]
             img_stuff[int((row_idx + ratio) * scale): int((row_idx + 1 + ratio) * scale),
                       int(col_idx_start * scale): int((col_idx_end + 1) * scale), :] = shift_color
 
@@ -105,7 +118,8 @@ def bitmap2guidance_animation(bitmap, action, diff_piece=None, diff_piece2=None,
     def encode_images(img_animation):
         img_animation_ret = []
         for cv_img, duration in img_animation:
-            img_animation_ret.append((b64encode(zc.cv_image2raw(cv_img)), duration))
+            img_animation_ret.append(
+                (b64encode(zc.cv_image2raw(cv_img)), duration))
         return img_animation_ret
 
     img_animation = []
@@ -119,7 +133,8 @@ def bitmap2guidance_animation(bitmap, action, diff_piece=None, diff_piece2=None,
         height = bitmap.shape[0]
         width = bitmap.shape[1]
         if (row_idx == 0 or row_idx == height - 1) and direction != config.DIRECTION_NONE:
-            bitmap_new = np.zeros((bitmap.shape[0] + 1, bitmap.shape[1]), dtype=np.int)
+            bitmap_new = np.zeros(
+                (bitmap.shape[0] + 1, bitmap.shape[1]), dtype=np.int)
             if row_idx == 0:
                 bitmap_new[1:, :] = bitmap
                 row_idx += 1
@@ -134,7 +149,8 @@ def bitmap2guidance_animation(bitmap, action, diff_piece=None, diff_piece2=None,
         height = bitmap.shape[0]
         width = bitmap.shape[1]
         if (row_idx2 == 0 or row_idx2 == height - 1) and direction2 != config.DIRECTION_NONE:
-            bitmap_new = np.ones((bitmap.shape[0] + 1, bitmap.shape[1], bitmap.shape[2]), dtype=np.uint8) * 128
+            bitmap_new = np.ones(
+                (bitmap.shape[0] + 1, bitmap.shape[1], bitmap.shape[2]), dtype=np.uint8) * 128
             if row_idx2 == 0:
                 bitmap_new[1:, :] = bitmap
                 row_idx += 1
@@ -148,22 +164,31 @@ def bitmap2guidance_animation(bitmap, action, diff_piece=None, diff_piece2=None,
     AUTM = 800  # animation_update_time_min
     if action == config.ACTION_ADD:
         img_show = bitmap2syn_img(bitmap)
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 1), AUTM))
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 0.5), AUTM))
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 0), 3 * AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 1), AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 0.5), AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 0), 3 * AUTM))
     elif action == config.ACTION_REMOVE:
         img_show = bitmap2syn_img(bitmap)
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 0), AUTM))
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 0.5), AUTM))
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 1), 3 * AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 0), AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 0.5), AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 1), 3 * AUTM))
     elif action == config.ACTION_MOVE:
         bitmap_tmp = bitmap.copy()
         bitmap_tmp = remove_piece(bitmap_tmp, diff_piece2, do_shrink=False)
         bitmap_tmp = add_piece(bitmap_tmp, diff_piece)
         img_show = bitmap2syn_img(bitmap_tmp)
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 0), AUTM))
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 0.25), AUTM))
-        img_animation.append((enlarge_and_shift(img_show, row_idx, col_idx_start, col_idx_end, direction, 0.5), AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 0), AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 0.25), AUTM))
+        img_animation.append((enlarge_and_shift(
+            img_show, row_idx, col_idx_start, col_idx_end, direction, 0.5), AUTM))
         bitmap_tmp = bitmap.copy()
         bitmap_tmp = remove_piece(bitmap_tmp, diff_piece, do_shrink=False)
         bitmap_tmp = add_piece(bitmap_tmp, diff_piece2)
@@ -176,17 +201,21 @@ def bitmap2guidance_animation(bitmap, action, diff_piece=None, diff_piece2=None,
                                                 col_idx_end2, direction2, 0), 3 * AUTM))
     else:
         img_show = bitmap2syn_img(bitmap)
-        img_animation.append((enlarge_and_shift(img_show, 0, 0, 0, 0, 0), 5 * AUTM))
+        img_animation.append(
+            (enlarge_and_shift(img_show, 0, 0, 0, 0, 0), 5 * AUTM))
 
     return encode_images(img_animation)
 
 
 def get_piece_position(bm, piece):
     row_idx, col_idx_start, col_idx_end, _, label = piece
-    is_top = row_idx == 0 or not np.any(bm[row_idx - 1, col_idx_start: col_idx_end + 1])
-    is_bottom = row_idx == bm.shape[0] - 1 or not np.any(bm[row_idx + 1, col_idx_start: col_idx_end + 1])
+    is_top = row_idx == 0 or not np.any(
+        bm[row_idx - 1, col_idx_start: col_idx_end + 1])
+    is_bottom = row_idx == bm.shape[0] - 1 or not np.any(
+        bm[row_idx + 1, col_idx_start: col_idx_end + 1])
     is_left = col_idx_start == 0 or not np.any(bm[row_idx, 0: col_idx_start])
-    is_right = col_idx_end == bm.shape[1] - 1 or not np.any(bm[row_idx, col_idx_end + 1:])
+    is_right = col_idx_end == bm.shape[1] - \
+        1 or not np.any(bm[row_idx, col_idx_end + 1:])
     position = None
     if is_top:
         if is_left and not is_right:
@@ -252,7 +281,8 @@ def generate_message(bm_old, bm_new, action, diff_piece, diff_piece2=None, step_
                     message = "This is incorrect. The 1x%d %s piece should be placed more to the left." % (
                         (col_idx_end - col_idx_start + 1), config.COLOR_ORDER[label])
         else:
-            message = "Now move the 1x%d %s piece " % ((col_idx_end - col_idx_start + 1), config.COLOR_ORDER[label])
+            message = "Now move the 1x%d %s piece " % (
+                (col_idx_end - col_idx_start + 1), config.COLOR_ORDER[label])
             position = get_piece_position(bm_old, diff_piece)
             position2 = get_piece_position(bm_new, diff_piece2)
             if position is None or position2 is None:  # shouldn't happen
@@ -260,7 +290,8 @@ def generate_message(bm_old, bm_new, action, diff_piece, diff_piece2=None, step_
             elif position[0] == position2[0]:  # remain on the top or bottom
                 message += "to the %s of the current model." % position2
             else:
-                message += "from the %s to the %s of the current model." % (position, position2)
+                message += "from the %s to the %s of the current model." % (
+                    position, position2)
 
     return message
 
@@ -333,7 +364,8 @@ def bitmap_more_equalsize(bm1, bm2):
         row_idx = row_idxs[0]
         col_idx_start = col_idxs.min()
         col_idx_end = col_idxs.max()
-        direction = get_piece_direction(bm2, (row_idx, col_idx_start, col_idx_end))
+        direction = get_piece_direction(
+            bm2, (row_idx, col_idx_start, col_idx_end))
         bm_more['first_piece'] = [row_idx, col_idx_start, col_idx_end,
                                   direction, bm_more['labels'][row_idx, col_idx_start]]
     else:
@@ -393,7 +425,7 @@ def bitmap_diff(bm1, bm2):
 def shift_bitmap(bm, shift, final_shape):
     shape = bm.shape
     bm_shift = np.zeros(final_shape, dtype=np.int)
-    bm_shift[shift[0]:  shift[0] + shape[0], shift[1]: shift[1] + shape[1]] = bm
+    bm_shift[shift[0]: shift[0] + shape[0], shift[1]: shift[1] + shape[1]] = bm
     return bm_shift
 
 

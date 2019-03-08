@@ -25,9 +25,9 @@ import os
 import sys
 import time
 
-import bitmap as bm
-import config
-import zhuocv as zc
+from lego import bitmap as bm
+from lego import config
+from lego import zhuocv as zc
 
 LOG_TAG = "LEGO: "
 current_milli_time = lambda: int(round(time.time() * 1000))

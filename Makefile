@@ -11,7 +11,11 @@
 all: feed serve
 
 feed:
-	python src/feed.py start --num 2 --to_host 127.0.0.1 --to_port 6379 --uri 'data/traces/lego_196/%010d.jpg' &
+	python rmexp/feed.py start --num 2 --to_host 127.0.0.1 --to_port 6379 --uri 'data/traces/lego_196/%010d.jpg' &
 
 serve:
-	python src/serve.py start --num 2 --host 127.0.0.1 --port 6379 &
+	python rmexp/serve.py start --num 2 --host 127.0.0.1 --port 6379 &
+
+upgradedb:
+	alembic revision --autogenerate -m "Added account table"
+	alembic upgrade

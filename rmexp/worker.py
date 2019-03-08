@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 from logzero import logger
 
-from lego import lego
+import lego
 from rmexp import dbutils, config
 from rmexp.schema import models
 

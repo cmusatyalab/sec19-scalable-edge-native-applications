@@ -20,7 +20,6 @@
 #
 
 
-from . import config
 import json
 import os
 import select
@@ -34,13 +33,14 @@ import traceback
 import cv2
 import fire
 import numpy as np
+from lego import config
 from logzero import logger
 
-import bitmap as bm
-import lego_cv as lc
-import zhuocv as zc
-from tasks import Task
-from tasks.task_Turtle import bitmaps, time_estimates
+from lego import bitmap as bm
+from lego import lego_cv as lc
+from lego import zhuocv as zc
+from lego.tasks import Task
+from lego.tasks.task_Turtle import bitmaps, time_estimates
 
 display_list = config.DISPLAY_LIST
 
@@ -76,7 +76,8 @@ class LegoHandler(object):
 
         stretch_ratio = float(16) / 9 * img.shape[0] / img.shape[1]
         if img.shape != (config.IMAGE_WIDTH, config.IMAGE_HEIGHT, 3):
-            img = cv2.resize(img, (config.IMAGE_WIDTH, config.IMAGE_HEIGHT), interpolation=cv2.INTER_AREA)
+            img = cv2.resize(
+                img, (config.IMAGE_WIDTH, config.IMAGE_HEIGHT), interpolation=cv2.INTER_AREA)
 
         # get bitmap for current image
         zc.check_and_display('input', img, display_list, wait_time=config.DISPLAY_WAIT_TIME,
@@ -111,7 +112,8 @@ class LegoHandler(object):
         bitmap = self.commited_bitmap
         if 'lego_syn' in display_list and bitmap is not None:
             img_syn = bm.bitmap2syn_img(bitmap)
-            zc.display_image('lego_syn', img_syn, wait_time=config.DISPLAY_WAIT_TIME, resize_scale=50)
+            zc.display_image(
+                'lego_syn', img_syn, wait_time=config.DISPLAY_WAIT_TIME, resize_scale=50)
 
         if config.RECOGNIZE_ONLY:
             return json.dumps(result)
