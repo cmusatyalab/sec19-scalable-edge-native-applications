@@ -10,14 +10,14 @@ import cv2
 import fire
 from logzero import logger
 from twisted.internet import reactor, task
-
-import const
 import redis
+
+from rmexp import config
 
 
 def send_frame_redis(frame, redis_client):
     frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
-    redis_client.lpush(const.REDIS_STREAM_CHAN, (frame_bytes, time.time()))
+    redis_client.lpush(config.REDIS_STREAM_CHAN, (frame_bytes, time.time()))
 
 
 def send_frame(frame, *args, **kwargs):
@@ -54,7 +54,8 @@ def start_single_feed(uri, to_host, to_port, fps=20):
 
 
 def start(num, uri, to_host, to_port, fps=20):
-    procs = [multiprocessing.Process(target=start_single_feed, args=(uri, to_host, to_port, fps, )) for i in range(num)]
+    procs = [multiprocessing.Process(target=start_single_feed, args=(
+        uri, to_host, to_port, fps, )) for i in range(num)]
     map(lambda proc: proc.start(), procs)
     map(lambda proc: proc.join(), procs)
 

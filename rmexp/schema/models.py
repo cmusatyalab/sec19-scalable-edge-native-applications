@@ -3,7 +3,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 
-from . import Base
+from rmexp.schema import Base
 
 
 class Exp(Base):
@@ -26,8 +26,10 @@ class ExpLatency(Base):
 
 
 class LegoLatency(Base):
+    """General experiment table."""
     __tablename__ = 'LegoLatency'
     id = Column(Integer, primary_key=True)
-    key = Column(String(512), nullable=False)
-    val = Column(String(512))
+    name = Column(String(512), nullable=False)
+    index = Column(Integer)
+    val = Column(Integer)
     date = Column(DateTime, default=datetime.utcnow)

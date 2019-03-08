@@ -20,7 +20,7 @@
 #
 
 
-import config
+from . import config
 import json
 import os
 import select
