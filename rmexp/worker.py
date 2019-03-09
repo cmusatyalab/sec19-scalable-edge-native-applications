@@ -13,6 +13,9 @@ from rmexp import dbutils, config
 from rmexp.schema import models
 
 
+logzero.loglevel(logging.INFO)
+
+
 def lego_loop(job_queue):
     lego_app = lego.LegoHandler()
     while True:
