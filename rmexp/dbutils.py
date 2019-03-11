@@ -10,14 +10,13 @@ from sqlalchemy.engine.url import URL
 from rmexp import config
 
 engine = create_engine(config.DB_URI)
-Session = sessionmaker()
-Session.configure(bind=engine)
-session = Session()
 
 
-def add(entry):
-    session.add(entry)
-    session.commit()
+def get_session():
+    Session = sessionmaker()
+    Session.configure(bind=engine)
+    session = Session()
+    return session
 
 
 class Connector(object):

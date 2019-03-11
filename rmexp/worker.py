@@ -20,6 +20,7 @@ logzero.loglevel(logging.DEBUG)
 
 def lego_loop(job_queue):
     lego_app = lego.LegoHandler()
+    sess = dbutils.get_session()
     while True:
         _, item = job_queue.get()
         (encoded_im, ts) = ast.literal_eval(item)
@@ -30,7 +31,8 @@ def lego_loop(job_queue):
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for an item'.format(
             os.getpid(), (time.time() - ts) * 1000))
-        dbutils.add(models.LegoLatency(name=config.EXP, val=int(time_lapse)))
+        sess.add(models.LegoLatency(name=config.EXP, val=int(time_lapse)))
+        sess.commit()
 
 
 def batch_process(video_uri):
