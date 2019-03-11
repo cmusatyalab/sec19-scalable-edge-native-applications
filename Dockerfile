@@ -11,7 +11,4 @@ RUN /bin/bash -c ". /opt/conda/etc/profile.d/conda.sh && \
     cd /root/src/app && \
     python setup.py install"
 
-RUN /bin/bash /root/src/install.sh
-
-ENTRYPOINT [ "/bin/bash" ]
-CMD [ "/bin/bash" ]
+WORKDIR /root/src

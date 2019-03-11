@@ -6,6 +6,8 @@ import time
 
 import cv2
 import numpy as np
+import logzero
+import logging
 from logzero import logger
 
 import lego
@@ -13,7 +15,7 @@ from rmexp import dbutils, config
 from rmexp.schema import models
 
 
-logzero.loglevel(logging.INFO)
+logzero.loglevel(logging.DEBUG)
 
 
 def lego_loop(job_queue):
