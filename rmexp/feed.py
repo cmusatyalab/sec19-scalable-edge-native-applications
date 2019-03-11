@@ -47,13 +47,14 @@ def get_video_capture(uri):
 def start_single_feed(uri, to_host, to_port, fps=20):
     cam = get_video_capture(uri)
     redis_client = redis.Redis(host=to_host, port=to_port)
-    redis_client.flushdb()
     t = task.LoopingCall(get_and_send_frame, cam, redis_client)
     t.start(1.0 / fps)
     reactor.run()
 
 
 def start(num, uri, to_host, to_port, fps=20):
+    redis_client = redis.Redis(host=to_host, port=to_port)
+    redis_client.flushdb()
     procs = [multiprocessing.Process(target=start_single_feed, args=(
         uri, to_host, to_port, fps, )) for i in range(num)]
     map(lambda proc: proc.start(), procs)

@@ -23,7 +23,7 @@
 # If False, configurations are set to process one independent image (use with img.py)
 IS_STREAMING = True
 
-RECOGNIZE_ONLY = False
+RECOGNIZE_ONLY = True
 
 # Port for communication between proxy and task server
 TASK_SERVER_PORT = 6090
@@ -56,8 +56,10 @@ DISPLAY_LIST_ALL = ['test', 'input', 'DoB', 'mask_black', 'mask_black_dots',
                     'lego_u_edge_S', 'lego_u_edge_norm_L', 'lego_u_dots_L', 'lego_full', 'lego', 'lego_only_color',
                     'lego_correct', 'lego_rect', 'lego_cropped', 'lego_color', 'plot_line', 'lego_syn',
                     'guidance']
-DISPLAY_LIST_TEST = ['input', 'board', 'lego_u_edge_S', 'lego_u_edge_norm_L', 'lego_u_dots_L', 'lego_syn']
-DISPLAY_LIST_STREAM = ['input', 'lego_syn']
+DISPLAY_LIST_TEST = ['input', 'board', 'lego_u_edge_S',
+                     'lego_u_edge_norm_L', 'lego_u_dots_L', 'lego_syn']
+# DISPLAY_LIST_STREAM = ['input', 'lego_syn']
+DISPLAY_LIST_STREAM = []  # suppress display when running in recognize_only
 #DISPLAY_LIST_TASK = ['input', 'board', 'lego_syn', 'guidance']
 DISPLAY_LIST_TASK = []
 if not IS_STREAMING:
@@ -69,7 +71,7 @@ else:
         DISPLAY_LIST = DISPLAY_LIST_TASK
 DISPLAY_WAIT_TIME = 1 if IS_STREAMING else 500
 
-## Black dots
+# Black dots
 BD_COUNT_N_ROW = 9
 BD_COUNT_N_COL = 16
 BD_BLOCK_HEIGHT = IMAGE_HEIGHT / BD_COUNT_N_ROW
@@ -84,23 +86,24 @@ BD_MAX_SPAN = int(BD_MAX_PERI / 4.0 + 0.5)
 # 'complete": check x & y max span also
 CHECK_BD_SIZE = 'simple'
 
-## Color detection
+# Color detection
 # H: hue, S: saturation, V: value (which means brightness)
 # L: lower_bound, U: upper_bound, TH: threshold
 # TODO:
-BLUE = {'H' : 110, 'S_L' : 100, 'B_TH' : 110} # H: 108
-YELLOW = {'H' : 30, 'S_L' : 100, 'B_TH' : 170} # H: 25 B_TH: 180
-GREEN = {'H' : 70, 'S_L' : 100, 'B_TH' : 60} # H: 80 B_TH: 75
-RED = {'H' : 0, 'S_L' : 100, 'B_TH' : 130}
-BLACK = {'S_U' : 70, 'V_U' : 60}
-#WHITE = {'S_U' : 60, 'B_L' : 101, 'B_TH' : 160} # this includes side white, too
-WHITE = {'S_U' : 60, 'V_L' : 150}
+BLUE = {'H': 110, 'S_L': 100, 'B_TH': 110}  # H: 108
+YELLOW = {'H': 30, 'S_L': 100, 'B_TH': 170}  # H: 25 B_TH: 180
+GREEN = {'H': 70, 'S_L': 100, 'B_TH': 60}  # H: 80 B_TH: 75
+RED = {'H': 0, 'S_L': 100, 'B_TH': 130}
+BLACK = {'S_U': 70, 'V_U': 60}
+# WHITE = {'S_U' : 60, 'B_L' : 101, 'B_TH' : 160} # this includes side white, too
+WHITE = {'S_U': 60, 'V_L': 150}
 BLACK_DOB_MIN_V = 15
 BD_DOB_MIN_V = 30
 # If using a labels to represent color, this is the right color: 0 means nothing (background) and 7 means unsure
-COLOR_ORDER = ['nothing', 'white', 'green', 'yellow', 'red', 'blue', 'black', 'unsure']
+COLOR_ORDER = ['nothing', 'white', 'green',
+               'yellow', 'red', 'blue', 'black', 'unsure']
 
-## Board
+# Board
 BOARD_MIN_AREA = BD_BLOCK_AREA * 7
 BOARD_MIN_LINE_LENGTH = BD_BLOCK_SPAN
 BOARD_MIN_VOTE = BD_BLOCK_SPAN / 2
@@ -110,16 +113,18 @@ BOARD_RECONSTRUCT_WIDTH = 270 * 1
 BOARD_BD_MAX_PERI = (BOARD_RECONSTRUCT_HEIGHT + BOARD_RECONSTRUCT_WIDTH) / 30
 BOARD_BD_MAX_SPAN = int(BOARD_BD_MAX_PERI / 4.0 + 1.5)
 BOARD_RECONSTRUCT_AREA = BOARD_RECONSTRUCT_HEIGHT * BOARD_RECONSTRUCT_WIDTH
-BOARD_RECONSTRUCT_PERI = (BOARD_RECONSTRUCT_HEIGHT + BOARD_RECONSTRUCT_WIDTH) * 2
-BOARD_RECONSTRUCT_CENTER = (BOARD_RECONSTRUCT_HEIGHT / 2, BOARD_RECONSTRUCT_WIDTH / 2)
+BOARD_RECONSTRUCT_PERI = (BOARD_RECONSTRUCT_HEIGHT +
+                          BOARD_RECONSTRUCT_WIDTH) * 2
+BOARD_RECONSTRUCT_CENTER = (
+    BOARD_RECONSTRUCT_HEIGHT / 2, BOARD_RECONSTRUCT_WIDTH / 2)
 
-## Bricks
-BRICK_HEIGHT = BOARD_RECONSTRUCT_HEIGHT / 12.25 # magic number
-BRICK_WIDTH = BOARD_RECONSTRUCT_WIDTH / 26.2 # magic number
-BRICK_HEIGHT_THICKNESS_RATIO = 15 / 12.25 # magic number
+# Bricks
+BRICK_HEIGHT = BOARD_RECONSTRUCT_HEIGHT / 12.25  # magic number
+BRICK_WIDTH = BOARD_RECONSTRUCT_WIDTH / 26.2  # magic number
+BRICK_HEIGHT_THICKNESS_RATIO = 15 / 12.25  # magic number
 BLOCK_DETECTION_OFFSET = 2
 
-## Optimizations
+# Optimizations
 # If True, performs a second step fine-grained board detection algorithm.
 # Depending on the other algorithms, this is usually not needed.
 OPT_FINE_BOARD = False
@@ -138,7 +143,7 @@ WORST_RATIO_BLOCK_THRESH = 0.6
 # Not used anymore...
 PERS_NORM = True
 
-## Consts
+# Consts
 ACTION_ADD = 0
 ACTION_REMOVE = 1
 ACTION_TARGET = 2
@@ -149,6 +154,7 @@ DIRECTION_UP = 1
 DIRECTION_DOWN = 2
 
 GOOD_WORDS = ["Excellent. ", "Great. ", "Good job. ", "Wonderful. "]
+
 
 def setup(is_streaming):
     global IS_STREAMING, DISPLAY_LIST, DISPLAY_WAIT_TIME, SAVE_IMAGE
@@ -162,4 +168,3 @@ def setup(is_streaming):
             DISPLAY_LIST = DISPLAY_LIST_TASK
     DISPLAY_WAIT_TIME = 1 if IS_STREAMING else 500
     SAVE_IMAGE = not IS_STREAMING
-
