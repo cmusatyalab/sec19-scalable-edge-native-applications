@@ -25,7 +25,7 @@ echo "# of memory"
 read num_memory
 [[ -z "${num_memory}" ]] && echo "# memory cannot be empty" && exit
 
-exp_name="f${num_feed}fps${fps}w${num_worker}c${num_cpu}m${num_memory}"
+exp_name="p${EXP_PREFIX}f${num_feed}fps${fps}w${num_worker}c${num_cpu}m${num_memory}"
 echo "experiment name (default: ${exp_name}):"
 read custom_exp_name
 exp_name="${custom_exp_name:-$exp_name}"

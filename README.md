@@ -21,3 +21,8 @@ cd src
 vim .envrc
 alembic upgrade
 ```
+
+## Experiment
+
+- prefix pwifi: -30dbm
+- prefix ppoorwifi: -46dbm
