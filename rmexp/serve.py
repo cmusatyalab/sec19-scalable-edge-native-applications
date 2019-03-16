@@ -12,19 +12,8 @@ import fire
 import numpy as np
 from logzero import logger
 
-import redis
 from rmexp import config, worker
-
-
-class RedisConnector(object):
-    def __init__(self, host, port, db=0):
-        super(RedisConnector, self).__init__()
-        self.client = redis.Redis(host=host, port=port, db=db)
-
-    def get(self):
-        # blocking
-        item = self.client.brpop([config.REDIS_STREAM_CHAN])
-        return item
+from rmexp import networkutil
 
 
 class JobQueue(object):
@@ -37,7 +26,7 @@ class JobQueue(object):
 
 
 def start_process_loop(host, port):
-    jq = JobQueue(RedisConnector(host, port))
+    jq = JobQueue(networkutil.RedisConnector(host, port))
     loop = worker.lego_loop
     loop(jq)
 

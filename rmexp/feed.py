@@ -13,6 +13,7 @@ from twisted.internet import reactor, task
 import redis
 
 from rmexp import config
+from rmexp import networkutil
 
 
 def send_frame_redis(frame, redis_client):
@@ -21,7 +22,11 @@ def send_frame_redis(frame, redis_client):
 
 
 def send_frame(frame, *args, **kwargs):
-    send_frame_redis(frame, *args, **kwargs)
+    # send_frame_redis(frame, *args, **kwargs)
+    frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
+    nc = kwargs['nc']
+    nc.send(frame_bytes, time.time())
+    # redis_client.lpush(config.REDIS_STREAM_CHAN, (frame_bytes, time.time()))
 
 
 def get_frame(cam):
@@ -44,19 +49,20 @@ def get_video_capture(uri):
     return cam
 
 
-def start_single_feed(uri, to_host, to_port, fps=20):
+def start_single_feed(nc, fps):
     cam = get_video_capture(uri)
-    redis_client = redis.Redis(host=to_host, port=to_port)
-    t = task.LoopingCall(get_and_send_frame, cam, redis_client)
+    # redis_client = redis.Redis(host=to_host, port=to_port)
+    t = task.LoopingCall(get_and_send_frame, cam, nc)
     t.start(1.0 / fps)
     reactor.run()
 
 
 def start(num, uri, to_host, to_port, fps=20):
-    redis_client = redis.Redis(host=to_host, port=to_port)
-    redis_client.flushdb()
+    # redis_client = redis.Redis(host=to_host, port=to_port)
+    # redis_client.flushdb()
+    nc = networkutil.ZmqConnector("tcp://{}:{}".format(to_host, to_port))
     procs = [multiprocessing.Process(target=start_single_feed, args=(
-        uri, to_host, to_port, fps, )) for i in range(num)]
+        nc, fps, )) for i in range(num)]
     map(lambda proc: proc.start(), procs)
     map(lambda proc: proc.join(), procs)
 
