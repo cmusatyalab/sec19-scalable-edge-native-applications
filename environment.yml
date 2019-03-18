@@ -90,6 +90,7 @@ dependencies:
   - pip=19.0.3=py27_0
   - prometheus_client=0.6.0=py27_0
   - prompt_toolkit=1.0.15=py_1
+  - protobuf=3.6.1
   - ptyprocess=0.6.0=py27_1000
   - pyasn1=0.4.4=py_1
   - pyasn1-modules=0.2.4=py_0

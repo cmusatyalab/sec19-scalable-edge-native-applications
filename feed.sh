@@ -14,6 +14,9 @@ read fps
 
 [[ -z "${BROKER_ADVERTISED_HOST_NAME}" ]] && echo "BROKER_ADVERTISED_HOST_NAME environ cannot be empty" && exit
 
-python rmexp/feed.py start --num ${num_feed} \
---to_host ${BROKER_ADVERTISED_HOST_NAME} --to_port ${BROKER_ADVERTISED_PORT} --fps ${fps} \
---uri 'data/traces/lego_196/%010d.jpg' &
+exec python rmexp/feed.py start \
+--video-uri 'data/traces/lego_196/%010d.jpg' \
+--broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT} \
+--broker-type 'kafka' \
+--num ${num_feed} \
+--fps ${fps} 

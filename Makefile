@@ -1,6 +1,7 @@
 .PHONY: all feed serve image serve-container
 
 all: 
+	protoc --proto_path=rmexp/proto --python_out=rmexp rmexp/proto/gabriel.proto
 	pip uninstall -y rmexp
 	python setup.py install && rm -rf build dist rmexp.egg-info .eggs
 	pip uninstall -y app

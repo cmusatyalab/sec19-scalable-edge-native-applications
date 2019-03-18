@@ -5,6 +5,7 @@ import ast
 
 import kafka
 import redis
+from logzero import logger
 
 
 class RedisConnector(object):
@@ -38,18 +39,33 @@ class ZmqConnector(object):
 
 
 class KafkaConnector(object):
-    def __init__(self, uri, topic=None, listen=False):
+    def __init__(self, uri, topic=None, listen=False, api_version=None):
         super(KafkaConnector, self).__init__()
         self._topic = topic
         if listen:
-            self._conn = kafka.KafkaProducer(bootstrap_servers=uri)
-        else:
             self._conn = kafka.KafkaConsumer(
                 self._topic, bootstrap_servers=uri)
+        else:
+            logger.debug('kafka broker uri: {}, topic: {}'.format(uri, topic))
+            self._conn = kafka.KafkaProducer(
+                bootstrap_servers=uri, api_version=api_version)
 
-    def put(self, msg, topic):
-        self._conn.send(self._topic, value=bytes(msg))
+    def put(self, msg):
+        future = self._conn.send(bytes(self._topic), value=bytes(msg))
         self._conn.flush()
 
     def get(self, msg):
         self._conn.poll(max_records=1)
+
+    def close(self):
+        self._conn.close()
+
+
+if __name__ == "__main__":
+    nc = KafkaConnector(uri='128.2.211.75:9092',
+                        topic='feeds', api_version=(2, 0, 1))
+    for _ in range(10):
+        nc.put("test")
+        nc.put("\xc2Hola, mundo!")
+
+    nc.close()
