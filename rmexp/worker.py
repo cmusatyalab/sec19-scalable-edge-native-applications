@@ -28,11 +28,15 @@ def lego_loop(job_queue):
         encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
         img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
         result = lego_app.handle_img(img)
-        time_lapse = (time.time() - ts) * 1000
+        finished_t = time.time()
+        time_lapse = (finished_t - ts) * 1000
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for an item'.format(
             os.getpid(), (time.time() - ts) * 1000))
-        sess.add(models.LegoLatency(name=config.EXP, val=int(time_lapse)))
+        record, _ = dbutils.get_or_create(sess, models.LegoLatency,
+                                          name=config.EXP, index=gabriel_msg.index)
+        record.finished = finished_t
+        record.val = time_lapse
         sess.commit()
 
 

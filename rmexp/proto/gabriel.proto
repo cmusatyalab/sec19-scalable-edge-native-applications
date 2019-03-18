@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 message Message {
-  bytes data = 2;
-  float timestamp = 3;
+  bytes data = 1;
+  double timestamp = 2;
+  string index = 3;
 }

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, types
 
 from rmexp.schema import Base
 
@@ -30,6 +30,10 @@ class LegoLatency(Base):
     __tablename__ = 'LegoLatency'
     id = Column(Integer, primary_key=True)
     name = Column(String(512), nullable=False)
-    index = Column(Integer)
+    index = Column(String(32))
     val = Column(Integer)
     date = Column(DateTime, default=datetime.utcnow)
+    # FLOAT(53) will magically turn into MYSQL Double data type
+    capture = Column(types.FLOAT(53))
+    arrival = Column(types.FLOAT(53))
+    finished = Column(types.FLOAT(53))

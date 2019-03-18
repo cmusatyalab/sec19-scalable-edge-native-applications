@@ -16,15 +16,22 @@ image: Dockerfile-conda-env Dockerfile
 serve-container:
 	bash serve-container.sh
 
+kill-container:
+	docker stop -t 0 rmexp
+	docker stop -t 0 rmexp-monitor
+
 feed:
 	bash feed.sh
 
 serve:
-	python rmexp/serve.py start --num 2 --host 127.0.0.1 --port 6379 &
+	python rmexp/serve.py start --num 2 --broker-type 'kafka' --broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT}
+
+monitor:
+	python rmexp/monitor.py start --broker-type 'kafka' --broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT}
 
 upgradedb:
-	alembic revision --autogenerate -m "Added account table"
-	alembic upgrade
+	alembic revision --autogenerate -m "updated db"
+	alembic upgrade head
 
 dependency:
 	conda env export > environment.yml

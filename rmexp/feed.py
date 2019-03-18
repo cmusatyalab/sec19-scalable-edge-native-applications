@@ -12,13 +12,18 @@ from logzero import logger
 from rmexp import config, gabriel_pb2, networkutil
 from twisted.internet import reactor, task
 
+frame_id = 0
+
 
 def send_frame(frame, nc, *args, **kwargs):
+    global frame_id
     frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
     gabriel_msg = gabriel_pb2.Message()
     gabriel_msg.data = frame_bytes
     gabriel_msg.timestamp = time.time()
+    gabriel_msg.index = '{}-{}'.format(os.getpid(), frame_id)
     nc.put(gabriel_msg.SerializeToString())
+    frame_id += 1
 
 
 def get_frame(cam):

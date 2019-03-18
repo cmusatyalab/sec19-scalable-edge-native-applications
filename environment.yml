@@ -54,7 +54,6 @@ dependencies:
   - jupyter_client=5.2.4=py27_0
   - jupyter_console=5.2.0=py27_1
   - jupyter_core=4.4.0=py27_0
-  - kafka-python=1.4.4
   - kiwisolver=1.0.1=py27hf484d3e_0
   - libffi=3.2.1=hf484d3e_1005
   - libgcc-ng=7.3.0=hdf63c60_0
@@ -142,6 +141,7 @@ dependencies:
       - docutils==0.14
       - imagesize==0.7.1
       - jinja2==2.10
+      - kafka-python==1.4.5
       - livereload==2.5.1
       - mkdocs==0.17.1
       - pipdeptree==0.13.2

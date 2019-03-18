@@ -40,12 +40,16 @@ else
     exp_name="${custom_exp_name:-$exp_name}"
     echo "experiment name: ${exp_name}"
 
-    echo "launching redis server in a container (feeds-queue)..."
-    docker stop -t 0 feeds-queue || true
-    docker run --rm --name feeds-queue -p 127.0.0.1:6379:6379 -d redis
+    # echo "launching redis server in a container (feeds-queue)..."
+    # docker stop -t 0 feeds-queue || true
+    # docker run --rm --name feeds-queue -p 127.0.0.1:6379:6379 -d redis
     
     # launch exp
     echo "launching experiment container (rmexp)"
-    docker run --rm --name=rmexp --cpus=${num_cpu} --memory=${num_memory} --link feeds-queue:redis res /bin/bash -l -c \
+    docker run -d --rm --name=rmexp --cpus=${num_cpu} --memory=${num_memory} res /bin/bash -l -c \
     "conda activate resource-management && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --num ${num_worker} --broker-type kafka --broker-uri --broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT}"
+
+    sleep 5
+    docker run -d --rm --name=rmexp-monitor res /bin/bash -l -c \
+    "conda activate resource-management && source .envrc && EXP=${exp_name} python rmexp/monitor.py start --broker-type kafka --broker-uri --broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT}"
 fi

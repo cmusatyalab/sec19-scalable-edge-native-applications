@@ -4,7 +4,7 @@ from __future__ import absolute_import, division, print_function
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine.url import URL
 from rmexp import config
@@ -17,6 +17,26 @@ def get_session():
     Session.configure(bind=engine)
     session = Session()
     return session
+
+
+def get_or_create(session, model, defaults=None, **kwargs):
+    """
+    Get or create a model instance while preserving integrity.
+    """
+
+    record = session.query(model).filter_by(**kwargs).first()
+    if record is not None:
+        return record, False
+    else:
+        if defaults is not None:
+            kwargs.update(defaults)
+        try:
+            with session.begin_nested():
+                instance = model(**kwargs)
+                session.add(instance)
+                return instance, True
+        except IntegrityError:
+            return session.query(model).filter_by(**kwargs).one(), False
 
 
 class Connector(object):
