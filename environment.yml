@@ -54,6 +54,7 @@ dependencies:
   - jupyter_client=5.2.4=py27_0
   - jupyter_console=5.2.0=py27_1
   - jupyter_core=4.4.0=py27_0
+  - kafka-python=1.4.4
   - kiwisolver=1.0.1=py27hf484d3e_0
   - libffi=3.2.1=hf484d3e_1005
   - libgcc-ng=7.3.0=hdf63c60_0
@@ -132,30 +133,29 @@ dependencies:
   - zlib=1.2.11=h14c3975_1004
   - zope.interface=4.6.0=py27h14c3975_1000
   - pip:
-    - alabaster==0.7.10
-    - babel==2.5.1
-    - backports-abc==0.5
-    - chardet==3.0.4
-    - click==6.7
-    - docutils==0.14
-    - imagesize==0.7.1
-    - jinja2==2.10
-    - livereload==2.5.1
-    - mkdocs==0.17.1
-    - pipdeptree==0.13.2
-    - pockets==0.5.1
-    - pydoc-markdown==2.0.1
-    - pyment==0.3.3
-    - pytz==2017.3
-    - pyyaml==3.12
-    - rdbtools==0.1.14
-    - requests==2.21.0
-    - singledispatch==3.4.0.3
-    - snowballstemmer==1.2.1
-    - sphinx==1.6.5
-    - sphinxcontrib-napoleon==0.6.1
-    - sphinxcontrib-websupport==1.0.1
-    - typing==3.6.2
-    - urllib3==1.24.1
+      - alabaster==0.7.10
+      - babel==2.5.1
+      - backports-abc==0.5
+      - chardet==3.0.4
+      - click==6.7
+      - docutils==0.14
+      - imagesize==0.7.1
+      - jinja2==2.10
+      - livereload==2.5.1
+      - mkdocs==0.17.1
+      - pipdeptree==0.13.2
+      - pockets==0.5.1
+      - pydoc-markdown==2.0.1
+      - pyment==0.3.3
+      - pytz==2017.3
+      - pyyaml==3.12
+      - rdbtools==0.1.14
+      - requests==2.21.0
+      - singledispatch==3.4.0.3
+      - snowballstemmer==1.2.1
+      - sphinx==1.6.5
+      - sphinxcontrib-napoleon==0.6.1
+      - sphinxcontrib-websupport==1.0.1
+      - typing==3.6.2
+      - urllib3==1.24.1
 prefix: /home/junjuew/miniconda/envs/resource-management
-

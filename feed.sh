@@ -12,8 +12,8 @@ echo "fps:"
 read fps
 [[ -z "${fps}" ]] && echo "fps cannot be empty" && exit
 
-[[ -z "${REDIS_HOST}" ]] && echo "REDIS_HOST environ cannot be empty" && exit
+[[ -z "${BROKER_ADVERTISED_HOST_NAME}" ]] && echo "BROKER_ADVERTISED_HOST_NAME environ cannot be empty" && exit
 
 python rmexp/feed.py start --num ${num_feed} \
---to_host 127.0.0.1 --to_port 6379 --fps ${fps} \
+--to_host ${BROKER_ADVERTISED_HOST_NAME} --to_port ${BROKER_ADVERTISED_PORT} --fps ${fps} \
 --uri 'data/traces/lego_196/%010d.jpg' &
