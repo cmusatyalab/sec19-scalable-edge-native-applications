@@ -42,25 +42,11 @@ def get_video_capture(uri):
 
 
 def start_single_feed(video_uri, fps, broker_type, broker_uri):
-    nc = get_broker(broker_type, broker_uri)
+    nc = networkutil.get_connector(broker_type, broker_uri)
     cam = get_video_capture(video_uri)
     t = task.LoopingCall(get_and_send_frame, cam, nc)
     t.start(1.0 / fps)
     reactor.run()
-
-
-def get_broker(broker_type, broker_uri, *args, **kwargs):
-    nc = None
-    if broker_type == 'REDIS':
-        import redis
-        redis_client = redis.Redis(host=to_host, port=to_port)
-        redis_client.flushdb()
-    elif broker_type == 'zmq':
-        nc = networkutil.ZmqConnector(broker_uri)
-    elif broker_type == 'kafka':
-        nc = networkutil.KafkaConnector(
-            broker_uri, topic=config.STREAM_TOPIC, api_version=(2, 0, 1))
-    return nc
 
 
 def start(num, video_uri, broker_uri, fps=20, broker_type='kafka'):

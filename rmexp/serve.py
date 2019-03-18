@@ -25,15 +25,17 @@ class JobQueue(object):
         return self.connector.get()
 
 
-def start_process_loop(host, port):
-    jq = JobQueue(networkutil.RedisConnector(host, port))
+def start_process_loop(broker_type, broker_uri):
+    nc = networkutil.get_connector(
+        broker_type, broker_uri, listen=True)
+    jq = JobQueue(nc)
     loop = worker.lego_loop
     loop(jq)
 
 
-def start(num, host, port):
+def start(num, broker_type, broker_uri):
     procs = [multiprocessing.Process(target=start_process_loop, args=(
-        host, port, )) for i in range(num)]
+        broker_type, broker_uri)) for i in range(num)]
     map(lambda proc: proc.start(), procs)
     map(lambda proc: proc.join(), procs)
 

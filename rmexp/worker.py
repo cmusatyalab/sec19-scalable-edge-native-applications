@@ -11,8 +11,7 @@ import lego
 import logzero
 import numpy as np
 from logzero import logger
-
-from rmexp import config, dbutils
+from rmexp import config, dbutils, gabriel_pb2
 from rmexp.schema import models
 
 logzero.loglevel(logging.DEBUG)
@@ -22,8 +21,10 @@ def lego_loop(job_queue):
     lego_app = lego.LegoHandler()
     sess = dbutils.get_session()
     while True:
-        _, item = job_queue.get()
-        (encoded_im, ts) = ast.literal_eval(item)
+        msg = job_queue.get()
+        gabriel_msg = gabriel_pb2.Message()
+        gabriel_msg.ParseFromString(msg)
+        encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp
         encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
         img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
         result = lego_app.handle_img(img)

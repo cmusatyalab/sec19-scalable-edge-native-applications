@@ -47,5 +47,5 @@ else
     # launch exp
     echo "launching experiment container (rmexp)"
     docker run --rm --name=rmexp --cpus=${num_cpu} --memory=${num_memory} --link feeds-queue:redis res /bin/bash -l -c \
-    "conda activate resource-management && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --num ${num_worker} --host redis --port 6379"
+    "conda activate resource-management && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --num ${num_worker} --broker-type kafka --broker-uri --broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT}"
 fi

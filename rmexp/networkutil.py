@@ -7,6 +7,22 @@ import kafka
 import redis
 from logzero import logger
 
+from rmexp import config
+
+
+def get_connector(broker_type, broker_uri, **kwargs):
+    nc = None
+    if broker_type == 'REDIS':
+        nc = RedisConnector(broker_uri)
+        if kwargs['redis_flush']:
+            nc.flushdb()
+    elif broker_type == 'zmq':
+        nc = ZmqConnector(broker_uri)
+    elif broker_type == 'kafka':
+        nc = KafkaConnector(
+            broker_uri, topic=config.STREAM_TOPIC, api_version=(2, 0, 1), **kwargs)
+    return nc
+
 
 class RedisConnector(object):
     def __init__(self, host, port, topic=None, db=0):
@@ -54,8 +70,8 @@ class KafkaConnector(object):
         future = self._conn.send(bytes(self._topic), value=bytes(msg))
         self._conn.flush()
 
-    def get(self, msg):
-        self._conn.poll(max_records=1)
+    def get(self):
+        return next(self._conn).value
 
     def close(self):
         self._conn.close()
