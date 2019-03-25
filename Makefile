@@ -24,10 +24,10 @@ feed:
 	bash feed.sh
 
 serve:
-	python rmexp/serve.py start --num 2 --broker-type 'kafka' --broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT}
+	python rmexp/serve.py start --num 1 --broker-type ${BROKER_TYPE} --broker-uri ${BROKER_URI}
 
 monitor:
-	python rmexp/monitor.py start --broker-type 'kafka' --broker-uri ${BROKER_ADVERTISED_HOST_NAME}:${BROKER_ADVERTISED_PORT}
+	python rmexp/monitor.py start --broker-type ${BROKER_TYPE} --broker-uri ${BROKER_URI}
 
 upgradedb:
 	alembic revision --autogenerate -m "updated db"

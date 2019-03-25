@@ -6,6 +6,7 @@ import time
 
 import kafka
 import redis
+import zmq
 from logzero import logger
 from rmexp import config
 
@@ -17,7 +18,9 @@ def get_connector(broker_type, broker_uri, *args, **kwargs):
         if kwargs['redis_flush']:
             nc.flushdb()
     elif broker_type == 'zmq':
-        nc = ZmqConnector(broker_uri)
+        print(broker_uri)
+        print(kwargs)
+        nc = ZmqPairConnector(broker_uri, **kwargs)
     elif broker_type == 'kafka':
         nc = KafkaConnector(
             broker_uri, topic=config.STREAM_TOPIC, api_version=(2, 0, 1), **kwargs)
@@ -30,7 +33,7 @@ def setup_broker(broker_type, broker_uri, *args, **kwargs):
     if broker_type == 'REDIS':
         broker_cls = RedisConnector
     elif broker_type == 'zmq':
-        broker_cls = ZmqConnector
+        broker_cls = ZmqPairConnector
     elif broker_type == 'kafka':
         broker_cls = KafkaConnector
         setup_kwargs['partition'] = kwargs['num_worker']
@@ -39,6 +42,10 @@ def setup_broker(broker_type, broker_uri, *args, **kwargs):
 
 
 class RedisConnector(object):
+    @classmethod
+    def setup(cls, broker_uri, *args, **kwargs):
+        pass
+
     def __init__(self, host, port, topic=None, db=0):
         super(RedisConnector, self).__init__()
         self.client = redis.Redis(host=host, port=port, db=db)
@@ -50,13 +57,28 @@ class RedisConnector(object):
         return item
 
 
-class ZmqConnector(object):
-    def __init__(self, uri, topic=None, listen=False):
-        super(ZmqConnector, self).__init__()
+class ZmqPairConnector(object):
+    """Zmq pair connector. zmq disables Nagle's algorithm by default.
+
+    Arguments:
+        object {[type]} -- [description]
+
+    Returns:
+        [type] -- [description]
+    """
+    @classmethod
+    def setup(cls, broker_uri, *args, **kwargs):
+        pass
+
+    def __init__(self, uri, listen=False, *args, **kwargs):
+        super(ZmqPairConnector, self).__init__()
+        self._uri = uri
         self._context = zmq.Context()
-        self._socket = context.socket(zmq.PAIR)
+        self._socket = self._context.socket(zmq.PAIR)
         if listen:
             self._socket.bind(uri)
+        else:
+            self._socket.connect(uri)
 
     def get(self):
         # blocking
@@ -64,7 +86,7 @@ class ZmqConnector(object):
         return msg
 
     def put(self, msg):
-        self._socket.send(topic, msg)
+        self._socket.send(msg)
         return msg
 
 
