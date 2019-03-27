@@ -21,7 +21,7 @@ def lego_loop(job_queue):
     lego_app = lego.LegoHandler()
     sess = dbutils.get_session()
     while True:
-        msg = job_queue.get()
+        (tag, msg) = job_queue.get()
         gabriel_msg = gabriel_pb2.Message()
         gabriel_msg.ParseFromString(msg)
         encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp

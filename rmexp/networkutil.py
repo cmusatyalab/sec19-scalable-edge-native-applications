@@ -18,9 +18,8 @@ def get_connector(broker_type, broker_uri, *args, **kwargs):
         if kwargs['redis_flush']:
             nc.flushdb()
     elif broker_type == 'zmq':
-        print(broker_uri)
-        print(kwargs)
-        nc = ZmqPairConnector(broker_uri, **kwargs)
+        logger.debug('using zmq connector: {} {}'.format(broker_uri, kwargs))
+        nc = ZmqConnector(broker_uri, **kwargs)
     elif broker_type == 'kafka':
         nc = KafkaConnector(
             broker_uri, topic=config.STREAM_TOPIC, api_version=(2, 0, 1), **kwargs)
@@ -33,7 +32,7 @@ def setup_broker(broker_type, broker_uri, *args, **kwargs):
     if broker_type == 'REDIS':
         broker_cls = RedisConnector
     elif broker_type == 'zmq':
-        broker_cls = ZmqPairConnector
+        broker_cls = ZmqConnector
     elif broker_type == 'kafka':
         broker_cls = KafkaConnector
         setup_kwargs['partition'] = kwargs['num_worker']
@@ -57,7 +56,7 @@ class RedisConnector(object):
         return item
 
 
-class ZmqPairConnector(object):
+class ZmqConnector(object):
     """Zmq pair connector. zmq disables Nagle's algorithm by default.
 
     Arguments:
@@ -70,11 +69,22 @@ class ZmqPairConnector(object):
     def setup(cls, broker_uri, *args, **kwargs):
         pass
 
-    def __init__(self, uri, listen=False, *args, **kwargs):
-        super(ZmqPairConnector, self).__init__()
+    def __init__(self, uri, listen=False, tagged=False, *args, **kwargs):
+        """[summary]
+
+        Arguments:
+            uri {[type]} -- [description]
+
+        Keyword Arguments:
+            listen {bool} -- [description] (default: {False})
+            tagged {bool} -- Whether the ZMQ frame is tagged by ZMQ Router (default: {False})
+        """
+
+        super(ZmqConnector, self).__init__()
         self._uri = uri
         self._context = zmq.Context()
-        self._socket = self._context.socket(zmq.PAIR)
+        self._socket = self._context.socket(zmq.DEALER)
+        self._tagged = tagged
         if listen:
             self._socket.bind(uri)
         else:
@@ -82,8 +92,11 @@ class ZmqPairConnector(object):
 
     def get(self):
         # blocking
+        tag = ''
+        if self._tagged:
+            tag = self._socket.recv()
         msg = self._socket.recv()
-        return msg
+        return (tag, msg)
 
     def put(self, msg):
         self._socket.send(msg)

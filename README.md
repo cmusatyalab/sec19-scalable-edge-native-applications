@@ -26,3 +26,5 @@ alembic upgrade
 
 - prefix pwifi: -30dbm
 - prefix ppoorwifi: -46dbm
+- lelzmqf\*: sending the string 'load' as replacement for images, as the data
+  rate is really low when sending images.

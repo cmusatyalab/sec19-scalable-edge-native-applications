@@ -25,18 +25,18 @@ class JobQueue(object):
         return self.connector.get()
 
 
-def start_process_loop(broker_type, broker_uri):
+def start_process_loop(broker_type, broker_uri, listen, tagged):
     nc = networkutil.get_connector(
-        broker_type, broker_uri, listen=True, group_id=config.WORKER_GROUP)
+        broker_type, broker_uri, listen=listen, tagged=tagged, group_id=config.WORKER_GROUP)
     jq = JobQueue(nc)
     loop = worker.lego_loop
     loop(jq)
 
 
-def start(num, broker_type, broker_uri):
+def start(num, broker_type, broker_uri, listen=True, tagged=False):
     networkutil.setup_broker(broker_type, broker_uri, num_worker=num)
     procs = [multiprocessing.Process(target=start_process_loop, args=(
-        broker_type, broker_uri)) for i in range(num)]
+        broker_type, broker_uri, listen, tagged)) for i in range(num)]
     map(lambda proc: proc.start(), procs)
     map(lambda proc: proc.join(), procs)
 
