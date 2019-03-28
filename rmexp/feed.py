@@ -9,47 +9,14 @@ import time
 import cv2
 import fire
 from logzero import logger
-from rmexp import config, gabriel_pb2, networkutil
+from rmexp import config, gabriel_pb2, networkutil, client
 from twisted.internet import reactor, task
-
-frame_id = 0
-
-
-def send_frame(frame, nc, *args, **kwargs):
-    global frame_id
-    frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
-    gabriel_msg = gabriel_pb2.Message()
-    gabriel_msg.data = frame_bytes
-    gabriel_msg.timestamp = time.time()
-    gabriel_msg.index = '{}-{}'.format(os.getpid(), frame_id)
-    nc.put(gabriel_msg.SerializeToString())
-    frame_id += 1
-
-
-def get_frame(cam):
-    has_frame, img = cam.read()
-    if has_frame and img is not None:
-        logger.debug('[proc {}] acquired frame'.format(os.getpid()))
-        return img
-    else:
-        reactor.callFromThread(reactor.stop)
-        raise ValueError("Failed to get another frame.")
-
-
-def get_and_send_frame(cam, nc, *args, **kwargs):
-    frame = get_frame(cam)
-    send_frame(frame, nc, *args, **kwargs)
-
-
-def get_video_capture(uri):
-    cam = cv2.VideoCapture(uri)
-    return cam
 
 
 def start_single_feed(video_uri, fps, broker_type, broker_uri):
     nc = networkutil.get_connector(broker_type, broker_uri)
-    cam = get_video_capture(video_uri)
-    t = task.LoopingCall(get_and_send_frame, cam, nc)
+    vc = client.VideoClient(video_uri, nc)
+    t = task.LoopingCall(vc.get_and_send_frame)
     t.start(1.0 / fps)
     reactor.run()
 
