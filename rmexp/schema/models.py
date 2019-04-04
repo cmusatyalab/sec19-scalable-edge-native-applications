@@ -37,3 +37,12 @@ class LegoLatency(Base):
     capture = Column(types.FLOAT(53))
     arrival = Column(types.FLOAT(53))
     finished = Column(types.FLOAT(53))
+
+
+class SS(Base):
+    """Symbolic State."""
+    __tablename__ = 'SS'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(512), nullable=False)
+    val = Column(String(8192), nullable=False)
+    trace = Column(String(512), nullable=False)

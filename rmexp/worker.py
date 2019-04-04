@@ -40,7 +40,7 @@ def lego_loop(job_queue):
         sess.commit()
 
 
-def batch_process(video_uri):
+def batch_process(video_uri, store_result=False, store_latency=False):
     lego_app = lego.LegoHandler()
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
@@ -51,7 +51,14 @@ def batch_process(video_uri):
         if img is not None:
             result = lego_app.handle_img(img)
             time_lapse = (time.time() - ts) * 1000
-            sess.add(models.LegoLatency(name=config.EXP, val=int(time_lapse)))
+            if store_result:
+                sess.add(models.SS(
+                    name=config.EXP,
+                    val=str(result),
+                    trace=os.path.basename(os.path.dirname(video_uri))))
+            if store_latency:
+                sess.add(models.LegoLatency(
+                    name=config.EXP, val=int(time_lapse)))
             sess.commit()
             logger.debug(result)
 

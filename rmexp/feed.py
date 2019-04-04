@@ -9,7 +9,7 @@ import time
 import cv2
 import fire
 from logzero import logger
-from rmexp import config, gabriel_pb2, networkutil, client
+from rmexp import client, config, gabriel_pb2, networkutil
 from twisted.internet import reactor, task
 
 
