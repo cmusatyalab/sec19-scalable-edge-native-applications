@@ -1,9 +1,9 @@
 from __future__ import absolute_import, division, print_function
 
-import ast
 import logging
 import os
 import time
+import json
 
 import cv2
 import fire
@@ -11,7 +11,7 @@ import lego
 import logzero
 import numpy as np
 from logzero import logger
-from rmexp import config, dbutils, gabriel_pb2
+from rmexp import config, dbutils, gabriel_pb2, cvutils
 from rmexp.schema import models
 
 logzero.loglevel(logging.DEBUG)
@@ -61,6 +61,32 @@ def batch_process(video_uri, store_result=False, store_latency=False):
                     name=config.EXP, val=int(time_lapse)))
             sess.commit()
             logger.debug(result)
+
+
+def phash(video_uri):
+    cam = cv2.VideoCapture(video_uri)
+    has_frame = True
+    prev_hash = None
+    diffs = []
+    while has_frame:
+        ts = time.time()
+        has_frame, img = cam.read()
+        if img is not None:
+            cur_hash = cvutils.phash(img)
+            if prev_hash is None:
+                prev_hash = cur_hash
+            else:
+                diff = cur_hash - prev_hash
+                logger.debug(diff)
+                diffs.append(diff)
+    sess = dbutils.get_session()
+    trace_name = os.path.basename(os.path.dirname(video_uri))
+    sess.add(models.SS(
+        name='{}_phash'.format(trace_name),
+        val=json.dumps(diffs),
+        trace=trace_name))
+    sess.commit()
+    sess.close()
 
 
 if __name__ == "__main__":

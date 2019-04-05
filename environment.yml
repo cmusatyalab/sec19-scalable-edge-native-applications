@@ -76,7 +76,7 @@ dependencies:
   - nbformat=4.4.0=py27_0
   - ncurses=6.1=hf484d3e_1002
   - notebook=5.7.4=py27_0
-  - numpy=1.11.1=py27_0
+  - numpy=1.11.3=py27_0
   - openblas=0.2.18=6
   - opencv=2.4.13=np111py27_1
   - openssl=1.1.1b=h14c3975_1
@@ -110,6 +110,7 @@ dependencies:
   - readline=7.0=hf8c457e_1001
   - redis-py=2.10.6=py27_0
   - scandir=1.9.0=py27h14c3975_1000
+  - scipy=0.18.1=np111py27_0
   - send2trash=1.5.0=py27_0
   - service_identity=17.0.0=py_0
   - setuptools=40.8.0=py27_0
