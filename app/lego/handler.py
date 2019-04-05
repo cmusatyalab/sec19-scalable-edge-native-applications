@@ -63,7 +63,7 @@ class LegoHandler(object):
     def __repr__(self):
         return "Lego Handler"
 
-    def handle_img(self, img):
+    def process_for_instruction(self, img):
         if self.is_first_frame and not config.RECOGNIZE_ONLY:  # do something special when the task begins
             result, img_guidance = self.task.get_first_guidance()
             zc.check_and_display('guidance', img_guidance, display_list,
@@ -138,3 +138,27 @@ class LegoHandler(object):
             result['state_index'] = step_idx
 
         return json.dumps(result)
+
+    def process(self, img):
+        """Statelessly process the image.
+
+        For lego, return the extracted bitmap
+
+        Arguments:
+            img {[type]} -- [description]
+
+        Returns:
+            [type] -- [description]
+        """
+        # resize
+        stretch_ratio = float(16) / 9 * img.shape[0] / img.shape[1]
+        if img.shape != (config.IMAGE_WIDTH, config.IMAGE_HEIGHT, 3):
+            img = cv2.resize(
+                img, (config.IMAGE_WIDTH, config.IMAGE_HEIGHT), interpolation=cv2.INTER_AREA)
+        stretch_ratio = float(16) / 9 * img.shape[0] / img.shape[1]
+        rtn_msg, bitmap = lc.process(img, stretch_ratio, display_list)
+        if rtn_msg['status'] == 'success':
+            result = bitmap
+        else:
+            result = rtn_msg['message']
+        return result

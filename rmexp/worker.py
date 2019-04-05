@@ -27,7 +27,7 @@ def lego_loop(job_queue):
         encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp
         encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
         img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
-        result = lego_app.handle_img(img)
+        result = lego_app.process(img)
         finished_t = time.time()
         time_lapse = (finished_t - ts) * 1000
         logger.debug(result)
@@ -49,7 +49,7 @@ def batch_process(video_uri, store_result=False, store_latency=False):
         ts = time.time()
         has_frame, img = cam.read()
         if img is not None:
-            result = lego_app.handle_img(img)
+            result = lego_app.process(img)
             time_lapse = (time.time() - ts) * 1000
             if store_result:
                 sess.add(models.SS(
