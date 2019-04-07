@@ -66,27 +66,42 @@ def batch_process(video_uri, store_result=False, store_latency=False):
 def phash(video_uri):
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
-    prev_hash = None
-    diffs = []
+    sess = dbutils.get_session()
+    trace_name = os.path.basename(os.path.dirname(video_uri))
+    idx = 1
     while has_frame:
-        ts = time.time()
         has_frame, img = cam.read()
         if img is not None:
             cur_hash = cvutils.phash(img)
-            if prev_hash is None:
-                prev_hash = cur_hash
-            else:
-                diff = cur_hash - prev_hash
-                logger.debug(diff)
-                diffs.append(diff)
-    sess = dbutils.get_session()
-    trace_name = os.path.basename(os.path.dirname(video_uri))
-    sess.add(models.SS(
-        name='{}_phash'.format(trace_name),
-        val=json.dumps(diffs),
-        trace=trace_name))
-    sess.commit()
+            sess.add(models.SS(
+                name='{}-f{}-phash'.format(trace_name, idx),
+                val=str(cur_hash),
+                trace=trace_name))
+            sess.commit()
+        idx += 1
     sess.close()
+
+
+def phash_diff_adjacent_frame(video_uri, output_dir):
+    cam = cv2.VideoCapture(video_uri)
+    os.makedirs(output_dir)
+    has_frame = True
+    prev_hash = None
+    idx = 1
+    logger.debug('calculating phash diff for adjacent frames')
+    while has_frame:
+        has_frame, img = cam.read()
+        if img is not None:
+            cur_hash = cvutils.phash(img)
+            if prev_hash is not None:
+                diff = cur_hash - prev_hash
+                cv2.putText(img, 'diff={}'.format(
+                    diff), (int(img.shape[1] / 3), img.shape[0] - 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), thickness=5)
+                cv2.imwrite(os.path.join(
+                    output_dir, '{:010d}.jpg'.format(idx)), img)
+                logger.debug(diff)
+            prev_hash = cur_hash
+            idx += 1
 
 
 if __name__ == "__main__":
