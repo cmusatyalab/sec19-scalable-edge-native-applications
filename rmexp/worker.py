@@ -45,6 +45,7 @@ def batch_process(video_uri, store_result=False, store_latency=False):
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
     sess = dbutils.get_session()
+    idx = 1
     while has_frame:
         ts = time.time()
         has_frame, img = cam.read()
@@ -55,12 +56,14 @@ def batch_process(video_uri, store_result=False, store_latency=False):
                 sess.add(models.SS(
                     name=config.EXP,
                     val=str(result),
+                    index=idx,
                     trace=os.path.basename(os.path.dirname(video_uri))))
             if store_latency:
                 sess.add(models.LegoLatency(
-                    name=config.EXP, val=int(time_lapse)))
+                    name=config.EXP, val=int(time_lapse), index=idx))
             sess.commit()
             logger.debug(result)
+            idx += 1
 
 
 def phash(video_uri):

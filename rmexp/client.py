@@ -10,10 +10,12 @@ from twisted.internet import reactor, task
 
 
 class VideoClient(object):
-    def __init__(self, video_uri, network_connector):
+    def __init__(self, video_uri, network_connector, video_params=None):
         super(VideoClient, self).__init__()
         self._fid = 0
         self._cam = self.get_video_capture(video_uri)
+        if video_params is not None:
+            self._set_cam_params(video_params['width'], video_params['height'])
         self._nc = network_connector
 
     def send_frame(self, frame, *args, **kwargs):
@@ -28,17 +30,23 @@ class VideoClient(object):
     def get_frame(self):
         has_frame, img = self._cam.read()
         if has_frame and img is not None:
-            logger.debug('[proc {}] acquired frame'.format(os.getpid()))
+            logger.debug('[proc {}] acquired a frame of size: {}'.format(
+                os.getpid(), img.shape))
             return img
         else:
-            self._cam.close()
+            self._cam.release()
             reactor.callFromThread(reactor.stop)
             raise ValueError("Failed to get another frame.")
 
-    def get_and_send_frame(self, *args, **kwargs):
+    def get_and_send_frame(self, filter_func=None, *args, **kwargs):
         frame = self.get_frame()
-        self.send_frame(frame, self._nc, *args, **kwargs)
+        if filter_func is None or filter_func(frame):
+            self.send_frame(frame, self._nc, *args, **kwargs)
 
     def get_video_capture(self, uri):
         cam = cv2.VideoCapture(uri)
         return cam
+
+    def _set_cam_params(self, width, height):
+        self._cam.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, width)
+        self._cam.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, height)

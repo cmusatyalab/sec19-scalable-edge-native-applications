@@ -8,6 +8,7 @@ import time
 
 import cv2
 import fire
+from lego import lego_cv
 from logzero import logger
 from rmexp import client, config, gabriel_pb2, networkutil
 from twisted.internet import reactor, task
@@ -15,8 +16,11 @@ from twisted.internet import reactor, task
 
 def start_single_feed(video_uri, fps, broker_type, broker_uri):
     nc = networkutil.get_connector(broker_type, broker_uri)
-    vc = client.VideoClient(video_uri, nc)
-    t = task.LoopingCall(vc.get_and_send_frame)
+    # TODO(junjuew): make video params to be cmd inputs
+    vc = client.VideoClient(video_uri, nc, video_params={
+                            'width': 640, 'height': 360})
+    t = task.LoopingCall(vc.get_and_send_frame,
+                         filter_func=lego_cv.locate_board)
     t.start(1.0 / fps)
     reactor.run()
 

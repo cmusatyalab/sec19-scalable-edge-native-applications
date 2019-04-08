@@ -601,6 +601,11 @@ def detect_colorful(img, on_surface = False):
     mask = cv2.inRange(img_hsv, lower_range, upper_range)
     return mask
 
+def locate_board(img):
+    if img.shape != (config.IMAGE_WIDTH, config.IMAGE_HEIGHT, 3):
+        img = cv2.resize(
+            img, (config.IMAGE_WIDTH, config.IMAGE_HEIGHT), interpolation=cv2.INTER_AREA)
+    return _locate_board(img, [])
 
 ##################### Some major functions #########################
 def _locate_board(img, display_list):
@@ -1067,6 +1072,8 @@ def _img2bitmap(img, color_cumsums, n_rows, n_cols, lego_color):
                             bitmap[i, j] = color_idx
                             # percentage correct for center part of block
                             n_pixels_block_center = sum(counts)
+                            # (jjw): fix to suppress a runtime warning about by zero
+                            n_pixels_block_center += 0.00000001
                             ratio_block_center = float(counts[color_idx]) / n_pixels_block_center
                             n_pixels_center += n_pixels_block_center
                             n_good_pixels_center += counts[color_idx]

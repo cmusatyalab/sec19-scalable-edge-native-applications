@@ -46,3 +46,4 @@ class SS(Base):
     name = Column(String(512), nullable=False)
     val = Column(String(8192), nullable=False)
     trace = Column(String(512), nullable=False)
+    index = Column(String(32))
