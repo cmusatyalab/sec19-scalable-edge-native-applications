@@ -14,15 +14,15 @@ class VideoClient(object):
         super(VideoClient, self).__init__()
         self._fid = 0
         self._cam = self.get_video_capture(video_uri)
+        self._nc = network_connector
         if video_params is not None:
             self._set_cam_params(video_params['width'], video_params['height'])
-        self._nc = network_connector
 
     def send_frame(self, frame, *args, **kwargs):
         frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
         gabriel_msg = gabriel_pb2.Message()
         gabriel_msg.data = frame_bytes
-        gabriel_msg.timestamp = time.time()
+        gabriel_msg.timestamp = kwargs['time']
         gabriel_msg.index = '{}-{}'.format(os.getpid(), self._fid)
         self._nc.put(gabriel_msg.SerializeToString())
         self._fid += 1
@@ -40,8 +40,9 @@ class VideoClient(object):
 
     def get_and_send_frame(self, filter_func=None, *args, **kwargs):
         frame = self.get_frame()
+        ts = time.time()
         if filter_func is None or filter_func(frame):
-            self.send_frame(frame, self._nc, *args, **kwargs)
+            self.send_frame(frame, self._nc, time=ts, *args, **kwargs)
 
     def get_video_capture(self, uri):
         cam = cv2.VideoCapture(uri)

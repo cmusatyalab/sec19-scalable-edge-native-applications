@@ -605,7 +605,8 @@ def locate_board(img):
     if img.shape != (config.IMAGE_WIDTH, config.IMAGE_HEIGHT, 3):
         img = cv2.resize(
             img, (config.IMAGE_WIDTH, config.IMAGE_HEIGHT), interpolation=cv2.INTER_AREA)
-    return _locate_board(img, [])
+    rtn_msg, hull, mask_board, img_board = _locate_board(img, [])
+    return rtn_msg['status'] == 'success'
 
 ##################### Some major functions #########################
 def _locate_board(img, display_list):

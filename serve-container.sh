@@ -40,15 +40,16 @@ else
     exp_name="${custom_exp_name:-$exp_name}"
     echo "experiment name: ${exp_name}"
 
-    [[ -z "${BORKER_TYPE}" ]] && echo "BROKER_TYPE environ cannot be empty" && exit
-    [[ -z "${BORKER_URI}" ]] && echo "BROKER_URI environ cannot be empty" && exit
+    [[ -z "${BROKER_TYPE}" ]] && echo "BROKER_TYPE environ cannot be empty" && exit
+    [[ -z "${WORKER_BROKER_URI}" ]] && echo "WORKER_BROKER_URI environ cannot be empty" && exit
 
     # launch exp
     echo "launching experiment container (rmexp)"
     docker run -d --rm --name=rmexp --cpus=${num_cpu} --memory=${num_memory} res /bin/bash -l -c \
-    "conda activate resource-management && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --num ${num_worker} --broker-type ${BROKER_TYPE} --broker-uri --broker-uri ${BROKER_URI}"
-
-    sleep 5
-    docker run -d --rm --name=rmexp-monitor res /bin/bash -l -c \
-    "conda activate resource-management && source .envrc && EXP=${exp_name} python rmexp/monitor.py start --broker-type ${BROKER_TYPE} --broker-uri --broker-uri ${BROKER_URI}"
+    "conda activate resource-management && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --num ${num_worker} --broker-type ${BROKER_TYPE} --broker-uri ${WORKER_BROKER_URI}"
+    
+    # launch monitoring for kafka
+    # sleep 5
+    # docker run -d --rm --name=rmexp-monitor res /bin/bash -l -c \
+    # "conda activate resource-management && source .envrc && EXP=${exp_name} python rmexp/monitor.py start --broker-type ${BROKER_TYPE} --broker-uri ${BROKER_URI}"
 fi

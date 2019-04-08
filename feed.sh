@@ -12,11 +12,11 @@ echo "fps:"
 read fps
 [[ -z "${fps}" ]] && echo "fps cannot be empty" && exit
 [[ -z "${BROKER_TYPE}" ]] && echo "BROKER_TYPE environ cannot be empty" && exit
-[[ -z "${BROKER_URI}" ]] && echo "BROKER_URI environ cannot be empty" && exit
+[[ -z "${CLIENT_BROKER_URI}" ]] && echo "BROKER_URI environ cannot be empty" && exit
 
 exec python rmexp/feed.py start \
 --video-uri 'data/traces/lego_196/%010d.jpg' \
---broker-uri ${BROKER_URI} \
+--broker-uri ${CLIENT_BROKER_URI} \
 --broker-type ${BROKER_TYPE} \
 --num ${num_feed} \
 --fps ${fps} 

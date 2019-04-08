@@ -34,6 +34,18 @@ def start_process_loop(broker_type, broker_uri, listen, tagged):
 
 
 def start(num, broker_type, broker_uri, listen=True, tagged=False):
+    """[summary]
+
+    Arguments:
+        num {[type]} -- [description]
+        broker_type {[type]} -- [description]
+        broker_uri {[type]} -- [description]
+
+    Keyword Arguments:
+        listen {bool} -- [description] (default: {True})
+        tagged {bool} -- Used to distinguish whether zmq packet are tagged or not.
+    """
+
     networkutil.setup_broker(broker_type, broker_uri, num_worker=num)
     procs = [multiprocessing.Process(target=start_process_loop, args=(
         broker_type, broker_uri, listen, tagged)) for i in range(num)]

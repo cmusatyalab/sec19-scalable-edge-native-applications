@@ -34,6 +34,8 @@ alembic upgrade
 - zmqc4m2g: used to identify process latency of different
   lego DAG elements. batch process. used taskset to fix worker.py to a single
   core. cloudlet001. 2.3Ghz
+- etherzmqc8m4w8: same machine localhost, 4 clients, 2 fps
+- etherzmqc8m4w8f8: same machine localhost, 8 clients, 2 fps
 
 ## Turbo-boost
 
