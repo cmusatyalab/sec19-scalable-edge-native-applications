@@ -42,6 +42,10 @@ alembic upgrade
 Turbo-boost is restricted on cloudlet001 with for the experiments
 (double-checked on 04/07.). The max clock speed is 2.3 Ghz.
 
+## Recording Video and Sensor data
+
+https://github.com/e-lab/VideoSensors (need to edit time-stamp)
+
 ## TODO steps
 
 1. setup cloudlet002 as lego server.
