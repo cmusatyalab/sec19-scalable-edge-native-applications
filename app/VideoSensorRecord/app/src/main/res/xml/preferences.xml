@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="about"
+        android:title="About">
+        <intent android:action="AboutView"/>
+    </Preference>
+
+    <ListPreference
+        android:key="pref_resolutions"
+        android:title="Resolution"
+        android:dialogTitle="Resolution"
+        android:entries="@array/settings_res_entries"
+        android:entryValues="@array/settings_res_values"
+        android:defaultValue="@string/settings_res_default_value"
+        android:summary="%s"/>
+
+    <CheckBoxPreference
+        android:key="pref_autofocus"
+        android:title="Autofocus"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="pref_eis"
+        android:title="Digital stabilization"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="pref_ois"
+        android:title="Optical stabilization"
+        android:defaultValue="false" />
+
+    <ListPreference
+        android:key="pref_wb"
+        android:summary="%s"
+        android:title="Whitebalance value"
+        android:dialogTitle="Whitebalance"
+        android:entries="@array/settings_wb_entries"
+        android:entryValues="@array/settings_wb_values" />
+
+    <CheckBoxPreference
+        android:key="pref_fix_iso"
+        android:title="Fixed ISO"
+        android:defaultValue="false" />
+
+    <ListPreference
+        android:key="pref_iso"
+        android:summary="%s"
+        android:title="ISO value"
+        android:dialogTitle="ISO value"
+        android:entries="@array/settings_iso_entries"
+        android:entryValues="@array/settings_iso_values" />
+
+    <ListPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:dialogTitle="ISO value"
+        android:entries="@array/settings_elm327_devices_entries"
+        android:entryValues="@array/settings_elm327_devices_values"
+        android:key="pref_elm327_devices"
+        android:summary="%s"
+        android:title="ELM327 OBD-II Bluetooth device"/>
+    <EditTextPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="@string/settings_can_id_filter_default_value"
+        android:key="pref_can_id_filter"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="CAN ID filter"/>
+    <EditTextPreference
+        android:defaultValue="@string/settings_can_id_mask_default_value"
+        android:key="pref_can_id_mask"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="CAN ID mask"/>
+    <CheckBoxPreference
+        android:key="pref_log_pressures"
+        android:title="Log barometer readings"
+        android:defaultValue="false" />
+    <Preference
+        android:key="probe"
+        android:title="Probe Camera2 Features">
+        <intent android:action="ProbeView"/>
+    </Preference>
+
+</PreferenceScreen>
