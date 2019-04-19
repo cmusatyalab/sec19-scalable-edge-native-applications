@@ -58,10 +58,13 @@ Turbo-boost is restricted on cloudlet001 with for the experiments
 
 ## Recording Video and Sensor data
 
-https://github.com/e-lab/VideoSensors (need to edit time-stamp)
+Android app VideoSensorRecorder: 
+Records Video, Audio, GPS, gyroscope and accelerometer data 
+source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
 
 ## TODO steps
 
 1. setup cloudlet002 as lego server.
 2. use cloudlet001 to mimic many (16, 32, 48) clients.
 3. compare dummy clients with moving some part of processing pipeline to the client.
+4. Trace collection: 10x(10 min) face ; 10x(5min) lego 
