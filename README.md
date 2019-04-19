@@ -1,5 +1,19 @@
 # Edge Resource Management Research Study
 
+## What's in this repo?
+
+* [Makefile](Makefile): Entry point for building and running experiments.
+* [environment.yml](environment.yml): Conda environment dependency file.
+* [app](app): Wearable cognitive assistance applications packaged as python modules for stateless vision processing.
+* [data](data): experimental input data including application input traces, not version controlled under git. available on cloudlet001
+* [exp](exp): experiment figures and results saved as htmls.
+* [infra](infra): experiment infrastructure, including container resource usage monitoring tools (cadvisor, prometheus, grafana), and a MySQL database for experiment data. All these tools are set up using containers.
+* [rmexp](rmexp): main python module "Resource Management Experiment".
+* [visualization](visualization): Python Jupyter interactive plotting scripts. Used to pull data out from MySQL database and plot figures.
+* [writeup](writeup): Thoughts and notes.
+
+
+
 ## Infrastructure
 
 ### cadvisor, prometheus, and Grafana Setup
