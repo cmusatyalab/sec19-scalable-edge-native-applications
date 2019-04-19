@@ -1,4 +1,4 @@
-name: resource-management
+name: conda-env-rmexp
 channels:
   - anaconda
   - conda-forge
