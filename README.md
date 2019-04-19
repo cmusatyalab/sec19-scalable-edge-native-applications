@@ -8,18 +8,21 @@ cadvisor is metric collection tool.
 prometheus is a time-series database.
 grafana is a visualization tool.
 
-## To Use
+## Experiment Machine and Path
 
-```bash
-python src/exp_lego.py 'data/traces/lego_196/%010d.jpg'
+* machine: cloudlet002
+* main path: /home/junjuew/work/resource-management
+* conda environment:
+  * install miniconda
+  * add the following to ~/.condarc
 ```
-
-## Development setup
+envs_dirs:
+  - /home/junjuew/work/resource-management
+```
+  * activate conda environment with
 
 ```bash
-cd src
-vim .envrc
-alembic upgrade
+conda activate conda-env-rmexp
 ```
 
 ## Experiment
@@ -41,6 +44,8 @@ alembic upgrade
 
 Turbo-boost is restricted on cloudlet001 with for the experiments
 (double-checked on 04/07.). The max clock speed is 2.3 Ghz.
+
+
 
 ## TODO steps
 
