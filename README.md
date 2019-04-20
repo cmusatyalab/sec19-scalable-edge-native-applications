@@ -13,8 +13,6 @@
 * [visualization](visualization): Python Jupyter interactive plotting scripts. Used to pull data out from MySQL database and plot figures.
 * [writeup](writeup): Thoughts and notes.
 
-
-
 ## Infrastructure
 
 ### cadvisor, prometheus, and Grafana Setup

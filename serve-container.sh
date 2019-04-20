@@ -46,7 +46,7 @@ else
     # launch exp
     echo "launching experiment container (rmexp)"
     docker run -d --rm --name=rmexp --cpus=${num_cpu} --memory=${num_memory} res /bin/bash -l -c \
-    "conda activate resource-management && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --num ${num_worker} --broker-type ${BROKER_TYPE} --broker-uri ${WORKER_BROKER_URI}"
+    "conda activate resource-management && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --listen ${WORKER_LISTEN} --num ${num_worker} --broker-type ${BROKER_TYPE} --broker-uri ${WORKER_BROKER_URI}"
     
     # launch monitoring for kafka
     # sleep 5
