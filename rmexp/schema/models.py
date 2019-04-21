@@ -47,3 +47,22 @@ class SS(Base):
     val = Column(String(8192), nullable=False)
     trace = Column(String(512), nullable=False)
     index = Column(String(32))
+
+
+class IMU(Base):
+    """IMU data for each frame"""
+    __tablename__ = 'IMU'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(512), nullable=False)
+    trace = Column(String(512), nullable=False)
+    index = Column(String(32), nullable=False)
+
+    sensor_timestamp = Column(types.DateTime)
+
+    rot_x = Column(types.FLOAT(53))
+    rot_y = Column(types.FLOAT(53))
+    rot_z = Column(types.FLOAT(53))
+    acc_x = Column(types.FLOAT(53))
+    acc_y = Column(types.FLOAT(53))
+    acc_z = Column(types.FLOAT(53))
+    
