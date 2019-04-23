@@ -47,3 +47,19 @@ Turbo-boost is restricted on cloudlet001 with for the experiments
 1. setup cloudlet002 as lego server.
 2. use cloudlet001 to mimic many (16, 32, 48) clients.
 3. compare dummy clients with moving some part of processing pipeline to the client.
+
+## Mobile Device
+
+* essential phone:
+  Followed [this](https://forum.xda-developers.com/essential-phone/how-to/guide-how-to-install-twrp-root-t3841922) and [this](https://github.com/thehappydinoa/root-PH1) to root Essential Phone.
+The patch in the root.py in the second link needs to be applied to the Magisk zip file.
+* Nexus 6:
+  followed [this](https://android.gadgethacks.com/how-to/magisk-101-install-magisk-root-with-twrp-0179668/):
+    * first install twrp
+    * then install latestest magisk manager apk as an app
+    * within the app, there is "direct install" magisk disk, which successfully rooted the phone.
+* Debian/Ubuntu on Android with chroot:
+  * https://www.maketecheasier.com/install-ubuntu-on-android-linux-deploy/
+  * https://wiki.debian.org/HowtoDebianInAndroid
+
+
