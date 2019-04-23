@@ -51,7 +51,7 @@ services:
       - res_mysql_data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: exp
-      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
   db-adminer:
     image: adminer
     container_name: res-db-adminer

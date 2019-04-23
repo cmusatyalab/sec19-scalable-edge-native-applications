@@ -41,6 +41,15 @@ def lego_loop(job_queue):
 
 
 def batch_process(video_uri, store_result=False, store_latency=False):
+    """Batch process a lego video. Able to store both the result and the frame processing latency.
+
+    Arguments:
+        video_uri {[type]} -- [description]
+
+    Keyword Arguments:
+        store_result {bool} -- [description] (default: {False})
+        store_latency {bool} -- [description] (default: {False})
+    """
     lego_app = lego.LegoHandler()
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
@@ -50,6 +59,7 @@ def batch_process(video_uri, store_result=False, store_latency=False):
         ts = time.time()
         has_frame, img = cam.read()
         if img is not None:
+            logger.debug("processing frame {} from {}".format(idx, video_uri))
             result = lego_app.process(img)
             time_lapse = (time.time() - ts) * 1000
             if store_result:

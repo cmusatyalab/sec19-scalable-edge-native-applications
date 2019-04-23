@@ -1,5 +1,18 @@
 # Edge Resource Management Research Study
 
+## What's in this repo?
+
+* [Makefile](Makefile): Entry point for building and running experiments.
+* [environment.yml](environment.yml): Conda environment dependency file.
+* [app](app): Wearable cognitive assistance applications packaged as python modules for stateless vision processing.
+* [data](data): experimental input data including application input traces, not version controlled under git. available on cloudlet001
+* [exp](exp): experiment figures and results saved as htmls.
+* [infra](infra): experiment infrastructure, including container resource usage monitoring tools (cadvisor, prometheus, grafana), and a MySQL database for experiment data. All these tools are set up using containers.
+* [trace-app](trace-app): android app to record video and sensor data to collect traces
+* [rmexp](rmexp): main python module "Resource Management Experiment".
+* [visualization](visualization): Python Jupyter interactive plotting scripts. Used to pull data out from MySQL database and plot figures.
+* [writeup](writeup): Thoughts and notes.
+
 ## Infrastructure
 
 ### cadvisor, prometheus, and Grafana Setup
@@ -8,19 +21,27 @@ cadvisor is metric collection tool.
 prometheus is a time-series database.
 grafana is a visualization tool.
 
-## To Use
+## Experiment Machine and Path
 
-```bash
-python src/exp_lego.py 'data/traces/lego_196/%010d.jpg'
+* machine: cloudlet002
+* main path: /home/junjuew/work/resource-management
+* conda environment:
+  * install miniconda
+  * add the following to ~/.condarc
 ```
-
-## Development setup
-
-```bash
-cd src
-vim .envrc
-alembic upgrade
+envs_dirs:
+  - /home/junjuew/work/resource-management
 ```
+  * activate conda environment with
+```bash
+conda activate conda-env-rmexp
+```
+* Infrastructure service uris
+  * MySQL database: cloudlet002.elijah.cs.cmu.edu:13306
+  * database UI: http://cloudlet002.elijah.cs.cmu.edu:8081
+  * container resource usage monitoring (cAdvisor) UI: http://cloudlet002.elijah.cs.cmu.edu:8080
+  * time-series database for storing past container resource usages (prometheus) UI: http://cloudlet002.elijah.cs.cmu.edu:9090
+  * container resource usage visualization dashboard (grafana): http://cloudlet002.elijah.cs.cmu.edu:3000
 
 ## Experiment
 
@@ -42,11 +63,18 @@ alembic upgrade
 Turbo-boost is restricted on cloudlet001 with for the experiments
 (double-checked on 04/07.). The max clock speed is 2.3 Ghz.
 
+## Recording Video and Sensor data
+
+Android app VideoSensorRecorder: 
+Records Video, Audio, GPS, gyroscope and accelerometer data 
+source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
+
 ## TODO steps
 
 1. setup cloudlet002 as lego server.
 2. use cloudlet001 to mimic many (16, 32, 48) clients.
 3. compare dummy clients with moving some part of processing pipeline to the client.
+4. Trace collection: 10x(10 min) face ; 10x(5min) lego 
 
 ## Mobile Device
 
@@ -61,5 +89,3 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 * Debian/Ubuntu on Android with chroot:
   * https://www.maketecheasier.com/install-ubuntu-on-android-linux-deploy/
   * https://wiki.debian.org/HowtoDebianInAndroid
-
-
