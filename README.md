@@ -41,7 +41,14 @@ conda activate conda-env-rmexp
   * database UI: http://cloudlet002.elijah.cs.cmu.edu:8081
   * container resource usage monitoring (cAdvisor) UI: http://cloudlet002.elijah.cs.cmu.edu:8080
   * time-series database for storing past container resource usages (prometheus) UI: http://cloudlet002.elijah.cs.cmu.edu:9090
-  * container resource usage visualization dashboard (grafana): http://cloudlet002.elijah.cs.cmu.edu:3000
+  * container resource usage visualization dashboard (grafana):
+    http://cloudlet002.elijah.cs.cmu.edu:3000
+
+## Dataset
+
+Problems:
+* for lego trace 2, one of the steps is too short.
+* lego trace 4 has error steps in them.
 
 ## Experiment
 
