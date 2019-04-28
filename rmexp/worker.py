@@ -63,14 +63,20 @@ def batch_process(video_uri, store_result=False, store_latency=False):
             result = lego_app.process(img)
             time_lapse = (time.time() - ts) * 1000
             if store_result:
-                sess.add(models.SS(
+                rec, _ = dbutils.get_or_create(
+                    sess,
+                    models.SS,
                     name=config.EXP,
-                    val=str(result),
                     index=idx,
-                    trace=os.path.basename(os.path.dirname(video_uri))))
+                    trace=os.path.basename(os.path.dirname(video_uri)))
+                rec.val=str(result)
             if store_latency:
-                sess.add(models.LegoLatency(
-                    name=config.EXP, val=int(time_lapse), index=idx))
+                rec, _ = dbutils.get_or_create(
+                    sess,
+                    models.LegoLatency,
+                    name=config.EXP,
+                    index=idx)
+                rec.val=int(time_lapse)
             sess.commit()
             logger.debug(result)
             idx += 1
