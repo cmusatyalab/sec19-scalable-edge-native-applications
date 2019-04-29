@@ -96,3 +96,43 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 * Debian/Ubuntu on Android with chroot:
   * https://www.maketecheasier.com/install-ubuntu-on-android-linux-deploy/
   * https://wiki.debian.org/HowtoDebianInAndroid
+
+## Application Specifics
+
+### Pingpong's Instruction
+  * Category: pingpong table cannot be found:
+```python
+      rtn_msg = {'status': 'fail', 'message' : 'Cannot find table'}
+      rtn_msg = {'status' : 'fail', 'message' : "Detected table too small: %f" % table_area_percentage}
+      rtn_msg = {'status' : 'fail', 'message' : "Table top line too short"}
+      rtn_msg = {'status' : 'fail', 'message' : "Table top line tilted too much"}
+      rtn_msg = {'status' : 'fail', 'message' : "Table doesn't occupy bottom part of image"}
+      rtn_msg = {'status' : 'fail', 'message' : "Angle between two side edge not right"}
+      rtn_msg = {'status' : 'fail', 'message' : "Valid area too small after
+      rotation"}
+```
+  * Category: pingpong cannot be found
+```python
+      rtn_msg = {'status' : 'fail', 'message' : "No good color candidate"}
+      rtn_msg = {'status' : 'fail', 'message' : "Cannot initialize a location of ball"}
+      rtn_msg = {'status' : 'fail', 'message' : "Lost track of ball: %d" % ball_moved_dist}
+```
+  * Category: opponent cannot be found
+```python
+    rtn_msg = {'status': 'fail', 'message' : 'No good featuresToTrack at all, probably no one in the scene'}
+    rtn_msg = {'status': 'fail', 'message' : 'Motion too small, probably no one in the scene'}
+```
+  * Category: not playing
+```python
+            return 'idle'
+```
+  * Category: users don't need instructions
+```python
+    return 'No instruction. oppo on left, last played right.'
+    return 'No instruction. oppo on right, last played left.'
+```
+  * Category: instructions
+```python
+    return 'inst: right'
+    return 'inst: left'
+```

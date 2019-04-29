@@ -44,7 +44,7 @@ class SS(Base):
     __tablename__ = 'SS'
     id = Column(Integer, primary_key=True)
     name = Column(String(512), nullable=False)
-    val = Column(String(8192), nullable=False)
+    val = Column(String(8192))
     trace = Column(String(512), nullable=False)
     index = Column(String(32))
 

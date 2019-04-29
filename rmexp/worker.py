@@ -1,17 +1,18 @@
 from __future__ import absolute_import, division, print_function
 
+import json
 import logging
 import os
 import time
-import json
 
 import cv2
 import fire
 import lego
 import logzero
 import numpy as np
+import pingpong
 from logzero import logger
-from rmexp import config, dbutils, gabriel_pb2, cvutils
+from rmexp import config, cvutils, dbutils, gabriel_pb2
 from rmexp.schema import models
 
 logzero.loglevel(logging.DEBUG)
@@ -40,7 +41,13 @@ def lego_loop(job_queue):
         sess.commit()
 
 
-def batch_process(video_uri, store_result=False, store_latency=False):
+app_to_handler = {
+    'lego': lego.LegoHandler,
+    'pingpong': pingpong.PingpongHandler
+}
+
+
+def batch_process(video_uri, app, store_result=False, store_latency=False):
     """Batch process a lego video. Able to store both the result and the frame processing latency.
 
     Arguments:
@@ -50,7 +57,7 @@ def batch_process(video_uri, store_result=False, store_latency=False):
         store_result {bool} -- [description] (default: {False})
         store_latency {bool} -- [description] (default: {False})
     """
-    lego_app = lego.LegoHandler()
+    app_handler = app_to_handler[app]()
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
     sess = dbutils.get_session()
@@ -60,7 +67,7 @@ def batch_process(video_uri, store_result=False, store_latency=False):
         has_frame, img = cam.read()
         if img is not None:
             logger.debug("processing frame {} from {}".format(idx, video_uri))
-            result = lego_app.process(img)
+            result = app_handler.process(img)
             time_lapse = (time.time() - ts) * 1000
             if store_result:
                 rec, _ = dbutils.get_or_create(
@@ -69,14 +76,14 @@ def batch_process(video_uri, store_result=False, store_latency=False):
                     name=config.EXP,
                     index=idx,
                     trace=os.path.basename(os.path.dirname(video_uri)))
-                rec.val=str(result)
+                rec.val = str(result)
             if store_latency:
                 rec, _ = dbutils.get_or_create(
                     sess,
                     models.LegoLatency,
                     name=config.EXP,
                     index=idx)
-                rec.val=int(time_lapse)
+                rec.val = int(time_lapse)
             sess.commit()
             logger.debug(result)
             idx += 1

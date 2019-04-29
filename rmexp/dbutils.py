@@ -19,7 +19,7 @@ def get_session():
     return session
 
 
-def get_or_create(session, model, defaults=None, **kwargs):
+def get_or_create(session, model, **kwargs):
     """
     Get or create a model instance while preserving integrity.
     """
@@ -28,15 +28,10 @@ def get_or_create(session, model, defaults=None, **kwargs):
     if record is not None:
         return record, False
     else:
-        if defaults is not None:
-            kwargs.update(defaults)
-        try:
-            with session.begin_nested():
-                instance = model(**kwargs)
-                session.add(instance)
-                return instance, True
-        except IntegrityError:
-            return session.query(model).filter_by(**kwargs).one(), False
+        with session.begin_nested():
+            instance = model(**kwargs)
+            session.add(instance)
+            return instance, True
 
 
 class Connector(object):
