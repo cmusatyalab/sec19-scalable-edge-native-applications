@@ -82,7 +82,7 @@ def find_table(img, display_list):
     mask_table = cv2.morphologyEx(mask_table, cv2.MORPH_CLOSE, zc.generate_kernel(7, 'circular'), iterations = 1)
     mask_table, _ = zc.find_largest_CC(mask_table)
     if mask_table is None:
-        rtn_msg = {'status': 'fail', 'message' : 'Cannot find table'}
+        rtn_msg = {'status': 'fail', 'message' : 'Cannot find table.'}
         return (rtn_msg, None)
     mask_table_convex, _ = zc.make_convex(mask_table.copy(), app_ratio = 0.005)
     mask_table = np.bitwise_or(mask_table, mask_table_convex)
@@ -118,7 +118,7 @@ def find_table(img, display_list):
     table_area = cv2.contourArea(hull_table)
     table_area_percentage = float(table_area) / img.shape[0] / img.shape[1]
     if table_area_percentage < 0.06:
-        rtn_msg = {'status' : 'fail', 'message' : "Detected table too small: %f" % table_area_percentage}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find table. Detected table too small: %f" % table_area_percentage}
         return (rtn_msg, None)
 
     ## find top line of table
@@ -151,10 +151,10 @@ def find_table(img, display_list):
 
     ## sanity checks about table top line detection
     if zc.euc_dist(ul, ur) ** 2 * 2.5 < table_area:
-        rtn_msg = {'status' : 'fail', 'message' : "Table top line too short"}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find table. Table top line too short"}
         return (rtn_msg, None)
     if abs(zc.line_angle(ul, ur)) > 0.4:
-        rtn_msg = {'status' : 'fail', 'message' : "Table top line tilted too much"}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find table. Table top line tilted too much"}
         return (rtn_msg, None)
     # check if two table sides form a reasonable angle
     mask_table_bottom = mask_table.copy()
@@ -162,13 +162,13 @@ def find_table(img, display_list):
     p_left_most = zc.get_edge_point(mask_table_bottom, (-1, 0))
     p_right_most = zc.get_edge_point(mask_table_bottom, (1, 0))
     if p_left_most is None or p_right_most is None:
-        rtn_msg = {'status' : 'fail', 'message' : "Table doesn't occupy bottom part of image"}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find table. Table doesn't occupy bottom part of image"}
         return (rtn_msg, None)
     left_side_angle = zc.line_angle(ul, p_left_most)
     right_side_angle = zc.line_angle(ur, p_right_most)
     angle_diff = zc.angle_dist(left_side_angle, right_side_angle, angle_range = math.pi * 2)
     if abs(angle_diff) > 1.8:
-        rtn_msg = {'status' : 'fail', 'message' : "Angle between two side edge not right"}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find table. Angle between two side edge not right"}
         return (rtn_msg, None)
 
     if 'table' in display_list:
@@ -187,7 +187,7 @@ def find_table(img, display_list):
     ## sanity checks about rotated opponent image
     bool_img_rotated_valid = zc.get_mask(img_rotated, rtn_type = "bool")
     if float(bool_img_rotated_valid.sum()) / config.O_IMG_WIDTH / config.O_IMG_HEIGHT < 0.7:
-        rtn_msg = {'status' : 'fail', 'message' : "Valid area too small after rotation"}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find table. Valid area too small after rotation"}
         return (rtn_msg, None)
 
     rtn_msg = {'status' : 'success'}
@@ -211,7 +211,7 @@ def find_pingpong(img, img_prev, mask_table, mask_ball_prev, rotation_matrix, di
     zc.check_and_display_mask('ball_raw', img, mask_ball, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
 
     if counter == 0:
-        rtn_msg = {'status' : 'fail', 'message' : "No good color candidate"}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find pingpong. No good color candidate"}
         return (rtn_msg, None)
 
     cnt_table = zc.mask2cnt(mask_table)
@@ -225,7 +225,7 @@ def find_pingpong(img, img_prev, mask_table, mask_ball_prev, rotation_matrix, di
         return (rtn_msg, (mask_ball, get_ball_stat(mask_ball)))
 
     if mask_ball_prev is None: # mask_ball_ontable is already None
-        rtn_msg = {'status' : 'fail', 'message' : "Cannot initialize a location of ball"}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find pingpong. Cannot initialize a location of ball"}
         return (rtn_msg, None)
 
     cnt_ball_prev = zc.mask2cnt(mask_ball_prev)
@@ -236,7 +236,7 @@ def find_pingpong(img, img_prev, mask_table, mask_ball_prev, rotation_matrix, di
     loc_ball = zc.get_contour_center(cnt_ball)[::-1]
     ball_moved_dist = zc.euc_dist(loc_ball_prev, loc_ball)
     if ball_moved_dist > 110:
-        rtn_msg = {'status' : 'fail', 'message' : "Lost track of ball: %d" % ball_moved_dist}
+        rtn_msg = {'status' : 'fail', 'message' : "Cannot find pingpong. Lost track of ball: %d" % ball_moved_dist}
         return (rtn_msg, None)
 
     return (rtn_msg, (mask_ball, get_ball_stat(mask_ball)))

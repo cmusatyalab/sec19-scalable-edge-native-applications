@@ -99,7 +99,18 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 
 ## Application Specifics
 
-### Pingpong's Instruction
+### Pingpong
+  * The workflow of pingpong is the following.
+    * find_table. if not, exit
+      * find_pingpong
+        * if no marked frame: check if pingpong is on table, initialize as a
+          marked frame. Otherwise, exit
+        * if has marked frame: determine where the ball is hit
+          * find opponent
+            * if not found, exit
+            * try to give instructions
+
+#### Pingpong's Instruction
   * Category: pingpong table cannot be found:
 ```python
       rtn_msg = {'status': 'fail', 'message' : 'Cannot find table'}
