@@ -70,11 +70,23 @@ Problems:
 Turbo-boost is restricted on cloudlet001 with for the experiments
 (double-checked on 04/07.). The max clock speed is 2.3 Ghz.
 
-## Recording Video and Sensor data
+## Trace Dataset
+
+### Recording Video and Sensor data
 
 Android app VideoSensorRecorder: 
 Records Video, Audio, GPS, gyroscope and accelerometer data 
 source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
+
+### Trace Collected
+
+| Apps | # of Traces |
+| ------------- | :---: |
+| Lego  | 9 |
+| Ikea  | 7  |
+| Face  | -  |
+| Ping-pong  | 6  |
+| Pool  | -  |
 
 ## TODO steps
 
