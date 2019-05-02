@@ -11,6 +11,7 @@ import lego
 import logzero
 import numpy as np
 import pingpong
+import pool
 from logzero import logger
 from rmexp import config, cvutils, dbutils, gabriel_pb2
 from rmexp.schema import models
@@ -43,7 +44,8 @@ def lego_loop(job_queue):
 
 app_to_handler = {
     'lego': lego.LegoHandler,
-    'pingpong': pingpong.PingpongHandler
+    'pingpong': pingpong.PingpongHandler,
+    'pool': pool.PoolHandler
 }
 
 
