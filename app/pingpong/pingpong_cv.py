@@ -225,7 +225,7 @@ def find_pingpong(img, img_prev, mask_table, mask_ball_prev, rotation_matrix, di
         return (rtn_msg, (mask_ball, get_ball_stat(mask_ball)))
 
     if mask_ball_prev is None: # mask_ball_ontable is already None
-        rtn_msg = {'status' : 'fail', 'message' : "Cannot find pingpong. Cannot initialize a location of ball"}
+        rtn_msg = {'status' : 'fail', 'message' : "Pingpong outside the table. Cannot initialize a location of ball"}
         return (rtn_msg, None)
 
     cnt_ball_prev = zc.mask2cnt(mask_ball_prev)
@@ -236,7 +236,7 @@ def find_pingpong(img, img_prev, mask_table, mask_ball_prev, rotation_matrix, di
     loc_ball = zc.get_contour_center(cnt_ball)[::-1]
     ball_moved_dist = zc.euc_dist(loc_ball_prev, loc_ball)
     if ball_moved_dist > 110:
-        rtn_msg = {'status' : 'fail', 'message' : "Cannot find pingpong. Lost track of ball: %d" % ball_moved_dist}
+        rtn_msg = {'status' : 'fail', 'message' : "Pingpong outside the table. Lost track of ball: %d" % ball_moved_dist}
         return (rtn_msg, None)
 
     return (rtn_msg, (mask_ball, get_ball_stat(mask_ball)))
@@ -330,7 +330,7 @@ def find_opponent(img, img_prev, display_list):
     p0 = cv2.goodFeaturesToTrack(bw_prev, mask = mask_img_prev_valid, useHarrisDetector = False, **feature_params)
     if p0 is None:
         # TODO: this is also a possible indication that the rally is not on
-        rtn_msg = {'status': 'fail', 'message' : 'No good featuresToTrack at all, probably no one in the scene'}
+        rtn_msg = {'status': 'fail', 'message' : 'Cannot find opponent. No good featuresToTrack at all, probably no one in the scene'}
         return (rtn_msg, None)
     p1, st, err = cv2.calcOpticalFlowPyrLK(bw_prev, bw, p0, None, **lk_params)
     # Select good points
@@ -381,7 +381,7 @@ def find_opponent(img, img_prev, display_list):
     # if motion too small, probably no one is there...
     if np.max(score_horizonal_filtered_LK) < 300:
         # TODO: this is also a possible indication that the rally is not on
-        rtn_msg = {'status': 'fail', 'message' : 'Motion too small, probably no one in the scene'}
+        rtn_msg = {'status': 'fail', 'message' : 'Cannot find opponent. Motion too small, probably no one in the scene'}
         return (rtn_msg, None)
     if 'opponent' in display_list:
         cv2.circle(img_opponent, (np.argmax(score_horizonal_filtered_LK), 220), 20, (0, 0, 255), -1)

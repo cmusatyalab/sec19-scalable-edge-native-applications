@@ -80,13 +80,13 @@ source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
 
 ### Trace Collected
 
-| Apps | # of Traces |
-| ------------- | :---: |
-| Lego  | 9 |
-| Ikea  | 7  |
-| Face  | -  |
-| Ping-pong  | 6  |
-| Pool  | -  |
+| Apps      | # of Traces |
+| --------- | :---------: |
+| Lego      |      9      |
+| Ikea      |      7      |
+| Face      |      -      |
+| Ping-pong |      6      |
+| Pool      |      -      |
 
 ## TODO steps
 
@@ -113,7 +113,9 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 
 ### Pingpong
   * The workflow of pingpong is the following.
-    * find_table. if not, exit
+    * find_table: 'Cannot find table.'
+      * when has_marked_frame:
+        * find_pingpong: 'C
       * find_pingpong
         * if no marked frame: check if pingpong is on table, initialize as a
           marked frame. Otherwise, exit

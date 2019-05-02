@@ -160,52 +160,51 @@ class PingpongHandler(object):
             self.ball_trace.insert((frame_time, ball_stat))
             current_frame_info['mask_ball'] = mask_ball
             self.prev_frame_info = current_frame_info
-            return 'prev_frame marked'
-
-        # now we do have an okay previous frame
-        ## jjw: find_pingpong depends on both current frame and previous frame
-        rtn_msg, objects = pc.find_pingpong(
-            img, self.prev_frame_info['img'], mask_table, self.prev_frame_info['mask_ball'], rotation_matrix, display_list)
-        if rtn_msg['status'] != 'success':
-            # jjw: the original app doesn't return here
-            return rtn_msg['message']
-            # LOG.info(LOG_TAG + rtn_msg['message'])
+            return 'No mark frame. Pingpong in table. Use as a reference frame'
         else:
-            mask_ball, ball_stat = objects
-        self.ball_trace.insert((frame_time, ball_stat))
-        current_frame_info['mask_ball'] = mask_ball
+            # now we do have an okay previous frame
+            rtn_msg, objects = pc.find_pingpong(
+                img, self.prev_frame_info['img'], mask_table, self.prev_frame_info['mask_ball'], rotation_matrix, display_list)
+            if rtn_msg['status'] != 'success':
+                # jjw: the original app doesn't return here
+                return rtn_msg['message']
+                LOG.info(LOG_TAG + rtn_msg['message'])
+            else:
+                mask_ball, ball_stat = objects
+            self.ball_trace.insert((frame_time, ball_stat))
+            current_frame_info['mask_ball'] = mask_ball
 
-        # determine where the ball was hit to
-        self.state['ball_position'] = self.ball_trace.leftOrRight()
+            # determine where the ball was hit to
+            self.state['ball_position'] = self.ball_trace.leftOrRight()
 
-        # find position (relatively, left or right) of your opponent
-        ## jjw: find_opponent depends on both current frame and previous frame
-        rtn_msg, objects = pc.find_opponent(
-            img_rotated, self.prev_frame_info['img_rotated'], display_list)
-        if rtn_msg['status'] != 'success':
-            self.seen_opponent = False
-            self.prev_frame_info = current_frame_info
-            return rtn_msg['message']
-        self.seen_opponent = True
-        opponent_x = objects
-        # a simple averaging over history
-        self.opponent_x = self.opponent_x * 0.7 + opponent_x * 0.3
-        self.state['opponent_position'] = "left" if self.opponent_x < config.O_IMG_WIDTH * 0.58 else "right"
+            # find position (relatively, left or right) of your opponent
+            ## jjw: find_opponent depends on both current frame and previous frame
+            rtn_msg, objects = pc.find_opponent(
+                img_rotated, self.prev_frame_info['img_rotated'], display_list)
+            if rtn_msg['status'] != 'success':
+                self.seen_opponent = False
+                self.prev_frame_info = current_frame_info
+                return rtn_msg['message']
+            self.seen_opponent = True
+            opponent_x = objects
+            # a simple averaging over history
+            self.opponent_x = self.opponent_x * 0.7 + opponent_x * 0.3
+            self.state['opponent_position'] = "left" if self.opponent_x < config.O_IMG_WIDTH * 0.58 else "right"
 
-        # now user has done something, provide some feedback
-        t = time.time()
-        if self.state['is_playing']:
-            if self.state['opponent_position'] == "left":
-                if (t - self.last_played_t < 3 and self.last_played == "right") or (t - self.last_played_t < 1):
-                    return 'No instruction. oppo on left, last played right.'
-                self.last_played_t = t
-                self.last_played = "right"
-                return 'inst: right'
-            elif self.state['opponent_position'] == "right":
-                if (t - self.last_played_t < 3 and self.last_played == "left") or (t - self.last_played_t < 1):
-                    return 'No instruction. oppo on right, last played left.'
-                self.last_played_t = t
-                self.last_played = "left"
-                return 'inst: left'
-        else:
-            return 'idle'
+            # now user has done something, provide some feedback
+            t = time.time()
+            if self.state['is_playing']:
+                if self.state['opponent_position'] == "left":
+                    if (t - self.last_played_t < 3 and self.last_played == "right") or (t - self.last_played_t < 1):
+                        return 'Found table, pingpong, and opponent. No instruction. oppo on left, last played right.'
+                    self.last_played_t = t
+                    self.last_played = "right"
+                    return 'Found table, pingpong, and opponent. inst: right'
+                elif self.state['opponent_position'] == "right":
+                    if (t - self.last_played_t < 3 and self.last_played == "left") or (t - self.last_played_t < 1):
+                        return 'Found table, pingpong, and opponent. No instruction. oppo on right, last played left.'
+                    self.last_played_t = t
+                    self.last_played = "left"
+                    return 'Found table, pingpong, and opponent. inst: left'
+            else:
+                return 'Found table, pingpong, and opponent. idle'
