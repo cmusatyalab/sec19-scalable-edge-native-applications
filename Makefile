@@ -43,6 +43,10 @@ dependency:
 	# sed -i '/app==/d' environment.yml
 	# sed -i '/rmexp==/d' environment.yml
 
+nexus:
+	adb push app /sdcard/resource-management/
+	adb push infra /sdcard/resource-management/
+
 clean:
 	rm -rf build dist rmexp.egg-info .eggs
 	cd app && rm -rf build dist app.egg-info .eggs
