@@ -33,10 +33,9 @@ import cv2
 import sys
 import time
 
-sys.path.insert(0, "..")
-import config
-import pool_cv as pc
-import zhuocv as zc
+from pool import config
+from pool import pool_cv as pc
+from pool import zhuocv as zc
 
 def parse_arguments():
     parser = argparse.ArgumentParser()

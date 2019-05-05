@@ -25,9 +25,8 @@ import os
 import sys
 import time
 
-sys.path.insert(0, "..")
-import config
-import zhuocv as zc
+from pool import config
+from pool import zhuocv as zc
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 

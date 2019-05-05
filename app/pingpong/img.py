@@ -33,10 +33,9 @@ import cv2
 import sys
 import time
 
-import config
-import pingpong_cv as pc
-sys.path.insert(0, "..")
-import zhuocv as zc
+from pingpong import config
+from pingpong import pingpong_cv as pc
+from pingpong import zhuocv as zc
 
 def parse_arguments():
     parser = argparse.ArgumentParser()

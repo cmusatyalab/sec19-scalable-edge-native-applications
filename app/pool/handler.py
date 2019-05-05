@@ -29,16 +29,9 @@ import sys
 import threading
 import time
 
-if os.path.isdir("../../gabriel/server"):
-    sys.path.insert(0, "../../gabriel/server")
-import gabriel
-import gabriel.proxy
-LOG = gabriel.logging.getLogger(__name__)
-
-sys.path.insert(0, "..")
-import config
-import zhuocv as zc
-import pool_cv as pc
+from pool import config
+from pool import zhuocv as zc
+from pool import pool_cv as pc
 
 config.setup(is_streaming = True)
 pc.set_config(is_streaming = True)
