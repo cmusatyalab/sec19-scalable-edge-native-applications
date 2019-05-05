@@ -34,6 +34,19 @@ def get_or_create(session, model, **kwargs):
             return instance, True
 
 
+def insert_or_update_one(sess, model, keys_dict, vals_dict):
+    record = sess.query(model).filter_by(**keys_dict).one_or_none()
+    if record is not None:
+        record.update(vals_dict)
+    else:
+        create_dict = {}
+        create_dict.update(keys_dict)
+        create_dict.update(vals_dict)
+        record = model(**create_dict)
+        sess.add(record)
+    return record
+    
+
 class Connector(object):
     def __init__(self):
         self._engine = None

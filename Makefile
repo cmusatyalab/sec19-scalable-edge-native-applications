@@ -37,9 +37,11 @@ upgradedb:
 	alembic upgrade head
 
 dependency:
-	conda env export > environment.yml
-	sed -i '/app==/d' environment.yml
-	sed -i '/rmexp==/d' environment.yml
+	echo "We should manage enviroment.yml manually from now on"
+	false
+	# conda env export > environment.yml
+	# sed -i '/app==/d' environment.yml
+	# sed -i '/rmexp==/d' environment.yml
 
 clean:
 	rm -rf build dist rmexp.egg-info .eggs
