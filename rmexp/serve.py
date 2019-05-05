@@ -33,7 +33,7 @@ def start_process_loop(broker_type, broker_uri, listen, tagged):
     loop(jq)
 
 
-def start(num, broker_type, broker_uri, listen=True, tagged=False):
+def start(num, broker_type, broker_uri, listen=False, tagged=True):
     """[summary]
 
     Arguments:
