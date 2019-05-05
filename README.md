@@ -12,6 +12,7 @@
 * [rmexp](rmexp): main python module "Resource Management Experiment".
 * [visualization](visualization): Python Jupyter interactive plotting scripts. Used to pull data out from MySQL database and plot figures.
 * [writeup](writeup): Thoughts and notes.
+* [mkt](mkt): Message Broker to connect multiple feeds to multiple workers (golang + zmq).
 
 ## Infrastructure
 
@@ -43,6 +44,10 @@ conda activate conda-env-rmexp
   * time-series database for storing past container resource usages (prometheus) UI: http://cloudlet002.elijah.cs.cmu.edu:9090
   * container resource usage visualization dashboard (grafana):
     http://cloudlet002.elijah.cs.cmu.edu:3000
+* launch zmq broker
+```
+/home/junjuew/go-remote/src/github.com/junjuew/mkt/bin/mkt -f tcp://<ip for feed to connect to>:<port> -t zmq -b tcp://<ip for workers to connect to>:<port>
+```
 
 ## Dataset
 
