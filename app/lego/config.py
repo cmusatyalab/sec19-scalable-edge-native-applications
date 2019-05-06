@@ -19,6 +19,10 @@
 #   limitations under the License.
 #
 
+import os
+import time
+from functools import wraps
+
 # If True, configurations are set to process video stream in real-time (use with lego_server.py)
 # If False, configurations are set to process one independent image (use with img.py)
 IS_STREAMING = True
@@ -168,3 +172,20 @@ def setup(is_streaming):
             DISPLAY_LIST = DISPLAY_LIST_TASK
     DISPLAY_WAIT_TIME = 1 if IS_STREAMING else 500
     SAVE_IMAGE = not IS_STREAMING
+
+PROFILE_ON = os.getenv('PROFILE', "False").lower() == 'true'
+PROFILE_FILEPATH = 'lego-profile.txt'
+def profile(on=PROFILE_ON, output_filepath=PROFILE_FILEPATH):
+    def wrapper(func):
+        @wraps(func)
+        def timed(*args, **kw):
+            if on:
+                ts = time.time()
+            result = func(*args, **kw)
+            if on:
+                te = time.time()
+                with open(output_filepath, 'a') as f:
+                    f.write("{},{}\n".format(func.__name__, round((te-ts)*1000)))
+            return result
+        return timed
+    return wrapper
