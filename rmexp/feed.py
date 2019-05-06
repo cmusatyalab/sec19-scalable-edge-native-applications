@@ -19,8 +19,8 @@ def start_single_feed(video_uri, fps, broker_type, broker_uri):
     # TODO(junjuew): make video params to be cmd inputs
     vc = client.VideoClient(video_uri, nc, video_params={
                             'width': 640, 'height': 360})
-    t = task.LoopingCall(vc.get_and_send_frame,
-                         filter_func=lego_cv.locate_board)
+    t = task.LoopingCall(vc.get_and_send_frame)
+    # t = task.LoopingCall(vc.get_and_send_frame, filter_func=lego_cv.locate_board)
     t.start(1.0 / fps)
     reactor.run()
 
