@@ -89,9 +89,9 @@ source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
 | --------- | :---------: |
 | Lego      |      9      |
 | Ikea      |      7      |
-| Face      |      -      |
-| Ping-pong |      6      |
-| Pool      |      -      |
+| Face      |      8      |
+| Ping-pong |      11     |
+| Pool      |      4      |
 
 ## TODO steps
 
