@@ -174,18 +174,20 @@ def setup(is_streaming):
     SAVE_IMAGE = not IS_STREAMING
 
 PROFILE_ON = os.getenv('PROFILE', "False").lower() == 'true'
-PROFILE_FILEPATH = 'lego-profile.txt'
+PROFILE_FILEPATH = os.getenv('PROFILE_FILEPATH', 'lego-profile.txt')
 def profile(on=PROFILE_ON, output_filepath=PROFILE_FILEPATH):
+    from wcautils import ioutils
     def wrapper(func):
         @wraps(func)
         def timed(*args, **kw):
             if on:
-                ts = time.time()
+                ts = time.clock()
             result = func(*args, **kw)
+            result_pkl = ioutils.serialize_list(*result)
             if on:
-                te = time.time()
+                te = time.clock()
                 with open(output_filepath, 'a') as f:
-                    f.write("{},{}\n".format(func.__name__, round((te-ts)*1000)))
+                    f.write("{},{},{}\n".format(func.__name__, round((te-ts)*1000), len(result_pkl)))
             return result
         return timed
     return wrapper

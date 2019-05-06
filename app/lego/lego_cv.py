@@ -646,7 +646,7 @@ def _locate_board(img, stretch_ratio, display_list):
     closest_cnt = zc.get_closest_contour(contours, hierarchy, in_board_p, min_span = config.BD_BLOCK_SPAN, hierarchy_req = 'inner')
     if closest_cnt is None or (not zc.is_roughly_convex(closest_cnt)):
         rtn_msg = {'status' : 'fail', 'message' : 'Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1'}
-        return (rtn_msg, None, None, None, None, None)
+        return (rtn_msg, None, None, None)
     hull = cv2.convexHull(closest_cnt)
     mask_board = np.zeros(mask_black.shape, dtype=np.uint8)
     cv2.drawContours(mask_board, [hull], 0, 255, -1)
@@ -661,7 +661,7 @@ def _locate_board(img, stretch_ratio, display_list):
     closest_cnt = zc.get_closest_contour(contours, hierarchy, in_board_p, min_span = config.BD_BLOCK_SPAN, hierarchy_req = 'inner')
     if closest_cnt is None or (not zc.is_roughly_convex(closest_cnt)):
         rtn_msg = {'status' : 'fail', 'message' : 'Cannot locate board border, maybe not the full board is in the scene. Failed at stage 2'}
-        return (rtn_msg, None, None, None, None, None)
+        return (rtn_msg, None, None, None)
     hull = cv2.convexHull(closest_cnt)
     mask_board = np.zeros(mask_black.shape, dtype=np.uint8)
     cv2.drawContours(mask_board, [hull], 0, 255, -1)
@@ -680,7 +680,7 @@ def _locate_board(img, stretch_ratio, display_list):
     board_area = cv2.contourArea(hull)
     if board_area < config.BOARD_MIN_AREA:
         rtn_msg = {'status' : 'fail', 'message' : 'Detected board too small'}
-        return (rtn_msg, None, None, None, None, None)
+        return (rtn_msg, None, None, None)
 
     M = cv2.moments(hull)
     board_center = (int(M['m01']/M['m00']), int(M['m10']/M['m00'])) # in (row, col) format
@@ -693,7 +693,7 @@ def _locate_board(img, stretch_ratio, display_list):
     corners = get_corner_pts(board_border, board_perimeter, board_center, method = 'line')
     if corners is None:
         rtn_msg = {'status' : 'fail', 'message' : 'Cannot locate exact four board corners, probably because of occlusion'}
-        return (rtn_msg, None, None, None, None, None)
+        return (rtn_msg, None, None, None)
 
     thickness = int(calc_thickness(corners, stretch_ratio) * 0.8) # TODO: should be able to be more accurate
     #print "Brick thickness: %d pixels" % thickness
@@ -713,7 +713,7 @@ def _locate_board(img, stretch_ratio, display_list):
         perspective_mtx = cv2.getPerspectiveTransform(corners, target_points)
 
     rtn_msg = {'status' : 'success'}
-    return (rtn_msg, hull, mask_board, img_board, perspective_mtx, thickness)
+    return (rtn_msg, img_board, perspective_mtx, thickness)
 
 def _detect_lego(img_board, display_list, method = 'edge', edge_th = [80, 160], mask_black_dots = None, mask_lego_rough = None, add_color = True):
     if method == 'edge':
@@ -765,7 +765,7 @@ def _detect_lego(img_board, display_list, method = 'edge', edge_th = [80, 160], 
     return (rtn_msg, img_lego, mask_lego)
 
 @config.profile()
-def _find_lego(img, stretch_ratio, display_list, hull, mask_board, img_board, perspective_mtx, thickness):
+def _find_lego(img, display_list, img_board, perspective_mtx, thickness):
     ## convert board to standard size for further processing
     img_board_original = img_board
     img_board = cv2.warpPerspective(img_board, perspective_mtx, (config.BOARD_RECONSTRUCT_WIDTH, config.BOARD_RECONSTRUCT_HEIGHT))
@@ -1230,7 +1230,7 @@ def process(img, stretch_ratio, display_list):
     if rtn_msg['status'] != 'success':
         return (rtn_msg, None)
 
-    rtn_msg, objects = _find_lego(img, stretch_ratio, display_list, *extra)
+    rtn_msg, objects = _find_lego(img, display_list, *extra)
     if objects is not None:
         img_lego, img_lego_full, img_board, img_board_ns, perspective_mtx = objects
     if rtn_msg['status'] != 'success':
