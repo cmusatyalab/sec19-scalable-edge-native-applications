@@ -11,4 +11,7 @@ RUN /bin/bash -c ". /opt/conda/etc/profile.d/conda.sh && \
     cd /root/src/app && \
     python setup.py install"
 
+RUN (echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc) \
+    && (echo "conda activate conda-env-rmexp" >> ~/.bashrc)
+
 WORKDIR /root/src

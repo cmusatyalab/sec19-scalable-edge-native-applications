@@ -35,11 +35,16 @@ def lego_loop(job_queue):
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for an item'.format(
             os.getpid(), (time.time() - ts) * 1000))
-        record, _ = dbutils.get_or_create(sess, models.LegoLatency,
-                                          name=config.EXP, index=gabriel_msg.index)
-        record.finished = finished_t
-        record.val = time_lapse
+        
+        dbutils.insert_or_update_one(
+            sess, models.LegoLatency,
+            {'name': config.EXP, 'index': gabriel_msg.index},
+            {'val': time_lapse, 'finished': finished_t}
+        )
+
         sess.commit()
+    
+    sess.close()
 
 
 app_to_handler = {
@@ -49,7 +54,7 @@ app_to_handler = {
 }
 
 
-def batch_process(video_uri, app, store_result=False, store_latency=False):
+def batch_process(video_uri, app, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None):
     """Batch process a lego video. Able to store both the result and the frame processing latency.
 
     Arguments:
@@ -65,12 +70,12 @@ def batch_process(video_uri, app, store_result=False, store_latency=False):
     sess = dbutils.get_session()
     idx = 1
     while has_frame:
-        ts = time.time()
         has_frame, img = cam.read()
         if img is not None:
-            logger.debug("processing frame {} from {}".format(idx, video_uri))
+            ts = time.time()
             result = app_handler.process(img)
             time_lapse = (time.time() - ts) * 1000
+            logger.debug("processing frame {} from {}. {} ms".format(idx, video_uri, int(time_lapse)))
             if store_result:
                 rec, _ = dbutils.get_or_create(
                     sess,
@@ -86,6 +91,14 @@ def batch_process(video_uri, app, store_result=False, store_latency=False):
                     name=config.EXP,
                     index=idx)
                 rec.val = int(time_lapse)
+            if store_profile:
+                dbutils.insert_or_update_one(
+                    sess,
+                    models.ResourceLatency,
+                    {'trace': trace, 'index': idx, 'cpu': cpu, 'memory': memory},
+                    {'latency': time_lapse}
+                )
+
             sess.commit()
             logger.debug(result)
             idx += 1

@@ -66,3 +66,14 @@ class IMU(Base):
     acc_y = Column(types.FLOAT(53))
     acc_z = Column(types.FLOAT(53))
     
+
+class ResourceLatency(Base):
+    """Resource (cpu, mem) -> latency"""
+    __tablename__ = 'ResourceLatency'
+
+    id = Column(Integer, primary_key=True)
+    trace = Column(String(512), nullable=False)
+    index = Column(String(32), nullable=False)
+    cpu = Column(Integer, nullable=False)
+    memory = Column(Integer, nullable=False)
+    latency = Column(types.FLOAT(53))
