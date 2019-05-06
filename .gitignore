@@ -63,3 +63,7 @@ target/
 
 venv
 conda-env-*
+
+data/*trace*
+.envrc
+.vscode
