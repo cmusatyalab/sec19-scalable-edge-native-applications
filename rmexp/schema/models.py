@@ -65,7 +65,7 @@ class IMU(Base):
     acc_x = Column(types.FLOAT(53))
     acc_y = Column(types.FLOAT(53))
     acc_z = Column(types.FLOAT(53))
-    
+
 
 class ResourceLatency(Base):
     """Resource (cpu, mem) -> latency"""
@@ -77,3 +77,14 @@ class ResourceLatency(Base):
     cpu = Column(Integer, nullable=False)
     memory = Column(Integer, nullable=False)
     latency = Column(types.FLOAT(53))
+
+
+class AppProfile(Base):
+    """Application Profile Table"""
+    __tablename__ = 'Profile'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(512), nullable=False)
+    trace = Column(String(512), nullable=False)
+    index = Column(String(32))
+    speed = Column(String(8192))
+    data_length = Column(String(8192))
