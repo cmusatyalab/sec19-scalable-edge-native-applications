@@ -8,8 +8,6 @@ meta = MetaData()
 Base = declarative_base(metadata=meta)
 
 if config.DB_URI is not None:
-    create_engine(
-        config.DB_URI
-    )
+    engine = create_engine(config.DB_URI)
     meta = MetaData(engine)
     Base = declarative_base(metadata=meta)
