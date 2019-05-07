@@ -8,13 +8,12 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine.url import URL
 from rmexp import config
-
-engine = create_engine(config.DB_URI)
+from rmexp import schema
 
 
 def get_session():
     Session = sessionmaker()
-    Session.configure(bind=engine)
+    Session.configure(bind=schema.engine)
     session = Session()
     return session
 
@@ -45,7 +44,7 @@ def insert_or_update_one(sess, model, keys_dict, vals_dict):
         record = model(**create_dict)
         sess.add(record)
     return record
-    
+
 
 class Connector(object):
     def __init__(self):

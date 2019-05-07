@@ -35,7 +35,7 @@ def lego_loop(job_queue):
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for an item'.format(
             os.getpid(), (time.time() - ts) * 1000))
-        
+
         dbutils.insert_or_update_one(
             sess, models.LegoLatency,
             {'name': config.EXP, 'index': gabriel_msg.index},
@@ -43,7 +43,7 @@ def lego_loop(job_queue):
         )
 
         sess.commit()
-    
+
     sess.close()
 
 
@@ -67,7 +67,9 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
     app_handler = app_to_handler[app]()
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
-    sess = dbutils.get_session()
+    sess = None
+    if store_result or store_latency:
+        sess = dbutils.get_session()
     idx = 1
     while has_frame:
         has_frame, img = cam.read()
@@ -75,7 +77,8 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
             ts = time.time()
             result = app_handler.process(img)
             time_lapse = (time.time() - ts) * 1000
-            logger.debug("processing frame {} from {}. {} ms".format(idx, video_uri, int(time_lapse)))
+            logger.debug("processing frame {} from {}. {} ms".format(
+                idx, video_uri, int(time_lapse)))
             if store_result:
                 rec, _ = dbutils.get_or_create(
                     sess,
@@ -98,10 +101,12 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
                     {'trace': trace, 'index': idx, 'cpu': cpu, 'memory': memory},
                     {'latency': time_lapse}
                 )
-
-            sess.commit()
+            if sess is not None:
+                sess.commit()
             logger.debug(result)
             idx += 1
+    if sess is not None:
+        sess.close()
 
 
 def phash(video_uri):

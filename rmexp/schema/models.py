@@ -83,6 +83,7 @@ class AppProfile(Base):
     """Application Profile Table"""
     __tablename__ = 'Profile'
     id = Column(Integer, primary_key=True)
+    exp = Column(String(512), nullable=False)
     name = Column(String(512), nullable=False)
     trace = Column(String(512), nullable=False)
     index = Column(String(32))

@@ -1,7 +1,9 @@
 .PHONY: all feed serve image serve-container
 
 all: 
-	protoc --proto_path=rmexp/proto --python_out=rmexp rmexp/proto/gabriel.proto
+	if [ "$(shell uname -m)" = "x86_64" ]; then\
+		protoc --proto_path=rmexp/proto --python_out=rmexp rmexp/proto/gabriel.proto;\
+	fi
 #	pip uninstall -y rmexp
 	python setup.py install && rm -rf build dist rmexp.egg-info .eggs
 #	pip uninstall -y app
@@ -44,8 +46,12 @@ dependency:
 	# sed -i '/rmexp==/d' environment.yml
 
 nexus:
-	adb push app /sdcard/resource-management/
-	adb push infra /sdcard/resource-management/
+	rsync -avh --exclude='data' --exclude='conda-env-rmexp' --exclude='.git' --exclude='trace-app' . ${MOBILE_USER}@${MOBILE_IP}:~/resource-management --delete
+	ssh ${MOBILE_USER}@${MOBILE_IP} "bash -ex ~/resource-management/infra/nexus6/install.sh"
+	# adb push app /sdcard/resource-management/
+	# adb push infra /sdcard/resource-management/
+	# adb push rmexp /sdcard/resource-management/
+	# adb push Makefile /sdcard/resource-management/
 
 clean:
 	rm -rf build dist rmexp.egg-info .eggs
