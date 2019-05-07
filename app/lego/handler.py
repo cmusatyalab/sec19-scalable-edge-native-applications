@@ -150,12 +150,10 @@ class LegoHandler(object):
         Returns:
             [type] -- [description]
         """
-        # resize
         stretch_ratio = float(16) / 9 * img.shape[0] / img.shape[1]
         if img.shape != (config.IMAGE_WIDTH, config.IMAGE_HEIGHT, 3):
             img = cv2.resize(
                 img, (config.IMAGE_WIDTH, config.IMAGE_HEIGHT), interpolation=cv2.INTER_AREA)
-        stretch_ratio = float(16) / 9 * img.shape[0] / img.shape[1]
         rtn_msg, bitmap = lc.process(img, stretch_ratio, display_list)
         if rtn_msg['status'] == 'success':
             result = bitmap
