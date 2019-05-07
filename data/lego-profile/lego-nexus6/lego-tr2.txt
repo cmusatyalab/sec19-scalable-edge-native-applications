@@ -5975,7 +5975,7 @@ _find_lego,1071.0,1256122
 _correct_orientation,143.0,251415
 _reconstruct_lego,61.0,223
 _locate_board,245.0,691505
-_find_lego,-4293889.0,1256122
+_find_lego,1075.0,1256122
 _correct_orientation,158.0,251415
 _reconstruct_lego,60.0,223
 _locate_board,248.0,691505

@@ -18,8 +18,8 @@ lego_funcs = [
 
 def get_frame_data(lines):
     val_dict = {
-        'speed': [-1] * len(lego_funcs),
-        'data_length': [-1] * len(lego_funcs)
+        'speed': [0] * len(lego_funcs),
+        'data_length': [0] * len(lego_funcs)
     }
     for line in lines:
         fn, pt, ds = line.split(',')
