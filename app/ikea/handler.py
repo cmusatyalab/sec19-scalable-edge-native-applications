@@ -32,8 +32,9 @@ import time
 import traceback
 import config
 import Task
-import ikea_cv as ic
-import zhuocv as zc
+
+from ikea import ikea_cv as ic
+from ikea import zhuocv as zc
 
 
 def reorder_objects(result):
@@ -73,7 +74,7 @@ class IkeaHandler(object):
 
         if 'speech' in result:
             return 'speech: {}'.format(result['speech'])
-        
+
         return 'None'
 
 

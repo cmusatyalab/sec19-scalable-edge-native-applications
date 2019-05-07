@@ -34,9 +34,8 @@ import time
 import traceback
 
 # Face related
-import config
-sys.path.insert(0, "..")
-import zhuocv as zc
+from face import config
+from face import zhuocv as zc
 
 config.setup(is_streaming = True)
 
@@ -67,7 +66,7 @@ def dlib_face(img):
     face_descriptor = facerec.compute_face_descriptor(sk_img, shape)
     return face_descriptor
 
-    
+
 class FaceHandler(object):
     def process(self, img):
         face_rep = dlib_face(img)
@@ -98,4 +97,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
