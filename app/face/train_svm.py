@@ -39,9 +39,8 @@ import os
 from sklearn import preprocessing
 from sklearn.svm import SVC
 
-sys.path.insert(0, "..")
-import config
-import zhuocv as zc
+from face import config
+from face import zhuocv as zc
 
 LABELS = {
     '/face_training_data/junjue1': 'Junjue',
@@ -51,15 +50,15 @@ LABELS = {
     '/face_training_data/edmund1': 'Edmund',
     '/face_training_data/edmund2': 'Edmund',
     '/face_training_data/edmund3': 'Edmund',
-    '/face_training_data/edmund4': 'Edmund',    
+    '/face_training_data/edmund4': 'Edmund',
     '/face_training_data/jan1': 'Jan',
     '/face_training_data/jan2': 'Jan',
     '/face_training_data/jan3': 'Jan',
-    '/face_training_data/jan4': 'Jan',    
+    '/face_training_data/jan4': 'Jan',
     '/face_training_data/tom1': 'Tom',
     '/face_training_data/tom2': 'Tom',
     '/face_training_data/tom3': 'Tom',
-    '/face_training_data/tom4': 'Tom',    
+    '/face_training_data/tom4': 'Tom',
     '/face_training_data/wenlu1': 'Wenlu',
     '/face_training_data/wenlu2': 'Wenlu',
     '/face_training_data/wenlu3': 'Wenlu',
@@ -70,7 +69,7 @@ LABELS = {
     '/face_training_data/zhuo4': 'Zhuo',
 }
 
-    
+
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("input_file",
@@ -122,7 +121,7 @@ for root, dirs, files in os.walk('/face_training_data'):
             if max(img.shape) > config.IMAGE_MAX_WH:
                 resize_ratio = float(config.IMAGE_MAX_WH) / max(img.shape[0], img.shape[1])
                 img = cv2.resize(img, (0, 0), fx = resize_ratio, fy = resize_ratio, interpolation = cv2.INTER_AREA)
-                
+
             face_rep = dlib_face(img)
             if face_rep is not None:
                 face_rep = np.array(face_rep)

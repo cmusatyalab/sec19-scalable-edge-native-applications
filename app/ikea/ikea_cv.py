@@ -40,9 +40,8 @@ from fast_rcnn.nms_wrapper import nms
 sys.path.append(os.path.join(faster_rcnn_root, "python"))
 import caffe
 
-sys.path.insert(0, "..")
-import config
-import zhuocv as zc
+from ikea import config
+from ikea import zhuocv as zc
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 

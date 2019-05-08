@@ -22,7 +22,7 @@
 import cv2
 import math
 
-import config
+from ieak import config
 
 OBJECTS = config.LABELS # ["base", "pipe", "shade", "shadetop", "buckle", "blackcircle", "lamp", "bulb", "bulbtop"]
 STATES = ["start", "nothing", "base", "pipe", "shade", "buckle", "blackcircle", "shadebase", "bulb", "bulbtop"]
