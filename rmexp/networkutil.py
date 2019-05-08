@@ -90,17 +90,24 @@ class ZmqConnector(object):
         else:
             self._socket.connect(uri)
 
-    def get(self):
-        # blocking
-        tag = ''
-        if self._tagged:
-            tag = self._socket.recv()
-        msg = self._socket.recv()
-        return (tag, msg)
+    def get(self, timeout=None):
+        # timeout=None -> blocking
+        ret = self._socket.poll(timeout)
+        if ret == 0:
+            return None
+        else:
+            tag = None
+            if self._tagged:
+                tag, msg = self._socket.recv_multipart()
+            else:
+                msg = self._socket.recv()
+            return (tag, msg)
 
     def put(self, msg):
-        self._socket.send(msg)
-        return msg
+        if isinstance(msg, list) or isinstance(msg, tuple):
+            self._socket.send_multipart(msg)
+        else:
+            self._socket.send(msg)
 
 
 class KafkaConnector(object):

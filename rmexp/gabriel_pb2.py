@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rgabriel.proto\"9\n\x07Message\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x11\n\ttimestamp\x18\x02 \x01(\x01\x12\r\n\x05index\x18\x03 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\rgabriel.proto\"H\n\x07Message\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x11\n\ttimestamp\x18\x02 \x01(\x01\x12\r\n\x05index\x18\x03 \x01(\t\x12\r\n\x05reply\x18\x04 \x01(\x08\x62\x06proto3')
 )
 
 
@@ -53,6 +53,13 @@ _MESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='reply', full_name='Message.reply', index=3,
+      number=4, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -66,7 +73,7 @@ _MESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=17,
-  serialized_end=74,
+  serialized_end=89,
 )
 
 DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE

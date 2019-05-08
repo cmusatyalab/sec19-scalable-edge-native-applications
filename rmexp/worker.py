@@ -32,17 +32,27 @@ def lego_loop(job_queue):
         result = lego_app.process(img)
         finished_t = time.time()
         time_lapse = (finished_t - ts) * 1000
+
+        if gabriel_msg.reply:
+            reply = gabriel_pb2.Message()
+            reply.data = str(result)
+            reply.timestamp = gabriel_msg.timestamp
+            reply.index = gabriel_msg.index
+            assert tag is not None
+            job_queue.put([tag, reply.SerializeToString()])
+
         logger.debug(result)
-        logger.debug('[proc {}] takes {} ms for an item'.format(
-            os.getpid(), (time.time() - ts) * 1000))
+        logger.debug('[proc {}] takes {} ms for frame {}'.format(
+            os.getpid(), (time.time() - ts) * 1000, gabriel_msg.index))
 
-        dbutils.insert_or_update_one(
-            sess, models.LegoLatency,
-            {'name': config.EXP, 'index': gabriel_msg.index},
-            {'val': time_lapse, 'finished': finished_t}
-        )
+        if config.EXP:
+            dbutils.insert_or_update_one(
+                sess, models.LegoLatency,
+                {'name': config.EXP, 'index': gabriel_msg.index},
+                {'val': time_lapse, 'finished': finished_t}
+            )
 
-        sess.commit()
+            sess.commit()
 
     sess.close()
 
@@ -68,7 +78,7 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
     sess = None
-    if store_result or store_latency:
+    if store_result or store_latency or store_profile:
         sess = dbutils.get_session()
     idx = 1
     while has_frame:
