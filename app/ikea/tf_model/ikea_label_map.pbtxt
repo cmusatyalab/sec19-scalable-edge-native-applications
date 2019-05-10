@@ -1,0 +1,44 @@
+item {
+  id: 1
+  name: 'shadetop'
+}
+
+item {
+  id: 2
+  name: 'bulbtop'
+}
+
+item {
+  id: 3
+  name: 'buckle'
+}
+
+item {
+  id: 4
+  name: 'lamp'
+}
+
+item {
+  id: 5
+  name: 'pipe'
+}
+
+item {
+  id: 6
+  name: 'blackcircle'
+}
+
+item {
+  id: 7
+  name: 'base'
+}
+
+item {
+  id: 8
+  name: 'shade'
+}
+
+item {
+  id: 9
+  name: 'bulb'
+}
