@@ -25,7 +25,7 @@ class VideoClient(object):
         gabriel_msg.timestamp = kwargs['time']
         gabriel_msg.index = '{}-{}'.format(os.getpid(), frame_id)
         gabriel_msg.reply = reply
-        self._nc.put(gabriel_msg.SerializeToString())
+        self._nc.put(gabriel_msg.SerializeToString(), service=kwargs['app'])
 
     def get_frame(self):
         has_frame, img = self._cam.read()

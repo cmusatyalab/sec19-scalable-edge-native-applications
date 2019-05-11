@@ -22,7 +22,6 @@ class MajorDomoClient(object):
     ctx = None
     client = None
     poller = None
-    timeout = 2500
     verbose = False
 
     def __init__(self, broker, verbose=False):
@@ -64,10 +63,10 @@ class MajorDomoClient(object):
             dump(request)
         self.client.send_multipart(request)
 
-    def recv(self):
+    def recv(self, timeout=None):
         """Returns the reply message or None if there was no reply."""
         try:
-            items = self.poller.poll(self.timeout)
+            items = self.poller.poll(timeout)
         except KeyboardInterrupt:
             return # interrupted
 
@@ -88,4 +87,4 @@ class MajorDomoClient(object):
             service = msg.pop(0)
             return msg
         else:
-            logging.warn("W: permanent error, abandoning request")
+            return None
