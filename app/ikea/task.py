@@ -22,10 +22,12 @@
 import cv2
 import math
 
-from ieak import config
+from ikea import config
 
-OBJECTS = config.LABELS # ["base", "pipe", "shade", "shadetop", "buckle", "blackcircle", "lamp", "bulb", "bulbtop"]
-STATES = ["start", "nothing", "base", "pipe", "shade", "buckle", "blackcircle", "shadebase", "bulb", "bulbtop"]
+# ["base", "pipe", "shade", "shadetop", "buckle", "blackcircle", "lamp", "bulb", "bulbtop"]
+OBJECTS = config.LABELS
+STATES = ["start", "nothing", "base", "pipe", "shade",
+          "buckle", "blackcircle", "shadebase", "bulb", "bulbtop"]
 VIDEO_URL_PRE = "http://typhoon.elijah.cs.cmu.edu/ikea/"
 
 
@@ -51,7 +53,8 @@ class Task:
             base_width = base[2] - base[0]
             base_height = base[3] - base[1]
             for pipe in pipes:
-                pipe_center = ((pipe[0] + pipe[2]) / 2, (pipe[1] + pipe[3]) / 2)
+                pipe_center = ((pipe[0] + pipe[2]) / 2,
+                               (pipe[1] + pipe[3]) / 2)
                 pipe_height = pipe[3] - pipe[1]
                 if pipe_center[1] > base_center[1]:
                     continue
@@ -72,14 +75,16 @@ class Task:
                 buckles.append(objects[i, :])
 
         for shadetop in shadetops:
-            shadetop_center = ((shadetop[0] + shadetop[2]) / 2, (shadetop[1] + shadetop[3]) / 2)
+            shadetop_center = (
+                (shadetop[0] + shadetop[2]) / 2, (shadetop[1] + shadetop[3]) / 2)
             shadetop_width = shadetop[2] - shadetop[0]
             shadetop_height = shadetop[3] - shadetop[1]
 
             left_buckle = False
             right_buckle = False
             for buckle in buckles:
-                buckle_center = ((buckle[0] + buckle[2]) / 2, (buckle[1] + buckle[3]) / 2)
+                buckle_center = (
+                    (buckle[0] + buckle[2]) / 2, (buckle[1] + buckle[3]) / 2)
                 if buckle_center[1] < shadetop[1] or buckle_center[1] > shadetop[3]:
                     continue
                 if buckle_center[0] < shadetop[0] or buckle_center[0] > shadetop[2]:
@@ -103,12 +108,14 @@ class Task:
                 bulbtops.append(objects[i, :])
 
         for shadetop in shadetops:
-            shadetop_center = ((shadetop[0] + shadetop[2]) / 2, (shadetop[1] + shadetop[3]) / 2)
+            shadetop_center = (
+                (shadetop[0] + shadetop[2]) / 2, (shadetop[1] + shadetop[3]) / 2)
             shadetop_width = shadetop[2] - shadetop[0]
             shadetop_height = shadetop[3] - shadetop[1]
 
             for bulbtop in bulbtops:
-                bulbtop_center = ((bulbtop[0] + bulbtop[2]) / 2, (bulbtop[1] + bulbtop[3]) / 2)
+                bulbtop_center = (
+                    (bulbtop[0] + bulbtop[2]) / 2, (bulbtop[1] + bulbtop[3]) / 2)
                 if bulbtop_center[1] < shadetop[1] or bulbtop_center[1] > shadetop[3]:
                     continue
                 if bulbtop_center[0] < shadetop[0] or bulbtop_center[0] > shadetop[2]:
@@ -121,7 +128,7 @@ class Task:
 
         return False
 
-    def _get_holo_location(self, objects, label_idx = -1, pos_paras = [10000, 0.5, 0.5]):
+    def _get_holo_location(self, objects, label_idx=-1, pos_paras=[10000, 0.5, 0.5]):
         dist_para, x_para, y_para = pos_paras
         objects = objects[objects[:, -1] == label_idx, :]
         x1, y1, x2, y2 = objects[0, :4]
@@ -133,7 +140,7 @@ class Task:
     def get_instruction(self, objects):
         # @objects format: [x1, y1, x2, y2, confidence, cls_idx]
 
-        result = {'status' : "success"}
+        result = {'status': "success"}
 
         # the start
         if self.current_state == "start":
@@ -145,7 +152,7 @@ class Task:
             self.current_state = "nothing"
             return result
 
-        if len(objects.shape) < 2: # nothing detected
+        if len(objects.shape) < 2:  # nothing detected
             return result
 
         # get the count of detected objects
@@ -158,16 +165,19 @@ class Task:
                 if self._check_pipe(objects):
                     result['speech'] = "Good job. Now find the shade cover and expand it"
                     image_path = "images_feedback/shade.PNG"
-                    result['image'] = cv2.imread(image_path) if image_path else None
+                    result['image'] = cv2.imread(
+                        image_path) if image_path else None
                     result['video'] = VIDEO_URL_PRE + "shade.mp4"
                     self.current_state = "pipe"
             elif object_counts[0] > 0:
                 result['speech'] = "Screw the pipe on top of the base"
                 image_path = "images_feedback/pipe.PNG"
-                result['image'] = cv2.imread(image_path) if image_path else None
+                result['image'] = cv2.imread(
+                    image_path) if image_path else None
                 result['video'] = VIDEO_URL_PRE + "pipe.mp4"
                 result['holo_object'] = "pipe"
-                result['holo_location'] = self._get_holo_location(objects, label_idx = 0, pos_paras = config.holo_pos_paras['pipe'])
+                result['holo_location'] = self._get_holo_location(
+                    objects, label_idx=0, pos_paras=config.holo_pos_paras['pipe'])
                 self.current_state = "base"
 
         elif self.current_state == "base":
@@ -175,18 +185,21 @@ class Task:
                 if self._check_pipe(objects):
                     result['speech'] = "Good job. Now find the shade cover and expand it"
                     image_path = "images_feedback/shade.PNG"
-                    result['image'] = cv2.imread(image_path) if image_path else None
+                    result['image'] = cv2.imread(
+                        image_path) if image_path else None
                     result['video'] = VIDEO_URL_PRE + "shade.mp4"
                     self.current_state = "pipe"
             elif object_counts[0] > 0:
                 result['holo_object'] = "pipe"
-                result['holo_location'] = self._get_holo_location(objects, label_idx = 0, pos_paras = config.holo_pos_paras['pipe'])
+                result['holo_location'] = self._get_holo_location(
+                    objects, label_idx=0, pos_paras=config.holo_pos_paras['pipe'])
 
         elif self.current_state == "pipe":
             if object_counts[2] > 0:
                 result['speech'] = "Put the iron wires to support the shade. And show the top view of the shade"
                 image_path = "images_feedback/buckle.PNG"
-                result['image'] = cv2.imread(image_path) if image_path else None
+                result['image'] = cv2.imread(
+                    image_path) if image_path else None
                 result['video'] = VIDEO_URL_PRE + "buckle.mp4"
                 self.current_state = "shade"
 
@@ -199,7 +212,8 @@ class Task:
                     if self.two_buckle_frame_counter > 3:
                         result['speech'] = "Great. Now unscrew the black ring out of the pipe. And put it on the table"
                         image_path = "images_feedback/blackcircle.PNG"
-                        result['image'] = cv2.imread(image_path) if image_path else None
+                        result['image'] = cv2.imread(
+                            image_path) if image_path else None
                         result['video'] = VIDEO_URL_PRE + "blackcircle.mp4"
                         self.current_state = "buckle"
                 if n_buckles == 1:
@@ -212,7 +226,8 @@ class Task:
             if object_counts[5] > 0:
                 result['speech'] = "Now put the shade on top of the base. And screw the black ring back"
                 image_path = "images_feedback/lamp.PNG"
-                result['image'] = cv2.imread(image_path) if image_path else None
+                result['image'] = cv2.imread(
+                    image_path) if image_path else None
                 result['video'] = VIDEO_URL_PRE + "lamp.mp4"
                 self.current_state = "blackcircle"
 
@@ -220,7 +235,8 @@ class Task:
             if object_counts[6] > 0:
                 result['speech'] = "Find the bulb and put it on the table"
                 image_path = "images_feedback/bulb.PNG"
-                result['image'] = cv2.imread(image_path) if image_path else None
+                result['image'] = cv2.imread(
+                    image_path) if image_path else None
                 result['video'] = VIDEO_URL_PRE + "bulb.mp4"
                 self.current_state = "shadebase"
 
@@ -228,7 +244,8 @@ class Task:
             if object_counts[7] > 0:
                 result['speech'] = "Good. Last step. Screw the bulb and show me the top view"
                 image_path = "images_feedback/lamptop.PNG"
-                result['image'] = cv2.imread(image_path) if image_path else None
+                result['image'] = cv2.imread(
+                    image_path) if image_path else None
                 result['video'] = VIDEO_URL_PRE + "lamptop.mp4"
                 self.current_state = "bulb"
 
@@ -237,7 +254,8 @@ class Task:
                 if self._check_bulbtop(objects):
                     result['speech'] = "Congratulations. You have finished assembling the lamp."
                     image_path = "images_feedback/lamp.PNG"
-                    result['image'] = cv2.imread(image_path) if image_path else None
+                    result['image'] = cv2.imread(
+                        image_path) if image_path else None
                     self.current_state = "bulbtop"
 
         if not config.VIDEO_GUIDANCE:

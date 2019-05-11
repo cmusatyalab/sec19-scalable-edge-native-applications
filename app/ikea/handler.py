@@ -31,10 +31,10 @@ import threading
 import time
 import traceback
 import config
-import Task
 
 from ikea import ikea_cv as ic
 from ikea import zhuocv as zc
+from ikea import task
 
 
 def reorder_objects(result):
@@ -54,24 +54,26 @@ def reorder_objects(result):
 
 class IkeaHandler(object):
     def __init__(self):
-        self.is_first_image = True
-        self.task = Task.Task()
+        self.task = task.Task()
 
     def process(self, img):
-        if self.is_first_image:
-            self.is_first_image = False
-            result = self.task.get_instruction(np.array([]))
-        else:
-            ## preprocessing of input image
-            resize_ratio = 1
-            if max(img.shape) > config.IMAGE_MAX_WH:
-                resize_ratio = float(config.IMAGE_MAX_WH) / max(img.shape[0], img.shape[1])
-                img = cv2.resize(img, (0, 0), fx = resize_ratio, fy = resize_ratio, interpolation = cv2.INTER_AREA)
+        # preprocessing of input image
+        resize_ratio = 1
+        if max(img.shape) > config.IMAGE_MAX_WH:
+            resize_ratio = float(config.IMAGE_MAX_WH) / \
+                max(img.shape[0], img.shape[1])
+            img = cv2.resize(img, (0, 0), fx=resize_ratio,
+                             fy=resize_ratio, interpolation=cv2.INTER_AREA)
 
-            objects = ic.detect_object(img, resize_ratio)
-            objects = reorder_objects(objects)
-            result = self.task.get_instruction(objects)
+        objects = ic.detect_object(img, resize_ratio)
+        objects = reorder_objects(objects)
+        return objects
 
+    def objects_to_inst(self, objects):
+        """Turn recognized objects to actual instructions.
+        If the server is stateless, this should happen on the client.
+        """
+        result = self.task.get_instruction(objects)
         if 'speech' in result:
             return 'speech: {}'.format(result['speech'])
 
