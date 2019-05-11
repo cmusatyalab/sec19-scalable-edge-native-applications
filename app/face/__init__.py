@@ -1,1 +1,1 @@
-from handler import FaceHandler
+from handler import FaceHandler as Handler

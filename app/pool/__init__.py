@@ -1,1 +1,1 @@
-from handler import PoolHandler
+from handler import PoolHandler as Handler

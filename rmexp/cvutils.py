@@ -84,14 +84,11 @@ def phash(image, hash_size=8, highfreq_factor=4):
     return ImageHash(diff)
 
 
-def timeit(time_log):
-    def wrapper(func):
-        @wraps(func)
-        def timed(*args, **kw):
-            ts = time.time()
-            result = func(*args, **kw)
-            te = time.time()
-            time_log[func.__name__].append(int((te - ts) * 1000))
-            return result
-        return timed
-    return wrapper
+def resize_to_max_wh(img, max_wh):
+    """Resize an image so that the max of width or height is less than max_wh."""
+    import cv2
+    if max(img.shape) > max_wh:
+        resize_ratio = float(max_wh) / \
+            max(img.shape[0], img.shape[1])
+        img = cv2.resize(img, (0, 0), fx=resize_ratio,
+                         fy=resize_ratio, interpolation=cv2.INTER_AREA)

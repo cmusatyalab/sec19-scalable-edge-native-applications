@@ -1,1 +1,1 @@
-from handler import PingpongHandler
+from handler import PingpongHandler as Handler

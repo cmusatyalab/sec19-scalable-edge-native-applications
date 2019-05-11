@@ -1,1 +1,1 @@
-from handler import LegoHandler
+from handler import LegoHandler as Handler

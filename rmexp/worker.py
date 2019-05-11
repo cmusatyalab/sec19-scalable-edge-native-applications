@@ -58,12 +58,15 @@ def lego_loop(job_queue):
     sess.close()
 
 
-app_to_handler = {
-    'lego': lego.LegoHandler,
-    'pingpong': pingpong.PingpongHandler,
-    'pool': pool.PoolHandler,
-    'face': face.FaceHandler,
+apps = {
+    'lego': lego,
+    'pingpong': pingpong,
+    'pool': pool,
+    'face': face
 }
+
+
+def get_app_module_from_name(x): return apps[x]
 
 
 def batch_process(video_uri, app, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None):
@@ -76,7 +79,8 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
         store_result {bool} -- [description] (default: {False})
         store_latency {bool} -- [description] (default: {False})
     """
-    app_handler = app_to_handler[app]()
+    app = get_app_module_from_name(app)
+    app_handler = app.Handler()
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
     sess = None
@@ -86,6 +90,7 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
     while has_frame:
         has_frame, img = cam.read()
         if img is not None:
+            cvutils.resize_to_max_wh(img, app.config.IMAGE_MAX_WH)
             ts = time.time()
             result = app_handler.process(img)
             time_lapse = (time.time() - ts) * 1000

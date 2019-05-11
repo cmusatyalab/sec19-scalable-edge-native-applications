@@ -5,5 +5,6 @@ try:
 except:
     import pickle
 
+
 def serialize_list(*args):
     return pickle.dumps(args, protocol=pickle.HIGHEST_PROTOCOL)

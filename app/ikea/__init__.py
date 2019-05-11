@@ -1,1 +1,1 @@
-from handler import IkeaHandler
+from handler import IkeaHandler as Handler
