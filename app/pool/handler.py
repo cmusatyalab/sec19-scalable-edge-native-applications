@@ -33,8 +33,8 @@ from pool import config
 from pool import zhuocv as zc
 from pool import pool_cv as pc
 
-config.setup(is_streaming = True)
-pc.set_config(is_streaming = True)
+config.setup(is_streaming=True)
+pc.set_config(is_streaming=True)
 
 display_list = config.DISPLAY_LIST_STREAM
 
@@ -43,16 +43,16 @@ class PoolHandler(object):
     def __repr__(self):
         return "Pool Handler"
 
-    def terminate(self):
-        super(PoolProxy, self).terminate()
-
     def process(self, img):
         if max(img.shape) > config.IMAGE_MAX_WH:
-            resize_ratio = float(config.IMAGE_MAX_WH) / max(img.shape[0], img.shape[1])
-            img = cv2.resize(img, (0, 0), fx = resize_ratio, fy = resize_ratio, interpolation = cv2.INTER_AREA)
-        zc.check_and_display('input', img, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
+            resize_ratio = float(config.IMAGE_MAX_WH) / \
+                max(img.shape[0], img.shape[1])
+            img = cv2.resize(img, (0, 0), fx=resize_ratio,
+                             fy=resize_ratio, interpolation=cv2.INTER_AREA)
+        zc.check_and_display('input', img, display_list,
+                             resize_max=config.DISPLAY_MAX_PIXEL, wait_time=config.DISPLAY_WAIT_TIME)
 
-        ## process the image
+        # process the image
         rtn_msg, objects = pc.process(img, display_list)
 
         if rtn_msg['status'] == 'success':
@@ -71,6 +71,6 @@ def main():
         print(handler.process(frame))
         ret, frame = cap.read()
 
-    
+
 if __name__ == '__main__':
     main()

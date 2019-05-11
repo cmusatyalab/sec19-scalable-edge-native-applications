@@ -78,6 +78,12 @@ def dlib_face(img):
 
 class FaceHandler(object):
     def process(self, img):
+        if max(img.shape) > config.IMAGE_MAX_WH:
+            resize_ratio = float(config.IMAGE_MAX_WH) / \
+                max(img.shape[0], img.shape[1])
+            img = cv2.resize(img, (0, 0), fx=resize_ratio,
+                             fy=resize_ratio, interpolation=cv2.INTER_AREA)
+
         face_rep = dlib_face(img)
         if face_rep is None:
             return "No Face"

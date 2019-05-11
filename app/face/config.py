@@ -34,7 +34,8 @@ TASK_SERVER_IP = "128.2.209.93"
 TASK_SERVER_PORT = 5554
 
 # Engine info
-ENGINE_ID_LIST = ['FACE_DLIB', 'openface', 'LBPH', 'eigen', 'FACE_FISHER', 'LBPH_haar', 'eigen_haar', 'FACE_FISHER_HAAR']
+ENGINE_ID_LIST = ['FACE_DLIB', 'openface', 'LBPH', 'eigen',
+                  'FACE_FISHER', 'LBPH_haar', 'eigen_haar', 'FACE_FISHER_HAAR']
 BEST_ENGINE = 'FACE_DLIB'
 CHECK_ALGORITHM = "table"
 CHECK_LAST_TH = 1
@@ -56,6 +57,7 @@ DISPLAY_LIST_TASK = []
 # Used for cvWaitKey
 DISPLAY_WAIT_TIME = 1 if IS_STREAMING else 500
 
+
 def setup(is_streaming):
     global IS_STREAMING, DISPLAY_LIST, DISPLAY_WAIT_TIME, SAVE_IMAGE
     IS_STREAMING = is_streaming
@@ -68,4 +70,3 @@ def setup(is_streaming):
             DISPLAY_LIST = DISPLAY_LIST_TASK
     DISPLAY_WAIT_TIME = 1 if IS_STREAMING else 500
     SAVE_IMAGE = not IS_STREAMING
-
