@@ -23,7 +23,6 @@ dependencies:
   - cython=0.29.5=py27he6710b0_0
   - dbus=1.13.6=h746ee38_0
   - decorator=4.3.2=py_0
-  - dlib=18.18=py27_2
   - entrypoints=0.3=py27_0
   - enum34=1.1.6=py27_1001
   - expat=2.2.6=he6710b0_0
@@ -111,6 +110,7 @@ dependencies:
       - backports-abc==0.5
       - chardet==3.0.4
       - click==6.7
+      - dlib==19.17.0
       - docutils==0.14
       - imagesize==0.7.1
       - jinja2==2.10

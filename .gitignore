@@ -67,3 +67,7 @@ conda-env-*
 data/*trace*
 .envrc
 .vscode
+
+third_party
+
+app/face/models/*

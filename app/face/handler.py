@@ -1,4 +1,4 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
 #
 # Cloudlet Infrastructure for Mobile Computing
 #   - Task Assistance
@@ -19,10 +19,8 @@
 #   limitations under the License.
 #
 
-import cv2
-import dlib
+import pdb
 import json
-import numpy as np
 import os
 import pickle
 import select
@@ -33,20 +31,33 @@ import threading
 import time
 import traceback
 
+import cv2
+import dlib
+import numpy as np
+import pkg_resources
 # Face related
 from face import config
 from face import zhuocv as zc
 
-config.setup(is_streaming = True)
+config.setup(is_streaming=True)
 
 display_list = config.DISPLAY_LIST
 
 detector = dlib.get_frontal_face_detector()
-sp = dlib.shape_predictor("models/shape_predictor_68_face_landmarks.dat")
-facerec = dlib.face_recognition_model_v1("models/dlib_face_recognition_resnet_model_v1.dat")
+face_landmarks_data_fp = pkg_resources.resource_filename(
+    __name__, "models/shape_predictor_68_face_landmarks.dat")
+face_recognition_model_data_fp = pkg_resources.resource_filename(
+    __name__, "models/dlib_face_recognition_resnet_model_v1.dat")
+sp = dlib.shape_predictor(face_landmarks_data_fp)
+facerec = dlib.face_recognition_model_v1(face_recognition_model_data_fp)
+face_svm_data_fp = pkg_resources.resource_filename(
+    __name__, "models/model_dlib.pkl"
+)
 
-with open("models/model_dlib.pkl", 'r') as f:
+pdb.set_trace()
+with open(face_svm_data_fp, 'rb') as f:
     (le, svm) = pickle.load(f)
+
 
 def dlib_face(img):
     sk_img = zc.cv_img2sk_img(img)
