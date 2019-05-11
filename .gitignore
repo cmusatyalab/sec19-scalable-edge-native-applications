@@ -69,5 +69,3 @@ data/*trace*
 .vscode
 
 third_party
-
-app/face/models/*

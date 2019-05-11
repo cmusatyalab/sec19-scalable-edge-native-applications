@@ -19,7 +19,6 @@
 #   limitations under the License.
 #
 
-import pdb
 import json
 import os
 import pickle
@@ -54,7 +53,6 @@ face_svm_data_fp = pkg_resources.resource_filename(
     __name__, "models/model_dlib.pkl"
 )
 
-pdb.set_trace()
 with open(face_svm_data_fp, 'rb') as f:
     (le, svm) = pickle.load(f)
 
