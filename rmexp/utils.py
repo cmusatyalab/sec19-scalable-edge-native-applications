@@ -15,3 +15,14 @@ def timeit(time_log):
             return result
         return timed
     return wrapper
+
+
+def pretty(app):
+    d = {
+        'lego': 'Lego',
+        'pingpong': 'Ping Pong',
+        'pool': 'Pool',
+        'face': 'Face'
+    }
+
+    return d[app]

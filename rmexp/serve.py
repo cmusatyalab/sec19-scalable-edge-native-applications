@@ -24,6 +24,9 @@ class JobQueue(object):
     def get(self):
         return self.connector.get()
 
+    def put(self, msg):
+        self.connector.put(msg)
+
 
 def start_process_loop(broker_type, broker_uri, listen, tagged):
     nc = networkutil.get_connector(
