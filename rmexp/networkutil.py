@@ -38,6 +38,8 @@ def setup_broker(broker_type, broker_uri, *args, **kwargs):
         broker_cls = RedisConnector
     elif broker_type == 'zmq':
         broker_cls = ZmqConnector
+    elif broker_type == 'zmq-md':
+        broker_cls = ZmqMajorDomoConnector
     elif broker_type == 'kafka':
         broker_cls = KafkaConnector
         setup_kwargs['partition'] = kwargs['num_worker']
@@ -116,8 +118,11 @@ class ZmqConnector(object):
 
 
 class ZmqMajorDomoConnector(object):
+    @classmethod
+    def setup(cls, broker_uri, *args, **kwargs):
+        pass
 
-    def __init__(self, uri, service=None, client=False, verbose=False):
+    def __init__(self, uri, service=None, client=False, verbose=False, *args, **kwargs):
         # client = True: client, otherwise worker
         self.client = client
         if self.client:
@@ -130,7 +135,7 @@ class ZmqMajorDomoConnector(object):
 
     def get(self, timeout=None):
         if self.client:
-            self.sock.recv(timeout) # client
+            return self.sock.recv(timeout) # client
         else:
             msg = self.sock.recv(self.reply)   # worker
             self.reply = None

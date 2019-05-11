@@ -21,10 +21,10 @@ logzero.loglevel(logging.DEBUG)
 
 
 def work_loop(job_queue, app):
-    handler = app_to_handler[app]
+    handler = get_app_module_from_name(app).Handler()
     sess = dbutils.get_session()
     while True:
-        msg = job_queue.get()
+        msg = job_queue.get()[0]
         gabriel_msg = gabriel_pb2.Message()
         gabriel_msg.ParseFromString(msg)
         encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp
@@ -39,7 +39,7 @@ def work_loop(job_queue, app):
             reply.data = str(result)
             reply.timestamp = gabriel_msg.timestamp
             reply.index = gabriel_msg.index
-            job_queue.put(reply.SerializeToString())
+            job_queue.put([reply.SerializeToString(),])
 
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for frame {}'.format(
