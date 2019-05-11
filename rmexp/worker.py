@@ -6,6 +6,7 @@ import os
 import time
 
 import cv2
+import face
 import fire
 import lego
 import logzero
@@ -60,7 +61,8 @@ def lego_loop(job_queue):
 app_to_handler = {
     'lego': lego.LegoHandler,
     'pingpong': pingpong.PingpongHandler,
-    'pool': pool.PoolHandler
+    'pool': pool.PoolHandler,
+    'face': face.FaceHandler,
 }
 
 
