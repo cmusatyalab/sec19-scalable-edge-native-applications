@@ -19,12 +19,14 @@
 #   limitations under the License.
 #
 
+from __future__ import print_function
+
 import numpy as np
 import tensorflow as tf
 import os
 import cv2
 from PIL import Image
-from utils import label_map_util
+from object_detection.utils import label_map_util
 
 MODEL_DIR = 'tf_model'
 FROZEN_INFERENCE_GRAPH = os.path.join(MODEL_DIR, 'frozen_inference_graph.pb')
@@ -32,7 +34,7 @@ LABEL_MAP = os.path.join(MODEL_DIR, 'ikea_label_map.pbtxt')
 MIN_SCORE_THRESH = 0.5
 
 
-def load_inference_graph():
+def create_detection_graph():
     detection_graph = tf.Graph()
     with detection_graph.as_default():
         od_graph_def = tf.GraphDef()
@@ -40,46 +42,48 @@ def load_inference_graph():
             serialized_graph = fid.read()
             od_graph_def.ParseFromString(serialized_graph)
             tf.import_graph_def(od_graph_def, name='')
-
-
-def construct_tensor_dict():
-  # Get handles to input and output tensors
-  ops = tf.get_default_graph().get_operations()
-  all_tensor_names = {output.name for op in ops for output in op.outputs}
-  tensor_dict = {}
-  for key in [
-      'num_detections', 'detection_boxes', 'detection_scores',
-      'detection_classes'
-  ]:
-    tensor_name = key + ':0'
-    if tensor_name in all_tensor_names:
-      tensor_dict[key] = tf.get_default_graph().get_tensor_by_name(
-        tensor_name)
-
-  return tensor_dict
+        return detection_graph
 
 
 def load_image_into_numpy_array(image):
-  (im_width, im_height) = image.size
-  return np.array(image.getdata()).reshape(
-      (im_height, im_width, 3)).astype(np.uint8)
+    (im_width, im_height) = image.size
+    return np.array(image.getdata()).reshape(
+        (im_height, im_width, 3)).astype(np.uint8)
 
 
 class IkeaHandler(object):
     def __init__(self):
-        load_inference_graph()
-        self.tensor_dict = construct_tensor_dict()
         self.category_index = label_map_util.create_category_index_from_labelmap(
             LABEL_MAP, use_display_name=True)
+        self.detection_graph = create_detection_graph()
+        self.tensor_dict = self._construct_tensor_dict()
+        self.sess = tf.Session(graph=self.detection_graph)
 
+    def _construct_tensor_dict(self):
+        # Get handles to input and output tensors
+        ops = self.detection_graph.get_operations()
+        all_tensor_names = {output.name for op in ops for output in op.outputs}
+        tensor_dict = {}
+        for key in [
+                'num_detections', 'detection_boxes', 'detection_scores',
+                'detection_classes'
+        ]:
+            tensor_name = key + ':0'
+            if tensor_name in all_tensor_names:
+                tensor_dict[key] = self.detection_graph.get_tensor_by_name(
+                    tensor_name)
+
+        return tensor_dict
+
+        
     def process(self, img):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(frame)
+        image = Image.fromarray(img)
         image_np = load_image_into_numpy_array(image)
 
-        image_tensor = tf.get_default_graph().get_tensor_by_name('image_tensor:0')
-        output_dict = sess.run(
-            tensor_dict, feed_dict={image_tensor: np.expand_dims(image_np, 0)})
+        image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
+        output_dict = self.sess.run(
+            self.tensor_dict, feed_dict={image_tensor: np.expand_dims(image_np, 0)})
 
         detection_classes = output_dict['detection_classes'][0].astype(np.uint8)
         detection_boxes = output_dict['detection_boxes'][0]
@@ -105,9 +109,10 @@ def main():
     cap = cv2.VideoCapture('ikea.mp4')
     ret, frame = cap.read()
     while (cap.isOpened() and ret == True):
-        print handler.process(frame)
+        print(handler.process(frame))
         ret, frame = cap.read()
 
 
 if __name__ == '__main__':
     main()
+        
