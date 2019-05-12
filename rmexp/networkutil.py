@@ -9,6 +9,8 @@ import redis
 import zmq
 from logzero import logger
 from rmexp import config
+from rmexp.broker.mdwrkapi import MajorDomoWorker
+from rmexp.broker.mdcliapi2 import MajorDomoClient
 
 
 def get_connector(broker_type, broker_uri, *args, **kwargs):
@@ -20,6 +22,9 @@ def get_connector(broker_type, broker_uri, *args, **kwargs):
     elif broker_type == 'zmq':
         logger.debug('using zmq connector: {} {}'.format(broker_uri, kwargs))
         nc = ZmqConnector(broker_uri, **kwargs)
+    elif broker_type == 'zmq-md':
+        logger.debug('using zmq-majordomo connector: {} {}'.format(broker_uri, kwargs))
+        nc = ZmqMajorDomoConnector(broker_uri, **kwargs)
     elif broker_type == 'kafka':
         nc = KafkaConnector(
             broker_uri, topic=config.STREAM_TOPIC, api_version=(2, 0, 1), **kwargs)
@@ -33,6 +38,8 @@ def setup_broker(broker_type, broker_uri, *args, **kwargs):
         broker_cls = RedisConnector
     elif broker_type == 'zmq':
         broker_cls = ZmqConnector
+    elif broker_type == 'zmq-md':
+        broker_cls = ZmqMajorDomoConnector
     elif broker_type == 'kafka':
         broker_cls = KafkaConnector
         setup_kwargs['partition'] = kwargs['num_worker']
@@ -108,6 +115,39 @@ class ZmqConnector(object):
             self._socket.send_multipart(msg)
         else:
             self._socket.send(msg)
+
+
+class ZmqMajorDomoConnector(object):
+    @classmethod
+    def setup(cls, broker_uri, *args, **kwargs):
+        pass
+
+    def __init__(self, uri, service=None, client=False, verbose=False, *args, **kwargs):
+        # client = True: client, otherwise worker
+        self.client = client
+        if self.client:
+            self.sock = MajorDomoClient(uri, verbose)
+        else:
+            assert service is not None
+            self.sock = MajorDomoWorker(uri, service, verbose)
+
+        self.reply = None
+
+    def get(self, timeout=None):
+        if self.client:
+            return self.sock.recv(timeout) # client
+        else:
+            msg = self.sock.recv(self.reply)   # worker
+            self.reply = None
+            return msg
+
+    def put(self, msg, service=None):
+        if self.client:
+            assert service is not None
+            self.sock.send(service, msg)
+        else:
+             self.reply = msg   # defer sending
+
 
 
 class KafkaConnector(object):

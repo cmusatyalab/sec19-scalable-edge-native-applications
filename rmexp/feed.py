@@ -25,15 +25,15 @@ def start_single_feed(video_uri, fps, broker_type, broker_uri):
     reactor.run()
 
 
-def start_single_feed_token(video_uri, broker_type, broker_uri, tokens_cap):
-    nc = networkutil.get_connector(broker_type, broker_uri)
+def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap):
+    nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = client.RTVideoClient(video_uri, nc, video_params={
                                 'width': 640, 'height': 360})
     vc.start()
     tokens = tokens_cap
     while True:
         while tokens > 0:
-            vc.get_and_send_frame(reply=True)
+            vc.get_and_send_frame(reply=True, app=app)
             tokens -= 1
         
         while True:
@@ -41,20 +41,20 @@ def start_single_feed_token(video_uri, broker_type, broker_uri, tokens_cap):
             if r is None:
                 break
             else:
+                msg = r[0]
                 tokens += 1
-                tag, msg = r
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
                 logger.debug("Frame {} get reply: {}".format(gabriel_msg.index, gabriel_msg.data))
 
 
-def start(num, video_uri, broker_uri, fps=20, tokens=None, broker_type='kafka'):
-    # use tokens is not None, use tokened client
+def start(num, video_uri, broker_uri, app, fps=20, tokens=None, broker_type='kafka'):
+    # if tokens is not None, use tokened client
     procs = list()
     for _ in range(num):
         if tokens is not None:
             p = multiprocessing.Process(target=start_single_feed_token,
-                                        args=(video_uri, broker_type, broker_uri, tokens,))
+                                        args=(video_uri, app, broker_type, broker_uri, tokens,))
         else:
             p = multiprocessing.Process(target=start_single_feed,
                                         args=(video_uri, fps, broker_type, broker_uri, ))        

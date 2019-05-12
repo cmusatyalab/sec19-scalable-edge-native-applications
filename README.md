@@ -46,7 +46,8 @@ conda activate conda-env-rmexp
     http://cloudlet002.elijah.cs.cmu.edu:3000
 * launch zmq broker
 ```
-/home/junjuew/go-remote/src/github.com/junjuew/mkt/bin/mkt -f tcp://<ip for feed to connect to>:<port> -t zmq -b tcp://<ip for workers to connect to>:<port>
+# Note: we only need one port now for every component: client, worker and controller
+python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
 ```
 
 ## Dataset

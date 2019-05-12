@@ -20,17 +20,17 @@ from rmexp.schema import models
 logzero.loglevel(logging.DEBUG)
 
 
-def lego_loop(job_queue):
-    lego_app = lego.LegoHandler()
+def work_loop(job_queue, app):
+    handler = get_app_module_from_name(app).Handler()
     sess = dbutils.get_session()
     while True:
-        (tag, msg) = job_queue.get()
+        msg = job_queue.get()[0]
         gabriel_msg = gabriel_pb2.Message()
         gabriel_msg.ParseFromString(msg)
         encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp
         encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
         img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
-        result = lego_app.process(img)
+        result = handler.process(img)
         finished_t = time.time()
         time_lapse = (finished_t - ts) * 1000
 
@@ -39,8 +39,7 @@ def lego_loop(job_queue):
             reply.data = str(result)
             reply.timestamp = gabriel_msg.timestamp
             reply.index = gabriel_msg.index
-            assert tag is not None
-            job_queue.put([tag, reply.SerializeToString()])
+            job_queue.put([reply.SerializeToString(),])
 
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for frame {}'.format(

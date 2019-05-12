@@ -28,15 +28,14 @@ class JobQueue(object):
         self.connector.put(msg)
 
 
-def start_process_loop(broker_type, broker_uri, listen, tagged):
+def start_process_loop(broker_type, broker_uri, listen, tagged, app):
     nc = networkutil.get_connector(
-        broker_type, broker_uri, listen=listen, tagged=tagged, group_id=config.WORKER_GROUP)
+        broker_type, broker_uri, listen=listen, tagged=tagged, group_id=config.WORKER_GROUP, service=app)
     jq = JobQueue(nc)
-    loop = worker.lego_loop
-    loop(jq)
+    worker.work_loop(jq, app)
 
 
-def start(num, broker_type, broker_uri, listen=False, tagged=True):
+def start(num, broker_type, broker_uri, app='lego', listen=False, tagged=True):
     """[summary]
 
     Arguments:
@@ -49,9 +48,9 @@ def start(num, broker_type, broker_uri, listen=False, tagged=True):
         tagged {bool} -- Used to distinguish whether zmq packet are tagged or not.
     """
 
-    networkutil.setup_broker(broker_type, broker_uri, num_worker=num)
+    networkutil.setup_broker(broker_type, broker_uri, num_worker=num,)
     procs = [multiprocessing.Process(target=start_process_loop, args=(
-        broker_type, broker_uri, listen, tagged)) for i in range(num)]
+        broker_type, broker_uri, listen, tagged, app)) for i in range(num)]
     map(lambda proc: proc.start(), procs)
     map(lambda proc: proc.join(), procs)
 

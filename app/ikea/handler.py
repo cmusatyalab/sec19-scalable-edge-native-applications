@@ -19,65 +19,89 @@
 #   limitations under the License.
 #
 
-import cv2
-import json
+from __future__ import print_function
+
 import numpy as np
+import tensorflow as tf
 import os
-import select
-import socket
-import struct
-import sys
-import threading
-import time
-import traceback
-import config
+import cv2
+from PIL import Image
+from object_detection.utils import label_map_util
 
-from ikea import ikea_cv as ic
-from ikea import zhuocv as zc
-from ikea import task
+MODEL_DIR = 'tf_model'
+FROZEN_INFERENCE_GRAPH = os.path.join(MODEL_DIR, 'ssd_frozen_inference_graph.pb')
+LABEL_MAP = os.path.join(MODEL_DIR, 'ikea_label_map.pbtxt')
+MIN_SCORE_THRESH = 0.5
 
 
-def reorder_objects(result):
-    # build a mapping between faster-rcnn recognized object order to a standard order
-    object_mapping = [-1] * len(config.LABELS)
-    with open("model/labels.txt") as f:
-        lines = f.readlines()
-        for idx, line in enumerate(lines):
-            line = line.strip()
-            object_mapping[idx] = config.LABELS.index(line)
+def create_detection_graph():
+    detection_graph = tf.Graph()
+    with detection_graph.as_default():
+        od_graph_def = tf.GraphDef()
+        with tf.gfile.GFile(FROZEN_INFERENCE_GRAPH, 'rb') as fid:
+            serialized_graph = fid.read()
+            od_graph_def.ParseFromString(serialized_graph)
+            tf.import_graph_def(od_graph_def, name='')
+    return detection_graph
 
-    for i in xrange(result.shape[0]):
-        result[i, -1] = object_mapping[int(result[i, -1] + 0.1)]
 
-    return result
+def load_image_into_numpy_array(image):
+    (im_width, im_height) = image.size
+    return np.array(image.getdata()).reshape(
+        (im_height, im_width, 3)).astype(np.uint8)
 
 
 class IkeaHandler(object):
     def __init__(self):
-        self.task = task.Task()
+        self.category_index = label_map_util.create_category_index_from_labelmap(
+            LABEL_MAP, use_display_name=True)
+        self.detection_graph = create_detection_graph()
+        self.tensor_dict = self._construct_tensor_dict()
+        self.sess = tf.Session(graph=self.detection_graph)
 
+    def _construct_tensor_dict(self):
+        # Get handles to input and output tensors
+        ops = self.detection_graph.get_operations()
+        all_tensor_names = {output.name for op in ops for output in op.outputs}
+        tensor_dict = {}
+        for key in [
+                'num_detections', 'detection_boxes', 'detection_scores',
+                'detection_classes'
+        ]:
+            tensor_name = key + ':0'
+            if tensor_name in all_tensor_names:
+                tensor_dict[key] = self.detection_graph.get_tensor_by_name(
+                    tensor_name)
+
+        return tensor_dict
+
+        
     def process(self, img):
-        # preprocessing of input image
-        resize_ratio = 1
-        if max(img.shape) > config.IMAGE_MAX_WH:
-            resize_ratio = float(config.IMAGE_MAX_WH) / \
-                max(img.shape[0], img.shape[1])
-            img = cv2.resize(img, (0, 0), fx=resize_ratio,
-                             fy=resize_ratio, interpolation=cv2.INTER_AREA)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        image = Image.fromarray(img)
+        image_np = load_image_into_numpy_array(image)
 
-        objects = ic.detect_object(img, resize_ratio)
-        objects = reorder_objects(objects)
-        return objects
+        image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
+        output_dict = self.sess.run(
+            self.tensor_dict, feed_dict={image_tensor: np.expand_dims(image_np, 0)})
 
-    def objects_to_inst(self, objects):
-        """Turn recognized objects to actual instructions.
-        If the server is stateless, this should happen on the client.
-        """
-        result = self.task.get_instruction(objects)
-        if 'speech' in result:
-            return 'speech: {}'.format(result['speech'])
+        detection_classes = output_dict['detection_classes'][0].astype(np.uint8)
+        detection_boxes = output_dict['detection_boxes'][0]
+        detection_scores = output_dict['detection_scores'][0]
 
-        return 'None'
+        detections_to_print = []
+        for detection_class, box, score in zip(
+                detection_classes, detection_boxes, detection_scores):
+            if score > MIN_SCORE_THRESH:
+                detections_to_print.append(
+                    '{} {}'.format(
+                        self.category_index[detection_class]['name'], box))
+
+        if len(detections_to_print) == 0:
+            return 'No objects detected'
+        else:
+            concatenated_detections = ', '.join(detections_to_print)
+            return 'Detected Objects: {}'.format(concatenated_detections)
 
 
 def main():
@@ -85,9 +109,10 @@ def main():
     cap = cv2.VideoCapture('ikea.mp4')
     ret, frame = cap.read()
     while (cap.isOpened() and ret == True):
-        print handler.process(frame)
+        print(handler.process(frame))
         ret, frame = cap.read()
 
 
 if __name__ == '__main__':
     main()
+        
