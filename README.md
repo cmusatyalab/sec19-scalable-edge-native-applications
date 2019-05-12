@@ -166,3 +166,9 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
     return 'inst: right'
     return 'inst: left'
 ```
+
+## Section 5
+
+* mainly trying to give a little bit more resources for each application so that they don't queue up.
+* have a threshold on how large the queue is. disgard those that are not longer hopeful.
+* how to manage wireless and supress client
