@@ -18,7 +18,8 @@ logzero.loglevel(logging.DEBUG)
 
 
 def work_loop(job_queue, app):
-    handler = get_app_module_from_name(app).Handler()
+    handler = importlib.import_module(app).Handler()
+
     sess = dbutils.get_session()
     while True:
         msg = job_queue.get()[0]
