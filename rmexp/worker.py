@@ -4,15 +4,12 @@ import json
 import logging
 import os
 import time
+import importlib
 
 import cv2
-import face
 import fire
-import lego
 import logzero
 import numpy as np
-import pingpong
-import pool
 from logzero import logger
 from rmexp import config, cvutils, dbutils, gabriel_pb2
 from rmexp.schema import models
@@ -39,7 +36,7 @@ def work_loop(job_queue, app):
             reply.data = str(result)
             reply.timestamp = gabriel_msg.timestamp
             reply.index = gabriel_msg.index
-            job_queue.put([reply.SerializeToString(),])
+            job_queue.put([reply.SerializeToString(), ])
 
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for frame {}'.format(
@@ -57,18 +54,34 @@ def work_loop(job_queue, app):
     sess.close()
 
 
-apps = {
-    'lego': lego,
-    'pingpong': pingpong,
-    'pool': pool,
-    'face': face
-}
+class Sampler(object):
+    """A Class to sample video stream. Designed to work with cam.read().
+    Sample once every sample_period calls
+    """
+
+    def __init__(self, sample_period, sample_func=None):
+        super(Sampler, self).__init__()
+        self._sp = sample_period
+        assert(type(sample_period) is int and sample_period > 0)
+        self._sf = sample_func
+        self._cnt = 0
+
+    def sample(self):
+        while True:
+            self._cnt = (self._cnt + 1) % self._sp
+            if self._cnt == 0:
+                return self._sf()
+            self._sf()
 
 
-def get_app_module_from_name(x): return apps[x]
+def process_img(img, app_handler):
+    ts = time.time()
+    result = app_handler.process(img)
+    time_lapse = (time.time() - ts) * 1000
+    return result, time_lapse
 
 
-def batch_process(video_uri, app, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None):
+def batch_process(video_uri, app, fps=30.0, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None):
     """Batch process a lego video. Able to store both the result and the frame processing latency.
 
     Arguments:
@@ -78,49 +91,57 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
         store_result {bool} -- [description] (default: {False})
         store_latency {bool} -- [description] (default: {False})
     """
-    app = get_app_module_from_name(app)
+    app = importlib.import_module(app)
     app_handler = app.Handler()
     cam = cv2.VideoCapture(video_uri)
-    has_frame = True
     sess = None
     if store_result or store_latency or store_profile:
         sess = dbutils.get_session()
     idx = 1
-    while has_frame:
-        has_frame, img = cam.read()
-        if img is not None:
-            cvutils.resize_to_max_wh(img, app.config.IMAGE_MAX_WH)
-            ts = time.time()
-            result = app_handler.process(img)
-            time_lapse = (time.time() - ts) * 1000
-            logger.debug("processing frame {} from {}. {} ms".format(
-                idx, video_uri, int(time_lapse)))
-            if store_result:
-                rec, _ = dbutils.get_or_create(
-                    sess,
-                    models.SS,
-                    name=config.EXP,
-                    index=idx,
-                    trace=os.path.basename(os.path.dirname(video_uri)))
-                rec.val = str(result)
-            if store_latency:
-                rec, _ = dbutils.get_or_create(
-                    sess,
-                    models.LegoLatency,
-                    name=config.EXP,
-                    index=idx)
-                rec.val = int(time_lapse)
-            if store_profile:
-                dbutils.insert_or_update_one(
-                    sess,
-                    models.ResourceLatency,
-                    {'trace': trace, 'index': idx, 'cpu': cpu, 'memory': memory},
-                    {'latency': time_lapse}
-                )
-            if sess is not None:
-                sess.commit()
-            logger.debug(result)
-            idx += 1
+    # period to sample one example from
+    sample_period = 30.0 / fps
+    video_sampler = Sampler(int(round(sample_period)), sample_func=cam.read)
+    try:
+        while True:
+            _, img = video_sampler.sample()
+            if img is not None:
+                cvutils.resize_to_max_wh(img, app.config.IMAGE_MAX_WH)
+                result, time_lapse = process_img(img, app_handler)
+                logger.debug("processing frame {} from {}. {} ms".format(
+                    idx, video_uri, int(time_lapse)))
+                logger.debug(result)
+                if store_result:
+                    rec, _ = dbutils.get_or_create(
+                        sess,
+                        models.SS,
+                        name=config.EXP,
+                        index=idx,
+                        trace=os.path.basename(os.path.dirname(video_uri)))
+                    rec.val = str(result)
+                if store_latency:
+                    rec, _ = dbutils.get_or_create(
+                        sess,
+                        models.LegoLatency,
+                        name=config.EXP,
+                        index=idx)
+                    rec.val = int(time_lapse)
+                if store_profile:
+                    dbutils.insert_or_update_one(
+                        sess,
+                        models.ResourceLatency,
+                        {'trace': trace, 'index': idx,
+                            'cpu': cpu, 'memory': memory},
+                        {'latency': time_lapse}
+                    )
+                if sess is not None:
+                    sess.commit()
+                idx += 1
+            else:
+                break
+    except Exception as e:
+        cam.release()
+        logger.error(e)
+
     if sess is not None:
         sess.close()
 

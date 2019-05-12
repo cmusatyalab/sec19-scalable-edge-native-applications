@@ -125,6 +125,7 @@ dependencies:
       - pyyaml==3.12
       - rdbtools==0.1.14
       - requests==2.21.0
+      - scikit-learn==0.20.0
       - singledispatch==3.4.0.3
       - snowballstemmer==1.2.1
       - sphinx==1.6.5

@@ -47,6 +47,7 @@ SAVE_IMAGE = False
 # Convert all incoming frames to a fixed size to ease processing
 IMAGE_HEIGHT = 360
 IMAGE_WIDTH = 640
+IMAGE_MAX_WH = 640
 
 BLUR_KERNEL_SIZE = IMAGE_WIDTH / 16 + 1
 

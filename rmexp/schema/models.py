@@ -74,8 +74,8 @@ class ResourceLatency(Base):
     id = Column(Integer, primary_key=True)
     trace = Column(String(512), nullable=False)
     index = Column(String(32), nullable=False)
-    cpu = Column(Integer, nullable=False)
-    memory = Column(Integer, nullable=False)
+    cpu = Column(types.FLOAT(32), nullable=False)
+    memory = Column(types.FLOAT(32), nullable=False)
     latency = Column(types.FLOAT(53))
 
 
