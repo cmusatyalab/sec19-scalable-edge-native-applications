@@ -42,7 +42,7 @@ def create_detection_graph():
             serialized_graph = fid.read()
             od_graph_def.ParseFromString(serialized_graph)
             tf.import_graph_def(od_graph_def, name='')
-        return detection_graph
+    return detection_graph
 
 
 def load_image_into_numpy_array(image):
