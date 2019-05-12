@@ -1,5 +1,7 @@
-app/kivylego
 data
-trace-app
-visualization
 conda-env-rmexp
+third_party
+app/kivylego
+visualization
+exp
+trace-app
