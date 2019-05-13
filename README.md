@@ -203,3 +203,13 @@ TODO:
 * in harness.py update cpu_quota and num (scheduler)
 * make a plot of lego, lego + pingpong, lego + pingpong + face vs util
 
+### Make Sure Client is Sending the Right Resolution
+
+* [rmexp/script/fileutils.py](rmexp/script/fileutils.py) creates a symlink to the video file with correct resolution
+```bash
+# use ffmpeg to resize video and create a symlink based on correct resolution
+python fileutils.py correct-trace-resolution --app pool --dir-path ../../data/pool-trace
+# rename a directory so that there is no video.mp4. Instead, video-<max_wh>.mp4 will be created
+# based on the video resolution This is used to migrate from previous dataset format.
+python fileutils.py rename-default-trace --dir-path ../../data/face-trace
+```

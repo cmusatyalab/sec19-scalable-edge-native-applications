@@ -28,7 +28,8 @@ def start_worker(app, num, docker_run_kwargs):
     logger.debug(bash_cmd)
 
     try:
-        logger.debug('Starting workers: {}x {} @ {}'.format(num, app, container_name))
+        logger.debug('Starting workers: {}x {} @ {}'.format(
+            num, app, container_name))
         cli.containers.run(
             DOCKER_IMAGE,
             ['/bin/bash', '-i', '-c', bash_cmd],
@@ -59,11 +60,12 @@ def start_feed(app, video_uri, exp='', client_id=0):
         logger.debug("%s finished" % video_uri)
 
 
-def run(run_config, exp=''):
+def run(run_config, component, exp=''):
     """[summary]
-    
+
     Arguments:
         run_config {dict or string} -- if string, load json/yaml from file
+        component: 'client' or 'server'
     """
     if not isinstance(run_config, dict):
         run_config = yaml.load(open(run_config, 'r'))
@@ -73,26 +75,29 @@ def run(run_config, exp=''):
     client_count = 0
     app_user_count = defaultdict(int)
 
-    for client in run_config['clients']:
-        for i in range(client.get('num', 1)):
-            app, video_uri = client['app'], client['video_uri']
-            feeds.append(mp.Process(
-                target=start_feed, args=(app, video_uri, exp, client_count),
-                name=client['video_uri']+'-'+ str(i) ))
+    if component == 'client':
+        for client in run_config['clients']:
+            for i in range(client.get('num', 1)):
+                app, video_uri = client['app'], client['video_uri']
+                feeds.append(mp.Process(
+                    target=start_feed, args=(
+                        app, video_uri, exp, client_count),
+                    name=client['video_uri']+'-' + str(i)))
 
-            app_user_count[app] += 1
-            client_count += 1
+                app_user_count[app] += 1
+                client_count += 1
 
-    for app, count in app_user_count.iteritems():
-        # do some smart here
-        # docker_run_kwargs = {'cpu_period': 100000, 'cpu_quota': 150000}
-        docker_run_kwargs = {}
-        workers.append(mp.Process(
-                        target=start_worker, args=(app, min(20, 2*count), docker_run_kwargs), name=app+'-server'))
+    if component == 'server':
+        for app, count in app_user_count.iteritems():
+            # do some smart here
+            # docker_run_kwargs = {'cpu_period': 100000, 'cpu_quota': 150000}
+            docker_run_kwargs = {}
+            workers.append(mp.Process(
+                target=start_worker, args=(app, min(20, 2*count), docker_run_kwargs), name=app+'-server'))
 
     for p in workers + feeds:
         p.daemon = True
-    
+
     try:
         # start all endpoints
         map(lambda t: t.start(), workers + feeds)
@@ -105,9 +110,9 @@ def run(run_config, exp=''):
         map(lambda t: t.terminate(), feeds + workers)
 
     logger.debug('Last effort to remove worker containers')
-    ret = subprocess.check_output("docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q)", shell=True)
+    ret = subprocess.check_output(
+        "docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q)", shell=True)
     logger.debug(ret)
-
 
 
 if __name__ == "__main__":

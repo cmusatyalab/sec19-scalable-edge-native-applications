@@ -46,6 +46,8 @@ def _get_max_trace_num(dir_path):
 
 
 def get_video_resolution(video_uri):
+    """Return video resolution (height, width)
+    """
     import cv2
     cam = cv2.VideoCapture(video_uri)
     _, img = cam.read()
@@ -78,7 +80,7 @@ def _get_highest_res_trace(dir_path):
     import glob
     trace_num_min, trace_num_max = _get_max_trace_num(dir_path)
     highest_res_traces = []
-    for i in range(trace_num_min, trace_num_max):
+    for i in range(trace_num_min, trace_num_max+1):
         pat = os.path.join(dir_path, str(i), 'video-*mp4')
         all_traces = glob.glob(pat)
         trace_ress = [max(get_video_resolution(trace)) for trace in all_traces]
@@ -117,6 +119,16 @@ def correct_trace_resolution(app, dir_path):
     for trace in candidate_traces:
         base_dir = os.path.dirname(trace)
         actual_trace = os.path.basename(trace)
+        default_trace = os.path.join(base_dir, 'video.mp4')
+        logger.debug('working on dir {}...'.format(base_dir))
+
+        # check if existing video.mp4 satisfies the requirements
+        if os.path.islink(default_trace):
+            shape = get_video_resolution(default_trace)
+            if max(shape) <= app.config.IMAGE_MAX_WH:
+                continue
+            os.unlink(default_trace)
+
         if max(get_video_resolution(trace)) > app.config.IMAGE_MAX_WH:
             output_trace = os.path.join(
                 base_dir, 'video-{}.mp4'.format(app.config.IMAGE_MAX_WH))
@@ -124,12 +136,9 @@ def correct_trace_resolution(app, dir_path):
             actual_trace = 'video-{}.mp4'.format(app.config.IMAGE_MAX_WH)
 
         # create link
-        default_trace = os.path.join(base_dir, 'video.mp4')
         if os.path.exists(default_trace):
             if not os.path.islink(default_trace):
                 raise ValueError('{} is not a link'.format(default_trace))
-        if os.path.islink(default_trace):
-            os.unlink(default_trace)
         os.symlink(actual_trace, default_trace)
 
 
