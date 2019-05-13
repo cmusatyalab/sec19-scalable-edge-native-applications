@@ -1705,7 +1705,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="79" name="3031/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="79" name="3042/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -2255,7 +2255,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="105" name="3035/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="105" name="3046/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -2411,7 +2411,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="113" name="3039/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="113" name="3050/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -2567,7 +2567,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="121" name="3043/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="121" name="3054/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -2723,7 +2723,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="129" name="3047/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="129" name="3058/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -2879,7 +2879,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="137" name="3051/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="137" name="3062/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -3021,7 +3021,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="144" name="3033/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="144" name="3044/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -3093,7 +3093,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="148" name="3037/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="148" name="3048/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -3165,7 +3165,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="152" name="3041/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="152" name="3052/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -3237,7 +3237,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="156" name="3045/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="156" name="3056/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -3309,7 +3309,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="160" name="3049/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="160" name="3060/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -3381,7 +3381,7 @@
 				</port>
 			</output>
 		</layer>
-		<layer id="164" name="3053/Output_0/Data__const" precision="FP32" type="Const">
+		<layer id="164" name="3064/Output_0/Data__const" precision="FP32" type="Const">
 			<output>
 				<port id="1">
 					<dim>3</dim>
@@ -3977,7 +3977,6 @@
 			<mean_scale_values value="{}"/>
 			<mean_values value="()"/>
 			<move_to_preprocess value="False"/>
-			<output value="['detection_boxes', 'detection_scores', 'num_detections', 'detection_classes']"/>
 			<output_dir value="DIR"/>
 			<reverse_input_channels value="True"/>
 			<scale_values value="()"/>
@@ -3985,7 +3984,7 @@
 			<tensorflow_object_detection_api_pipeline_config value="DIR/ssd_mobilenet_v2_coco.config"/>
 			<tensorflow_use_custom_operations_config value="DIR/ssd_v2_support.json"/>
 			<version value="False"/>
-			<unset unset_cli_parameters="batch, finegrain_fusing, freeze_placeholder_with_value, input, input_checkpoint, input_meta_graph, input_shape, model_name, placeholder_shapes, saved_model_dir, saved_model_tags, scale, tensorboard_logdir, tensorflow_custom_layer_libraries, tensorflow_custom_operations_config_update, tensorflow_operation_patterns, tensorflow_subgraph_patterns"/>
+			<unset unset_cli_parameters="batch, finegrain_fusing, freeze_placeholder_with_value, input, input_checkpoint, input_meta_graph, input_shape, model_name, output, placeholder_shapes, saved_model_dir, saved_model_tags, scale, tensorboard_logdir, tensorflow_custom_layer_libraries, tensorflow_custom_operations_config_update, tensorflow_operation_patterns, tensorflow_subgraph_patterns"/>
 		</cli_parameters>
 	</meta_data>
 </net>

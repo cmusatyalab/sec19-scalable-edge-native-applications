@@ -4,9 +4,18 @@ import os
 import cv2
 from openvino.inference_engine import IENetwork, IEPlugin
 
+DETECTOR = 'SSD'
+
 MIN_SCORE_THRESH = 0.5
-MODEL_XML = 'ssd_frozen_inference_graph.xml'
-MODEL_BIN = 'ssd_frozen_inference_graph.bin'
+if DETECTOR == 'FASTER_RCNN':
+    MODEL_XML = 'faster_rcnn_frozen_inference_graph.xml'
+    MODEL_BIN = 'faster_rcnn_frozen_inference_graph.bin'
+elif DETECTOR == 'SSD':
+    MODEL_XML = 'ssd_frozen_inference_graph.xml'
+    MODEL_BIN = 'ssd_frozen_inference_graph.bin'
+else:
+    raise Exception('Invalid Detector')
+
 DEVICE = 'CPU'
 CATEGORY_INDEX = {1: {'id': 1, 'name': 'shadetop'}, 2: {'id': 2, 'name': 'bulbtop'}, 3: {'id': 3, 'name': 'buckle'}, 4: {'id': 4, 'name': 'lamp'}, 5: {'id': 5, 'name': 'pipe'}, 6: {'id': 6, 'name': 'blackcircle'}, 7: {'id': 7, 'name': 'base'}, 8: {'id': 8, 'name': 'shade'}, 9: {'id': 9, 'name': 'bulb'}}
 
@@ -14,25 +23,35 @@ CATEGORY_INDEX = {1: {'id': 1, 'name': 'shadetop'}, 2: {'id': 2, 'name': 'bulbto
 class IkeaHandler(object):
     def __init__(self):
         net = IENetwork(model=MODEL_XML, weights=MODEL_BIN)
-        self.input_blob = next(iter(net.inputs))
-        self.out_blob = next(iter(net.outputs))
-        self.n, self.c, self.h, self.w = net.inputs[self.input_blob].shape
+        self.n, self.c, self.h, self.w = net.inputs['image_tensor'].shape
 
         self.plugin = IEPlugin(device=DEVICE, plugin_dirs=None)
-        self.plugin.add_cpu_extension("libcpu_extension_sse4.so")
+        if DEVICE == 'CPU':
+            self.plugin.add_cpu_extension("libcpu_extension_sse4.so")
         self.exec_net = self.plugin.load(network=net)
 
-    def process(self, img):
+    def process(self, raw_img):
 
         # from object_detection_demo_ssd_async.py
-        img = cv2.resize(img, (self.w, self.h))
+        img = cv2.resize(raw_img, (self.w, self.h))
         img = img.transpose((2, 0, 1))  # Change data layout from HWC to CHW
         img = img.reshape((self.n, self.c, self.h, self.w))
 
-        res = self.exec_net.infer(inputs={self.input_blob: img})
+        inputs = {'image_tensor': img}
+        if DETECTOR == 'FASTER_RCNN':
+            inputs['image_info'] = [self.w, self.h, 1]
+
+            height, width, _ = raw_img.shape
+            assert (height / width) == (self.h / self.w), (
+                'Aspect ratio is wrong')
+
+        res = self.exec_net.infer(inputs=inputs)
+
+        output_name = ('detection_output' if DETECTOR == 'FASTER_RCNN'
+                       else 'DetectionOutput')
 
         detections_to_print = []
-        for obj in res['DetectionOutput'][0][0]:
+        for obj in res[output_name][0][0]:
             if obj[2] > MIN_SCORE_THRESH:
                 detection_class = int(obj[1])
                 box = obj[3:7]

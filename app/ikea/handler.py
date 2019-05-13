@@ -29,7 +29,7 @@ from PIL import Image
 from object_detection.utils import label_map_util
 
 MODEL_DIR = 'tf_model'
-FROZEN_INFERENCE_GRAPH = os.path.join(MODEL_DIR, 'ssd_frozen_inference_graph.pb')
+FROZEN_INFERENCE_GRAPH = os.path.join(MODEL_DIR, 'faster_rcnn_frozen_inference_graph.pb')
 LABEL_MAP = os.path.join(MODEL_DIR, 'ikea_label_map.pbtxt')
 MIN_SCORE_THRESH = 0.5
 
@@ -75,7 +75,7 @@ class IkeaHandler(object):
 
         return tensor_dict
 
-        
+
     def process(self, img):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         image = Image.fromarray(img)
@@ -115,4 +115,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-        
