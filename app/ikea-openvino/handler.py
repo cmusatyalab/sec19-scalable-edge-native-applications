@@ -35,7 +35,7 @@ MODEL_BIN = {
 }
 
 
-class IkeaHandler(object):
+class IkeaHandlerOpenvino(object):
     def __init__(self, device='CPU', detector=Detector.SSD):
         self.detector = detector
         net = IENetwork(model=MODEL_XML[detector], weights=MODEL_BIN[detector])
