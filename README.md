@@ -185,5 +185,8 @@ sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 
 ### Launch Experiments
-
+```bash
+./harness.py run run_config/example.yml example 
+```
+TODO: in harness.py update cpu_quota and num (scheduler)
 
