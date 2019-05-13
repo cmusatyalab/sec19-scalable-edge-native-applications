@@ -4,6 +4,7 @@ import docker
 import fire
 from logzero import logger
 import multiprocessing as mp
+import numpy as np
 import os
 import pandas as pd
 import subprocess
@@ -21,7 +22,6 @@ CGROUP_INFO = {
 }
 
 
-
 def start_worker(app, num, docker_run_kwargs):
     cli = docker.from_env()
 
@@ -33,7 +33,8 @@ def start_worker(app, num, docker_run_kwargs):
     logger.debug(bash_cmd)
 
     try:
-        logger.debug('Starting workers: {}x {} @ {}'.format(num, app, container_name))
+        logger.debug('Starting workers: {}x {} @ {}'.format(
+            num, app, container_name))
         cli.containers.run(
             DOCKER_IMAGE,
             ['/bin/bash', '-i', '-c', bash_cmd],
@@ -66,18 +67,38 @@ def start_feed(app, video_uri, tokens_cap=2, exp='', client_id=0):
 
 def intra_app_allocate(app, users, app_cpus, app_memory):
     # simple heuristics
-    pass
+    app_latency_4cpu = {
+        'lego': 0.118,
+        'face': 0.170,
+        'pingpong': 0.032,
+        'pool': 0.045
+    }
+    total_fps = app_latency_4cpu[app] * app_cpus / 4.0
+    # assume 5ms RTT
+    total_tokens = int( (1./total_fps + 0.005) / (1./total_fps))
+
+    weights = np.array([u.get('weight', 1.) for u in users])
+    weights = weights / np.sum(weights) # normalized
+
+    allotted_tokens = (total_tokens * weights).astype(np.int) + 1
+
+    for u, tokens in zip(users, allotted_tokens):
+        u['tokens'] = tokens
 
 
-def run(run_config, exp=''):
+def run(run_config, component, exp=''):
     """[summary]
-    
+
     Arguments:
         run_config {dict or string} -- if string, load json/yaml from file
         exp {string} -- if not empty, will write latency to DB
+        component: 'client' or 'server'
     """
     if not isinstance(run_config, dict):
         run_config = yaml.load(open(run_config, 'r'))
+    component = component.lower()
+    assert component in [
+        'client', 'server'], 'Component needs to be either client or server'
 
     # retrieve cgroup info
     global CGROUP_INFO
@@ -107,7 +128,7 @@ def run(run_config, exp=''):
             client_count += 1
     
     # inter-app allocation
-    # evenly divided among apps. Replace it with smartness
+    # evenly divided among apps. Replace it with your smartness
     for app in app_to_users:
         app_to_resource[app] = {
             'cpus': CGROUP_INFO['cpus'] / len(app_to_users),
@@ -117,36 +138,46 @@ def run(run_config, exp=''):
 
     # intra-app allocation
     for app, users in app_to_users.iteritems():
-        for u in users:
+        intra_app_allocate(app, users, app_to_resource[app]['cpus'], app_to_resource[app]['memory'])
+    logger.debug('Per user token: {}'.format(app_to_users))
 
+    if component == 'client':
+        client_count = 0
 
+        for app, users in app_to_users.iteritems():
+            for u in users:
+                feeds.append(mp.Process(
+                    target=start_feed, args=(app, u['video_uri'], u['tokens'], exp, u['id'],), name='client-'+str(u['id'])
+                ))
 
-
-    for app, count in app_user_count.iteritems():
-        # do some smart here
-        # docker_run_kwargs = {'cpu_period': 100000, 'cpu_quota': 150000}
-        docker_run_kwargs = {}
-        workers.append(mp.Process(
-                        target=start_worker, args=(app, min(20, 2*count), docker_run_kwargs), name=app+'-server'))
+    if component == 'server':
+        for app, users in app_to_users.iteritems():
+            # do some smart here
+            # docker_run_kwargs = {'cpu_period': 100000, 'cpu_quota': 150000}
+            docker_run_kwargs = {}
+            workers.append(mp.Process(
+                target=start_worker, args=(app, min(20, 2*len(users)), docker_run_kwargs), name=app+'-server'))
 
     for p in workers + feeds:
         p.daemon = True
-    
     try:
         # start all endpoints
         map(lambda t: t.start(), workers + feeds)
-        # join clients; workers will not join
-        map(lambda t: t.join(), feeds)
+        map(lambda t: t.join(), workers + feeds)
     except KeyboardInterrupt:
         pass
     finally:
         logger.debug("Cleaning up processes")
         map(lambda t: t.terminate(), feeds + workers)
+        if component == 'server':
+            kill()
 
+
+def kill():
     logger.debug('Last effort to remove worker containers')
-    ret = subprocess.check_output("docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q)", shell=True)
+    ret = subprocess.check_output(
+        "docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q)", shell=True)
     logger.debug(ret)
-
 
 
 if __name__ == "__main__":

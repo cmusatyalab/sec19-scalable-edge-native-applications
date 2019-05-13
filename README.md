@@ -174,8 +174,13 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 
 ### CGroup for experiments
 ```bash
+# create cgroup
 sudo cgcreate -g cpuset,memory:/rmexp
+# fix to cpu cores
 sudo cgset -r cpuset.cpus=50,52,54,56 rmexp
+# fix memory upper limit
+sudo cgset -r memory.limit_in_bytes=8g rmexp
+# launch a program restricting to cgroups, for containers, user cgroup-parent 
 sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 
@@ -201,5 +206,30 @@ cd rmexp
 ```
 TODO: 
 * in harness.py update cpu_quota and num (scheduler)
-* make sure the client is sending right resolution of video streams
+* make a plot of lego, lego + pingpong, lego + pingpong + face vs util
 
+#### cloudlet001 as client
+
+```bash
+# change to sec19 group
+newgrp sec19
+# first rsync from cloudlet002. Use the exact location and command so that rsync doesn't
+# re-transfer everything.
+cd /home/junjuew/work
+rsync -av --delete junjuew@10.1.1.191:/home/junjuew/work/resource-management .
+# activate conda
+conda activate ./conda-env-rmexp
+# launch client
+python rmexp/harness.py run --run_config rmexp/run_config/example.yml client
+```
+
+### Make Sure Client is Sending the Right Resolution
+
+* [rmexp/script/fileutils.py](rmexp/script/fileutils.py) creates a symlink to the video file with correct resolution
+```bash
+# use ffmpeg to resize video and create a symlink based on correct resolution
+python fileutils.py correct-trace-resolution --app pool --dir-path ../../data/pool-trace
+# rename a directory so that there is no video.mp4. Instead, video-<max_wh>.mp4 will be created
+# based on the video resolution This is used to migrate from previous dataset format.
+python fileutils.py rename-default-trace --dir-path ../../data/face-trace
+```

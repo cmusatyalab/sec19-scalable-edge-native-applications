@@ -32,15 +32,14 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
         sess = dbutils.get_session()
 
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
-    vc = client.RTVideoClient(video_uri, nc, video_params={
-                                'width': 640, 'height': 360})
+    vc = client.RTVideoClient(video_uri, nc)
     vc.start()
     tokens = tokens_cap
     while True:
         while tokens > 0:
             vc.get_and_send_frame(reply=True, app=app)
             tokens -= 1
-        
+
         while True:
             r = nc.get(timeout=10)
             if r is None:
@@ -51,10 +50,12 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
                 elapsed_ms = int((time.time() - gabriel_msg.timestamp) * 1000)
-                logger.debug("Frame {}: {} ms : {}".format(gabriel_msg.index, elapsed_ms, gabriel_msg.data))
+                logger.debug("Frame {}: {} ms : {}".format(
+                    gabriel_msg.index, elapsed_ms, gabriel_msg.data))
 
                 if exp:
-                    index = '{}-{}'.format(client_id, gabriel_msg.index.split('-')[1])
+                    index = '{}-{}'.format(client_id,
+                                           gabriel_msg.index.split('-')[1])
                     dbutils.insert_or_update_one(
                         sess, models.ExpLatency,
                         {'name': exp, 'index': index, 'app': app},
@@ -72,7 +73,7 @@ def start(num, video_uri, broker_uri, app, fps=20, tokens=None, broker_type='kaf
                                         args=(video_uri, app, broker_type, broker_uri, tokens,))
         else:
             p = multiprocessing.Process(target=start_single_feed,
-                                        args=(video_uri, fps, broker_type, broker_uri, ))        
+                                        args=(video_uri, fps, broker_type, broker_uri, ))
         procs.append(p)
 
     map(lambda proc: proc.start(), procs)
