@@ -55,11 +55,11 @@ class IkeaHandler(object):
 
         inputs = {'image_tensor': img}
         if self.detector == Detector.FASTER_RCNN:
-            inputs['image_info'] = [self.w, self.h, 1]
-
             height, width, _ = raw_img.shape
-            assert (height / width) == (self.h / self.w), (
-                'Aspect ratio is wrong')
+            assert (width / height) == (self.w / self.h), (
+                'Aspect ratio is wrong')            
+            
+            inputs['image_info'] = [self.w, self.h, 1]
 
         res = self.exec_net.infer(inputs=inputs)
 
