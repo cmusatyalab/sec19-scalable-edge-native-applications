@@ -92,3 +92,4 @@ def resize_to_max_wh(img, max_wh):
             max(img.shape[0], img.shape[1])
         img = cv2.resize(img, (0, 0), fx=resize_ratio,
                          fy=resize_ratio, interpolation=cv2.INTER_AREA)
+    return img
