@@ -55,6 +55,9 @@ class IkeaHandler(object):
 
         inputs = {'image_tensor': img}
         if self.detector == Detector.FASTER_RCNN:
+
+            # Faster R-CNN will not work well if image aspect ratio is not preserved
+            # but OpenVINO models must have a fixed input size.
             height, width, _ = raw_img.shape
             assert (width / height) == (self.w / self.h), (
                 'Aspect ratio is wrong')            
