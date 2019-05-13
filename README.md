@@ -182,8 +182,12 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 
 ### CGroup for experiments
 ```bash
+# create cgroup
 sudo cgcreate -g cpuset,memory:/rmexp
+# fix to cpu cores
 sudo cgset -r cpuset.cpus=50,52,54,56 rmexp
+# fix memory upper limit
+sudo cgset -r memory.limit_in_bytes=8g rmexp
 sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 
@@ -196,5 +200,5 @@ sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 TODO: 
 * in harness.py update cpu_quota and num (scheduler)
-* make sure the client is sending right resolution of video streams
+* make a plot of lego, lego + pingpong, lego + pingpong + face vs util
 
