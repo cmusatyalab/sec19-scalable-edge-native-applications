@@ -183,3 +183,7 @@ sudo cgcreate -g cpuset,memory:/rmexp
 sudo cgset -r cpuset.cpus=50,52,54,56 rmexp
 sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
+
+### Launch Experiments
+
+
