@@ -84,6 +84,16 @@ def main(app):
                             'pool-tr1-profile',
                             1)
         profiler.profile()
+    elif app == 'face':
+        profiler = Profiler('face',
+                            # list(np.arange(0.2, 2, 0.5)),
+                            # list(np.arange(0.5, 2, 0.5)),
+                            list(np.arange(2, 4, 0.5)),
+                            list(np.arange(0.5, 2, 0.5)),
+                            'face-trace/2/video.mp4',
+                            'face-tr2-profile',
+                            0.5)
+        profiler.profile()
 
 
 if __name__ == "__main__":
