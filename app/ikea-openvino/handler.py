@@ -3,30 +3,46 @@ from __future__ import print_function
 import os
 import cv2
 from openvino.inference_engine import IENetwork, IEPlugin
+from enum import Enum
 
-DETECTOR = 'SSD'
 
 MIN_SCORE_THRESH = 0.5
-if DETECTOR == 'FASTER_RCNN':
-    MODEL_XML = 'faster_rcnn_frozen_inference_graph.xml'
-    MODEL_BIN = 'faster_rcnn_frozen_inference_graph.bin'
-elif DETECTOR == 'SSD':
-    MODEL_XML = 'ssd_frozen_inference_graph.xml'
-    MODEL_BIN = 'ssd_frozen_inference_graph.bin'
-else:
-    raise Exception('Invalid Detector')
+CATEGORY_INDEX = {
+    1: {'id': 1, 'name': 'shadetop'},
+    2: {'id': 2, 'name': 'bulbtop'},
+    3: {'id': 3, 'name': 'buckle'},
+    4: {'id': 4, 'name': 'lamp'},
+    5: {'id': 5, 'name': 'pipe'},
+    6: {'id': 6, 'name': 'blackcircle'},
+    7: {'id': 7, 'name': 'base'},
+    8: {'id': 8, 'name': 'shade'},
+    9: {'id': 9, 'name': 'bulb'}
+}
 
-DEVICE = 'CPU'
-CATEGORY_INDEX = {1: {'id': 1, 'name': 'shadetop'}, 2: {'id': 2, 'name': 'bulbtop'}, 3: {'id': 3, 'name': 'buckle'}, 4: {'id': 4, 'name': 'lamp'}, 5: {'id': 5, 'name': 'pipe'}, 6: {'id': 6, 'name': 'blackcircle'}, 7: {'id': 7, 'name': 'base'}, 8: {'id': 8, 'name': 'shade'}, 9: {'id': 9, 'name': 'bulb'}}
+
+class Detector(Enum):
+    FASTER_RCNN = 1
+    SSD = 2
+
+
+MODEL_XML = {
+    Detector.FASTER_RCNN: 'faster_rcnn_frozen_inference_graph.xml',
+    Detector.SSD: 'ssd_frozen_inference_graph.xml',
+}
+MODEL_BIN = {
+    Detector.FASTER_RCNN: 'faster_rcnn_frozen_inference_graph.bin',
+    Detector.SSD: 'ssd_frozen_inference_graph.bin',
+}
 
 
 class IkeaHandler(object):
-    def __init__(self):
-        net = IENetwork(model=MODEL_XML, weights=MODEL_BIN)
+    def __init__(self, device='CPU', detector=Detector.SSD):
+        self.detector = detector
+        net = IENetwork(model=MODEL_XML[detector], weights=MODEL_BIN[detector])
         self.n, self.c, self.h, self.w = net.inputs['image_tensor'].shape
 
-        self.plugin = IEPlugin(device=DEVICE, plugin_dirs=None)
-        if DEVICE == 'CPU':
+        self.plugin = IEPlugin(device=device, plugin_dirs=None)
+        if device == 'CPU':
             self.plugin.add_cpu_extension("libcpu_extension_sse4.so")
         self.exec_net = self.plugin.load(network=net)
 
@@ -38,7 +54,7 @@ class IkeaHandler(object):
         img = img.reshape((self.n, self.c, self.h, self.w))
 
         inputs = {'image_tensor': img}
-        if DETECTOR == 'FASTER_RCNN':
+        if self.detector == Detector.FASTER_RCNN:
             inputs['image_info'] = [self.w, self.h, 1]
 
             height, width, _ = raw_img.shape
@@ -47,7 +63,8 @@ class IkeaHandler(object):
 
         res = self.exec_net.infer(inputs=inputs)
 
-        output_name = ('detection_output' if DETECTOR == 'FASTER_RCNN'
+        output_name = ('detection_output'
+                       if self.detector == Detector.FASTER_RCNN
                        else 'DetectionOutput')
 
         detections_to_print = []
