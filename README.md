@@ -172,4 +172,11 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 
 * mainly trying to give a little bit more resources for each application so that they don't queue up.
 * have a threshold on how large the queue is. disgard those that are not longer hopeful.
-* how to manage wireless and supress client
+* how to manage wireless and supress clientsudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
+
+### CGroup for experiments
+```bash
+sudo cgcreate -g cpuset,memory:/rmexp
+sudo cgset -r cpuset.cpus=50,52,54,56 rmexp
+sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
+```
