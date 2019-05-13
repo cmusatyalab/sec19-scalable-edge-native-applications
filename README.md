@@ -45,8 +45,11 @@ conda activate conda-env-rmexp
   * container resource usage visualization dashboard (grafana):
     http://cloudlet002.elijah.cs.cmu.edu:3000
 * launch zmq broker
-```
+```bash
 # Note: we only need one port now for every component: client, worker and controller
+# export BROKER_TYPE="zmq-md"
+# export CLIENT_BROKER_URI="tcp://128.2.210.252:9093"
+# export WORKER_BROKER_URI="tcp://128.2.210.252:9093"
 python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
 ```
 
@@ -172,4 +175,21 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 
 * mainly trying to give a little bit more resources for each application so that they don't queue up.
 * have a threshold on how large the queue is. disgard those that are not longer hopeful.
-* how to manage wireless and supress client
+* how to manage wireless and supress clientsudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
+
+### CGroup for experiments
+```bash
+sudo cgcreate -g cpuset,memory:/rmexp
+sudo cgset -r cpuset.cpus=50,52,54,56 rmexp
+sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
+```
+
+### Launch Experiments
+```bash
+# make sure broker is running
+./harness.py run run_config/example.yml example 
+# in case worker containers are not removed cleanly:
+# docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q) 
+```
+TODO: in harness.py update cpu_quota and num (scheduler)
+

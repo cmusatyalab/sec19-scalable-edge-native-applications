@@ -23,6 +23,7 @@ class ExpLatency(Base):
     index = Column(Integer)
     val = Column(Integer)
     date = Column(DateTime, default=datetime.utcnow)
+    app = Column(String(32))
 
 
 class LegoLatency(Base):
