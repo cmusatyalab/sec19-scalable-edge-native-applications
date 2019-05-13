@@ -188,6 +188,7 @@ sudo cgcreate -g cpuset,memory:/rmexp
 sudo cgset -r cpuset.cpus=50,52,54,56 rmexp
 # fix memory upper limit
 sudo cgset -r memory.limit_in_bytes=8g rmexp
+# launch a program restricting to cgroups, for containers, user cgroup-parent 
 sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 
