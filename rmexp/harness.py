@@ -38,7 +38,7 @@ def start_worker(app, num, docker_run_kwargs):
         cli.containers.run(
             DOCKER_IMAGE,
             ['/bin/bash', '-i', '-c', bash_cmd],
-            cgroup_parent=RMEXP_CGROUP,
+            cgroup_parent=CGROUP_INFO['name'],
             name=container_name,
             auto_remove=True,
             stderr=False,
@@ -73,7 +73,7 @@ def intra_app_allocate(app, users, app_cpus, app_memory):
         'pingpong': 0.032,
         'pool': 0.045
     }
-    total_fps = app_latency_4cpu[app] * app_cpus / 4.0
+    total_fps = (1./app_latency_4cpu[app]) * app_cpus / 4.0
     # assume 5ms RTT
     total_tokens = int( (1./total_fps + 0.005) / (1./total_fps))
 
@@ -103,8 +103,8 @@ def run(run_config, component, exp=''):
     # retrieve cgroup info
     global CGROUP_INFO
     cg_name = run_config.get('cgroup', CGROUP_INFO['name'])
-    cg_cpus = float(len(open('/sys/fs/cgroup/cpuset/cpuset/{}/cpuset.cpus'.format(cg_name), 'r').readline().strip().split(',')))
-    cg_memory = float(open('/sys/fs/cgroup/memory/{}/memory.limit_in_bytes'.format(cg_name), 'r').readline().strip())
+    cg_cpus = float(len(open('/sys/fs/cgroup/cpuset{}/cpuset.cpus'.format(cg_name), 'r').readline().strip().split(',')))
+    cg_memory = float(open('/sys/fs/cgroup/memory{}/memory.limit_in_bytes'.format(cg_name), 'r').readline().strip())
     CGROUP_INFO = {'name': cg_name, 'cpus': cg_cpus, 'memory': cg_memory}
     logger.info("cgroup info: {}".format(CGROUP_INFO))
 
@@ -132,11 +132,12 @@ def run(run_config, component, exp=''):
     for app in app_to_users:
         app_to_resource[app] = {
             'cpus': CGROUP_INFO['cpus'] / len(app_to_users),
-            'memory': CGROUP_INFO['cpus'] / len(app_to_users)
+            'memory': CGROUP_INFO['memory'] / len(app_to_users)
         }
     logger.info('Per app resource: {}'.format(app_to_resource))
 
     # intra-app allocation
+    # weight based allocate tokens.
     for app, users in app_to_users.iteritems():
         intra_app_allocate(app, users, app_to_resource[app]['cpus'], app_to_resource[app]['memory'])
     logger.debug('Per user token: {}'.format(app_to_users))
