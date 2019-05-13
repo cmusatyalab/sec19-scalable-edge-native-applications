@@ -203,6 +203,21 @@ TODO:
 * in harness.py update cpu_quota and num (scheduler)
 * make a plot of lego, lego + pingpong, lego + pingpong + face vs util
 
+#### cloudlet001 as client
+
+```bash
+# change to sec19 group
+newgrp sec19
+# first rsync from cloudlet002. Use the exact location and command so that rsync doesn't
+# re-transfer everything.
+cd /home/junjuew/work
+rsync -av --delete junjuew@10.1.1.191:/home/junjuew/work/resource-management .
+# activate conda
+conda activate ./conda-env-rmexp
+# launch client
+python rmexp/harness.py run --run_config rmexp/run_config/example.yml client
+```
+
 ### Make Sure Client is Sending the Right Resolution
 
 * [rmexp/script/fileutils.py](rmexp/script/fileutils.py) creates a symlink to the video file with correct resolution
