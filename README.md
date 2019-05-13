@@ -45,8 +45,11 @@ conda activate conda-env-rmexp
   * container resource usage visualization dashboard (grafana):
     http://cloudlet002.elijah.cs.cmu.edu:3000
 * launch zmq broker
-```
+```bash
 # Note: we only need one port now for every component: client, worker and controller
+# export BROKER_TYPE="zmq-md"
+# export CLIENT_BROKER_URI="tcp://128.2.210.252:9093"
+# export WORKER_BROKER_URI="tcp://128.2.210.252:9093"
 python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
 ```
 
