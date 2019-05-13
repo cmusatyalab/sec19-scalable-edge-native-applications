@@ -20,7 +20,6 @@ logzero.loglevel(logging.DEBUG)
 def work_loop(job_queue, app):
     handler = importlib.import_module(app).Handler()
 
-    sess = dbutils.get_session()
     while True:
         msg = job_queue.get()[0]
         gabriel_msg = gabriel_pb2.Message()
@@ -37,22 +36,12 @@ def work_loop(job_queue, app):
             reply.data = str(result)
             reply.timestamp = gabriel_msg.timestamp
             reply.index = gabriel_msg.index
+            reply.finished_ts = finished_t
             job_queue.put([reply.SerializeToString(), ])
 
         logger.debug(result)
         logger.debug('[proc {}] takes {} ms for frame {}'.format(
             os.getpid(), (time.time() - ts) * 1000, gabriel_msg.index))
-
-        if config.EXP:
-            dbutils.insert_or_update_one(
-                sess, models.LegoLatency,
-                {'name': config.EXP, 'index': gabriel_msg.index},
-                {'val': time_lapse, 'finished': finished_t}
-            )
-
-            sess.commit()
-
-    sess.close()
 
 
 class Sampler(object):

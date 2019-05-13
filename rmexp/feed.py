@@ -10,8 +10,10 @@ import cv2
 import fire
 from lego import lego_cv
 from logzero import logger
-from rmexp import client, config, gabriel_pb2, networkutil
 from twisted.internet import reactor, task
+
+from rmexp import dbutils, client, config, gabriel_pb2, networkutil
+from rmexp.schema import models
 
 
 def start_single_feed(video_uri, fps, broker_type, broker_uri):
@@ -25,7 +27,10 @@ def start_single_feed(video_uri, fps, broker_type, broker_uri):
     reactor.run()
 
 
-def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap):
+def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap, exp='', client_id=0):
+    if exp:
+        sess = dbutils.get_session()
+
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = client.RTVideoClient(video_uri, nc, video_params={
                                 'width': 640, 'height': 360})
@@ -45,7 +50,17 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap)
                 tokens += 1
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
-                logger.debug("Frame {} get reply: {}".format(gabriel_msg.index, gabriel_msg.data))
+                elapsed_ms = int((time.time() - gabriel_msg.timestamp) * 1000)
+                logger.debug("Frame {}: {} ms : {}".format(gabriel_msg.index, elapsed_ms, gabriel_msg.data))
+
+                if exp:
+                    index = '{}-{}'.format(client_id, gabriel_msg.index.split('-')[1])
+                    dbutils.insert_or_update_one(
+                        sess, models.ExpLatency,
+                        {'name': exp, 'index': index, 'app': app},
+                        {'val': elapsed_ms}
+                    )
+                    sess.commit()
 
 
 def start(num, video_uri, broker_uri, app, fps=20, tokens=None, broker_type='kafka'):

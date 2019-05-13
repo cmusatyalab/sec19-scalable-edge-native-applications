@@ -5,4 +5,5 @@ message Message {
   double timestamp = 2;
   string index = 3;
   bool reply = 4;
+  double finished_ts = 5;
 }
