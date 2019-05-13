@@ -116,7 +116,10 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
     * within the app, there is "direct install" magisk disk, which successfully rooted the phone.
 * Debian/Ubuntu on Android with chroot:
   * https://www.maketecheasier.com/install-ubuntu-on-android-linux-deploy/
-  * https://wiki.debian.org/HowtoDebianInAndroid
+  * install ubuntu 16.04 on linux deploy. enable sshd
+* check out infra/nexus6 directory and Makefile
+* update infra/nexus6/requirements.txt
+* make sure feed.py can run
 
 ## Application Specifics
 
@@ -191,5 +194,7 @@ sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 # in case worker containers are not removed cleanly:
 # docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q) 
 ```
-TODO: in harness.py update cpu_quota and num (scheduler)
+TODO: 
+* in harness.py update cpu_quota and num (scheduler)
+* make sure the client is sending right resolution of video streams
 
