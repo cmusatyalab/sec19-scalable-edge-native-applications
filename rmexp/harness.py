@@ -69,13 +69,22 @@ def run(run_config, component, exp=''):
     """
     if not isinstance(run_config, dict):
         run_config = yaml.load(open(run_config, 'r'))
+    component = component.lower()
+    assert component in [
+        'client', 'server'], 'Component needs to be either client or server'
 
     workers = []
     feeds = []
-    client_count = 0
+
+    # parse run_config file
     app_user_count = defaultdict(int)
+    for client in run_config['clients']:
+        for i in range(client.get('num', 1)):
+            app = client['app']
+            app_user_count[app] += 1
 
     if component == 'client':
+        client_count = 0
         for client in run_config['clients']:
             for i in range(client.get('num', 1)):
                 app, video_uri = client['app'], client['video_uri']
@@ -83,8 +92,6 @@ def run(run_config, component, exp=''):
                     target=start_feed, args=(
                         app, video_uri, exp, client_count),
                     name=client['video_uri']+'-' + str(i)))
-
-                app_user_count[app] += 1
                 client_count += 1
 
     if component == 'server':
@@ -97,18 +104,20 @@ def run(run_config, component, exp=''):
 
     for p in workers + feeds:
         p.daemon = True
-
     try:
         # start all endpoints
         map(lambda t: t.start(), workers + feeds)
-        # join clients; workers will not join
-        map(lambda t: t.join(), feeds)
+        map(lambda t: t.join(), workers + feeds)
     except KeyboardInterrupt:
         pass
     finally:
         logger.debug("Cleaning up processes")
         map(lambda t: t.terminate(), feeds + workers)
+        if component == 'server':
+            kill()
 
+
+def kill():
     logger.debug('Last effort to remove worker containers')
     ret = subprocess.check_output(
         "docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q)", shell=True)
