@@ -44,14 +44,6 @@ conda activate conda-env-rmexp
   * time-series database for storing past container resource usages (prometheus) UI: http://cloudlet002.elijah.cs.cmu.edu:9090
   * container resource usage visualization dashboard (grafana):
     http://cloudlet002.elijah.cs.cmu.edu:3000
-* launch zmq broker
-```bash
-# Note: we only need one port now for every component: client, worker and controller
-# export BROKER_TYPE="zmq-md"
-# export CLIENT_BROKER_URI="tcp://128.2.210.252:9093"
-# export WORKER_BROKER_URI="tcp://128.2.210.252:9093"
-python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
-```
 
 ## Dataset
 
@@ -188,8 +180,21 @@ sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 
 ### Launch Experiments
+
+Launch zmq broker
+```bash
+# Note: we only need one port now for every component: client, worker and controller
+# export BROKER_TYPE="zmq-md"
+# export CLIENT_BROKER_URI="tcp://128.2.210.252:9093"
+# export WORKER_BROKER_URI="tcp://128.2.210.252:9093"
+python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
+```
+
+Run multi-client experiments using harness
+
 ```bash
 # make sure broker is running
+cd rmexp
 ./harness.py run run_config/example.yml example 
 # in case worker containers are not removed cleanly:
 # docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q) 

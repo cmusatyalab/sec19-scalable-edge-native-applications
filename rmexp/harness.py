@@ -5,6 +5,7 @@ import fire
 from logzero import logger
 import multiprocessing as mp
 import os
+import pandas as pd
 import subprocess
 import threading
 import time
@@ -12,9 +13,13 @@ import uuid
 import yaml
 
 import rmexp.feed
+from rmexp import schema
 
 DOCKER_IMAGE = 'res'
-RMEXP_CGROUP = '/rmexp'
+CGROUP_INFO = {
+    'name': '/rmexp'
+}
+
 
 
 def start_worker(app, num, docker_run_kwargs):
@@ -38,11 +43,11 @@ def start_worker(app, num, docker_run_kwargs):
             stderr=False,
             **docker_run_kwargs
         )
-    finally:
-        pass
+    except:
+        raise
 
 
-def start_feed(app, video_uri, exp='', client_id=0):
+def start_feed(app, video_uri, tokens_cap=2, exp='', client_id=0):
     logger.debug('Starting client %d %s @ %s' % (client_id, app, video_uri))
 
     try:
@@ -51,7 +56,7 @@ def start_feed(app, video_uri, exp='', client_id=0):
             app,
             os.getenv('BROKER_TYPE'),
             os.getenv('CLIENT_BROKER_URI'),
-            tokens_cap=5,
+            tokens_cap=tokens_cap,
             exp=exp,
             client_id=client_id
         )
@@ -59,29 +64,63 @@ def start_feed(app, video_uri, exp='', client_id=0):
         logger.debug("%s finished" % video_uri)
 
 
+def intra_app_allocate(app, users, app_cpus, app_memory):
+    # simple heuristics
+    pass
+
+
 def run(run_config, exp=''):
     """[summary]
     
     Arguments:
         run_config {dict or string} -- if string, load json/yaml from file
+        exp {string} -- if not empty, will write latency to DB
     """
     if not isinstance(run_config, dict):
         run_config = yaml.load(open(run_config, 'r'))
 
+    # retrieve cgroup info
+    global CGROUP_INFO
+    cg_name = run_config.get('cgroup', CGROUP_INFO['name'])
+    cg_cpus = float(len(open('/sys/fs/cgroup/cpuset/cpuset/{}/cpuset.cpus'.format(cg_name), 'r').readline().strip().split(',')))
+    cg_memory = float(open('/sys/fs/cgroup/memory/{}/memory.limit_in_bytes'.format(cg_name), 'r').readline().strip())
+    CGROUP_INFO = {'name': cg_name, 'cpus': cg_cpus, 'memory': cg_memory}
+    logger.info("cgroup info: {}".format(CGROUP_INFO))
+
+    # subprocesses
     workers = []
     feeds = []
+
     client_count = 0
-    app_user_count = defaultdict(int)
+    app_to_users = defaultdict(list)
+    app_to_resource = dict()
 
-    for client in run_config['clients']:
-        for i in range(client.get('num', 1)):
-            app, video_uri = client['app'], client['video_uri']
-            feeds.append(mp.Process(
-                target=start_feed, args=(app, video_uri, exp, client_count),
-                name=client['video_uri']+'-'+ str(i) ))
-
-            app_user_count[app] += 1
+    for c in run_config['clients']:
+        for _ in range(c.get('num', 1)):
+            app_to_users[c['app']].append(
+                {
+                    'id': client_count,
+                    'video_uri': c['video_uri'],
+                    'weight': c.get('weight', 1.)
+                }
+            )
             client_count += 1
+    
+    # inter-app allocation
+    # evenly divided among apps. Replace it with smartness
+    for app in app_to_users:
+        app_to_resource[app] = {
+            'cpus': CGROUP_INFO['cpus'] / len(app_to_users),
+            'memory': CGROUP_INFO['cpus'] / len(app_to_users)
+        }
+    logger.info('Per app resource: {}'.format(app_to_resource))
+
+    # intra-app allocation
+    for app, users in app_to_users.iteritems():
+        for u in users:
+
+
+
 
     for app, count in app_user_count.iteritems():
         # do some smart here
