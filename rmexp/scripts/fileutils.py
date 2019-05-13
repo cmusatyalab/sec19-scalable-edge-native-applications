@@ -142,5 +142,38 @@ def correct_trace_resolution(app, dir_path):
         os.symlink(actual_trace, default_trace)
 
 
+def get_dataset_stats(app, dir_path, store=False):
+    """Get statistics of datasets"""
+    import json
+    from rmexp import dbutils, schema
+    from rmexp.schema import models
+    import cv2
+    trace_num_min, trace_num_max = _get_max_trace_num(dir_path)
+    for i in range(trace_num_min, trace_num_max+1):
+        default_trace = os.path.join(dir_path, str(i), 'video.mp4')
+        resolution = get_video_resolution(default_trace)
+        video = cv2.VideoCapture(default_trace)
+        frames = int(video.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
+        length = round(frames / 30.0, 1)
+        stat = json.dumps(
+            {
+                'resolution': resolution,
+                'frames': frames,
+                'length': length
+            }
+        )
+        logger.info('{} ({}): {}'.format(app, i, stat))
+        if store:
+            sess = dbutils.get_session()
+            dbutils.insert_or_update_one(
+                sess,
+                models.DataStat,
+                {'app': app, 'trace': str(i)},
+                {'value': stat}
+            )
+            sess.commit()
+            sess.close()
+
+
 if __name__ == '__main__':
     fire.Fire()

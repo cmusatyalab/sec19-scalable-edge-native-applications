@@ -90,3 +90,12 @@ class AppProfile(Base):
     index = Column(String(32))
     speed = Column(String(8192))
     data_length = Column(String(8192))
+
+
+class DataStat(Base):
+    """Stats for dataset Table"""
+    __tablename__ = 'DataStat'
+    id = Column(Integer, primary_key=True)
+    app = Column(String(512), nullable=False)
+    trace = Column(String(512), nullable=False)
+    value = Column(String(1000000))
