@@ -396,78 +396,6 @@ def skeletonize(mask):
     skeleton = skimage.morphology.skeletonize(mask > 0)
     return skeleton.astype(np.uint8) * 255
 
-############################### DISPLAY ########################################
-def display_image(display_name, img, wait_time = -1, is_resize = True, resize_method = "max", resize_max = -1, resize_scale = 1, save_image = False):
-    '''
-    Display image at appropriate size. There are two ways to specify the size:
-    1. If resize_max is greater than zero, the longer edge (either width or height) of the image is set to this value
-    2. If resize_scale is greater than zero, the image is scaled by this factor
-    '''
-    if is_resize:
-        img_shape = img.shape
-        height = img_shape[0]; width = img_shape[1]
-        if resize_max > 0:
-            if height > width:
-                img_display = cv2.resize(img, (resize_max * width / height, resize_max), interpolation = cv2.INTER_NEAREST)
-            else:
-                img_display = cv2.resize(img, (resize_max, resize_max * height / width), interpolation = cv2.INTER_NEAREST)
-        elif resize_scale > 0:
-            img_display = cv2.resize(img, (width * resize_scale, height * resize_scale), interpolation = cv2.INTER_NEAREST)
-        else:
-            print "Unexpected parameter in image display. About to exit..."
-            sys.exit()
-    else:
-        img_display = img
-
-    cv2.imshow(display_name, img_display)
-    cv2.waitKey(wait_time)
-    #if save_image:
-    if True:
-        if not os.path.isdir('tmp'):
-            os.mkdir('tmp')
-        file_path = os.path.join('tmp', display_name + '.png')
-        cv2.imwrite(file_path, img_display)
-
-def check_and_display(display_name, img, display_list, wait_time = -1, is_resize = True, resize_method = "max", resize_max = -1, resize_scale = 1, save_image = False):
-    if display_name in display_list:
-        display_image(display_name, img, wait_time, is_resize, resize_method, resize_max, resize_scale, save_image)
-
-def display_mask(display_name, img, mask, color = (0, 255, 255), wait_time = -1, is_resize = True, resize_method = "max", resize_max = -1, resize_scale = 1, save_image = False):
-    img_display = img.copy()
-    img_display[mask > 0, :] = color
-    display_image(display_name, img_display, wait_time, is_resize, resize_method, resize_max, resize_scale, save_image)
-
-def check_and_display_mask(display_name, img, mask, display_list, color = (0, 255, 255), wait_time = -1, is_resize = True, resize_method = "max", resize_max = -1, resize_scale = 1, save_image = False):
-    if display_name in display_list:
-        display_mask(display_name, img, mask, color, wait_time, is_resize, resize_method, resize_max, resize_scale, save_image)
-
-def plot_bar(bar_data, name = 'unknown', h = 400, w = 400, wait_time = -1, is_resize = True, resize_method = "max", resize_max = -1, resize_scale = 1, save_image = False):
-    n_items = len(bar_data)
-    y_max = np.max(bar_data) * 1.1 + 1 # make sure y_max > 0
-    plot = np.ones((h, w, 3), dtype = np.uint8) * 255
-    for i, bar_h in enumerate(bar_data):
-        cv2.rectangle(plot, (int((i + 1 - 0.3) / (n_items + 1) * w), h), (int((i + 1 - 0.3) / (n_items + 1) * w), h - int(bar_h / y_max * h)), [255, 0, 0], -1)
-    cv2.putText(plot, "max = %f" % np.max(bar_data), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 255])
-    display_image(name, plot, wait_time, is_resize, resize_method, resize_max, resize_scale, save_image)
-
-def vis_detections(img, dets, labels, thresh = 0.5):
-    # dets format should be: [x1, y1, x2, y2, confidence, cls_idx]
-    if len(dets.shape) < 2:
-        return img
-    inds = np.where(dets[:, -2] >= thresh)[0]
-
-    img_detections = img.copy()
-    if len(inds) > 0:
-        for i in inds:
-            cls_name = labels[int(dets[i, -1] + 0.1)]
-            bbox = dets[i, :4]
-            score = dets[i, -2]
-            text = "%s : %f" % (cls_name, score)
-            #print 'Detected roi for %s:%s score:%f' % (cls_name, bbox, score)
-            cv2.rectangle(img_detections, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (0, 0, 255), 8)
-            cv2.putText(img_detections, text, (int(bbox[0]), int(bbox[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
-    return img_detections
-
 ################################ SHAPE #########################################
 def get_border(img, border_width = 5):
     border = np.ones(img.shape[:2], np.bool)
@@ -540,113 +468,6 @@ def sort_pts(pts, order_first = 'y'):
         pts_rtn.append(tuple(pt))
     return pts_rtn
 
-def get_corner_pts(bw, perimeter = None, center = None, method = 'line', is_debug = False, sanity_checks = None):
-    '''
-    Given an input image @bw where the borders of a rough rectangle are masked, the function detects its corners
-    Two methods:
-    'line' tries to detect four lines first, and
-    'point' directly gets the top-left, top-right, bottom-left, bottom-right points
-    The function returns @corners as float numbers: [[ul_x, ul_y], [ur_x, ur_y], [bl_x, bl_y], [br_x, br_y]]
-    The function returns None if cannot find the corners with confidence
-    '''
-    if method == 'line':
-        center = (center[1], center[0]) # in (x, y) format
-        perimeter = int(perimeter)
-
-        lines = cv2.HoughLinesP(bw, 1, np.pi/180, perimeter / 40, minLineLength = perimeter / 20, maxLineGap = perimeter / 20)
-        lines = lines[0]
-
-        if is_debug:
-            img = np.zeros((bw.shape[0], bw.shape[1], 3), dtype=np.uint8)
-            for line in lines:
-                pt1 = (line[0], line[1])
-                pt2 = (line[2], line[3])
-                print (pt1, pt2)
-                cv2.line(img, pt1, pt2, (255, 255, 255), 1)
-            cv2.namedWindow('test')
-            display_image('test', img)
-
-        # get four major lines
-        new_lines = list()
-        for line in lines:
-            flag = True
-            for new_line in new_lines:
-                if is_line_seg_close(line, new_line):
-                    flag = False
-                    break
-            if flag:
-                new_lines.append(list(line))
-        if is_debug:
-            print "four lines: %s" % new_lines
-        if len(new_lines) != 4:
-            return None
-
-        # get four reasonable line intersections
-        corners = list()
-        for idx1, line1 in enumerate(new_lines):
-            for idx2, line2 in enumerate(new_lines):
-                if idx1 >= idx2:
-                    continue
-                inter_p = line_interset(line1, line2)
-                if inter_p == (-1, -1):
-                    continue
-                dist = euc_dist(inter_p, center)
-                if dist < perimeter / 3:
-                    corners.append(inter_p)
-        if is_debug:
-            print "corners: %s" % corners
-        if len(corners) != 4:
-            return None
-
-        # put the four corners in order
-        dtype = [('x', float), ('y', float)]
-        corners = np.array(corners, dtype = dtype)
-        corners = np.sort(corners, order = 'y')
-        if corners[0][0] < corners[1][0]:
-            ul = corners[0]; ur = corners[1]
-        else:
-            ul = corners[1]; ur = corners[0]
-        if corners[2][0] < corners[3][0]:
-            bl = corners[2]; br = corners[3]
-        else:
-            bl = corners[3]; br = corners[2]
-        ul = list(ul)
-        ur = list(ur)
-        bl = list(bl)
-        br = list(br)
-        if is_debug:
-            print "ul: %s, ur: %s, bl: %s, br: %s" % (ul, ur, bl, br)
-
-        # some sanity check here
-        if sanity_checks == "perspective":
-            len_b = euc_dist(bl, br)
-            len_u = euc_dist(ul, ur)
-            len_l = euc_dist(ul, bl)
-            len_r = euc_dist(ur, br)
-            if len_b < len_u or len_b < len_l or len_b < len_r:
-                return None
-
-    elif method == 'point':
-        bw = bw.astype(bool)
-        row_mtx, col_mtx = np.mgrid[0 : bw.shape[0], 0 : bw.shape[1]]
-        row_mtx = row_mtx[bw]
-        col_mtx = col_mtx[bw]
-
-        row_plus_col = row_mtx + col_mtx
-        ul_idx = np.argmin(row_plus_col)
-        ul = (col_mtx[ul_idx], row_mtx[ul_idx])
-        br_idx = np.argmax(row_plus_col)
-        br = (col_mtx[br_idx], row_mtx[br_idx])
-
-        row_minus_col = row_mtx - col_mtx
-        ur_idx = np.argmin(row_minus_col)
-        ur = (col_mtx[ur_idx], row_mtx[ur_idx])
-        bl_idx = np.argmax(row_minus_col)
-        bl = (col_mtx[bl_idx], row_mtx[bl_idx])
-
-    corners = np.float32([ul, ur, bl, br])
-    return corners
-
 def calc_triangle_area(p1, p2, p3):
     return abs((p1[0] * (p2[1] - p3[1]) + p2[0] * (p3[1] - p1[1]) + p3[0] * (p1[1] - p2[1])) / 2.0)
 
@@ -655,17 +476,7 @@ def get_rotation_degree(bw):
     if lines is None:
         return None
     lines = lines[0]
-    # plotting lines, for testing only ############################
-    #img = np.zeros((bw.shape[0], bw.shape[1], 3), dtype=np.uint8)
-    #for line in lines:
-    #    pt1 = (line[0], line[1])
-    #    pt2 = (line[2], line[3])
-    #    cv2.line(img, pt1, pt2, (255, 255, 255), 1)
-    #cv2.namedWindow('bw')
-    #display_image('bw', bw)
-    #cv2.namedWindow('test')
-    #display_image('test', img)
-    ################################################################
+
     degrees = np.zeros(len(lines))
     for line_idx, line in enumerate(lines):
         x_diff = line[0] - line[2]
@@ -759,29 +570,6 @@ def crop(img, borders):
     else:
         img_cropped = img[min_row : max_row + 1, min_col : max_col + 1]
     return img_cropped, (min_row, max_row, min_col, max_col)
-
-#def smart_crop(img):
-#    bw = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#    ret, bi = cv2.threshold(bw, 0, 1, cv2.THRESH_BINARY)
-#    # TODO: has a risk that the sum here may excede uint8...
-#    sum_0 = bi.sum(axis = 0)
-#    sum_1 = bi.sum(axis = 1)
-#    i_start = 0; i_end = bi.shape[0] - 1; j_start = 0; j_end = bi.shape[1] - 1
-#    i_start_cmp_val = sum_1[int(round(config.BRICK_HEIGHT / 4.0 * 2))] * 0.6
-#    while sum_1[i_start] < i_start_cmp_val:
-#        i_start += 1
-#    i_end_cmp_val = sum_1[bi.shape[0] - 1 - int(round(config.BRICK_HEIGHT / 4.0 * 2))] * 0.6
-#    while sum_1[i_end] < i_end_cmp_val:
-#        i_end -= 1
-#    j_start_cmp_val = sum_0[int(round(config.BRICK_WIDTH / 4.0 * 2))] * 0.6
-#    while sum_0[j_start] < j_start_cmp_val:
-#        j_start += 1
-#    j_end_cmp_val = sum_0[bi.shape[1] - 1 - int(round(config.BRICK_WIDTH / 4.0 * 2))] * 0.6
-#    while sum_0[j_end] < j_end_cmp_val:
-#        j_end -= 1
-#
-#    #print (bi.shape, i_start, i_end, j_start, j_end)
-#    return img[i_start : i_end + 1, j_start : j_end + 1, :], (i_start, i_end, j_start, j_end)
 
 ################################ COLOR #########################################
 def normalize_brightness(img, mask = None, method = 'hist', max_percentile = 100, min_percentile = 0):
@@ -1223,4 +1011,3 @@ def get_face_feature(img, align, align_img_dim, net):
     rep = net.forwardImage(alignedFace)
 
     return rep
-

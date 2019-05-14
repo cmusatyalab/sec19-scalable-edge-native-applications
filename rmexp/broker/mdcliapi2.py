@@ -13,6 +13,7 @@ import zmq
 import MDP
 from zhelpers import dump
 
+
 class MajorDomoClient(object):
     """Majordomo Protocol Client API, Python version.
 
@@ -30,9 +31,8 @@ class MajorDomoClient(object):
         self.ctx = zmq.Context()
         self.poller = zmq.Poller()
         logging.basicConfig(format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S",
-                level=logging.INFO)
+                            level=logging.INFO)
         self.reconnect_to_broker()
-
 
     def reconnect_to_broker(self):
         """Connect or reconnect to broker"""
@@ -68,7 +68,7 @@ class MajorDomoClient(object):
         try:
             items = self.poller.poll(timeout)
         except KeyboardInterrupt:
-            return # interrupted
+            return  # interrupted
 
         if items:
             # if we got a reply, process it
@@ -85,6 +85,6 @@ class MajorDomoClient(object):
             assert MDP.C_CLIENT == header
 
             service = msg.pop(0)
-            return msg
+            return (service, msg)
         else:
             return None

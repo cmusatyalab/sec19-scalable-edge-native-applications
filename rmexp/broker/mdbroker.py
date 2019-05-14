@@ -16,29 +16,33 @@ import zmq
 # local
 import MDP
 from zhelpers import dump
+import brokerqueue
+
 
 class Service(object):
     """a single Service"""
-    name = None # Service name
-    requests = None # List of client requests
-    waiting = None # List of waiting workers
+    name = None  # Service name
+    requests = None  # List of client requests
+    waiting = None  # List of waiting workers
 
-    def __init__(self, name):
+    def __init__(self, name, requests_queue=None):
         self.name = name
-        self.requests = []
+        self.requests = [] if requests_queue is None else requests_queue
         self.waiting = []
+
 
 class Worker(object):
     """a Worker, idle or active"""
-    identity = None # hex Identity of worker
-    address = None # Address to route to
-    service = None # Owning service, if known
-    expiry = None # expires at this point, unless heartbeat
+    identity = None  # hex Identity of worker
+    address = None  # Address to route to
+    service = None  # Owning service, if known
+    expiry = None  # expires at this point, unless heartbeat
 
     def __init__(self, identity, address, lifetime):
         self.identity = identity
         self.address = address
         self.expiry = time.time() + 1e-3*lifetime
+
 
 class MajorDomoBroker(object):
     """
@@ -48,27 +52,26 @@ class MajorDomoBroker(object):
 
     # We'd normally pull these from config data
     INTERNAL_SERVICE_PREFIX = "mmi."
-    HEARTBEAT_LIVENESS = 5 # 3-5 is reasonable
-    HEARTBEAT_INTERVAL = 2500 # msecs
+    HEARTBEAT_LIVENESS = 5  # 3-5 is reasonable
+    HEARTBEAT_INTERVAL = 2500  # msecs
     HEARTBEAT_EXPIRY = HEARTBEAT_INTERVAL * HEARTBEAT_LIVENESS
 
     # ---------------------------------------------------------------------
 
-    ctx = None # Our context
-    socket = None # Socket for clients & workers
-    poller = None # our Poller
+    ctx = None  # Our context
+    socket = None  # Socket for clients & workers
+    poller = None  # our Poller
 
-    heartbeat_at = None# When to send HEARTBEAT
-    services = None # known services
-    workers = None # known workers
-    waiting = None # idle workers
+    heartbeat_at = None  # When to send HEARTBEAT
+    services = None  # known services
+    workers = None  # known workers
+    waiting = None  # idle workers
 
-    verbose = False # Print activity to stdout
+    verbose = False  # Print activity to stdout
 
     # ---------------------------------------------------------------------
 
-
-    def __init__(self, verbose=False):
+    def __init__(self, verbose=False, service_queue_type=list):
         """Initialize broker state."""
         self.verbose = verbose
         self.services = {}
@@ -80,10 +83,9 @@ class MajorDomoBroker(object):
         self.socket.linger = 0
         self.poller = zmq.Poller()
         self.poller.register(self.socket, zmq.POLLIN)
+        self.service_queue_type = service_queue_type
         logging.basicConfig(format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S",
-                level=logging.INFO)
-
-
+                            level=logging.INFO)
 
     # ---------------------------------------------------------------------
 
@@ -93,12 +95,12 @@ class MajorDomoBroker(object):
             try:
                 items = self.poller.poll(self.HEARTBEAT_INTERVAL)
             except KeyboardInterrupt:
-                break # Interrupted
+                break  # Interrupted
             if items:
                 msg = self.socket.recv_multipart()
                 if self.verbose:
                     logging.info("I: received message:")
-                    dump(msg)
+                    logging.info(dump(msg))
 
                 sender = msg.pop(0)
                 empty = msg.pop(0)
@@ -111,7 +113,7 @@ class MajorDomoBroker(object):
                     self.process_worker(sender, msg)
                 else:
                     logging.error("E: invalid message:")
-                    dump(msg)
+                    logging.error(dump(msg))
 
             self.purge_workers()
             self.send_heartbeats()
@@ -122,22 +124,20 @@ class MajorDomoBroker(object):
             self.delete_worker(self.workers.values()[0], True)
         self.ctx.destroy(0)
 
-
     def process_client(self, sender, msg):
         """Process a request coming from a client."""
-        assert len(msg) >= 2 # Service name + body
+        assert len(msg) >= 2  # Service name + body
         service = msg.pop(0)
         # Set reply return address to client sender
-        msg = [sender,''] + msg
+        msg = [sender, ''] + msg
         if service.startswith(self.INTERNAL_SERVICE_PREFIX):
             self.service_internal(service, msg)
         else:
             self.dispatch(self.require_service(service), msg)
 
-
     def process_worker(self, sender, msg):
         """Process message sent to us by a worker."""
-        assert len(msg) >= 1 # At least, command
+        assert len(msg) >= 1  # At least, command
 
         command = msg.pop(0)
 
@@ -146,7 +146,7 @@ class MajorDomoBroker(object):
         worker = self.require_worker(sender)
 
         if (MDP.W_READY == command):
-            assert len(msg) >= 1 # At least, a service name
+            assert len(msg) >= 1  # At least, a service name
             service = msg.pop(0)
             # Not first command in session or Reserved service name
             if (worker_ready or service.startswith(self.INTERNAL_SERVICE_PREFIX)):
@@ -161,9 +161,13 @@ class MajorDomoBroker(object):
                 # Remove & save client return envelope and insert the
                 # protocol header and service name, then rewrap envelope.
                 client = msg.pop(0)
-                empty = msg.pop(0) # ?
+                empty = msg.pop(0)  # ?
                 msg = [client, '', MDP.C_CLIENT, worker.service.name] + msg
                 self.socket.send_multipart(msg)
+                if self.verbose:
+                    logging.info(
+                        "I: sending to client from worker {}:".format(sender))
+                    logging.info(dump(msg))
                 self.worker_waiting(worker)
             else:
                 self.delete_worker(worker, True)
@@ -178,7 +182,7 @@ class MajorDomoBroker(object):
             self.delete_worker(worker, False)
         else:
             logging.error("E: invalid message:")
-            dump(msg)
+            logging.error(dump(msg))
 
     def delete_worker(self, worker, disconnect):
         """Deletes worker from all data structures, and deletes worker."""
@@ -208,7 +212,11 @@ class MajorDomoBroker(object):
         assert (name is not None)
         service = self.services.get(name)
         if (service is None):
-            service = Service(name)
+            if self.service_queue_type is list:
+                requests_queue = []
+            else:
+                requests_queue = self.service_queue_type(self)
+            service = Service(name, requests_queue=requests_queue)
             self.services[name] = service
 
         return service
@@ -250,7 +258,7 @@ class MajorDomoBroker(object):
             w = self.waiting[0]
             if w.expiry < time.time():
                 logging.info("I: deleting expired worker: %s", w.identity)
-                self.delete_worker(w,False)
+                self.delete_worker(w, False)
                 self.waiting.pop(0)
             else:
                 break
@@ -266,13 +274,14 @@ class MajorDomoBroker(object):
     def dispatch(self, service, msg):
         """Dispatch requests to waiting workers as possible"""
         assert (service is not None)
-        if msg is not None:# Queue message if any
+        if msg is not None:  # Queue message if any
             service.requests.append(msg)
         self.purge_workers()
         while service.waiting and service.requests:
             msg = service.requests.pop(0)
             worker = service.waiting.pop(0)
             self.waiting.remove(worker)
+            logging.info('send msg to worker {}'.format(worker))
             self.send_to_worker(worker, MDP.W_REQUEST, None, msg)
 
     def send_to_worker(self, worker, command, option, msg=None):
@@ -294,16 +303,26 @@ class MajorDomoBroker(object):
 
         if self.verbose:
             logging.info("I: sending %r to worker", command)
-            dump(msg)
+            logging.info(dump(msg))
 
         self.socket.send_multipart(msg)
 
 
-def main(broker_uri="tcp://*:5555", verbose=False):
+def main(broker_uri="tcp://*:5555", verbose=False, service_queue_type='latency-optimized'):
     """create and start new broker"""
-    broker = MajorDomoBroker(verbose)
+    service_queue_maps = {
+        'latency-optimized': brokerqueue.LatencyOptimizedTokenQueue,
+        'list': list
+    }
+    service_queue_type = service_queue_type.lower()
+    assert service_queue_type in service_queue_maps.keys(), 'service_queue_type must be a value of {}'.format(
+        service_queue_maps.keys()
+    )
+    broker = MajorDomoBroker(
+        verbose, service_queue_type=service_queue_maps[service_queue_type])
     broker.bind(broker_uri)
     broker.mediate()
+
 
 if __name__ == '__main__':
     fire.Fire(main)

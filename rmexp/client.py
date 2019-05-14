@@ -11,12 +11,13 @@ from twisted.internet import reactor, task
 
 
 class VideoClient(object):
-    def __init__(self, video_uri, network_connector, video_params=None, max_wh=None):
+    def __init__(self, video_uri, network_connector, video_params=None, max_wh=None, loop=False):
         super(VideoClient, self).__init__()
         self._fid = 0
         self._cam = self.get_video_capture(video_uri)
         self._nc = network_connector
         self._max_wh = max_wh
+        self._loop = loop
         if video_params is not None:
             self._set_cam_params(video_params)
 
@@ -31,7 +32,10 @@ class VideoClient(object):
                      service=kwargs['app'])
 
     def get_frame(self):
-        has_frame, img = self.get_frame_and_resize()
+        """Public function to get a frame.
+        Internally, invoke _get_frame_and_resize to get a correct sized frame
+        """
+        has_frame, img = self._get_frame_and_resize()
         if has_frame and img is not None:
             logger.debug('[proc {}] acquired a frame of size: {}'.format(
                 os.getpid(), img.shape))
@@ -43,13 +47,19 @@ class VideoClient(object):
             raise ValueError("Failed to get another frame.")
 
     def get_and_send_frame(self, filter_func=None, reply=False, **kwargs):
+        """Public convenient function to get and send a frame."""
         frame = self.get_frame()
         ts = time.time()
         if filter_func is None or filter_func(frame):
             self.send_frame(frame, self._fid, reply=reply, time=ts, **kwargs)
 
-    def get_frame_and_resize(self):
+    def _get_frame_and_resize(self):
         has_frame, img = self._cam.read()
+        # reset video for looping
+        if img is None and self._loop:
+            self._cam.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, 0)
+            has_frame, img = self._cam.read()
+
         if img is not None and self._max_wh is not None:
             img = cvutils.resize_to_max_wh(img, self._max_wh)
         return has_frame, img
@@ -88,7 +98,11 @@ class RTVideoClient(VideoClient):
         else:
             # fast-forward
             for _ in range(expected_frame_id - self._fid):
+<<<<<<< HEAD
                 has_frame, img = self.get_frame_and_resize()
+=======
+                has_frame, img = self._get_frame_and_resize()
+>>>>>>> 5aaf4d87a48c34b2f4c97e3a9caca728e71f1524
                 if has_frame and img is not None:
                     logger.debug('image size: {}'.format(img.shape))
                     pass
@@ -101,3 +115,14 @@ class RTVideoClient(VideoClient):
             logger.debug('[proc {}] RTVideoClient acquired frame id {} of size: {}'.format(
                 os.getpid(), self._fid, img.shape))
             return img
+
+
+if __name__ == "__main__":
+    video_uri = 'data/lego-trace/1/video.mp4'
+    vc = RTVideoClient(video_uri, None)
+    idx = 0
+    while True:
+        idx += 1
+        has_frame, img = vc.get_frame_and_resize()
+        logger.debug(idx)
+        assert img is not None
