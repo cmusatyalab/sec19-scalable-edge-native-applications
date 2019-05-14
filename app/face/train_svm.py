@@ -39,9 +39,9 @@ import os
 from sklearn import preprocessing
 from sklearn.svm import SVC
 
-from face import config
 from face import zhuocv as zc
 
+IMAGE_MAX_WH = 640
 LABELS = {
     '/face_training_data/junjue1': 'Junjue',
     '/face_training_data/junjue2': 'Junjue',
@@ -78,16 +78,11 @@ def parse_arguments():
     args = parser.parse_args()
     return (args.input_file)
 
-# set configs...
-config.setup(is_streaming = False)
-display_list = config.DISPLAY_LIST
 
 detector = dlib.get_frontal_face_detector()
 sp = dlib.shape_predictor("models/shape_predictor_68_face_landmarks.dat")
 facerec = dlib.face_recognition_model_v1("models/dlib_face_recognition_resnet_model_v1.dat")
 
-# with open("models/model_dlib.pkl", 'r') as f:
-#     (le, svm) = pickle.load(f)
 
 def dlib_face(img):
     sk_img = zc.cv_img2sk_img(img)
@@ -138,36 +133,3 @@ svm.fit(X, y)
 
 with open("models/model_dlib.pkl", 'w') as f:
     pickle.dump((le, svm), f)
-
-# # load test image
-# input_file = parse_arguments()
-# img = cv2.imread(input_file)
-# if max(img.shape) > config.IMAGE_MAX_WH:
-#     resize_ratio = float(config.IMAGE_MAX_WH) / max(img.shape[0], img.shape[1])
-#     img = cv2.resize(img, (0, 0), fx = resize_ratio, fy = resize_ratio, interpolation = cv2.INTER_AREA)
-
-# # zc.check_and_display("input", img, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
-
-# # process image and get the symbolic representation
-# ## get current state
-
-# for i in xrange(10):
-#     face_rep = dlib_face(img)
-#     if face_rep is None:
-#         print "face representation is None"
-#         sys.exit()
-
-#     face_rep = np.array(face_rep)
-#     face_rep = face_rep.reshape(1, -1)
-#     print 'shape', face_rep.shape
-#     # predictions = svm.predict_proba(face_rep)[0]
-#     # maxI = np.argmax(predictions)
-#     # person = le.inverse_transform(maxI)
-#     # confidence = predictions[maxI]
-#     # print("Predict {} with {:.2f} confidence.".format(person, confidence))
-
-# try:
-#     while True:
-#         time.sleep(1)
-# except KeyboardInterrupt as e:
-#     sys.stdout.write("user exits\n")

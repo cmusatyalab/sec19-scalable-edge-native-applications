@@ -760,29 +760,6 @@ def crop(img, borders):
         img_cropped = img[min_row : max_row + 1, min_col : max_col + 1]
     return img_cropped, (min_row, max_row, min_col, max_col)
 
-#def smart_crop(img):
-#    bw = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#    ret, bi = cv2.threshold(bw, 0, 1, cv2.THRESH_BINARY)
-#    # TODO: has a risk that the sum here may excede uint8...
-#    sum_0 = bi.sum(axis = 0)
-#    sum_1 = bi.sum(axis = 1)
-#    i_start = 0; i_end = bi.shape[0] - 1; j_start = 0; j_end = bi.shape[1] - 1
-#    i_start_cmp_val = sum_1[int(round(config.BRICK_HEIGHT / 4.0 * 2))] * 0.6
-#    while sum_1[i_start] < i_start_cmp_val:
-#        i_start += 1
-#    i_end_cmp_val = sum_1[bi.shape[0] - 1 - int(round(config.BRICK_HEIGHT / 4.0 * 2))] * 0.6
-#    while sum_1[i_end] < i_end_cmp_val:
-#        i_end -= 1
-#    j_start_cmp_val = sum_0[int(round(config.BRICK_WIDTH / 4.0 * 2))] * 0.6
-#    while sum_0[j_start] < j_start_cmp_val:
-#        j_start += 1
-#    j_end_cmp_val = sum_0[bi.shape[1] - 1 - int(round(config.BRICK_WIDTH / 4.0 * 2))] * 0.6
-#    while sum_0[j_end] < j_end_cmp_val:
-#        j_end -= 1
-#
-#    #print (bi.shape, i_start, i_end, j_start, j_end)
-#    return img[i_start : i_end + 1, j_start : j_end + 1, :], (i_start, i_end, j_start, j_end)
-
 ################################ COLOR #########################################
 def normalize_brightness(img, mask = None, method = 'hist', max_percentile = 100, min_percentile = 0):
     shape = img.shape

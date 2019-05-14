@@ -34,13 +34,11 @@ import cv2
 import dlib
 import numpy as np
 import pkg_resources
-# Face related
-from face import config
 from face import zhuocv as zc
 
-config.setup(is_streaming=True)
 
-display_list = config.DISPLAY_LIST
+IMAGE_MAX_WH = 640
+
 
 detector = dlib.get_frontal_face_detector()
 face_landmarks_data_fp = pkg_resources.resource_filename(
@@ -78,9 +76,9 @@ def dlib_face(img):
 
 class FaceHandler(object):
     def process(self, img):
-        if max(img.shape) > config.IMAGE_MAX_WH:
-            resize_ratio = float(config.IMAGE_MAX_WH) / \
-                max(img.shape[0], img.shape[1])
+        if max(img.shape) > IMAGE_MAX_WH:
+            resize_ratio = (float(IMAGE_MAX_WH) / 
+                max(img.shape[0], img.shape[1]))
             img = cv2.resize(img, (0, 0), fx=resize_ratio,
                              fy=resize_ratio, interpolation=cv2.INTER_AREA)
 
