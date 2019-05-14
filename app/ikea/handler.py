@@ -27,6 +27,9 @@ import os
 import cv2
 from PIL import Image
 from object_detection.utils import label_map_util
+import time
+
+os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 
 MODEL_DIR = 'tf_model'
 FROZEN_INFERENCE_GRAPH = os.path.join(MODEL_DIR, 'ssd_frozen_inference_graph.pb')
@@ -58,6 +61,7 @@ class IkeaHandler(object):
         self.detection_graph = create_detection_graph()
         self.tensor_dict = self._construct_tensor_dict()
         self.sess = tf.Session(graph=self.detection_graph)
+        self.image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
 
     def _construct_tensor_dict(self):
         # Get handles to input and output tensors
@@ -76,14 +80,16 @@ class IkeaHandler(object):
         return tensor_dict
 
 
-    def process(self, img):
+    def process(self, img, f):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         image = Image.fromarray(img)
         image_np = load_image_into_numpy_array(image)
 
-        image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
+        start = time.time()
         output_dict = self.sess.run(
-            self.tensor_dict, feed_dict={image_tensor: np.expand_dims(image_np, 0)})
+            self.tensor_dict, feed_dict={self.image_tensor: np.expand_dims(image_np, 0)})
+        end = time.time()
+        f.write('{}\n'.format(end - start))
 
         detection_classes = output_dict['detection_classes'][0].astype(np.uint8)
         detection_boxes = output_dict['detection_boxes'][0]
@@ -108,9 +114,10 @@ def main():
     handler = IkeaHandler()
     cap = cv2.VideoCapture('ikea.mp4')
     ret, frame = cap.read()
-    while (cap.isOpened() and ret == True):
-        print(handler.process(frame))
-        ret, frame = cap.read()
+    with open('times.txt', 'w') as f:
+        while (cap.isOpened() and ret == True):
+            print(handler.process(frame, f))
+            ret, frame = cap.read()
 
 
 if __name__ == '__main__':

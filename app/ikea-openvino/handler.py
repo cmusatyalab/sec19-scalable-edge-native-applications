@@ -86,7 +86,7 @@ class IkeaHandlerOpenvino(object):
 
 
 def main():
-    handler = IkeaHandler()
+    handler = IkeaHandlerOpenvino()
     cap = cv2.VideoCapture('ikea.mp4')
     ret, frame = cap.read()
     while (cap.isOpened() and ret == True):
