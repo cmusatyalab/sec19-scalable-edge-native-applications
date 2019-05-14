@@ -25,17 +25,14 @@ import os
 import sys
 import time
 
-from pool import config
 from pool import zhuocv as zc
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 
 #############################################################
-def set_config(is_streaming):
-    config.setup(is_streaming)
 
-def _detect_table(img, display_list):
+def _detect_table(img):
     SE1 = int(float(img.shape[1]) / 640 * 5 + 0.5)
     DOB_PARA = int(float(img.shape[1]) / 640 * 51 + 0.5)
     ## detect blue/purple table
@@ -59,20 +56,15 @@ def _detect_table(img, display_list):
     mask_table_fat, _ = zc.find_largest_CC(zc.expand(mask_blue, SE1, iterations = 2))
     mask_table_fat = zc.shrink(mask_table_fat, SE1, iterations = 2)
 
-    zc.check_and_display_mask("blue", img, mask_blue, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
-    zc.check_and_display_mask("table", img, mask_table, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
-
-
     ## detect the part that is bluer than neighbors, which is likely table edge
     blue_dist = zc.color_dist(img, 'HSV', HSV_ref = table_hsv_ave, useV = False)
     blue_DoB = zc.get_DoB(blue_dist, DOB_PARA, 1, method = 'Average')
     mask_bluer = zc.color_inrange(blue_DoB, 'single', L = 20)
-    zc.check_and_display_mask("bluer", img, mask_bluer, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
 
     rtn_msg = {'status' : 'success'}
     return (rtn_msg, (mask_blue, mask_bluer, mask_table, mask_table_fat))
 
-def _detect_balls(img, mask_tables, display_list):
+def _detect_balls(img, mask_tables):
     SE1 = int(float(img.shape[1]) / 640 * 3 + 0.5)
     SE2 = int(float(img.shape[1]) / 640 * 5 + 0.5)
     mask_blue, mask_bluer, mask_table, mask_table_fat = mask_tables
@@ -96,45 +88,21 @@ def _detect_balls(img, mask_tables, display_list):
         balls.append((center, radius))
         cv2.circle(mask_balls, (int(center[0]), int(center[1])), int(radius), 255, -1)
 
-    zc.check_and_display_mask("balls", img, mask_balls, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
-
     rtn_msg = {'status' : 'success'}
     return (rtn_msg, (balls, mask_balls))
 
-def _detect_cue(img, mask_tables, mask_balls, display_list):
+def _detect_cue(img, mask_tables, mask_balls):
     CUE_MIN_LENGTH = int(float(img.shape[1]) / 640 * 40 + 0.5)
     PARA1 = int(float(img.shape[1]) / 640 * 2 + 0.5)
     mask_blue, mask_bluer, mask_table, mask_table_fat = mask_tables
 
-    ### edges on the table
-    #img_table = np.zeros(img.shape, dtype=np.uint8)
-    #img_table = cv2.bitwise_and(img, img, dst = img_table, mask = mask_table_convex)
-    #bw_table = cv2.cvtColor(img_table, cv2.COLOR_BGR2GRAY)
-    #edge_table = cv2.Canny(bw_table, 80, 160)
-    #edge_table = zc.expand(edge_table, 2)
-    #zc.check_and_display("edge_table", edge_table, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
-
-    ### detect cue
-    #lines = cv2.HoughLinesP(edge_table, 1, np.pi/180, 30, minLineLength = 70, maxLineGap = 3)
-    #if lines is None:
-    #    rtn_msg = {'status': 'fail', 'message' : 'Cannot find cue'}
-    #    return (rtn_msg, None)
-    #lines = lines[0]
-    #if 'cue_edge' in display_list:
-    #    img_cue = img.copy()
-    #    for line in lines:
-    #        pt1 = (line[0], line[1])
-    #        pt2 = (line[2], line[3])
-    #        cv2.line(img_cue, pt1, pt2, (255, 0, 255), 2)
-    #    zc.check_and_display("cue_edge", img_cue, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
-
     ## interesting parts on the table (pockets, cue, hand, etc.)
     mask_table_convex, _ = zc.make_convex(mask_table.copy(), use_approxPolyDp = False)
-    zc.check_and_display_mask("table_convex", img, mask_table_convex, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
+
     mask_interesting = cv2.subtract(cv2.subtract(mask_table_convex, mask_table), mask_bluer)
     mask_interesting = cv2.subtract(mask_interesting, mask_balls)
     mask_interesting = zc.shrink(mask_interesting, PARA1)
-    zc.check_and_display_mask("interesting", img, mask_interesting, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
+
     # find the blob with cue (and probably hand)
     # TODO: this may be more robust with find_largest_CC function, in the case of half ball close to the bottom
     mask_cue_hand = zc.get_closest_blob(mask_interesting.copy(), (img.shape[0], img.shape[1] / 2), min_length = CUE_MIN_LENGTH, hierarchy_req = 'outer') # cue must be close to the bottom
@@ -162,19 +130,13 @@ def _detect_cue(img, mask_tables, mask_balls, display_list):
 
     ## cue info
     cue_length = zc.euc_dist(p_cue_top, p_cue_bottom)
-    if 'cue' in display_list:
-        img_cue = img.copy()
-        img_cue[mask_cue_hand > 0, :] = [0, 255, 255]
-        cv2.circle(img_cue, p_cue_top, 3, (255, 0, 255), -1)
-        cv2.line(img_cue, p_cue_top, p_cue_bottom, (255, 0, 255), 2)
-        zc.display_image("cue", img_cue, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
 
     ## skeletonize
     #skeleton_cue_hand = zc.skeletonize(mask_cue_hand)
     rtn_msg = {'status' : 'success'}
     return (rtn_msg, (p_cue_top, p_cue_bottom, cue_length))
 
-def _detect_CO_balls(img, balls, cue, display_list):
+def _detect_CO_balls(img, balls, cue):
     PARA1 = int(float(img.shape[1]) / 640 * 15 + 0.5)
     PARA2 = int(float(img.shape[1]) / 640 * 40 + 0.5)
     p_cue_top, p_cue_bottom, cue_length = cue
@@ -213,16 +175,10 @@ def _detect_CO_balls(img, balls, cue, display_list):
         return (rtn_msg, None)
     object_ball = balls[object_ball_idx]
 
-    if 'CO_balls' in display_list:
-        img_balls = img.copy()
-        cv2.circle(img_balls, (int(cue_ball[0][0]), int(cue_ball[0][1])), int(cue_ball[1]), (255, 255, 255), -1)
-        cv2.circle(img_balls, (int(object_ball[0][0]), int(object_ball[0][1])), int(object_ball[1]), (0, 0, 255), -1)
-        zc.display_image("CO_balls", img_balls, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
-
     rtn_msg = {'status' : 'success'}
     return (rtn_msg, (cue_ball, object_ball))
 
-def _detect_pocket(img, mask_tables, cue, display_list):
+def _detect_pocket(img, mask_tables, cue):
     PARA1 = int(float(img.shape[1]) / 640 * 2 + 0.5)
     mask_blue, mask_bluer, mask_table, mask_table_fat = mask_tables
     p_cue_top, p_cue_bottom, cue_length = cue
@@ -231,7 +187,7 @@ def _detect_pocket(img, mask_tables, cue, display_list):
     mask_pocket = cv2.subtract(cv2.subtract(mask_table_convex, mask_table_fat), mask_bluer)
     mask_pocket = zc.shrink(mask_pocket, PARA1)
     mask_pocket[p_cue_top[1] - 5:, :] = 0
-    zc.check_and_display_mask("pocket", img, mask_pocket, display_list, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
+
     contours, hierarchy = cv2.findContours(mask_pocket, mode = cv2.RETR_CCOMP, method = cv2.CHAIN_APPROX_NONE)
     pocket = None
     cnt_pocket = None
@@ -251,22 +207,23 @@ def _detect_pocket(img, mask_tables, cue, display_list):
     return (rtn_msg, (pocket, cnt_pocket))
 
 
-def _detect_aim_point(cue, CO_balls, pocket):
-    def _angle2fraction(angle):
-        '''
-        Calculcate desired fraction of overlap from angle according to fraction aiming system
-        Reference: http://billiards.colostate.edu/threads/aiming.html, https://youtu.be/2kuJTwQ1M9k
-        '''
-        if angle > 48.6: # very thin
-            return (90 - angle) / 41.4 * 0.25
-        elif angle > 30: # thin
-            return (48.6 - angle) / 28.6 * 0.25 + 0.25
-        elif angle > 14.5: # thick
-            return (30 - angle) / 15.5 * 0.25 + 0.5
-        else: # very thick
-            return 1 - angle / 14.5 * 0.25
-        return None
+def _angle2fraction(angle):
+    '''
+    Calculcate desired fraction of overlap from angle according to fraction aiming system
+    Reference: http://billiards.colostate.edu/threads/aiming.html, https://youtu.be/2kuJTwQ1M9k
+    '''
+    if angle > 48.6: # very thin
+        return (90 - angle) / 41.4 * 0.25
+    elif angle > 30: # thin
+        return (48.6 - angle) / 28.6 * 0.25 + 0.25
+    elif angle > 14.5: # thick
+        return (30 - angle) / 15.5 * 0.25 + 0.5
+    else: # very thick
+        return 1 - angle / 14.5 * 0.25
+    return None
 
+
+def _detect_aim_point(cue, CO_balls, pocket):
     p_cue_top, p_cue_bottom, cue_length = cue
     cue_ball, object_ball = CO_balls
 
@@ -293,56 +250,45 @@ def _detect_aim_point(cue, CO_balls, pocket):
     rtn_msg = {'status' : 'success'}
     return (rtn_msg, (p_aim, p_aimed))
 
-def process(img, display_list):
-    rtn_msg, objects = _detect_table(img, display_list)
+def process(img):
+    rtn_msg, objects = _detect_table(img)
     if objects is not None:
         mask_tables = objects
+
     if rtn_msg['status'] == 'success':
-        rtn_msg, objects = _detect_balls(img, mask_tables, display_list)
+        rtn_msg, objects = _detect_balls(img, mask_tables)
         if objects is not None:
             balls, mask_balls = objects
-    if rtn_msg['status'] == 'success':
-        rtn_msg, objects = _detect_cue(img, mask_tables, mask_balls, display_list)
-        if objects is not None:
-            cue = objects
-    if rtn_msg['status'] == 'success':
-        rtn_msg, objects = _detect_CO_balls(img, balls, cue, display_list)
-        if objects is not None:
-            CO_balls = objects
-    if rtn_msg['status'] == 'success':
-        rtn_msg, objects = _detect_pocket(img, mask_tables, cue, display_list)
-        if objects is not None:
-            pocket, cnt_pocket = objects
-    if rtn_msg['status'] == 'success':
-        return (rtn_msg, (cue, CO_balls, pocket))
-    else:
-        return (rtn_msg, None)
 
-def get_guidance(img, cue, CO_balls, pocket, display_list):
+        if rtn_msg['status'] == 'success':
+            rtn_msg, objects = _detect_cue(
+                img, mask_tables, mask_balls)
+            if objects is not None:
+                cue = objects
+
+            if rtn_msg['status'] == 'success':
+                rtn_msg, objects = _detect_CO_balls(
+                    img, balls, cue)
+                if objects is not None:
+                    CO_balls = objects
+
+                if rtn_msg['status'] == 'success':
+                    rtn_msg, objects = _detect_pocket(
+                        img, mask_tables, cue)
+                    if objects is not None:
+                        pocket, cnt_pocket = objects
+
+                    if rtn_msg['status'] == 'success':
+                        return (rtn_msg, (cue, CO_balls, pocket))
+
+    return (rtn_msg, None)
+
+def get_guidance(img, cue, CO_balls, pocket):
     PARA = int(float(img.shape[1]) / 640 * 8 + 0.5)
     rtn_msg, objects = _detect_aim_point(cue, CO_balls, pocket)
     if objects is not None:
         p_aim, p_aimed = objects
         print objects
-
-    if rtn_msg['status'] == 'success':
-        if 'all' in display_list:
-            img_display = img.copy()
-            # draw balls
-            cue_ball, object_ball = CO_balls
-            cv2.circle(img_display, (int(cue_ball[0][0]), int(cue_ball[0][1])), int(cue_ball[1]), (255, 255, 255), -1)
-            cv2.circle(img_display, (int(object_ball[0][0]), int(object_ball[0][1])), int(object_ball[1]), (0, 0, 255), -1)
-            # draw cue
-            p_cue_top, p_cue_bottom, _ = cue
-            cv2.circle(img_display, p_cue_top, 3, (200, 0, 200), -1)
-            cv2.line(img_display, p_cue_top, p_cue_bottom, (200, 0, 200), 3)
-            # draw pocket
-            cv2.drawContours(img_display, [cnt_pocket], 0, (255, 0, 0), -1)
-            # draw aim point
-            cv2.circle(img_display, (int(p_aim[0]), int(p_aim[1])), 3, (0, 255, 0), -1)
-            # draw aimed point
-            cv2.circle(img_display, (int(p_aimed[0]), int(p_aim[1])), 3, (0, 0, 0), -1)
-            zc.display_image("all", img_display, resize_max = config.DISPLAY_MAX_PIXEL, wait_time = config.DISPLAY_WAIT_TIME)
 
     if rtn_msg['status'] == 'success':
         if abs(p_aim[0] - p_aimed[0]) < PARA:

@@ -29,14 +29,11 @@ import sys
 import threading
 import time
 
-from pool import config
 from pool import zhuocv as zc
 from pool import pool_cv as pc
 
-config.setup(is_streaming=True)
-pc.set_config(is_streaming=True)
 
-display_list = config.DISPLAY_LIST_STREAM
+IMAGE_MAX_WH = 1920
 
 
 class PoolHandler(object):
@@ -44,20 +41,18 @@ class PoolHandler(object):
         return "Pool Handler"
 
     def process(self, img):
-        if max(img.shape) > config.IMAGE_MAX_WH:
-            resize_ratio = float(config.IMAGE_MAX_WH) / \
-                max(img.shape[0], img.shape[1])
+        if max(img.shape) > IMAGE_MAX_WH:
+            resize_ratio = (float(IMAGE_MAX_WH) /
+                max(img.shape[0], img.shape[1]))
             img = cv2.resize(img, (0, 0), fx=resize_ratio,
                              fy=resize_ratio, interpolation=cv2.INTER_AREA)
-        zc.check_and_display('input', img, display_list,
-                             resize_max=config.DISPLAY_MAX_PIXEL, wait_time=config.DISPLAY_WAIT_TIME)
 
         # process the image
-        rtn_msg, objects = pc.process(img, display_list)
+        rtn_msg, objects = pc.process(img)
 
         if rtn_msg['status'] == 'success':
             cue, CO_balls, pocket = objects
-            speech = pc.get_guidance(img, cue, CO_balls, pocket, display_list)
+            speech = pc.get_guidance(img, cue, CO_balls, pocket)
             return 'speech: {}'.format(speech)
 
         return rtn_msg['message']
