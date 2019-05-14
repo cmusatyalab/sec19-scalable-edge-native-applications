@@ -2,9 +2,12 @@
 from collections import defaultdict
 import docker
 import fire
+import logging
+import logzero
 from logzero import logger
 import multiprocessing as mp
 import numpy as np
+import operator
 import os
 import pandas as pd
 import subprocess
@@ -15,12 +18,15 @@ import yaml
 
 import rmexp.feed
 from rmexp import schema
+from rmexp.schedule import Allocator, AppUtil, ScipySolver
 
 DOCKER_IMAGE = 'res'
 CGROUP_INFO = {
     'name': '/rmexp'
 }
+GiB = 2.**30
 
+# logzero.loglevel(logging.INFO)
 
 def start_worker(app, num, docker_run_kwargs):
     cli = docker.from_env()
@@ -33,7 +39,7 @@ def start_worker(app, num, docker_run_kwargs):
     logger.debug(bash_cmd)
 
     try:
-        logger.debug('Starting workers: {}x {} @ {}'.format(
+        logger.info('Starting workers: {}x {} @ {}'.format(
             num, app, container_name))
         cli.containers.run(
             DOCKER_IMAGE,
@@ -48,8 +54,8 @@ def start_worker(app, num, docker_run_kwargs):
         raise
 
 
-def start_feed(app, video_uri, tokens_cap=2, exp='', client_id=0):
-    logger.debug('Starting client %d %s @ %s' % (client_id, app, video_uri))
+def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
+    logger.info('Starting client %d %s @ %s' % (client_id, app, video_uri))
 
     try:
         rmexp.feed.start_single_feed_token(
@@ -62,7 +68,7 @@ def start_feed(app, video_uri, tokens_cap=2, exp='', client_id=0):
             client_id=client_id
         )
     except ValueError:
-        logger.debug("%s finished" % video_uri)
+        logger.info("%s finished" % video_uri)
 
 
 def intra_app_allocate(app, users, app_cpus, app_memory):
@@ -85,26 +91,28 @@ def intra_app_allocate(app, users, app_cpus, app_memory):
         u['tokens'] = tokens
 
 
-def run(run_config, component, exp=''):
+def run(run_config, component, exp='', **kwargs):
     """[summary]
 
     Arguments:
         run_config {dict or string} -- if string, load json/yaml from file
         exp {string} -- if not empty, will write latency to DB
-        component: 'client' or 'server'
+        component -- 'client' or 'server'
+        **kwargs -- override values in run_config
     """
     if not isinstance(run_config, dict):
         run_config = yaml.load(open(run_config, 'r'))
+    run_config.update(kwargs)
+    
     component = component.lower()
-    assert component in [
-        'client', 'server'], 'Component needs to be either client or server'
+    assert component in ['client', 'server'], 'Component needs to be either client or server'
 
     # retrieve cgroup info
     global CGROUP_INFO
     cg_name = run_config.get('cgroup', CGROUP_INFO['name'])
     cg_cpus = float(len(open('/sys/fs/cgroup/cpuset{}/cpuset.cpus'.format(cg_name), 'r').readline().strip().split(',')))
     cg_memory = float(open('/sys/fs/cgroup/memory{}/memory.limit_in_bytes'.format(cg_name), 'r').readline().strip())
-    CGROUP_INFO = {'name': cg_name, 'cpus': cg_cpus, 'memory': cg_memory}
+    CGROUP_INFO = {'name': cg_name, 'cpu': cg_cpus, 'memory': cg_memory}
     logger.info("cgroup info: {}".format(CGROUP_INFO))
 
     # subprocesses
@@ -127,20 +135,27 @@ def run(run_config, component, exp=''):
             client_count += 1
     
     # inter-app allocation
-    # evenly divided among apps. 
-    # TODO Replace it with your smartness
-    for app in app_to_users:
-        app_to_resource[app] = {
-            'cpus': CGROUP_INFO['cpus'] / len(app_to_users),
-            'memory': CGROUP_INFO['memory'] / len(app_to_users)
-        }
-    logger.info('Per app resource: {}'.format(app_to_resource))
+    if run_config.get('inter_app_schedule', True):
+        # use our smart scheduler
+        allocator = Allocator(ScipySolver())
+        apps = app_to_users.keys()
+        weights = [sum(map(operator.itemgetter('weight'), app_to_users[a]))  for a in apps]
+        success, _, res = allocator.solve(
+            CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, apps), weights)
+        assert success
+        alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
+        app_to_resource = dict([
+            (app, {'cpu': cpu, 'memory': mem}) 
+            for app, cpu, mem in zip(apps, alloted_cpu, alloted_mem)
+        ])
+    else:
+        # no allocation
+        app_to_resource = {}
 
-    # intra-app allocation
-    # weight based allocate tokens.
-    for app, users in app_to_users.iteritems():
-        intra_app_allocate(app, users, app_to_resource[app]['cpus'], app_to_resource[app]['memory'])
-    logger.debug('Per user token: {}'.format(app_to_users))
+    # we don't do within-app differentiation for now
+    # for app, users in app_to_users.iteritems():
+    #     intra_app_allocate(app, users, app_to_resource[app]['cpus'], app_to_resource[app]['memory'])
+    # logger.debug('Per user token: {}'.format(app_to_users))
 
     if component == 'client':
         client_count = 0
@@ -148,16 +163,21 @@ def run(run_config, component, exp=''):
         for app, users in app_to_users.iteritems():
             for u in users:
                 feeds.append(mp.Process(
-                    target=start_feed, args=(app, u['video_uri'], u['tokens'], exp, u['id'],), name='client-'+str(u['id'])
+                    target=start_feed, args=(app, u['video_uri'], 2, exp, u['id'],), name='client-'+str(u['id'])
                 ))
 
     if component == 'server':
         for app, users in app_to_users.iteritems():
-            # TODO do some smart here
-            # docker_run_kwargs = {'cpu_period': 100000, 'cpu_quota': 150000}
             docker_run_kwargs = {}
+            if app_to_resource:
+                docker_run_kwargs = {
+                    'cpu_period': int(100000), 
+                    'cpu_quota': int(app_to_resource[app]['cpu'] * 100000), 
+                    'mem_limit': int(app_to_resource[app]['memory'])
+                    }
+            logger.info("{} docker run kwargs: {}".format(app, docker_run_kwargs))
             workers.append(mp.Process(
-                target=start_worker, args=(app, min(100, 4*len(users)), docker_run_kwargs), name=app+'-server'))
+                target=start_worker, args=(app, min(40, 4*len(users)), docker_run_kwargs), name=app+'-server'))
 
     for p in workers + feeds:
         p.daemon = True
@@ -181,10 +201,10 @@ def run(run_config, component, exp=''):
 
 
 def kill():
-    logger.debug('Last effort to remove worker containers')
+    logger.info('Last effort to remove worker containers')
     ret = subprocess.check_output(
         "docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q)", shell=True)
-    logger.debug(ret)
+    logger.info(ret)
 
 
 if __name__ == "__main__":

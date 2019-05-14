@@ -62,11 +62,10 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
                     gabriel_msg.index, elapsed_ms, gabriel_msg.data))
 
                 if exp:
-                    index = '{}-{}'.format(client_id,
-                                           gabriel_msg.index.split('-')[1])
+                    index = gabriel_msg.index.split('-')[1]
                     dbutils.insert_or_update_one(
                         sess, models.ExpLatency,
-                        {'name': exp, 'index': index, 'app': app},
+                        {'name': exp, 'index': index, 'app': app, 'client': str(client_id)},
                         {'val': elapsed_ms}
                     )
                     sess.commit()

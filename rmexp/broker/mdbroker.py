@@ -308,7 +308,7 @@ class MajorDomoBroker(object):
         self.socket.send_multipart(msg)
 
 
-def main(broker_uri="tcp://*:5555", verbose=False, service_queue_type='latency-optimized'):
+def main(broker_uri="tcp://*:5555", verbose=False, service_queue_type='list'):
     """create and start new broker"""
     service_queue_maps = {
         'latency-optimized': brokerqueue.LatencyOptimizedTokenQueue,
@@ -318,6 +318,8 @@ def main(broker_uri="tcp://*:5555", verbose=False, service_queue_type='latency-o
     assert service_queue_type in service_queue_maps.keys(), 'service_queue_type must be a value of {}'.format(
         service_queue_maps.keys()
     )
+    logging.info("Using queye type: {}".format(service_queue_type))
+
     broker = MajorDomoBroker(
         verbose, service_queue_type=service_queue_maps[service_queue_type])
     broker.bind(broker_uri)

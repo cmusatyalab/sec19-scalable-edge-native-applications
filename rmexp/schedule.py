@@ -31,7 +31,7 @@ class ScipySolver(object):
     def __init__(self):
         super(ScipySolver, self).__init__()
 
-    def solve(self, cpu, mem, apps):
+    def solve(self, cpu, mem, apps, weights=None):
         x0 = zip(*[app.x0 for app in apps])
 
         def total_util_func(x):
@@ -40,6 +40,9 @@ class ScipySolver(object):
             util_funcs = [app.util_func for app in apps]
             utils = map(lambda x: x[0](*x[1:]), zip(util_funcs, x0, x1))
             utils = np.nan_to_num(utils)
+            if weights:
+                utils = utils * weights
+
             util_total = sum(utils)
             print(util_total)
             return -util_total
@@ -52,14 +55,17 @@ class ScipySolver(object):
             x1 = x[len(x)//2:]
             return mem - np.sum(x1)
 
-        # constraints are >= 0
-        cons = (
+        # constraints total resource
+        cons = [
             {'type': 'eq', 'fun': cpu_con},
             {'type': 'eq', 'fun': mem_con},
-        )
+        ]
+        # bound individual var >= 0
+        bounds = [(0., cpu) for _ in range(len(apps))] + [(0., mem) for _ in range(len(apps))]
+
         # TODO(junjuew): need to find a reasonable bound
         res = scipy.optimize.minimize(
-            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons)
+            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds, tol=1e-6)
         return res.success, -res.fun, np.around(res.x, decimals=1)
 
 
@@ -70,8 +76,8 @@ class Allocator(object):
         self.solver = solver
         super(Allocator, self).__init__()
 
-    def solve(self, cpu, mem, apps):
-        return self.solver.solve(cpu, mem, apps)
+    def solve(self, cpu, mem, apps, *args, **kwargs):
+        return self.solver.solve(cpu, mem, apps, *args, **kwargs)
 
 
 class AppUtil(object):
@@ -82,7 +88,7 @@ class AppUtil(object):
         super(AppUtil, self).__init__()
 
     def _load_util_func(self):
-        with open('data/profile/{}.pkl'.format(self.app), 'rb') as f:
+        with open('/home/junjuew/work/resource-management/data/profile/{}.pkl'.format(self.app), 'rb') as f:
             util_func = pickle.load(f)
         return util_func
 
@@ -91,6 +97,7 @@ if __name__ == '__main__':
     allocator = Allocator(ScipySolver())
     cpu = 4
     mem = 8
+    weights = [9, 9, 9, 9]
     app_names = ['lego', 'pingpong', 'pool', 'face']
     apps = map(AppUtil, app_names)
-    print(allocator.solve(cpu, mem, apps))
+    print(allocator.solve(cpu, mem, apps, weights=weights))
