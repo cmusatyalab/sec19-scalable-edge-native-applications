@@ -28,8 +28,6 @@ import Queue
 import sys
 import threading
 import time
-
-from pool import zhuocv as zc
 from pool import pool_cv as pc
 
 
