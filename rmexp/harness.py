@@ -74,8 +74,7 @@ def intra_app_allocate(app, users, app_cpus, app_memory):
         'pool': 0.045
     }
     total_fps = (1./app_latency_4cpu[app]) * app_cpus / 4.0
-    # assume 5ms RTT
-    total_tokens = int( (1./total_fps + 0.005) / (1./total_fps))
+    total_tokens = total_fps
 
     weights = np.array([u.get('weight', 1.) for u in users])
     weights = weights / np.sum(weights) # normalized
@@ -128,7 +127,8 @@ def run(run_config, component, exp=''):
             client_count += 1
     
     # inter-app allocation
-    # evenly divided among apps. Replace it with your smartness
+    # evenly divided among apps. 
+    # TODO Replace it with your smartness
     for app in app_to_users:
         app_to_resource[app] = {
             'cpus': CGROUP_INFO['cpus'] / len(app_to_users),
@@ -153,18 +153,24 @@ def run(run_config, component, exp=''):
 
     if component == 'server':
         for app, users in app_to_users.iteritems():
-            # do some smart here
+            # TODO do some smart here
             # docker_run_kwargs = {'cpu_period': 100000, 'cpu_quota': 150000}
             docker_run_kwargs = {}
             workers.append(mp.Process(
-                target=start_worker, args=(app, min(20, 2*len(users)), docker_run_kwargs), name=app+'-server'))
+                target=start_worker, args=(app, min(100, 4*len(users)), docker_run_kwargs), name=app+'-server'))
 
     for p in workers + feeds:
         p.daemon = True
     try:
         # start all endpoints
         map(lambda t: t.start(), workers + feeds)
+
+        if component == 'client' and 'stop_after' in run_config:
+            time.sleep(run_config['stop_after'])
+            raise RuntimeError("run_config time's up")
+
         map(lambda t: t.join(), workers + feeds)
+
     except KeyboardInterrupt:
         pass
     finally:

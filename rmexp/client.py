@@ -82,7 +82,6 @@ class RTVideoClient(VideoClient):
     def __init__(self, *args, **kwargs):
         super(RTVideoClient, self).__init__(*args, **kwargs)
         self._start_time = None
-        self._last_frame = None
         self._fps = 30  # self._cam.get(cv2.cv.CV_CAP_PROP_FPS)
         logger.debug("FPS={}".format(self._fps))
 
@@ -93,23 +92,26 @@ class RTVideoClient(VideoClient):
         expected_frame_id = int(
             self._fps * (time.time() - self._start_time)) + 1
 
-        if expected_frame_id == self._fid:
-            return self._last_frame
-        else:
-            # fast-forward
-            for _ in range(expected_frame_id - self._fid):
-                has_frame, img = self._get_frame_and_resize()
-                if has_frame and img is not None:
-                    pass
-                else:
-                    self._cam.release()
-                    raise ValueError("Failed to get another frame.")
+        while expected_frame_id <= self._fid:
+            # too soon, block until at least next frame
+            time.sleep(0.030)
+            expected_frame_id = int(
+                self._fps * (time.time() - self._start_time)) + 1
 
-            self._fid = expected_frame_id
-            self._last_frame = img
-            logger.debug('[proc {}] RTVideoClient acquired frame id {} of size: {}'.format(
-                os.getpid(), self._fid, img.shape))
-            return img
+        # fast-forward
+        for _ in range(expected_frame_id - self._fid):
+            has_frame, img = self._get_frame_and_resize()
+            if has_frame and img is not None:
+                pass
+            else:
+                self._cam.release()
+                raise ValueError("Failed to get another frame.")
+
+        logger.debug('image size: {}'.format(img.shape))
+        self._fid = expected_frame_id
+        logger.debug('[proc {}] RTVideoClient acquired frame id {} of size: {}'.format(
+            os.getpid(), self._fid, img.shape))
+        return img
 
 
 if __name__ == "__main__":
