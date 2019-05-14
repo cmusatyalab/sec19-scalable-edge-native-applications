@@ -34,7 +34,6 @@ import cv2
 import dlib
 import numpy as np
 import pkg_resources
-from face import zhuocv as zc
 
 
 IMAGE_MAX_WH = 640
@@ -56,7 +55,7 @@ with open(face_svm_data_fp, 'rb') as f:
 
 
 def dlib_face(img):
-    sk_img = zc.cv_img2sk_img(img)
+    sk_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     dets = detector(sk_img, 1)
     face_det = None
     max_area = 0
