@@ -82,10 +82,15 @@ def start(num, video_uri, broker_uri, app, fps=20, tokens=None, broker_type='kaf
         else:
             p = multiprocessing.Process(target=start_single_feed,
                                         args=(video_uri, fps, broker_type, broker_uri, ))
+
+        p.daemon = True
         procs.append(p)
 
-    map(lambda proc: proc.start(), procs)
-    map(lambda proc: proc.join(), procs)
+    try:
+        map(lambda proc: proc.start(), procs)
+        map(lambda proc: proc.join(), procs)
+    finally:
+        map(lambda p: p.terminate(), procs)
 
 
 if __name__ == '__main__':
