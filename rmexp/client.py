@@ -99,7 +99,6 @@ class RTVideoClient(VideoClient):
             # fast-forward
             for _ in range(expected_frame_id - self._fid):
                 has_frame, img = self._get_frame_and_resize()
-                logger.debug('image size: {}'.format(img.shape))
                 if has_frame and img is not None:
                     pass
                 else:

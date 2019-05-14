@@ -45,8 +45,16 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
             if r is None:
                 break
             else:
-                msg = r[0]
+                (service, msg) = r
+                msg = msg[0]
                 tokens += 1
+                if service != app:
+                    # this is due to some optimization happening such that my request
+                    # is not processed
+                    logger.debug(
+                        'received message not from my server: {}'.format((service, msg)))
+                    continue
+
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
                 elapsed_ms = int((time.time() - gabriel_msg.timestamp) * 1000)

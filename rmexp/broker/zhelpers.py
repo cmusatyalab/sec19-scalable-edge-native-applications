@@ -7,8 +7,10 @@ from __future__ import print_function
 import binascii
 import os
 from random import randint
+import StringIO
 
 import zmq
+
 
 def socket_set_hwm(socket, hwm=-1):
     """libzmq 2/3/4 compatible sethwm"""
@@ -20,19 +22,23 @@ def socket_set_hwm(socket, hwm=-1):
 
 def dump(msg_or_socket):
     """Receives all message parts from socket, printing each frame neatly"""
+    log = StringIO.StringIO()
     if isinstance(msg_or_socket, zmq.Socket):
         # it's a socket, call on current message
         msg = msg_or_socket.recv_multipart()
     else:
         msg = msg_or_socket
-    print("----------------------------------------")
+    print("----------------------------------------", file=log)
     for part in msg:
-        print("[%03d]" % len(part), end=' ')
+        print("[%03d]" % len(part), end=' ', file=log)
         is_text = True
         try:
-            print(part.decode('ascii'))
+            print(part.decode('ascii'), file=log)
         except UnicodeDecodeError:
-            print(r"0x%s" % (binascii.hexlify(part).decode('ascii')))
+            print(r"0x%s" % (binascii.hexlify(part).decode('ascii')), file=log)
+    content = log.getvalue()
+    log.close()
+    return content
 
 
 def set_id(zsocket):
@@ -55,4 +61,4 @@ def zpipe(ctx):
     iface = "inproc://%s" % binascii.hexlify(os.urandom(8))
     a.bind(iface)
     b.connect(iface)
-    return a,b
+    return a, b
