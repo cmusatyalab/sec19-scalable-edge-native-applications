@@ -6,4 +6,5 @@ message Message {
   string index = 3;
   bool reply = 4;
   double finished_ts = 5;
+  double arrival_ts = 6;
 }

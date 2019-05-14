@@ -22,6 +22,7 @@ def work_loop(job_queue, app):
 
     while True:
         msg = job_queue.get()[0]
+        arrival_ts = time.time()
         gabriel_msg = gabriel_pb2.Message()
         gabriel_msg.ParseFromString(msg)
         encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp
@@ -37,6 +38,7 @@ def work_loop(job_queue, app):
             reply.timestamp = gabriel_msg.timestamp
             reply.index = gabriel_msg.index
             reply.finished_ts = finished_t
+            reply.arrival_ts = arrival_ts
             job_queue.put([reply.SerializeToString(), ])
 
         logger.debug(result)

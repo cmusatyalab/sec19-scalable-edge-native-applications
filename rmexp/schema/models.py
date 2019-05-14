@@ -25,7 +25,9 @@ class ExpLatency(Base):
     date = Column(DateTime, default=datetime.utcnow)
     app = Column(String(32))
     client = Column(String(32))
-
+    arrival = Column(Integer)
+    finished = Column(Integer)
+    reply = Column(Integer)
 
 class LegoLatency(Base):
     """General experiment table."""

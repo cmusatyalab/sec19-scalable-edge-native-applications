@@ -121,7 +121,6 @@ def run(run_config, component, exp='', **kwargs):
 
     client_count = 0
     app_to_users = defaultdict(list)
-    app_to_resource = dict()
 
     for c in run_config['clients']:
         for _ in range(c.get('num', 1)):
@@ -133,24 +132,6 @@ def run(run_config, component, exp='', **kwargs):
                 }
             )
             client_count += 1
-    
-    # inter-app allocation
-    if run_config.get('inter_app_schedule', True):
-        # use our smart scheduler
-        allocator = Allocator(ScipySolver())
-        apps = app_to_users.keys()
-        weights = [sum(map(operator.itemgetter('weight'), app_to_users[a]))  for a in apps]
-        success, _, res = allocator.solve(
-            CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, apps), weights)
-        assert success
-        alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
-        app_to_resource = dict([
-            (app, {'cpu': cpu, 'memory': mem}) 
-            for app, cpu, mem in zip(apps, alloted_cpu, alloted_mem)
-        ])
-    else:
-        # no allocation
-        app_to_resource = {}
 
     # we don't do within-app differentiation for now
     # for app, users in app_to_users.iteritems():
@@ -167,6 +148,22 @@ def run(run_config, component, exp='', **kwargs):
                 ))
 
     if component == 'server':
+        app_to_resource = {}    # default no allocation
+        # inter-app allocation
+        if run_config.get('inter_app_schedule', True):
+            # use our smart scheduler
+            allocator = Allocator(ScipySolver())
+            apps = app_to_users.keys()
+            weights = [sum(map(operator.itemgetter('weight'), app_to_users[a]))  for a in apps]
+            success, _, res = allocator.solve(
+                CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, apps), weights)
+            assert success
+            alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
+            app_to_resource = dict([
+                (app, {'cpu': cpu, 'memory': mem}) 
+                for app, cpu, mem in zip(apps, alloted_cpu, alloted_mem)
+            ])
+
         for app, users in app_to_users.iteritems():
             docker_run_kwargs = {}
             if app_to_resource:

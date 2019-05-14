@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rgabriel.proto\"]\n\x07Message\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x11\n\ttimestamp\x18\x02 \x01(\x01\x12\r\n\x05index\x18\x03 \x01(\t\x12\r\n\x05reply\x18\x04 \x01(\x08\x12\x13\n\x0b\x66inished_ts\x18\x05 \x01(\x01\x62\x06proto3')
+  serialized_pb=_b('\n\rgabriel.proto\"q\n\x07Message\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\x11\n\ttimestamp\x18\x02 \x01(\x01\x12\r\n\x05index\x18\x03 \x01(\t\x12\r\n\x05reply\x18\x04 \x01(\x08\x12\x13\n\x0b\x66inished_ts\x18\x05 \x01(\x01\x12\x12\n\narrival_ts\x18\x06 \x01(\x01\x62\x06proto3')
 )
 
 
@@ -67,6 +67,13 @@ _MESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='arrival_ts', full_name='Message.arrival_ts', index=5,
+      number=6, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -80,7 +87,7 @@ _MESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=17,
-  serialized_end=110,
+  serialized_end=130,
 )
 
 DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE

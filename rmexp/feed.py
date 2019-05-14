@@ -55,18 +55,22 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
                         'received message not from my server: {}'.format((service, msg)))
                     continue
 
+
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
-                elapsed_ms = int((time.time() - gabriel_msg.timestamp) * 1000)
-                logger.debug("Frame {}: {} ms : {}".format(
-                    gabriel_msg.index, elapsed_ms, gabriel_msg.data))
+                reply_ms = int(1000* (time.time() - gabriel_msg.timestamp))
+                arrival_ms = int(1000* (gabriel_msg.arrival_ts - gabriel_msg.timestamp))
+                finished_ms = int(1000* (gabriel_msg.finished_ts - gabriel_msg.timestamp))
+
+                logger.debug("Frame {}: E2E {} ms : {}".format(
+                    gabriel_msg.index, reply_ms, gabriel_msg.data))
 
                 if exp:
                     index = gabriel_msg.index.split('-')[1]
                     dbutils.insert_or_update_one(
                         sess, models.ExpLatency,
                         {'name': exp, 'index': index, 'app': app, 'client': str(client_id)},
-                        {'val': elapsed_ms}
+                        {'arrival': arrival_ms, 'finished': finished_ms, 'reply': reply_ms}
                     )
                     sess.commit()
 
