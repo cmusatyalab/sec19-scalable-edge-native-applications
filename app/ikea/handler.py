@@ -28,12 +28,18 @@ import cv2
 from PIL import Image
 from object_detection.utils import label_map_util
 import time
+import pkg_resources
 
-os.environ["CUDA_VISIBLE_DEVICES"]="-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 
 MODEL_DIR = 'tf_model'
-FROZEN_INFERENCE_GRAPH = os.path.join(MODEL_DIR, 'ssd_frozen_inference_graph.pb')
-LABEL_MAP = os.path.join(MODEL_DIR, 'ikea_label_map.pbtxt')
+FROZEN_INFERENCE_GRAPH = pkg_resources.resource_filename(__name__,
+                                                         os.path.join(
+                                                             MODEL_DIR, 'ssd_frozen_inference_graph.pb'))
+LABEL_MAP = pkg_resources.resource_filename(
+    __name__,
+    os.path.join(MODEL_DIR, 'ikea_label_map.pbtxt'))
 MIN_SCORE_THRESH = 0.5
 
 
@@ -61,7 +67,8 @@ class IkeaHandler(object):
         self.detection_graph = create_detection_graph()
         self.tensor_dict = self._construct_tensor_dict()
         self.sess = tf.Session(graph=self.detection_graph)
-        self.image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
+        self.image_tensor = self.detection_graph.get_tensor_by_name(
+            'image_tensor:0')
 
     def _construct_tensor_dict(self):
         # Get handles to input and output tensors
@@ -79,19 +86,16 @@ class IkeaHandler(object):
 
         return tensor_dict
 
-
-    def process(self, img, f):
+    def process(self, img):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         image = Image.fromarray(img)
         image_np = load_image_into_numpy_array(image)
 
-        start = time.time()
         output_dict = self.sess.run(
             self.tensor_dict, feed_dict={self.image_tensor: np.expand_dims(image_np, 0)})
-        end = time.time()
-        f.write('{}\n'.format(end - start))
 
-        detection_classes = output_dict['detection_classes'][0].astype(np.uint8)
+        detection_classes = output_dict['detection_classes'][0].astype(
+            np.uint8)
         detection_boxes = output_dict['detection_boxes'][0]
         detection_scores = output_dict['detection_scores'][0]
 

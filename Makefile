@@ -1,12 +1,13 @@
-.PHONY: all feed serve image serve-container
+.PHONY: all app feed serve image serve-container
 
 all: 
 	if [ "$(shell uname -m)" = "x86_64" ]; then\
 		protoc --proto_path=rmexp/proto --python_out=rmexp rmexp/proto/gabriel.proto;\
 	fi
-#	pip uninstall -y rmexp
 	python setup.py install && rm -rf build dist rmexp.egg-info .eggs
-#	pip uninstall -y app
+	echo "NOTE: Use make app to install changes to applications"
+
+app:
 	cd app && python setup.py install && rm -rf build dist app.egg-info .eggs
 
 run: feed serve

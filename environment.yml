@@ -133,4 +133,5 @@ dependencies:
       - sphinxcontrib-websupport==1.0.1
       - typing==3.6.2
       - urllib3==1.24.1
+      - tensorflow==1.13.1
 prefix: /home/junjuew/miniconda/envs/resource-management
