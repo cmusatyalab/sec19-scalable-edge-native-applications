@@ -1,55 +1,73 @@
 #! /bin/bash -ex
 
+while [[ $# -gt 1 ]]
+do
+key="$1"
+case $key in
+    -a|--app)
+    APP="$2"
+    shift
+    ;;
+    -e|--exp)
+    EXP="$2"
+    shift
+    ;;
+    -g|--cgroup)
+    CGROUP="$2"
+    shift
+    ;;
+    -i|--interactive)
+    INTERACTIVE="$2"
+    shift
+    ;;
+    *)  # unknown option
+    ;;
+esac
+shift # past argument or value
+done
+
+declare -A core_per_worker
+core_per_worker['lego']=2
+core_per_worker['pingpong']=2
+core_per_worker['ikea']=32
+core_per_worker['face']=2
+core_per_worker['pool']=4
+
+[[ -z "${CGROUP}" ]] && echo "CGROUP cannot be empty." && exit
+[[ -z "${EXP}" ]] && echo "EXP cannot be empty." && exit
+[[ -z "${core_per_worker[$APP]}" ]] && echo "$APP is not a recognized app." && exit
+[[ -z "${BROKER_TYPE}" ]] && echo "BROKER_TYPE environ cannot be empty" && exit
+[[ -z "${WORKER_BROKER_URI}" ]] && echo "WORKER_BROKER_URI environ cannot be empty" && exit
+
 # get basic environ setup
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source ${DIR}/.envrc
 
-echo "# of cpus"
-read num_cpu
-[[ -z "${num_cpu}" ]] && echo "# cpus cannot be empty" && exit
+get_cgroup_cpu_count(){
+    cpu_set=$(cat /sys/fs/cgroup/cpuset/${CGROUP}/cpuset.cpus)
+    IFS=',' read -r -a cpus <<< ${cpu_set}
+    echo ${#cpus[@]}
+}
 
-echo "# of memory"
-read num_memory
-[[ -z "${num_memory}" ]] && echo "# memory cannot be empty" && exit
+get_worker_num(){
+    cpu_cores=$(get_cgroup_cpu_count)
+    python -c "from math import ceil; print int(ceil(float(${cpu_cores}) / ${core_per_worker[$APP]}))"
+}
 
-read -r -p "Drop into Container Bash? [y/n] " interactive
-if [[ "$interactive" =~ ^([yY][eE][sS]|[yY])+$ ]]
+if [[ "${INTERACTIVE}" =~ ^([yY][eE][sS]|[yY])+$ ]]
 then
     # launch interactive container
-    exec docker run -it --rm --name=rmexp --cpus=${num_cpu} --memory=${num_memory} res /bin/bash
+    exec docker run -it --rm \
+    --name=rmexp-interactive --cgroup-parent=${CGROUP} res /bin/bash
 else
-    # get exp configuration
-    echo "# of feeds"
-    read num_feed
-    [[ -z "${num_feed}" ]] && echo "# feed cannot be empty" && exit
-
-    echo "fps:"
-    read fps
-    [[ -z "${fps}" ]] && echo "fps cannot be empty" && exit
-
-    echo "# of worker processes:"
-    read num_worker
+    num_worker=$(get_worker_num)
     [[ -z "${num_worker}" ]] && echo "# worker cannot be empty" && exit
-
-    read -r -p "experiment prefix (default: ${EXP_PREFIX}) " prefix
-    prefix=${prefix:-$EXP_PREFIX}
-
-    exp_name="p${prefix}f${num_feed}fps${fps}w${num_worker}c${num_cpu}m${num_memory}"
-    echo "experiment name (default: ${exp_name}):"
-    read custom_exp_name
-    exp_name="${custom_exp_name:-$exp_name}"
-    echo "experiment name: ${exp_name}"
-
-    [[ -z "${BROKER_TYPE}" ]] && echo "BROKER_TYPE environ cannot be empty" && exit
-    [[ -z "${WORKER_BROKER_URI}" ]] && echo "WORKER_BROKER_URI environ cannot be empty" && exit
 
     # launch exp
     echo "launching experiment container (rmexp)"
-    docker run -d --rm --name=rmexp --cpus=${num_cpu} --memory=${num_memory} res /bin/bash -l -c \
-    "conda activate conda-env-rmexp && source .envrc && EXP=${exp_name} OMP_NUM_THREADS=4 python rmexp/serve.py start --listen ${WORKER_LISTEN} --num ${num_worker} --broker-type ${BROKER_TYPE} --broker-uri ${WORKER_BROKER_URI}"
-    
-    # launch monitoring for kafka
-    # sleep 5
-    # docker run -d --rm --name=rmexp-monitor res /bin/bash -l -c \
-    # "conda activate resource-management && source .envrc && EXP=${exp_name} python rmexp/monitor.py start --broker-type ${BROKER_TYPE} --broker-uri ${BROKER_URI}"
+    exec docker run -it --rm \
+    --name=rmexp-${EXP} \
+    --cgroup-parent=${CGROUP} \
+    res /bin/bash -i -c \
+    ". .envrc && EXP=${EXP} OMP_NUM_THREADS=${core_per_worker[$APP]} python rmexp/serve.py start --num ${num_worker} --broker-type ${BROKER_TYPE} --broker-uri ${WORKER_BROKER_URI} --app ${APP}"
 fi
