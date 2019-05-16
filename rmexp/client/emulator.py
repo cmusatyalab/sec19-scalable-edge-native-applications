@@ -4,10 +4,10 @@ import os
 import time
 import types
 
-import cv2
 import pandas as pd
 from logzero import logger
 from rmexp import client, schema, utils
+from rmexp.client import dutycycle
 
 
 class Sensor(object):
@@ -32,6 +32,31 @@ class VideoSensor(client.RTVideoClient):
         raise NotImplementedError("VideoSensor does not allow ad-hoc query.")
 
 
+class VideoAdaptiveSensor(VideoSensor):
+    def __init__(self, *args, **kwargs):
+        super(VideoAdaptiveSensor, self).__init__(*args, **kwargs)
+        # the timestamp of last passive phase trigger condition
+        self._last_trigger_time = float("-inf")
+        # the timestamp of last sample
+        self._last_sample_time = float("-inf")
+
+    def set_passive_trigger(self):
+        self._last_trigger_time = time.time()
+
+    def get_sample_period(self):
+        fr = dutycycle.lego_dynamic_sampling_rate(
+            time.time() - self._last_trigger_time)
+        return 1. / fr
+
+    def sample(self):
+        sleep_time = self.get_sample_period() - (time.time() - self._last_sample_time)
+        if sleep_time > 0:
+            time.sleep(sleep_time)
+        frame = self.get_frame()
+        self._last_sample_time = time.time()
+        return (self._fid, frame)
+
+
 class IMUSensor(Sensor):
     def __init__(self, trace):
         super(IMUSensor, self).__init__()
@@ -40,6 +65,10 @@ class IMUSensor(Sensor):
                          schema.engine, params=[self.trace, ])
         df['index'] = df['index'].astype(int)
         self.df = df.sort_values('index')
+        df = pd.read_sql('SELECT * FROM IMUSuppression WHERE name = %s',
+                         schema.engine, params=[self.trace, ])
+        df['index'] = df['index'].astype(int)
+        self.df_suppression = df
         self.cur_idx = self.df['index'].iloc[0]
         logger.debug('created IMU sensor {}. Current idx: {}'.format(
             self.trace, self.cur_idx))
@@ -55,6 +84,9 @@ class IMUSensor(Sensor):
                                   'acc_x',
                                   'acc_y',
                                   'acc_z']].values
+
+    def is_passive(self, idx):
+        return self.df_suppression.iloc[idx][['suppression']].values == '1'
 
 
 class MobileDevice(object):
@@ -73,7 +105,7 @@ class CameraTimedMobileDevice(MobileDevice):
 
     def __init__(self, sensors):
         super(CameraTimedMobileDevice, self).__init__(sensors)
-        assert (type(self.sensors[0]) is VideoSensor)
+        assert (isinstance(self.sensors[0], VideoSensor))
         self.primary_sensor = self.sensors[0]
         self.secondary_sensors = self.sensors[1:]
 
@@ -85,13 +117,42 @@ class CameraTimedMobileDevice(MobileDevice):
         return data
 
 
+class IMUSuppresedCameraTimedMobileDevice(CameraTimedMobileDevice):
+    """For each sample, it gets fid from Video sensor and 
+    checks if such sample should be suppressed from IMU suppression.
+    """
+
+    def __init__(self, sensors):
+        super(IMUSuppresedCameraTimedMobileDevice, self).__init__(sensors)
+        self.imu = self.sensors[1]
+
+    def sample(self):
+        (idx, pdata) = self.primary_sensor.sample()
+        suppression = self.imu.is_passive(idx)
+        if suppression:
+            logger.debug('suppress sample: {}'.format(idx))
+            return None
+        else:
+            data = map(lambda x: x.get(idx), self.secondary_sensors)
+            data = zip([idx]*len(data), data)
+            data.insert(0, (idx, pdata))
+            return data
+
+
 if __name__ == "__main__":
-    trace = 'lego-tr1'
-    cam = VideoSensor(trace)
+    trace = 'lego-tr6'
+    cam = VideoAdaptiveSensor(trace)
     imu = IMUSensor(trace)
-    d = CameraTimedMobileDevice(
+    d = IMUSuppresedCameraTimedMobileDevice(
         sensors=[cam, imu]
     )
+    idx = 0
     while True:
-        time.sleep(1)
-        logger.info(d.sample())
+        # time.sleep(0.010)
+        # logger.info(d.sample())
+        d.sample()
+        logger.info('sampled at {}.'.format(time.time()))
+        idx += 1
+        if idx == 20:
+            logger.info('set passive trigger {}.'.format(time.time()))
+            cam.set_passive_trigger()
