@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function
 import logging
 import select
 import subprocess
+import importlib
 
 import fire
 import logzero
@@ -40,20 +41,21 @@ class Profiler(object):
 
         logger.info('return code: {}'.format(p.returncode))
 
-    def _get_docker_cmd(self, cpu, mem, relative_video_uri, trace, app, fps):
+    def _get_docker_cmd(self, cpu, mem, relative_video_uri, trace, app, fps, omp_num_threads):
         docker_cmd = 'docker run --rm --cpus={} --memory={}g -v /home/junjuew/work/resource-management/data:/root/data:ro res /bin/bash -i -c'.format(
             cpu, mem).split()
         docker_cmd.append(
-            '". .envrc; OMP_NUM_THREADS=4 python rmexp/worker.py batch-process --video-uri /root/data/{} --app {} --fps {} --store-profile True --trace {} --cpu {} --memory {}"'.format(
-                relative_video_uri, app, fps, trace, cpu, mem
+            '". .envrc; OMP_NUM_THREADS={} python rmexp/worker.py batch-process --video-uri /root/data/{} --app {} --fps {} --store-profile True --trace {} --cpu {} --memory {}"'.format(
+                omp_num_threads, relative_video_uri, app, fps, trace, cpu, mem
             ))
         return docker_cmd
 
     def profile(self):
+        app_module = importlib.import_module(self.app)
         for cpu in self.cpus:
             for mem in self.mems:
                 docker_cmd = self._get_docker_cmd(
-                    cpu, mem, self.relative_video_uri, self.trace, self.app, self.fps)
+                    cpu, mem, self.relative_video_uri, self.trace, self.app, self.fps, app_module.OMP_NUM_THREADS)
                 logger.debug('issuing:\n{}'.format(' '.join(docker_cmd)))
                 self._issue_cmd(' '.join(docker_cmd))
 
