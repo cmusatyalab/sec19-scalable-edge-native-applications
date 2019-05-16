@@ -51,7 +51,10 @@ class ScipySolver(object):
             else:   # total util
                 util_total = sum(utils)
 
-            print("util: {} {}".format(util_total, x))
+            print("total, utils, x: {}, {}, {}".format(
+                np.round(util_total, 2), 
+                np.round(utils, 2),
+                np.round(x, 2)))
             return -util_total
 
         def cpu_con(x):
@@ -68,11 +71,11 @@ class ScipySolver(object):
             {'type': 'eq', 'fun': mem_con},
         ]
         # bound individual var >= 0
-        bounds = [(0.05, cpu) for _ in range(len(apps))] + [(0.05, mem) for _ in range(len(apps))]
+        bounds = [(0., cpu) for _ in range(len(apps))] + [(0., mem) for _ in range(len(apps))]
 
         # TODO(junjuew): need to find a reasonable bound
         res = scipy.optimize.minimize(
-            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds)
+            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds, tol=1e-6)
         return res.success, -res.fun, np.around(res.x, decimals=1)
 
 
@@ -95,7 +98,9 @@ class AppUtil(object):
         super(AppUtil, self).__init__()
 
     def _load_util_func(self):
-        with open('/home/junjuew/work/resource-management/data/profile/{}.pkl'.format(self.app), 'rb') as f:
+        path = '/home/junjuew/work/resource-management/data/profile/auto-worker-{}.pkl'.format(self.app)
+        logger.debug("Using profile {}".format(path))
+        with open(path, 'rb') as f:
             util_func = pickle.load(f)
         return util_func
 
