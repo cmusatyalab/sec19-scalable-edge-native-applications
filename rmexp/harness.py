@@ -92,7 +92,7 @@ def intra_app_allocate(app, users, app_cpus, app_memory):
         u['tokens'] = tokens
 
 
-def run(run_config, component, exp='', **kwargs):
+def run(run_config, component, exp='', dry_run=False, **kwargs):
     """[summary]
 
     Arguments:
@@ -139,7 +139,7 @@ def run(run_config, component, exp='', **kwargs):
     #     intra_app_allocate(app, users, app_to_resource[app]['cpus'], app_to_resource[app]['memory'])
     # logger.debug('Per user token: {}'.format(app_to_users))
 
-    if component == 'client':
+    if component == 'client' and not dry_run:
         client_count = 0
 
         for app, users in app_to_users.iteritems():
@@ -155,11 +155,23 @@ def run(run_config, component, exp='', **kwargs):
             # use our smart scheduler
             allocator = Allocator(ScipySolver(fair=run_config.get('fair', False)))
             apps = app_to_users.keys()
+            logger.info(apps)
             weights = [sum(map(operator.itemgetter('weight'), app_to_users[a]))  for a in apps]
             success, _, res = allocator.solve(
                 CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, apps), weights=None)
             assert success
             alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
+            logger.info("solved cpu: {}".format(alloted_cpu))
+            logger.info("solved mem: {}".format(alloted_mem))
+
+            # retify: if alloted CPU is too small, simply don't run it and re-allocate memory/cpu perseving ratio
+            alloted_cpu[alloted_cpu < 0.01] = 0.
+            alloted_cpu = CGROUP_INFO['cpu'] * alloted_cpu / np.sum(alloted_cpu)
+            alloted_mem[alloted_cpu < 0.01] = 0.
+            alloted_mem = CGROUP_INFO['memory'] * alloted_mem / np.sum(alloted_mem)
+            logger.info("retified cpu: {}".format(alloted_cpu))
+            logger.info("retified mem: {}".format(alloted_mem))
+
             app_to_resource = dict([
                 (app, {'cpu': cpu, 'memory': mem}) 
                 for app, cpu, mem in zip(apps, alloted_cpu, alloted_mem)
@@ -174,28 +186,34 @@ def run(run_config, component, exp='', **kwargs):
                     'mem_limit': int(app_to_resource[app]['memory'])
                     }
             logger.info("{} docker run kwargs: {}".format(app, docker_run_kwargs))
-            workers.append(mp.Process(
-                target=start_worker, args=(app, min(40, 4*len(users)), docker_run_kwargs), name=app+'-server'))
+            if not docker_run_kwargs or docker_run_kwargs['cpu_quota'] > 1000:
+                if not dry_run:
+                    workers.append(mp.Process(
+                        target=start_worker, args=(app, min(40, 4*len(users)), docker_run_kwargs), name=app+'-server'))
+            else:
+                logger.info("Dropping app {}".format(app))
 
     for p in workers + feeds:
         p.daemon = True
     try:
-        # start all endpoints
-        map(lambda t: t.start(), workers + feeds)
+        if not dry_run:
+            # start all endpoints
+            map(lambda t: t.start(), workers + feeds)
 
-        if component == 'client' and 'stop_after' in run_config:
-            time.sleep(run_config['stop_after'])
-            raise RuntimeError("run_config time's up")
+            if component == 'client' and 'stop_after' in run_config:
+                time.sleep(run_config['stop_after'])
+                raise RuntimeError("run_config time's up")
 
-        map(lambda t: t.join(), workers + feeds)
+            map(lambda t: t.join(), workers + feeds)
 
     except KeyboardInterrupt:
         pass
     finally:
-        logger.debug("Cleaning up processes")
-        map(lambda t: t.terminate(), feeds + workers)
-        if component == 'server':
-            kill()
+        if not dry_run:
+            logger.debug("Cleaning up processes")
+            map(lambda t: t.terminate(), feeds + workers)
+            if component == 'server':
+                kill()
 
 
 def kill():
