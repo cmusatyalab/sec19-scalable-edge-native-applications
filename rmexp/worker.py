@@ -97,7 +97,7 @@ def batch_process(video_uri, app, fps=30.0, store_result=False, store_latency=Fa
         while True:
             _, img = video_sampler.sample()
             if img is not None:
-                cvutils.resize_to_max_wh(img, app.config.IMAGE_MAX_WH)
+                img = cvutils.resize_to_max_wh(img, app.config.IMAGE_MAX_WH)
                 result, time_lapse = process_img(img, app_handler)
                 logger.debug("processing frame {} from {}. {} ms".format(
                     idx, video_uri, int(time_lapse)))

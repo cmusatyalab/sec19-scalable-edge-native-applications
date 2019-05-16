@@ -37,6 +37,8 @@ envs_dirs:
 ```bash
 conda activate conda-env-rmexp
 ```
+  * NOTE: dlib and tensorflow is installed through pip, since opencv 2.4.13 has a fixed dependency of numpy (1.11) that is conflicting with the newest dlib and tf. conda won't allow such conflict to co-exists. However, just updating numpy to 1.16.3 still seems to be working for lego, pingpong, and pool those legacy applications.
+  * NOTE: tensorflow object detection is using Tan's installation on cloudlet002.
 * Infrastructure service uris
   * MySQL database: cloudlet002.elijah.cs.cmu.edu:13306
   * database UI: http://cloudlet002.elijah.cs.cmu.edu:8081

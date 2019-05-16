@@ -23,7 +23,8 @@ def get_connector(broker_type, broker_uri, *args, **kwargs):
         logger.debug('using zmq connector: {} {}'.format(broker_uri, kwargs))
         nc = ZmqConnector(broker_uri, **kwargs)
     elif broker_type == 'zmq-md':
-        logger.debug('using zmq-majordomo connector: {} {}'.format(broker_uri, kwargs))
+        logger.debug(
+            'using zmq-majordomo connector: {} {}'.format(broker_uri, kwargs))
         nc = ZmqMajorDomoConnector(broker_uri, **kwargs)
     elif broker_type == 'kafka':
         nc = KafkaConnector(
@@ -135,7 +136,7 @@ class ZmqMajorDomoConnector(object):
 
     def get(self, timeout=None):
         if self.client:
-            return self.sock.recv(timeout) # client
+            return self.sock.recv(timeout)  # client
         else:
             msg = self.sock.recv(self.reply)   # worker
             self.reply = None
@@ -146,8 +147,7 @@ class ZmqMajorDomoConnector(object):
             assert service is not None
             self.sock.send(service, msg)
         else:
-             self.reply = msg   # defer sending
-
+            self.reply = msg   # defer sending
 
 
 class KafkaConnector(object):

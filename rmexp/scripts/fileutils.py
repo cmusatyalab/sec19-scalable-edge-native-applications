@@ -93,7 +93,7 @@ def _get_highest_res_trace(dir_path):
 
 def resize_trace(input_path, output_path, width):
     import subprocess
-    cmd = 'ffmpeg -y -i {} -filter:v scale={}:-2 {}'.format(
+    cmd = 'ffmpeg -y -i {} -vf scale={}:-2 -vsync passthrough {}'.format(
         input_path, width, output_path)
     logger.debug('issuing: {}...'.format(cmd))
     p = subprocess.Popen(cmd, shell=True)
@@ -103,7 +103,7 @@ def resize_trace(input_path, output_path, width):
             'Cmd Error: {} has return code {}'.format(cmd, p.returncode))
 
 
-def correct_trace_resolution(app, dir_path):
+def correct_trace_resolution(app, dir_path, force=False):
     """Correct default video trace resolution based on app setting.
     It will take the max resolution video it finds, scale it 
     to the desired resolution, and create a symlink.
@@ -124,10 +124,13 @@ def correct_trace_resolution(app, dir_path):
 
         # check if existing video.mp4 satisfies the requirements
         if os.path.islink(default_trace):
-            shape = get_video_resolution(default_trace)
-            if max(shape) <= app.config.IMAGE_MAX_WH:
-                continue
-            os.unlink(default_trace)
+            if force:
+                os.unlink(default_trace)
+            else:
+                shape = get_video_resolution(default_trace)
+                if max(shape) <= app.config.IMAGE_MAX_WH:
+                    continue
+                os.unlink(default_trace)
 
         if max(get_video_resolution(trace)) > app.config.IMAGE_MAX_WH:
             output_trace = os.path.join(

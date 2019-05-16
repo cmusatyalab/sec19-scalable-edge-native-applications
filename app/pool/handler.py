@@ -28,10 +28,7 @@ import Queue
 import sys
 import threading
 import time
-from pool import pool_cv as pc
-
-
-IMAGE_MAX_WH = 1920
+from pool import config, pool_cv as pc
 
 
 class PoolHandler(object):
@@ -39,9 +36,9 @@ class PoolHandler(object):
         return "Pool Handler"
 
     def process(self, img):
-        if max(img.shape) > IMAGE_MAX_WH:
-            resize_ratio = (float(IMAGE_MAX_WH) /
-                max(img.shape[0], img.shape[1]))
+        if max(img.shape) > config.IMAGE_MAX_WH:
+            resize_ratio = (float(config.IMAGE_MAX_WH) /
+                            max(img.shape[0], img.shape[1]))
             img = cv2.resize(img, (0, 0), fx=resize_ratio,
                              fy=resize_ratio, interpolation=cv2.INTER_AREA)
 

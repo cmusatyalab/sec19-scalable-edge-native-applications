@@ -1,1 +1,2 @@
 include face/models/*
+include ikea/tf_model/*
