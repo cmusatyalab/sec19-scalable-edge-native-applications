@@ -27,12 +27,12 @@ def start_single_feed(video_uri, fps, broker_type, broker_uri):
     reactor.run()
 
 
-def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap, exp='', client_id=0):
+def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0):
     if exp:
         sess = dbutils.get_session()
 
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
-    vc = client.RTVideoClient(video_uri, nc)
+    vc = client.RTVideoClient(video_uri, nc, loop=loop)
     vc.start()
     tokens = tokens_cap
     while True:

@@ -29,15 +29,15 @@ def work_loop(job_queue, app):
         encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
         img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
         result = handler.process(img)
-        finished_t = time.time()
-        time_lapse = (finished_t - ts) * 1000
+        finished_ts = time.time()
+        time_lapse = (finished_ts - ts) * 1000
 
         if gabriel_msg.reply:
             reply = gabriel_pb2.Message()
             reply.data = str(result)
             reply.timestamp = gabriel_msg.timestamp
             reply.index = gabriel_msg.index
-            reply.finished_ts = finished_t
+            reply.finished_ts = finished_ts
             reply.arrival_ts = arrival_ts
             job_queue.put([reply.SerializeToString(), ])
 

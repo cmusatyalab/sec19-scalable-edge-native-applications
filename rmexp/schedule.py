@@ -40,11 +40,13 @@ class ScipySolver(object):
             util_funcs = [app.util_func for app in apps]
             utils = map(lambda x: x[0](*x[1:]), zip(util_funcs, x0, x1))
             utils = np.nan_to_num(utils)
+
+            # user weights
             if weights:
                 utils = utils * weights
 
             util_total = sum(utils)
-            print(util_total)
+            print("util: {} {}".format(util_total, x))
             return -util_total
 
         def cpu_con(x):
@@ -65,7 +67,7 @@ class ScipySolver(object):
 
         # TODO(junjuew): need to find a reasonable bound
         res = scipy.optimize.minimize(
-            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds, tol=1e-6)
+            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds)
         return res.success, -res.fun, np.around(res.x, decimals=1)
 
 
