@@ -11,7 +11,7 @@ from twisted.internet import reactor, task
 
 
 class VideoClient(object):
-    def __init__(self, video_uri, network_connector, video_params=None, max_wh=None, loop=False):
+    def __init__(self, video_uri, network_connector=None, video_params=None, max_wh=None, loop=False):
         super(VideoClient, self).__init__()
         self._fid = 0
         self._cam = self.get_video_capture(video_uri)
@@ -89,12 +89,16 @@ class RTVideoClient(VideoClient):
         self._start_time = time.time()
 
     def get_frame(self):
+        if self._start_time is None:
+            self.start()
+
         expected_frame_id = int(
             self._fps * (time.time() - self._start_time)) + 1
 
         while expected_frame_id <= self._fid:
             # too soon, block until at least next frame
-            time.sleep(0.030)
+            # sleep for half of a period
+            time.sleep(1./self._fps * (1./2.))
             expected_frame_id = int(
                 self._fps * (time.time() - self._start_time)) + 1
 

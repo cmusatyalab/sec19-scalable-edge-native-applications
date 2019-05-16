@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function
 
+import os
 import time
 from functools import wraps
 
@@ -26,3 +27,14 @@ def pretty(app):
     }
 
     return d[app]
+
+
+data_dir = 'data'
+
+
+def get_trace_video_uri(trace):
+    app, idx = trace.split('-')
+    idx = int(idx[2:])
+    fpath = os.path.join(data_dir, '{}-trace'.format(app),
+                         str(idx), 'video.mp4')
+    return os.path.join(fpath)
