@@ -28,8 +28,9 @@ def group(lst, n):
 
 
 class ScipySolver(object):
-    def __init__(self):
+    def __init__(self, fair=False):
         super(ScipySolver, self).__init__()
+        self.fair = fair
 
     def solve(self, cpu, mem, apps, weights=None):
         x0 = zip(*[app.x0 for app in apps])
@@ -40,11 +41,17 @@ class ScipySolver(object):
             util_funcs = [app.util_func for app in apps]
             utils = map(lambda x: x[0](*x[1:]), zip(util_funcs, x0, x1))
             utils = np.nan_to_num(utils)
+
+            # user weights
             if weights:
                 utils = utils * weights
 
-            util_total = sum(utils)
-            print(util_total)
+            if self.fair:   # max min
+                util_total = np.min(utils)
+            else:   # total util
+                util_total = sum(utils)
+
+            print("util: {} {}".format(util_total, x))
             return -util_total
 
         def cpu_con(x):
@@ -61,11 +68,11 @@ class ScipySolver(object):
             {'type': 'eq', 'fun': mem_con},
         ]
         # bound individual var >= 0
-        bounds = [(0., cpu) for _ in range(len(apps))] + [(0., mem) for _ in range(len(apps))]
+        bounds = [(0.05, cpu) for _ in range(len(apps))] + [(0.05, mem) for _ in range(len(apps))]
 
         # TODO(junjuew): need to find a reasonable bound
         res = scipy.optimize.minimize(
-            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds, tol=1e-6)
+            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds)
         return res.success, -res.fun, np.around(res.x, decimals=1)
 
 
@@ -94,7 +101,7 @@ class AppUtil(object):
 
 
 if __name__ == '__main__':
-    allocator = Allocator(ScipySolver())
+    allocator = Allocator(ScipySolver(fair=True))
     cpu = 4
     mem = 8
     weights = [9, 9, 9, 9]
