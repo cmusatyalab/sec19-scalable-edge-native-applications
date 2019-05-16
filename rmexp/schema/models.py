@@ -72,6 +72,16 @@ class IMU(Base):
     acc_z = Column(types.FLOAT(53))
 
 
+class IMUSuppression(Base):
+    """IMU suppression decision for each frame"""
+    __tablename__ = 'IMUSuppression'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(512), nullable=False)
+    trace = Column(String(512), nullable=False)
+    index = Column(String(32), nullable=False)
+    suppression = Column(String(32))
+
+
 class ResourceLatency(Base):
     """Resource (cpu, mem) -> latency"""
     __tablename__ = 'ResourceLatency'
