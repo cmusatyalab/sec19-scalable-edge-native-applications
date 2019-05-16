@@ -61,12 +61,12 @@ def load_image_into_numpy_array(image):
 
 
 class IkeaHandler(object):
-    def __init__(self):
+    def __init__(self, tfconfig=None):
         self.category_index = label_map_util.create_category_index_from_labelmap(
             LABEL_MAP, use_display_name=True)
         self.detection_graph = create_detection_graph()
         self.tensor_dict = self._construct_tensor_dict()
-        self.sess = tf.Session(graph=self.detection_graph)
+        self.sess = tf.Session(graph=self.detection_graph, config=tfconfig)
         self.image_tensor = self.detection_graph.get_tensor_by_name(
             'image_tensor:0')
 
