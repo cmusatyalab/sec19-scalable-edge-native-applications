@@ -153,7 +153,7 @@ def run(run_config, component, exp='', **kwargs):
         # inter-app allocation
         if run_config.get('inter_app_schedule', True):
             # use our smart scheduler
-            allocator = Allocator(ScipySolver())
+            allocator = Allocator(ScipySolver(fair=run_config.get('fair', False)))
             apps = app_to_users.keys()
             weights = [sum(map(operator.itemgetter('weight'), app_to_users[a]))  for a in apps]
             success, _, res = allocator.solve(

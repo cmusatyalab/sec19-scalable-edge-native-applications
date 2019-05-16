@@ -28,8 +28,9 @@ def group(lst, n):
 
 
 class ScipySolver(object):
-    def __init__(self):
+    def __init__(self, fair=False):
         super(ScipySolver, self).__init__()
+        self.fair = fair
 
     def solve(self, cpu, mem, apps, weights=None):
         x0 = zip(*[app.x0 for app in apps])
@@ -45,7 +46,11 @@ class ScipySolver(object):
             if weights:
                 utils = utils * weights
 
-            util_total = sum(utils)
+            if self.fair:   # max min
+                util_total = np.min(utils)
+            else:   # total util
+                util_total = sum(utils)
+
             print("util: {} {}".format(util_total, x))
             return -util_total
 
@@ -96,7 +101,7 @@ class AppUtil(object):
 
 
 if __name__ == '__main__':
-    allocator = Allocator(ScipySolver())
+    allocator = Allocator(ScipySolver(fair=True))
     cpu = 4
     mem = 8
     weights = [9, 9, 9, 9]
