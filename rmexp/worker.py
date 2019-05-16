@@ -5,6 +5,7 @@ import logging
 import os
 import time
 import importlib
+import multiprocessing
 
 import cv2
 import fire
@@ -73,11 +74,25 @@ def process_img(img, app_handler):
     return result, time_lapse
 
 
-def batch_process(video_uri, app, fps=30.0, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None):
+def batch_process_multiple(worker_num,
+                           video_uri, app,
+                           fps=30.0, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None):
+    """Multiple batch process at the same time. mainly used for profiling.
+    Arguments are the same as batch_process, except worker_num.
+    """
+    procs = [multiprocessing.Process(target=batch_process, args=(
+        video_uri, app, fps, store_result, store_latency, store_profile, trace, cpu, memory, worker_num)) for _ in range(worker_num)]
+    map(lambda proc: proc.start(), procs)
+    map(lambda proc: proc.join(), procs)
+
+
+def batch_process(video_uri, app, fps=30.0, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None, num_worker=1):
     """Batch process a lego video. Able to store both the result and the frame processing latency.
 
     Arguments:
         video_uri {[type]} -- [description]
+        worker_num: This is just used when store_profile is true. it does not launch multiple processes.
+        Use batch_process_multiple to launch multiple workers.
 
     Keyword Arguments:
         store_result {bool} -- [description] (default: {False})
@@ -99,8 +114,8 @@ def batch_process(video_uri, app, fps=30.0, store_result=False, store_latency=Fa
             if img is not None:
                 img = cvutils.resize_to_max_wh(img, app.config.IMAGE_MAX_WH)
                 result, time_lapse = process_img(img, app_handler)
-                logger.debug("processing frame {} from {}. {} ms".format(
-                    idx, video_uri, int(time_lapse)))
+                logger.debug("[pid: {}] processing frame {} from {}. {} ms".format(os.getpid(),
+                                                                                   idx, video_uri, int(time_lapse)))
                 logger.debug(result)
                 if store_result:
                     rec, _ = dbutils.get_or_create(
@@ -118,12 +133,12 @@ def batch_process(video_uri, app, fps=30.0, store_result=False, store_latency=Fa
                         index=idx)
                     rec.val = int(time_lapse)
                 if store_profile:
-                    dbutils.insert_or_update_one(
+                    dbutils.insert(
                         sess,
                         models.ResourceLatency,
-                        {'trace': trace, 'index': idx,
-                            'cpu': cpu, 'memory': memory},
-                        {'latency': time_lapse}
+                        {'trace': trace, 'index': idx, 'name': config.EXP,
+                         'cpu': cpu, 'memory': memory,
+                         'latency': time_lapse, 'num_worker': num_worker}
                     )
                 if sess is not None:
                     sess.commit()

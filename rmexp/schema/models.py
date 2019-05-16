@@ -29,6 +29,7 @@ class ExpLatency(Base):
     finished = Column(Integer)
     reply = Column(Integer)
 
+
 class LegoLatency(Base):
     """General experiment table."""
     __tablename__ = 'LegoLatency'
@@ -81,6 +82,8 @@ class ResourceLatency(Base):
     cpu = Column(types.FLOAT(53), nullable=False)
     memory = Column(types.FLOAT(53), nullable=False)
     latency = Column(types.FLOAT(53))
+    name = Column(String(512))
+    num_worker = Column(Integer)
 
 
 class AppProfile(Base):

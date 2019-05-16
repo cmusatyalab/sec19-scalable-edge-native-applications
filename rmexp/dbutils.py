@@ -18,6 +18,16 @@ def get_session():
     return session
 
 
+def insert(sess, model, vals_dict):
+    """
+    Insert a record
+    """
+    create_dict = {}
+    create_dict.update(vals_dict)
+    record = model(**create_dict)
+    sess.add(record)
+
+
 def get_or_create(session, model, **kwargs):
     """
     Get or create a model instance while preserving integrity.
