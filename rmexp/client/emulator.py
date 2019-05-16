@@ -20,8 +20,9 @@ class Sensor(object):
 
 class VideoSensor(client.RTVideoClient):
     def __init__(self, trace, *args, **kwargs):
-        video_uri = utils.get_trace_video_uri(trace)
-        super(VideoSensor, self).__init__(video_uri, *args, **kwargs)
+        video_uri = utils.trace_to_video_uri(trace)
+        app = utils.trace_to_app(trace)
+        super(VideoSensor, self).__init__(app, video_uri, *args, **kwargs)
         logger.debug('created video sensor to read from: {}'.format(video_uri))
 
     def sample(self):
@@ -30,6 +31,12 @@ class VideoSensor(client.RTVideoClient):
 
     def get(self, idx):
         raise NotImplementedError("VideoSensor does not allow ad-hoc query.")
+
+
+def trigger_passive(app, msg):
+    assert app in ['lego']
+    if app == 'lego':
+        return '[[' in msg
 
 
 class VideoAdaptiveSensor(VideoSensor):
@@ -55,6 +62,10 @@ class VideoAdaptiveSensor(VideoSensor):
         frame = self.get_frame()
         self._last_sample_time = time.time()
         return (self._fid, frame)
+
+    def process_reply(self, msg):
+        if trigger_passive(self._app, msg):
+            self.set_passive_trigger()
 
 
 class IMUSensor(Sensor):
@@ -129,17 +140,38 @@ class IMUSuppresedCameraTimedMobileDevice(CameraTimedMobileDevice):
     def sample(self):
         (idx, pdata) = self.primary_sensor.sample()
         suppression = self.imu.is_passive(idx)
-        if suppression:
+        while suppression:
             logger.debug('suppress sample: {}'.format(idx))
-            return None
-        else:
-            data = map(lambda x: x.get(idx), self.secondary_sensors)
-            data = zip([idx]*len(data), data)
-            data.insert(0, (idx, pdata))
-            return data
+            (idx, pdata) = self.primary_sensor.sample()
+            suppression = self.imu.is_passive(idx)
+
+        data = map(lambda x: x.get(idx), self.secondary_sensors)
+        data = zip([idx]*len(data), data)
+        data.insert(0, (idx, pdata))
+        return data
 
 
-if __name__ == "__main__":
+class DeviceToClientAdapter(object):
+    """An adapter that make devices work with previous Client apis in video.py 
+    """
+
+    def __init__(self, device):
+        super(DeviceToClientAdapter, self).__init__()
+        self.device = device
+
+    def get_and_send_frame(self, **kwargs):
+        data = self.device.sample()
+        fid, frame = data[0]
+        ts = time.time()
+        self.device.primary_sensor.send_frame(
+            frame, fid, time=ts, **kwargs)
+
+    def process_reply(self, msg):
+        # let the primary sensor to determine how to adjust to reply
+        self.device.primary_sensor.process_reply(msg)
+
+
+def test_device():
     trace = 'lego-tr6'
     cam = VideoAdaptiveSensor(trace)
     imu = IMUSensor(trace)
@@ -148,7 +180,7 @@ if __name__ == "__main__":
     )
     idx = 0
     while True:
-        # time.sleep(0.010)
+        time.sleep(0.100)
         # logger.info(d.sample())
         d.sample()
         logger.info('sampled at {}.'.format(time.time()))
@@ -156,3 +188,7 @@ if __name__ == "__main__":
         if idx == 20:
             logger.info('set passive trigger {}.'.format(time.time()))
             cam.set_passive_trigger()
+
+
+if __name__ == "__main__":
+    test_device()

@@ -11,13 +11,16 @@ from twisted.internet import reactor, task
 
 
 class VideoClient(object):
-    def __init__(self, video_uri, network_connector=None, video_params=None, max_wh=None, loop=False):
+    def __init__(self, app, video_uri, network_connector=None, video_params=None, max_wh=None, loop=False):
         super(VideoClient, self).__init__()
         self._fid = 0
         self._cam = self.get_video_capture(video_uri)
         self._nc = network_connector
         self._max_wh = max_wh
         self._loop = loop
+        self._app = app
+        assert self._app in ['lego', 'pingpong', 'face',
+                             'pool', 'ikea'], 'Unknown app: {}'.format(self._app)
         if video_params is not None:
             self._set_cam_params(video_params)
 
@@ -29,7 +32,7 @@ class VideoClient(object):
         gabriel_msg.index = '{}-{}'.format(os.getpid(), frame_id)
         gabriel_msg.reply = reply
         self._nc.put([gabriel_msg.SerializeToString(), ],
-                     service=kwargs['app'])
+                     service=self._app)
 
     def get_frame(self):
         """Public function to get a frame.
@@ -52,6 +55,9 @@ class VideoClient(object):
         ts = time.time()
         if filter_func is None or filter_func(frame):
             self.send_frame(frame, self._fid, reply=reply, time=ts, **kwargs)
+
+    def process_reply(self, msg):
+        logger.warning('{} reply ignored'.format(self))
 
     def _get_frame_and_resize(self):
         has_frame, img = self._cam.read()

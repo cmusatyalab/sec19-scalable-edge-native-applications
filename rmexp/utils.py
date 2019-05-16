@@ -32,9 +32,20 @@ def pretty(app):
 data_dir = 'data'
 
 
-def get_trace_video_uri(trace):
+def trace_to_video_uri(trace):
     app, idx = trace.split('-')
     idx = int(idx[2:])
     fpath = os.path.join(data_dir, '{}-trace'.format(app),
                          str(idx), 'video.mp4')
     return os.path.join(fpath)
+
+
+def video_uri_to_trace(video_uri):
+    idx = os.path.basename(os.path.dirname(video_uri))
+    app = os.path.basename(os.path.dirname(
+        os.path.dirname(video_uri))).split('-')[0]
+    return '{}-tr{}'.format(app, idx)
+
+
+def trace_to_app(trace):
+    return trace.split('-')[0]
