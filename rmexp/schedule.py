@@ -63,7 +63,7 @@ class ScipySolver(object):
             {'type': 'eq', 'fun': mem_con},
         ]
         # bound individual var >= 0
-        bounds = [(0., cpu) for _ in range(len(apps))] + [(0., mem) for _ in range(len(apps))]
+        bounds = [(0.05, cpu) for _ in range(len(apps))] + [(0.05, mem) for _ in range(len(apps))]
 
         # TODO(junjuew): need to find a reasonable bound
         res = scipy.optimize.minimize(
