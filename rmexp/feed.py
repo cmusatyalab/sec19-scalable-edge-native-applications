@@ -17,7 +17,7 @@ from rmexp.schema import models
 from rmexp.client import emulator
 
 import logzero
-logzero.logfile("client.log")
+logzero.logfile("/tmp/feed.log", mode='w')
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
 #     nc = networkutil.get_connector(broker_type, broker_uri)
@@ -73,14 +73,17 @@ def run_loop(vc, nc, tokens_cap, dbobj=None):
                     store_exp_latency(dbobj, gabriel_msg)
 
 
-def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0, client_type='video'):
+def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
+                            loop=True, random_start=True, exp='', client_id=0, client_type='video'):
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = None
     if client_type == 'video':
-        vc = client.RTVideoClient(app, video_uri, nc, loop=loop)
+        vc = client.RTVideoClient(
+            app, video_uri, nc, loop=False, random_start=False)
     elif client_type == 'device':
         trace = utils.video_uri_to_trace(video_uri)
-        cam = emulator.VideoAdaptiveSensor(trace, network_connector=nc)
+        cam = emulator.VideoAdaptiveSensor(
+            trace, network_connector=nc, loop=loop, random_start=random_start)
         imu = emulator.IMUSensor(trace)
         device = emulator.IMUSuppresedCameraTimedMobileDevice(
             sensors=[cam, imu]
@@ -100,12 +103,14 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
     run_loop(vc, nc, tokens_cap, dbobj=dbobj)
 
 
-def start(num, video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0, client_type='device'):
+def start(num, video_uri, app, broker_type, broker_uri, tokens_cap,
+          loop=True, random_start=True, exp='', client_id=0, client_type='device'):
     # if tokens is not None, use tokened client
     procs = list()
     for _ in range(num):
         p = multiprocessing.Process(target=start_single_feed_token,
-                                    args=(video_uri, app, broker_type, broker_uri, tokens_cap, loop, exp, client_id, client_type))
+                                    args=(video_uri, app, broker_type, broker_uri, tokens_cap,
+                                          loop, random_start, exp, client_id, client_type))
 
         p.daemon = True
         procs.append(p)
