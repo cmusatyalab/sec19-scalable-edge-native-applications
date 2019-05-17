@@ -235,3 +235,18 @@ python fileutils.py correct-trace-resolution --app pool --dir-path ../../data/po
 # based on the video resolution This is used to migrate from previous dataset format.
 python fileutils.py rename-default-trace --dir-path ../../data/face-trace
 ```
+
+
+
+
+## Scheduling and Resource Allocation
+
+1. For each app, find max utility per resource on utility curve (find cpu, memory, latency) at P
+2. Find FPS at P (look up latency from trace)
+3. Among all apps, choose highest P, keep allocating workers until total FPS > client * 30
+4. Iterate until all resources are allocated
+5. For each app, calculate total tokens = num_workers * FPS per worker * 1~2
+6. Divide tokens to individual clients.
+7. Run experiments and plot multiple-app multiple-client, baseline vs. ours.
+
+

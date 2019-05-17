@@ -81,7 +81,7 @@ def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
 def best_workers(app, cpu, memory=None):
     # solely based on cpu now
     omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
-    return int(math.ceil(cpu / float(omp_num_threads)))
+    return int(math.ceil(cpu / float(omp_num_threads)))    # round to higer integer
 
 
 def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs):
@@ -137,7 +137,9 @@ def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs)
         allocator = Allocator(ScipySolver(fair=run_config.get('fair', False)))
         flatten_apps = list(itertools.chain.from_iterable([ [app]*len(users) for app, users in app_to_users.iteritems()]))
         logger.debug(flatten_apps)
-        success, _, res = allocator.solve(CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, flatten_apps))
+        success, opt_util, res = allocator.solve(CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, flatten_apps))
+        logger.info("Apps: {}".format(flatten_apps))
+        logger.info("Opt util: {}".format(opt_util))
         assert success
 
         alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
@@ -162,11 +164,11 @@ def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs)
         for app, users in app_to_users.iteritems():
             app_to_resource[app] = {
                 'cpu': sum(map(operator.itemgetter('cpu'), users)),
-                'memory': sum(map(operator.itemgetter('memory'), users))
+                'memory': sum(map(operator.itemgetter('memory'), users)),
             }
             app_to_resource[app].update({
-                'workers': best_workers(app, app_to_resource[app]['cpu']),
-                'admission': best_workers(app, app_to_resource[app]['cpu'])
+                'workers': best_workers(app, app_to_resource[app]['cpu']),   # based on allocated resource
+                'admissions': len(filter(lambda u: u['cpu']>1e-3, users))       # based on allocated resource
             })
     elif strategy == "baseline":
         logger.info("Using baseline scheduler")
@@ -174,9 +176,12 @@ def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs)
             app_to_resource[app] = {
                 'cpu': CGROUP_INFO['cpu'],
                 'memory': CGROUP_INFO['memory'],
-                'workers': best_workers(app, CGROUP_INFO['cpu']),
-                'admission': best_workers(app, CGROUP_INFO['cpu'])  # each app does admission based on global resource
             }
+            app_to_resource[app].update({
+                'workers': best_workers(app, CGROUP_INFO['cpu']),    # based on global resource
+                'admissions': len(users)    # accept everyone?
+            })
+
     else:
         raise ValueError("Unknown strategy: {}".format(strategy))
 
@@ -186,16 +191,15 @@ def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs)
     if component == 'client':
 
         for app, users in app_to_users.iteritems():
-            admission = app_to_resource[app]['admission']
-
+            admissions = app_to_resource[app]['admissions']
             for u in users:
-                if admission > 0:
+                if admissions > 0:
                     logger.info("Accept user {} {}".format(app, u['id']))
                     if not dry_run:
                         feeds.append(mp.Process(
                             target=start_feed, args=(app, u['video_uri'], 2, exp, u['id'],), name='client-'+str(u['id'])
                         ))
-                    admission -= 1
+                    admissions -= 1
                 else:
                     logger.warn("Drop user {} {}".format(app, u['id']))
 
