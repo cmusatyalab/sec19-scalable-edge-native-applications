@@ -2,9 +2,11 @@
 from collections import defaultdict
 import docker
 import fire
+import importlib
 import logging
 import logzero
 from logzero import logger
+import math
 import multiprocessing as mp
 import numpy as np
 import operator
@@ -29,13 +31,15 @@ GiB = 2.**30
 # logzero.loglevel(logging.INFO)
 
 def start_worker(app, num, docker_run_kwargs):
+    omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
+
     cli = docker.from_env()
 
     container_name = 'rmexp-mc-{}-{}'.format(app, str(uuid.uuid4())[:8])
 
-    bash_cmd = ". .envrc && OMP_NUM_THREADS=4 python rmexp/serve.py start --num {} \
+    bash_cmd = ". .envrc && OMP_NUM_THREADS={} python rmexp/serve.py start --num {} \
                 --broker-type {} --broker-uri {} --app {} " \
-        .format(num, os.getenv('BROKER_TYPE'), os.getenv('WORKER_BROKER_URI'), app)
+        .format(omp_num_threads, num, os.getenv('BROKER_TYPE'), os.getenv('WORKER_BROKER_URI'), app)
     logger.debug(bash_cmd)
 
     try:
@@ -72,24 +76,10 @@ def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
         logger.info("%s finished" % video_uri)
 
 
-def intra_app_allocate(app, users, app_cpus, app_memory):
-    # simple heuristics
-    app_latency_4cpu = {
-        'lego': 0.118,
-        'face': 0.170,
-        'pingpong': 0.032,
-        'pool': 0.045
-    }
-    total_fps = (1./app_latency_4cpu[app]) * app_cpus / 4.0
-    total_tokens = total_fps
-
-    weights = np.array([u.get('weight', 1.) for u in users])
-    weights = weights / np.sum(weights) # normalized
-
-    allotted_tokens = (total_tokens * weights).astype(np.int) + 1
-
-    for u, tokens in zip(users, allotted_tokens):
-        u['tokens'] = tokens
+def admission_control(app, cpu, memory):
+    # solely based on cpu now
+    omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
+    return int(math.ceil(cpu / float(omp_num_threads)))
 
 
 def run(run_config, component, exp='', dry_run=False, **kwargs):
@@ -123,6 +113,7 @@ def run(run_config, component, exp='', dry_run=False, **kwargs):
     client_count = 0
     app_to_users = defaultdict(list)
 
+    # parse run_config
     for c in run_config['clients']:
         for _ in range(c.get('num', 1)):
             app_to_users[c['app']].append(
@@ -134,64 +125,81 @@ def run(run_config, component, exp='', dry_run=False, **kwargs):
             )
             client_count += 1
 
-    # we don't do within-app differentiation for now
-    # for app, users in app_to_users.iteritems():
-    #     intra_app_allocate(app, users, app_to_resource[app]['cpus'], app_to_resource[app]['memory'])
-    # logger.debug('Per user token: {}'.format(app_to_users))
+    # perform scheduling and allocation
+    app_to_resource = {}    # default no allocation
+    # inter-app allocation
+    if run_config.get('inter_app_schedule', True):
+        # use our smart scheduler
+        allocator = Allocator(ScipySolver(fair=run_config.get('fair', False)))
+        apps = app_to_users.keys()
+        logger.info(apps)
+        cpu_caps = map(lambda app: importlib.import_module(app).OMP_NUM_THREADS * len(app_to_users[app]), apps)
+        success, _, res = allocator.solve(
+            CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, apps), cpu_caps= )
+        assert success
+        alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
+        logger.info("solved cpu: {}".format(alloted_cpu))
+        logger.info("solved mem: {}".format(alloted_mem))
 
-    if component == 'client' and not dry_run:
+        # rectify zero-cpu: if alloted CPU is too small, simply don't run it and re-allocate memory/cpu perseving ratio
+        alloted_cpu[alloted_cpu < 0.2] = 0.
+        alloted_cpu = CGROUP_INFO['cpu'] * alloted_cpu / np.sum(alloted_cpu)
+        alloted_mem[alloted_cpu < 1e-3] = 0.
+        alloted_mem = CGROUP_INFO['memory'] * alloted_mem / np.sum(alloted_mem)
+        logger.info("rectified cpu: {}".format(alloted_cpu))
+        logger.info("rectified mem: {}".format(alloted_mem))
+
+        for app, cpu, mem in zip(apps, alloted_cpu, alloted_mem):
+            omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
+            num_workers = int(math.ceil(cpu / float(omp_num_threads)))
+
+            app_to_resource[app] = {
+                'cpu': cpu, 'memory': mem, 'workers': num_workers
+            }
+        logger.info(app_to_resource)
+
+
+    if component == 'client':
         client_count = 0
 
         for app, users in app_to_users.iteritems():
+            if app_to_resource:
+                app_tokens = app_to_resource[app]['workers']
+            else:
+                app_tokens = len(users)
+
             for u in users:
-                feeds.append(mp.Process(
-                    target=start_feed, args=(app, u['video_uri'], 2, exp, u['id'],), name='client-'+str(u['id'])
-                ))
+                token = 1 if app_tokens > 0 else 0
+                app_tokens -= token
+            
+                if token > 0:
+                    if not dry_run:
+                        feeds.append(mp.Process(
+                            target=start_feed, args=(app, u['video_uri'], 2, exp, u['id'],), name='client-'+str(u['id'])
+                        ))
+                else:
+                    logger.warn("Drop user {} {}".format(app, u['id']))
 
     if component == 'server':
-        app_to_resource = {}    # default no allocation
-        # inter-app allocation
-        if run_config.get('inter_app_schedule', True):
-            # use our smart scheduler
-            allocator = Allocator(ScipySolver(fair=run_config.get('fair', False)))
-            apps = app_to_users.keys()
-            logger.info(apps)
-            weights = [sum(map(operator.itemgetter('weight'), app_to_users[a]))  for a in apps]
-            success, _, res = allocator.solve(
-                CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, apps), weights=None)
-            assert success
-            alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
-            logger.info("solved cpu: {}".format(alloted_cpu))
-            logger.info("solved mem: {}".format(alloted_mem))
-
-            # retify: if alloted CPU is too small, simply don't run it and re-allocate memory/cpu perseving ratio
-            alloted_cpu[alloted_cpu < 0.01] = 0.
-            alloted_cpu = CGROUP_INFO['cpu'] * alloted_cpu / np.sum(alloted_cpu)
-            alloted_mem[alloted_cpu < 0.01] = 0.
-            alloted_mem = CGROUP_INFO['memory'] * alloted_mem / np.sum(alloted_mem)
-            logger.info("retified cpu: {}".format(alloted_cpu))
-            logger.info("retified mem: {}".format(alloted_mem))
-
-            app_to_resource = dict([
-                (app, {'cpu': cpu, 'memory': mem}) 
-                for app, cpu, mem in zip(apps, alloted_cpu, alloted_mem)
-            ])
-
         for app, users in app_to_users.iteritems():
             docker_run_kwargs = {}
+            num_workers = len(users)
             if app_to_resource:
                 docker_run_kwargs = {
                     'cpu_period': int(100000), 
                     'cpu_quota': int(app_to_resource[app]['cpu'] * 100000), 
                     'mem_limit': int(app_to_resource[app]['memory'])
                     }
+                num_workers = app_to_resource[app]['workers']
+            
             logger.info("{} docker run kwargs: {}".format(app, docker_run_kwargs))
+
             if not docker_run_kwargs or docker_run_kwargs['cpu_quota'] > 1000:
                 if not dry_run:
                     workers.append(mp.Process(
-                        target=start_worker, args=(app, min(40, 4*len(users)), docker_run_kwargs), name=app+'-server'))
+                        target=start_worker, args=(app, num_workers, docker_run_kwargs), name=app+'-server'))
             else:
-                logger.info("Dropping app {}".format(app))
+                logger.warn("Dropping app {}".format(app))
 
     for p in workers + feeds:
         p.daemon = True

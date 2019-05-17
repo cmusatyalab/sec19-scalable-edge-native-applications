@@ -32,7 +32,7 @@ class ScipySolver(object):
         super(ScipySolver, self).__init__()
         self.fair = fair
 
-    def solve(self, cpu, mem, apps, weights=None):
+    def solve(self, cpu, mem, apps, cpu_caps=None, weights=None):
         x0 = zip(*[app.x0 for app in apps])
 
         def total_util_func(x):
@@ -71,7 +71,10 @@ class ScipySolver(object):
             {'type': 'eq', 'fun': mem_con},
         ]
         # bound individual var >= 0
-        bounds = [(0., cpu) for _ in range(len(apps))] + [(0., mem) for _ in range(len(apps))]
+        if not cpu_caps:
+            cpu_caps = [cpu] * len(apps)
+            
+        bounds = [(0., cpu_caps[i]) for i in range(len(apps))] + [(0., mem) for _ in range(len(apps))]
 
         # TODO(junjuew): need to find a reasonable bound
         res = scipy.optimize.minimize(

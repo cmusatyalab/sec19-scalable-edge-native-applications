@@ -83,7 +83,7 @@ class RTVideoClient(VideoClient):
         super(RTVideoClient, self).__init__(*args, **kwargs)
         self._start_time = None
         self._fps = 30  # self._cam.get(cv2.cv.CV_CAP_PROP_FPS)
-        logger.debug("FPS={}".format(self._fps))
+        logger.info("FPS={}".format(self._fps))
 
     def start(self):
         self._start_time = time.time()
