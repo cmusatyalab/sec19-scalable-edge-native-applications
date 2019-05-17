@@ -12,79 +12,100 @@ from lego import lego_cv
 from logzero import logger
 from twisted.internet import reactor, task
 
-from rmexp import dbutils, client, config, gabriel_pb2, networkutil
+from rmexp import dbutils, client, config, gabriel_pb2, networkutil, utils
 from rmexp.schema import models
+from rmexp.client import emulator
+
+import logzero
+logzero.logfile("client.log")
+
+# def start_single_feed(video_uri, fps, broker_type, broker_uri):
+#     nc = networkutil.get_connector(broker_type, broker_uri)
+#     # TODO(junjuew): make video params to be cmd inputs
+#     vc = client.VideoClient(video_uri, nc, video_params={
+#                             'width': 640, 'height': 360})
+#     t = task.LoopingCall(vc.get_and_send_frame)
+#     # t = task.LoopingCall(vc.get_and_send_frame, filter_func=lego_cv.locate_board)
+#     t.start(1.0 / fps)
+#     reactor.run()
 
 
-def start_single_feed(video_uri, fps, broker_type, broker_uri):
-    nc = networkutil.get_connector(broker_type, broker_uri)
-    # TODO(junjuew): make video params to be cmd inputs
-    vc = client.VideoClient(video_uri, nc, video_params={
-                            'width': 640, 'height': 360})
-    t = task.LoopingCall(vc.get_and_send_frame)
-    # t = task.LoopingCall(vc.get_and_send_frame, filter_func=lego_cv.locate_board)
-    t.start(1.0 / fps)
-    reactor.run()
+def store_exp_latency(dbobj, gabriel_msg):
+    sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
+    reply_ms = int(1000 * (time.time() - gabriel_msg.timestamp))
+    arrival_ms = int(
+        1000 * (gabriel_msg.arrival_ts - gabriel_msg.timestamp))
+    finished_ms = int(
+        1000 * (gabriel_msg.finished_ts - gabriel_msg.timestamp))
+
+    index = gabriel_msg.index.split('-')[1]
+    dbutils.insert_or_update_one(
+        sess, models.ExpLatency,
+        {'name': exp, 'index': index, 'app': app,
+            'client': str(client_id)},
+        {'arrival': arrival_ms,
+            'finished': finished_ms, 'reply': reply_ms}
+    )
+    sess.commit()
+    logger.debug("Frame {}: E2E {} ms : {}".format(
+        gabriel_msg.index, reply_ms, gabriel_msg.data))
 
 
-def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0):
-    if exp:
-        sess = dbutils.get_session()
-
-    nc = networkutil.get_connector(broker_type, broker_uri, client=True)
-    vc = client.RTVideoClient(video_uri, nc, loop=loop)
-    vc.start()
+def run_loop(vc, nc, tokens_cap, dbobj=None):
     tokens = tokens_cap
     while True:
         while tokens > 0:
-            vc.get_and_send_frame(reply=True, app=app)
+            vc.get_and_send_frame(reply=True)
             tokens -= 1
 
         while True:
-            r = nc.get(timeout=10)
+            r = nc.get(timeout=5)
             if r is None:
                 break
             else:
                 (service, msg) = r
                 msg = msg[0]
                 tokens += 1
-                if service != app:
-                    # this is due to some optimization happening such that my request
-                    # is not processed
-                    logger.debug(
-                        'received message not from my server: {}'.format((service, msg)))
-                    continue
-
-
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
-                reply_ms = int(1000* (time.time() - gabriel_msg.timestamp))
-                arrival_ms = int(1000* (gabriel_msg.arrival_ts - gabriel_msg.timestamp))
-                finished_ms = int(1000* (gabriel_msg.finished_ts - gabriel_msg.timestamp))
-
-                logger.debug("Frame {}: E2E {} ms : {}".format(
-                    gabriel_msg.index, reply_ms, gabriel_msg.data))
-
-                if exp:
-                    index = gabriel_msg.index.split('-')[1]
-                    dbutils.insert_or_update_one(
-                        sess, models.ExpLatency,
-                        {'name': exp, 'index': index, 'app': app, 'client': str(client_id)},
-                        {'arrival': arrival_ms, 'finished': finished_ms, 'reply': reply_ms}
-                    )
-                    sess.commit()
+                vc.process_reply(gabriel_msg.data)
+                if dbobj is not None:
+                    store_exp_latency(dbobj, gabriel_msg)
 
 
-def start(num, video_uri, broker_uri, app, fps=20, tokens=None, broker_type='kafka'):
+def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0, client_type='video'):
+    nc = networkutil.get_connector(broker_type, broker_uri, client=True)
+    vc = None
+    if client_type == 'video':
+        vc = client.RTVideoClient(app, video_uri, nc, loop=loop)
+    elif client_type == 'device':
+        trace = utils.video_uri_to_trace(video_uri)
+        cam = emulator.VideoAdaptiveSensor(trace, network_connector=nc)
+        imu = emulator.IMUSensor(trace)
+        device = emulator.IMUSuppresedCameraTimedMobileDevice(
+            sensors=[cam, imu]
+        )
+        vc = emulator.DeviceToClientAdapter(device)
+    else:
+        raise ValueError('Not Supoprted client_type {}'.format(client_type))
+    dbobj = None
+    if exp:
+        sess = dbutils.get_session()
+        dbobj = {
+            'sess': sess,
+            'exp': exp,
+            'client_id': client_id,
+            'app': app
+        }
+    run_loop(vc, nc, tokens_cap, dbobj=dbobj)
+
+
+def start(num, video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0, client_type='device'):
     # if tokens is not None, use tokened client
     procs = list()
     for _ in range(num):
-        if tokens is not None:
-            p = multiprocessing.Process(target=start_single_feed_token,
-                                        args=(video_uri, app, broker_type, broker_uri, tokens,))
-        else:
-            p = multiprocessing.Process(target=start_single_feed,
-                                        args=(video_uri, fps, broker_type, broker_uri, ))
+        p = multiprocessing.Process(target=start_single_feed_token,
+                                    args=(video_uri, app, broker_type, broker_uri, tokens_cap, loop, exp, client_id, client_type))
 
         p.daemon = True
         procs.append(p)
