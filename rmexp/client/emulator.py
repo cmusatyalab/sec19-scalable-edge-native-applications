@@ -27,7 +27,7 @@ class VideoSensor(client.RTVideoClient):
 
     def sample(self):
         frame = self.get_frame()
-        return (self._fid - 1, frame)
+        return (self.current_fid, frame)
 
     def get(self, idx):
         raise NotImplementedError("VideoSensor does not allow ad-hoc query.")
@@ -77,7 +77,7 @@ class VideoAdaptiveSensor(VideoSensor):
             time.sleep(sleep_time)
         frame = self.get_frame()
         self._last_sample_time = time.time()
-        return (self._fid - 1, frame)
+        return (self.current_fid, frame)
 
     def process_reply(self, msg):
         if trigger_passive(self._app, msg):
