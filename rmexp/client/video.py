@@ -91,45 +91,46 @@ class RTVideoClient(VideoClient):
         self._fps = 30  # self._cam.get(cv2.cv.CV_CAP_PROP_FPS)
         logger.debug("FPS={}".format(self._fps))
 
-    def start(self):
-        self._start_time = time.time()
-
     def get_frame(self):
-        if self._start_time is None:
-            self.start()
-
-        expected_frame_id = int(
-            self._fps * (time.time() - self._start_time)) + 1
-
-        while expected_frame_id <= self._fid:
-            # too soon, block until at least next frame
-            # sleep for half of a period
-            time.sleep(1./self._fps * (1./2.))
-            expected_frame_id = int(
-                self._fps * (time.time() - self._start_time)) + 1
-
-        # fast-forward
-        for _ in range(expected_frame_id - self._fid):
+        if self._fid == 0:
             has_frame, img = self._get_frame_and_resize()
-            if has_frame and img is not None:
-                pass
-            else:
+            self._start_time = time.time()
+            if not has_frame or img is None:
                 self._cam.release()
                 raise ValueError("Failed to get another frame.")
+            self._fid += 1
+        else:
+            # self._fid starts with 0 and represents next available frame
+            expected_frame_id = self._fps * (time.time() - self._start_time)
+            expected_frame_id = int(expected_frame_id) if expected_frame_id - \
+                int(expected_frame_id) < 10e-3 else int(expected_frame_id) + 1
 
-        logger.debug('image size: {}'.format(img.shape))
-        self._fid = expected_frame_id
+            if expected_frame_id < self._fid:
+                # too soon, block until at least next frame
+                sleep_time = self._start_time + self._fid * \
+                    (1. / self._fps) - time.time()
+                time.sleep(sleep_time)
+                expected_frame_id = self._fid
+
+            # fast-forward
+            for _ in range(expected_frame_id - self._fid + 1):
+                has_frame, img = self._get_frame_and_resize()
+                if not has_frame or img is None:
+                    self._cam.release()
+                    raise ValueError("Failed to get another frame.")
+
+            self._fid = expected_frame_id + 1
         logger.debug('[proc {}] RTVideoClient acquired frame id {} of size: {}'.format(
-            os.getpid(), self._fid, img.shape))
+            os.getpid(), self._fid - 1, img.shape))
         return img
 
 
 if __name__ == "__main__":
     video_uri = 'data/lego-trace/1/video.mp4'
-    vc = RTVideoClient(video_uri, None)
+    vc = RTVideoClient('lego', video_uri, None)
     idx = 0
     while True:
         idx += 1
-        has_frame, img = vc.get_frame_and_resize()
+        img = vc.get_frame()
         logger.debug(idx)
         assert img is not None

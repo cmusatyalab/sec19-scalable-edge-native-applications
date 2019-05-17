@@ -16,6 +16,8 @@ from rmexp import dbutils, client, config, gabriel_pb2, networkutil, utils
 from rmexp.schema import models
 from rmexp.client import emulator
 
+import logzero
+logzero.logfile("client.log")
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
 #     nc = networkutil.get_connector(broker_type, broker_uri)
@@ -26,6 +28,7 @@ from rmexp.client import emulator
 #     # t = task.LoopingCall(vc.get_and_send_frame, filter_func=lego_cv.locate_board)
 #     t.start(1.0 / fps)
 #     reactor.run()
+
 
 def store_exp_latency(dbobj, gabriel_msg):
     sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
@@ -56,7 +59,7 @@ def run_loop(vc, nc, tokens_cap, dbobj=None):
             tokens -= 1
 
         while True:
-            r = nc.get(timeout=10)
+            r = nc.get(timeout=5)
             if r is None:
                 break
             else:
@@ -65,6 +68,7 @@ def run_loop(vc, nc, tokens_cap, dbobj=None):
                 tokens += 1
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
+                vc.process_reply(gabriel_msg.data)
                 if dbobj is not None:
                     store_exp_latency(dbobj, gabriel_msg)
 
@@ -74,7 +78,6 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
     vc = None
     if client_type == 'video':
         vc = client.RTVideoClient(app, video_uri, nc, loop=loop)
-        vc.start()
     elif client_type == 'device':
         trace = utils.video_uri_to_trace(video_uri)
         cam = emulator.VideoAdaptiveSensor(trace, network_connector=nc)
@@ -97,12 +100,12 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
     run_loop(vc, nc, tokens_cap, dbobj=dbobj)
 
 
-def start(num, video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0):
+def start(num, video_uri, app, broker_type, broker_uri, tokens_cap, loop=False, exp='', client_id=0, client_type='device'):
     # if tokens is not None, use tokened client
     procs = list()
     for _ in range(num):
         p = multiprocessing.Process(target=start_single_feed_token,
-                                    args=(video_uri, app, broker_type, broker_uri, tokens_cap, loop, exp, client_id))
+                                    args=(video_uri, app, broker_type, broker_uri, tokens_cap, loop, exp, client_id, client_type))
 
         p.daemon = True
         procs.append(p)

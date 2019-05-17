@@ -27,16 +27,27 @@ class VideoSensor(client.RTVideoClient):
 
     def sample(self):
         frame = self.get_frame()
-        return (self._fid, frame)
+        return (self._fid - 1, frame)
 
     def get(self, idx):
         raise NotImplementedError("VideoSensor does not allow ad-hoc query.")
 
 
+# TODO(junjuew): better not use globa var here.
+lego_prev_state = None
+
+
 def trigger_passive(app, msg):
+    global lego_prev_state
     assert app in ['lego']
     if app == 'lego':
-        return '[[' in msg
+        state_change = '[[' in msg and msg != lego_prev_state
+        if state_change:
+            lego_prev_state = msg
+        return state_change
+    else:
+        raise NotImplementedError(
+            'trigger state is not implemented for {}'.format(app))
 
 
 class VideoAdaptiveSensor(VideoSensor):
@@ -49,19 +60,24 @@ class VideoAdaptiveSensor(VideoSensor):
 
     def set_passive_trigger(self):
         self._last_trigger_time = time.time()
+        logger.debug('set passive trigger')
 
     def get_sample_period(self):
         fr = dutycycle.lego_dynamic_sampling_rate(
             time.time() - self._last_trigger_time)
+        if abs(fr - self._fps) < 10e-4:
+            fr = self._fps
+        logger.debug('sample period: {}'.format(fr))
         return 1. / fr
 
     def sample(self):
         sleep_time = self.get_sample_period() - (time.time() - self._last_sample_time)
-        if sleep_time > 0:
+        if sleep_time > 1. / self._fps:  # if smaller, get_frame will wait to get next available frame
+            logger.debug('passive duty cycle. sleep {}'.format(sleep_time))
             time.sleep(sleep_time)
         frame = self.get_frame()
         self._last_sample_time = time.time()
-        return (self._fid, frame)
+        return (self._fid - 1, frame)
 
     def process_reply(self, msg):
         if trigger_passive(self._app, msg):
