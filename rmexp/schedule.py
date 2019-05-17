@@ -32,19 +32,15 @@ class ScipySolver(object):
         super(ScipySolver, self).__init__()
         self.fair = fair
 
-    def solve(self, cpu, mem, apps, cpu_caps=None, weights=None):
+    def solve(self, cpu, mem, apps):
         x0 = zip(*[app.x0 for app in apps])
 
+        # objective funcation
         def total_util_func(x):
             assert(len(x) % 2 == 0)
             x0, x1 = x[:len(x)//2], x[len(x)//2:]
             util_funcs = [app.util_func for app in apps]
             utils = map(lambda x: x[0](*x[1:]), zip(util_funcs, x0, x1))
-            utils = np.nan_to_num(utils)
-
-            # user weights
-            if weights:
-                utils = utils * weights
 
             if self.fair:   # max min
                 util_total = np.min(utils)
@@ -52,9 +48,9 @@ class ScipySolver(object):
                 util_total = sum(utils)
 
             print("total, utils, x: {}, {}, {}".format(
-                np.round(util_total, 2), 
-                np.round(utils, 2),
-                np.round(x, 2)))
+                np.around(util_total, 1), 
+                np.around(utils, 1),
+                np.around(x, 1)))
             return -util_total
 
         def cpu_con(x):
@@ -70,13 +66,10 @@ class ScipySolver(object):
             {'type': 'eq', 'fun': cpu_con},
             {'type': 'eq', 'fun': mem_con},
         ]
-        # bound individual var >= 0
-        if not cpu_caps:
-            cpu_caps = [cpu] * len(apps)
-            
-        bounds = [(0., cpu_caps[i]) for i in range(len(apps))] + [(0., mem) for _ in range(len(apps))]
 
-        # TODO(junjuew): need to find a reasonable bound
+        # feasible region
+        bounds = [(0., cpu) for _ in apps] + [(0., mem) for _ in apps]
+
         res = scipy.optimize.minimize(
             total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds, tol=1e-6)
         return res.success, -res.fun, np.around(res.x, decimals=1)
@@ -101,7 +94,7 @@ class AppUtil(object):
         super(AppUtil, self).__init__()
 
     def _load_util_func(self):
-        path = '/home/junjuew/work/resource-management/data/profile/auto-worker-{}.pkl'.format(self.app)
+        path = '/home/junjuew/work/resource-management/data/profile/fix-worker-{}.pkl'.format(self.app)
         logger.debug("Using profile {}".format(path))
         with open(path, 'rb') as f:
             util_func = pickle.load(f)
