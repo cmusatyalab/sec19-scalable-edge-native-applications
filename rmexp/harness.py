@@ -78,13 +78,13 @@ def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
         logger.info("%s finished" % video_uri)
 
 
-def run(run_config, component, scheduler="rmexp.scheduler.baseline", exp='', dry_run=False, **kwargs):
+def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
     """[summary]
 
     Arguments:
         run_config {dict or string} -- if string, load json/yaml from file
         component -- 'client' or 'server'
-        strategy {string} -- 'ours', 'baseline'
+        schduler {string} -- name of Python module that provides a schduler() function
         exp {string} -- if not empty, will write latency to DB
         dry_run {bool} -- if true, only print scheduling results and not run processes
         **kwargs -- override values in run_config
