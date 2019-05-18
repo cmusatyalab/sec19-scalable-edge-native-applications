@@ -28,52 +28,81 @@ def group(lst, n):
 
 
 class ScipySolver(object):
-    def __init__(self, fair=False):
+    def __init__(self, fair=False, brute_force=False):
         super(ScipySolver, self).__init__()
         self.fair = fair
+        self.brute_force = brute_force
 
-    def solve(self, cpu, mem, apps):
+    def solve(self, cpu, mem, apps, max_clients):
         x0 = zip(*[app.x0 for app in apps])
+        util_funcs = [app.util_func for app in apps]
 
-        # objective funcation
+        def _get_app_util((util_func, cpu, mem, k)):
+                # print(util_func, cpu, mem, k)
+            return k * util_func(cpu, mem)
+
         def total_util_func(x):
-            assert(len(x) % 2 == 0)
-            x0, x1 = x[:len(x)//2], x[len(x)//2:]
-            util_funcs = [app.util_func for app in apps]
-            utils = map(lambda x: x[0](*x[1:]), zip(util_funcs, x0, x1))
+            assert(len(x) % 3 == 0)
+
+            cpus = x[:len(apps)]
+            mems = x[len(apps): 2*len(apps)]
+            ks_raw = x[2*len(apps):]
+            ks = np.floor(ks_raw)
+
+            utils = map(_get_app_util, zip(util_funcs, cpus, mems, ks))
 
             if self.fair:   # max min
                 util_total = np.min(utils)
             else:   # total util
                 util_total = sum(utils)
 
-            # print("total, utils, x: {}, {}, {}".format(
-            #     np.around(util_total, 1), 
-            #     np.around(utils, 1),
-            #     np.around(x, 1)))
-
+            logger.debug("total: {}, utils: {}, x: {}".format(
+                np.around(util_total, 1),
+                np.around(utils, 1),
+                np.around(x, 1)))
             return -util_total
 
         def cpu_con(x):
-            x0 = x[:len(x)//2]
-            return cpu - np.sum(x0)
+            cpus = x[:len(apps)]
+            return cpu - np.sum(cpus)
 
         def mem_con(x):
-            x1 = x[len(x)//2:]
-            return mem - np.sum(x1)
+            mems = x[len(apps): 2*len(apps)]
+            return mem - np.sum(mems)
 
-        # constraints total resource
-        cons = [
-            {'type': 'eq', 'fun': cpu_con},
-            {'type': 'eq', 'fun': mem_con},
-        ]
+        def kworker_con(x):
+            cpus = x[:len(apps)]
+            mems = x[len(apps): 2*len(apps)]
+            ks = np.floor(x[2*len(apps):])
+            latency_funcs = [app.latency_func for app in apps]
+            latencies = np.array(map(lambda arg: arg[0](
+                arg[1], arg[2]), zip(latency_funcs, cpus, mems)))
+            return np.array(max_clients) * 30. - ks * 1000. / latencies
 
         # feasible region
-        bounds = [(0., cpu) for _ in apps] + [(0., mem) for _ in apps]
+        bounds = [(0.01, cpu) for _ in apps] + [(0.01, mem)
+                                                for _ in apps] + list(zip([0]*len(apps), max_clients))
+        if self.brute_force:
+            rranges = []
+            for item in bounds:
+                rranges.append(slice(item[0], item[1], 0.5))
+            logger.debug(rranges)
+            res = scipy.optimize.brute(
+                total_util_func, rranges, full_output=True, finish=None)
+            return res
+        else:
+            # constraints total resource
+            cons = [
+                {'type': 'eq', 'fun': cpu_con},
+                {'type': 'eq', 'fun': mem_con},
+                {'type': 'ineq', 'fun': kworker_con},
+                # ks should be larger or equal than 0
+                {'type': 'ineq', 'fun': lambda x: x[2*len(apps):]},
+            ]
 
-        res = scipy.optimize.minimize(
-            total_util_func, (np.array(x0[0]), np.array(x0[1])), constraints=cons, bounds=bounds, tol=1e-6)
-        return res.success, -res.fun, np.around(res.x, decimals=1)
+            res = scipy.optimize.minimize(
+                total_util_func, (np.array(x0[0]), np.array(x0[1]), np.array([0.] * len(max_clients))), constraints=cons, bounds=bounds, tol=1e-6)
+            return res.success, -res.fun, np.around(res.x, decimals=1)
 
 
 class Allocator(object):
@@ -92,30 +121,37 @@ class AppUtil(object):
         super(AppUtil, self).__init__()
         self.app = app
         self.util_func = self._load_util_func()
-        self.latency_func = self._load_latency_func()   # returns ms
+        self.latency_func = self._load_latency_func()
         self.x0 = (1, 2)
 
 
     def _load_util_func(self):
-        path = '/home/junjuew/work/resource-management/data/profile/fix-worker-{}.pkl'.format(self.app)
+        path = '/home/junjuew/work/resource-management/data/profile/fix-worker-{}.pkl'.format(
+            self.app)
         logger.debug("Using profile {}".format(path))
         with open(path, 'rb') as f:
             util_func = pickle.load(f)
         return util_func
 
     def _load_latency_func(self):
-        path = '/home/junjuew/work/resource-management/data/profile/latency-fix-worker-{}.pkl'.format(self.app)
-        logger.debug("Using latency predictor {}".format(path))
+        """Latencies are in ms"""
+        path = '/home/junjuew/work/resource-management/data/profile/latency-fix-worker-{}.pkl'.format(
+            self.app)
+        logger.debug("Using profile {}".format(path))
         with open(path, 'rb') as f:
-            latency_func = pickle.load(f)
-        return latency_func
+            util_func = pickle.load(f)
+        return util_func
 
 
 if __name__ == '__main__':
-    allocator = Allocator(ScipySolver(fair=True))
-    cpu = 4
-    mem = 8
-    weights = [9, 9, 9, 9]
+    # pingpong is a dominate when cpu=1 and mem=2
+    # dominance: pingpong >> lego >>
+    allocator = Allocator(ScipySolver(fair=False, brute_force=False))
+    # for cpu in range(1, 6):
+    # cpu = 1
+    cpu = 2
+    mem = 4
+    max_clients = [2.5, 3.5, 1.5, 1.5]
     app_names = ['lego', 'pingpong', 'pool', 'face']
     apps = map(AppUtil, app_names)
-    print(allocator.solve(cpu, mem, apps, weights=weights))
+    logger.info(allocator.solve(cpu, mem, apps, max_clients=max_clients))
