@@ -12,7 +12,7 @@ import itertools
 import scipy
 import scipy.optimize
 import cPickle as pickle
-logzero.loglevel(logging.INFO)
+logzero.loglevel(logging.DEBUG)
 
 
 def group(lst, n):
@@ -28,14 +28,19 @@ def group(lst, n):
 
 
 class ScipySolver(object):
-    def __init__(self, fair=False):
+    def __init__(self, fair=False, brute_force=False):
         super(ScipySolver, self).__init__()
         self.fair = fair
+        self.brute_force = brute_force
 
     def solve(self, cpu, mem, apps, max_clients):
         x0 = zip(*[app.x0 for app in apps])
+        util_funcs = [app.util_func for app in apps]
 
-        # objective funcation
+        def _get_app_util((util_func, cpu, mem, k)):
+                # print(util_func, cpu, mem, k)
+            return k * util_func(cpu, mem)
+
         def total_util_func(x):
             assert(len(x) % 3 == 0)
 
@@ -44,11 +49,6 @@ class ScipySolver(object):
             ks_raw = x[2*len(apps):]
             ks = np.floor(ks_raw)
 
-            util_funcs = [app.util_func for app in apps]
-
-            def _get_app_util((util_func, cpu, mem, k)):
-                # print(util_func, cpu, mem, k)
-                return k * util_func(cpu, mem)
             utils = map(_get_app_util, zip(util_funcs, cpus, mems, ks))
 
             if self.fair:   # max min
@@ -79,22 +79,30 @@ class ScipySolver(object):
                 arg[1], arg[2]), zip(latency_funcs, cpus, mems)))
             return np.array(max_clients) * 30. - ks * 1000. / latencies
 
-        # constraints total resource
-        cons = [
-            {'type': 'eq', 'fun': cpu_con},
-            {'type': 'eq', 'fun': mem_con},
-            {'type': 'ineq', 'fun': kworker_con},
-            # ks should be larger or equal than 0
-            {'type': 'ineq', 'fun': lambda x: x[2*len(apps):]},
-        ]
-
         # feasible region
         bounds = [(0.01, cpu) for _ in apps] + [(0.01, mem)
                                                 for _ in apps] + list(zip([0]*len(apps), max_clients))
+        if self.brute_force:
+            rranges = []
+            for item in bounds:
+                rranges.append(slice(item[0], item[1], 0.5))
+            logger.debug(rranges)
+            res = scipy.optimize.brute(
+                total_util_func, rranges, full_output=True, finish=None)
+            return res
+        else:
+            # constraints total resource
+            cons = [
+                {'type': 'eq', 'fun': cpu_con},
+                {'type': 'eq', 'fun': mem_con},
+                {'type': 'ineq', 'fun': kworker_con},
+                # ks should be larger or equal than 0
+                {'type': 'ineq', 'fun': lambda x: x[2*len(apps):]},
+            ]
 
-        res = scipy.optimize.minimize(
-            total_util_func, (np.array(x0[0]), np.array(x0[1]), np.array(max_clients)), constraints=cons, bounds=bounds, tol=1e-6)
-        return res.success, -res.fun, np.around(res.x, decimals=1)
+            res = scipy.optimize.minimize(
+                total_util_func, (np.array(x0[0]), np.array(x0[1]), np.array([0.] * len(max_clients))), constraints=cons, bounds=bounds, tol=1e-6)
+            return res.success, -res.fun, np.around(res.x, decimals=1)
 
 
 class Allocator(object):
@@ -137,11 +145,12 @@ class AppUtil(object):
 if __name__ == '__main__':
     # pingpong is a dominate when cpu=1 and mem=2
     # dominance: pingpong >> lego >>
-    allocator = Allocator(ScipySolver(fair=False))
-    for cpu in range(1, 20):
-        # cpu = 1
-        mem = 100
-        max_clients = [1.5, 1.5, 1.5, 1.5]
-        app_names = ['lego', 'pingpong', 'pool', 'face']
-        apps = map(AppUtil, app_names)
-        logger.info(allocator.solve(cpu, mem, apps, max_clients=max_clients))
+    allocator = Allocator(ScipySolver(fair=False, brute_force=False))
+    # for cpu in range(1, 6):
+    # cpu = 1
+    cpu = 2
+    mem = 4
+    max_clients = [2.5, 3.5, 1.5, 1.5]
+    app_names = ['lego', 'pingpong', 'pool', 'face']
+    apps = map(AppUtil, app_names)
+    logger.info(allocator.solve(cpu, mem, apps, max_clients=max_clients))
