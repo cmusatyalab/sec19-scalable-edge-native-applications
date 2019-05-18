@@ -78,13 +78,7 @@ def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
         logger.info("%s finished" % video_uri)
 
 
-def best_workers(app, cpu, memory=None):
-    # solely based on cpu now
-    omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
-    return int(math.ceil(cpu / float(omp_num_threads)))    # round to higer integer
-
-
-def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs):
+def run(run_config, component, scheduler="rmexp.scheduler.baseline", exp='', dry_run=False, **kwargs):
     """[summary]
 
     Arguments:
@@ -101,22 +95,9 @@ def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs)
     assert component in ['client', 'server'], 'Component needs to be either client or server'
 
     # parse run_config
-    client_count = 0
-    app_to_users = defaultdict(list)
     if not isinstance(run_config, dict):
         run_config = yaml.load(open(run_config, 'r'))
     run_config.update(kwargs)    
-    for c in run_config['clients']:
-        for _ in range(c.get('num', 1)):
-            app_to_users[c['app']].append(
-                {
-                    'id': client_count,
-                    'video_uri': c['video_uri'],
-                    'weight': c.get('weight', 1.)
-                }
-            )
-            client_count += 1
-
 
     # retrieve cgroup info
     global CGROUP_INFO
@@ -130,101 +111,38 @@ def run(run_config, component, strategy="ours", exp='', dry_run=False, **kwargs)
     workers = []
     feeds = []
 
-    # perform scheduling and allocation
-    app_to_resource = {}    # app -> {'cpu'=, 'memory'=, 'workers'=, admission'=,}
-    if strategy == 'ours':
-        logger.info("Using our scheduler")
-        allocator = Allocator(ScipySolver(fair=run_config.get('fair', False)))
-        flatten_apps = list(itertools.chain.from_iterable([ [app]*len(users) for app, users in app_to_users.iteritems()]))
-        logger.debug(flatten_apps)
-        success, opt_util, res = allocator.solve(CGROUP_INFO['cpu'], CGROUP_INFO['memory']/GiB, map(AppUtil, flatten_apps))
-        logger.info("Apps: {}".format(flatten_apps))
-        logger.info("Opt util: {}".format(opt_util))
-        assert success
+    # invoke scheduler
+    sched_module = importlib.import_module(scheduler)
+    start_worker_calls, start_feed_calls = sched_module.schedule(run_config, CGROUP_INFO['cpu'], CGROUP_INFO['memory'])
 
-        alloted_cpu, alloted_mem = res[:len(res)//2], res[len(res)//2:] * GiB
-        logger.info("solved cpu: {}".format(alloted_cpu))
-        logger.info("solved mem: {}".format(alloted_mem))
-
-        # rectify zero-cpu: if alloted CPU is too small, simply don't run it and re-allocate memory/cpu perseving ratio
-        alloted_cpu[alloted_cpu < 0.2] = 0.
-        alloted_cpu = CGROUP_INFO['cpu'] * alloted_cpu / np.sum(alloted_cpu)
-        alloted_mem[alloted_cpu < 1e-3] = 0.
-        alloted_mem = CGROUP_INFO['memory'] * alloted_mem / np.sum(alloted_mem)
-        logger.info("rectified cpu: {}".format(alloted_cpu))
-        logger.info("rectified mem: {}".format(alloted_mem))
-
-        # write back to users' info
-        for u, c, m in zip(
-            itertools.chain.from_iterable([ users for _, users in app_to_users.iteritems()]),
-            alloted_cpu, alloted_mem):
-            u['cpu'], u['memory'] = c, m
-            
-        # group resources by app
-        for app, users in app_to_users.iteritems():
-            app_to_resource[app] = {
-                'cpu': sum(map(operator.itemgetter('cpu'), users)),
-                'memory': sum(map(operator.itemgetter('memory'), users)),
-            }
-            app_to_resource[app].update({
-                'workers': best_workers(app, app_to_resource[app]['cpu']),   # based on allocated resource
-                'admissions': len(filter(lambda u: u['cpu']>1e-3, users))       # based on allocated resource
-            })
-    elif strategy == "baseline":
-        logger.info("Using baseline scheduler")
-        for app, users in app_to_users.iteritems():
-            app_to_resource[app] = {
-                'cpu': CGROUP_INFO['cpu'],
-                'memory': CGROUP_INFO['memory'],
-            }
-            app_to_resource[app].update({
-                'workers': best_workers(app, CGROUP_INFO['cpu']),    # based on global resource
-                'admissions': len(users)    # accept everyone?
-            })
-
-    else:
-        raise ValueError("Unknown strategy: {}".format(strategy))
-
-    # logger.info(app_to_users)
-    logger.info(json.dumps(app_to_resource, indent=2))
-
+    # create subprocess
     if component == 'client':
 
-        for app, users in app_to_users.iteritems():
-            admissions = app_to_resource[app]['admissions']
-            for u in users:
-                if admissions > 0:
-                    logger.info("Accept user {} {}".format(app, u['id']))
-                    if not dry_run:
-                        feeds.append(mp.Process(
-                            target=start_feed, args=(app, u['video_uri'], 2, exp, u['id'],), name='client-'+str(u['id'])
-                        ))
-                    admissions -= 1
-                else:
-                    logger.warn("Drop user {} {}".format(app, u['id']))
+        for call in start_feed_calls:
+            call['kwargs']['exp'] = exp
+            logger.debug("start feed: {}".format(call))
+            
+            if not dry_run:
+                feeds.append(mp.Process(
+                    target=start_feed, args=call['args'], kwargs=call['kwargs']
+                ))
 
     if component == 'server':
-        for app, res in app_to_resource.iteritems():
-            if res['cpu'] < 0.1:
-                logger.warn("Drop App {}".format(app))
-                continue
 
-            docker_run_kwargs = {
-                'cpu_period': int(100000), 
-                'cpu_quota': int(res['cpu'] * 100000), 
-                'mem_limit': int(res['memory'])
-                }
-            num_workers = res['workers']
+        for call in start_worker_calls:
+            logger.debug("start worker: {}".format(call))
 
             if not dry_run:
                 workers.append(mp.Process(
-                    target=start_worker, args=(app, num_workers, docker_run_kwargs), name=app+'-server'))
+                    target=start_worker, args=call['args'], kwargs=call['kwargs']
+                ))
 
     if not dry_run:
+        # Go
         try:
             for p in workers + feeds:
                 p.daemon = True
-            # start all endpoints
+
             map(lambda t: t.start(), workers + feeds)
 
             if component == 'client' and 'stop_after' in run_config:

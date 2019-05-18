@@ -186,9 +186,9 @@ sudo cgset -r memory.limit_in_bytes=8g rmexp
 sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 
-### Launch Experiments
+### Running Multi-client Experiments with Harness
 
-Launch zmq broker
+#### Launch zmq broker
 ```bash
 # Note: we only need one port now for every component: client, worker and controller
 # export BROKER_TYPE="zmq-md"
@@ -197,18 +197,21 @@ Launch zmq broker
 python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
 ```
 
-Run multi-client experiments using harness
+#### Start experiments using harness.py
 
 ```bash
 # make sure broker is running
 cd rmexp
-./harness.py run run_config/example.yml example 
+./harness.py run run_config/face2.yml server --scheduler=rmexp.scheduler.baseline
+# run in a different shell
+./harness.py run run_config/face2.yml client --scheduler=rmexp.scheduler.baseline --exp=face2-baseline
+
 # in case worker containers are not removed cleanly:
 # docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q) 
 ```
-TODO: 
-* in harness.py update cpu_quota and num (scheduler)
-* make a plot of lego, lego + pingpong, lego + pingpong + face vs util
+
+#### Adding and invoking new schedulers
+Add a module under `rmexp/scheduler`. Module must expose a function `schedule(run_config, total_cpu, total_memory)`. See `rmexp/scheduler/baseline.py` for an example.
 
 #### cloudlet001 as client
 

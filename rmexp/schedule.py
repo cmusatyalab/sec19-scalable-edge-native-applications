@@ -47,10 +47,11 @@ class ScipySolver(object):
             else:   # total util
                 util_total = sum(utils)
 
-            print("total, utils, x: {}, {}, {}".format(
-                np.around(util_total, 1), 
-                np.around(utils, 1),
-                np.around(x, 1)))
+            # print("total, utils, x: {}, {}, {}".format(
+            #     np.around(util_total, 1), 
+            #     np.around(utils, 1),
+            #     np.around(x, 1)))
+
             return -util_total
 
         def cpu_con(x):
@@ -88,10 +89,12 @@ class Allocator(object):
 
 class AppUtil(object):
     def __init__(self, app):
+        super(AppUtil, self).__init__()
         self.app = app
         self.util_func = self._load_util_func()
+        self.latency_func = self._load_latency_func()   # returns ms
         self.x0 = (1, 2)
-        super(AppUtil, self).__init__()
+
 
     def _load_util_func(self):
         path = '/home/junjuew/work/resource-management/data/profile/fix-worker-{}.pkl'.format(self.app)
@@ -99,6 +102,13 @@ class AppUtil(object):
         with open(path, 'rb') as f:
             util_func = pickle.load(f)
         return util_func
+
+    def _load_latency_func(self):
+        path = '/home/junjuew/work/resource-management/data/profile/latency-fix-worker-{}.pkl'.format(self.app)
+        logger.debug("Using latency predictor {}".format(path))
+        with open(path, 'rb') as f:
+            latency_func = pickle.load(f)
+        return latency_func
 
 
 if __name__ == '__main__':
