@@ -20,6 +20,14 @@ case $key in
     INTERACTIVE="$2"
     shift
     ;;
+    -n|--num_worker)
+    num_worker="$2"
+    shift
+    ;;
+    -d|--docker-args)
+    DOCKER_ARGS="$2"
+    shift
+    ;;
     *)  # unknown option
     ;;
 esac
@@ -60,14 +68,19 @@ then
     exec docker run -it --rm \
     --name=rmexp-interactive --cgroup-parent=${CGROUP} res /bin/bash
 else
-    num_worker=$(get_worker_num)
-    [[ -z "${num_worker}" ]] && echo "# worker cannot be empty" && exit
+    if [[ -z "${num_worker}" ]] 
+    then
+        num_worker=$(get_worker_num)
+        [[ -z "${num_worker}" ]] && echo "# worker cannot be empty" && exit
+        echo "automatically set num_worker to be ${num_worker}"
+    fi
 
     # launch exp
     echo "launching experiment container (rmexp)"
-    exec docker run -it --rm \
+    exec docker run -d --rm \
     --name=rmexp-${EXP} \
     --cgroup-parent=${CGROUP} \
+    ${DOCKER_ARGS} \
     res /bin/bash -i -c \
     ". .envrc && EXP=${EXP} OMP_NUM_THREADS=${core_per_worker[$APP]} python rmexp/serve.py start --num ${num_worker} --broker-type ${BROKER_TYPE} --broker-uri ${WORKER_BROKER_URI} --app ${APP}"
 fi

@@ -5,12 +5,12 @@ from __future__ import absolute_import, division, print_function
 import multiprocessing
 import os
 import time
+import datetime
 
 import cv2
 import fire
 from lego import lego_cv
 from logzero import logger
-from twisted.internet import reactor, task
 
 from rmexp import dbutils, client, config, gabriel_pb2, networkutil, utils
 from rmexp.schema import models
@@ -20,6 +20,7 @@ import logzero
 logzero.logfile("/tmp/feed.log", mode='w')
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
+#     from twisted.internet import reactor, task
 #     nc = networkutil.get_connector(broker_type, broker_uri)
 #     # TODO(junjuew): make video params to be cmd inputs
 #     vc = client.VideoClient(video_uri, nc, video_params={
@@ -31,23 +32,29 @@ logzero.logfile("/tmp/feed.log", mode='w')
 
 
 def store_exp_latency(dbobj, gabriel_msg):
-    sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
     reply_ms = int(1000 * (time.time() - gabriel_msg.timestamp))
     arrival_ms = int(
         1000 * (gabriel_msg.arrival_ts - gabriel_msg.timestamp))
     finished_ms = int(
         1000 * (gabriel_msg.finished_ts - gabriel_msg.timestamp))
-
     index = gabriel_msg.index.split('-')[1]
-    dbutils.insert_or_update_one(
-        sess, models.ExpLatency,
-        {'name': exp, 'index': index, 'app': app,
-            'client': str(client_id)},
-        {'arrival': arrival_ms,
-            'finished': finished_ms, 'reply': reply_ms}
-    )
-    sess.commit()
-    logger.debug("Frame {}: E2E {} ms : {}".format(
+
+    sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
+    if sess is not None:
+        sess = dbobj['sess']
+        dbutils.insert_or_update_one(
+            sess, models.ExpLatency,
+            {'name': exp, 'index': index, 'app': app,
+                'client': str(client_id)},
+            {'arrival': arrival_ms,
+                'finished': finished_ms, 'reply': reply_ms}
+        )
+        sess.commit()
+    else:
+        print(
+            ','.join(map(str,
+                         [exp, index, app, client_id, arrival_ms, finished_ms, reply_ms])))
+    logger.debug("{}: E2E {} ms : {}".format(
         gabriel_msg.index, reply_ms, gabriel_msg.data))
 
 
@@ -74,7 +81,7 @@ def run_loop(vc, nc, tokens_cap, dbobj=None):
 
 
 def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
-                            loop=True, random_start=True, exp='', client_id=0, client_type='video'):
+                            loop=True, random_start=True, exp='', client_id=0, client_type='video', print_only=False):
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = None
     if client_type == 'video':
@@ -93,7 +100,10 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
         raise ValueError('Not Supoprted client_type {}'.format(client_type))
     dbobj = None
     if exp:
-        sess = dbutils.get_session()
+        if print_only:
+            sess = None
+        else:
+            sess = dbutils.get_session()
         dbobj = {
             'sess': sess,
             'exp': exp,

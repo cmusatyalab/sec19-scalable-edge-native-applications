@@ -114,6 +114,13 @@ The patch in the root.py in the second link needs to be applied to the Magisk zi
 * check out infra/nexus6 directory and Makefile
 * update infra/nexus6/requirements.txt
 * make sure feed.py can run
+* rsync 
+```bash
+rsync -av --delete junjuew@cloudlet002.elijah.cs.cmu.edu:/home/junjuew/work/resource-management \
+--exclude resource-management/conda-env-rmexp --exclude resource-management/.git --exclude resource-management/data \
+--exclude resource-management/third_party --exclude resource-management/visualization \
+.
+```
 
 ## Application Specifics
 
