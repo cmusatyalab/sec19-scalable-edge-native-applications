@@ -139,8 +139,7 @@ class RTVideoClient(VideoClient):
             # _fid starts with 0 and represents next available frame
             next_fid = self._fps * \
                 (time.time() - self._start_time) + self._start_fid
-            next_fid = int(next_fid) if next_fid - \
-                int(next_fid) < 10e-3 else int(next_fid) + 1
+            next_fid = int(next_fid) + 1
 
             # the get_frame is request too soon.
             # current frame has already sampled. need to block and sleep
