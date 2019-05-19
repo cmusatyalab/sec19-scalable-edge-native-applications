@@ -67,10 +67,10 @@ class Sampler(object):
             self._sf()
 
 
-def process_img(img, app_handler):
-    ts = time.time()
+def process_and_measure_cpu_time(img, app_handler):
+    ts = time.clock()
     result = app_handler.process(img)
-    time_lapse = (time.time() - ts) * 1000
+    time_lapse = int(round((time.clock() - ts) * 1000))
     return result, time_lapse
 
 
@@ -108,7 +108,7 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
     idx = 1
     while True:
         img = vc.get_frame()
-        result, time_lapse = process_img(img, app_handler)
+        result, time_lapse = process_and_measure_cpu_time(img, app_handler)
         logger.debug("[pid: {}] processing frame {} from {}. {} ms".format(os.getpid(),
                                                                            idx, video_uri, int(time_lapse)))
         logger.debug(result)

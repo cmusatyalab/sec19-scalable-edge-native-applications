@@ -192,6 +192,7 @@ sudo cgset -r memory.limit_in_bytes=8g rmexp
 # launch a program restricting to cgroups, for containers, user cgroup-parent 
 sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
+* profile cgroup on cloudlet002: core 0-31, memory 16g
 
 ### Running Multi-client Experiments with Harness
 
