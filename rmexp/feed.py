@@ -15,6 +15,7 @@ from twisted.internet import reactor, task
 from rmexp import dbutils, client, config, gabriel_pb2, networkutil, utils
 from rmexp.schema import models
 from rmexp.client import emulator
+from rmexp.utilityfunc import app_default_utility_func
 
 import logzero
 logzero.logfile("/tmp/feed.log", mode='w')
@@ -32,6 +33,8 @@ logzero.logfile("/tmp/feed.log", mode='w')
 
 def store_exp_latency(dbobj, gabriel_msg):
     sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
+    util_fn = app_default_utility_func[app]
+    
     reply_ms = int(1000 * (time.time() - gabriel_msg.timestamp))
     arrival_ms = int(
         1000 * (gabriel_msg.arrival_ts - gabriel_msg.timestamp))
@@ -44,7 +47,7 @@ def store_exp_latency(dbobj, gabriel_msg):
         {'name': exp, 'index': index, 'app': app,
             'client': str(client_id)},
         {'arrival': arrival_ms,
-            'finished': finished_ms, 'reply': reply_ms}
+            'finished': finished_ms, 'reply': reply_ms, 'utility': float(util_fn(reply_ms))}
     )
     sess.commit()
     logger.debug("Frame {}: E2E {} ms : {}".format(
@@ -79,7 +82,7 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
     vc = None
     if client_type == 'video':
         vc = client.RTVideoClient(
-            app, video_uri, nc, loop=False, random_start=False)
+            app, video_uri, nc, loop=loop, random_start=random_start)
     elif client_type == 'device':
         trace = utils.video_uri_to_trace(video_uri)
         cam = emulator.VideoAdaptiveSensor(

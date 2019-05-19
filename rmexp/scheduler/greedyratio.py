@@ -12,9 +12,10 @@ from rmexp.schedule import AppUtil
 from rmexp.scheduler import best_workers, get_app_to_users
 
 # greedily allocate to app that has highest util/resource ratio
-# until App's aggregate FPS > clients * 30
+# until App's aggregate FPS > clients * TARGET_FPS
 
 GiB = 2.**30
+TARGET_FPS = 15
 
 def schedule(run_config, total_cpu, total_memory):
     logger.debug("Using greedy ratio scheduler")
@@ -35,22 +36,27 @@ def schedule(run_config, total_cpu, total_memory):
     avail_cpu, avail_memory = total_cpu, total_memory
 
     for app, info in sorted(app_info.iteritems(), key=lambda p: p[1]['best_ratio'], reverse=True):
+        if avail_cpu < 1e-3 or avail_memory < 1024:
+            # docker can't accept too small cpu_quota < 1ms (1000)
+            avail_cpu = avail_memory = 0.
+        
         num_clients = len(app_to_users[app])
         c1, m1 = info['best_cpu'], info['best_memory']
         fps_per_worker = 1000. / AppUtil(app).latency_func(c1, m1 / GiB)
-        feasible_workers = min(int(avail_cpu / c1), int(avail_memory / m1))
-        max_needed_workers = int(math.ceil(num_clients * 30. / fps_per_worker))
+        feasible_workers = int(min(math.ceil(avail_cpu / c1), math.ceil(avail_memory / m1)))     # round up
+        max_needed_workers = int(math.ceil(num_clients * TARGET_FPS / float(fps_per_worker)))   # round up
         alloted_workers = min(feasible_workers, max_needed_workers)
+        info['fps_per_worker'] = fps_per_worker
         info['alloted_workers'] = alloted_workers
-        info['alloted_tokens'] = int(alloted_workers * fps_per_worker * 1.2)    # 1.0 ~ 2.0
-        info['alloted_cpu'] = c1 * alloted_workers
-        info['alloted_memory'] = m1 * alloted_workers
+        info['estimated_fps'] = fps_per_worker * alloted_workers
+        info['alloted_cpu'] = min(c1 * alloted_workers, avail_cpu)
+        info['alloted_memory'] = min(m1 * alloted_workers, avail_memory)
 
         avail_cpu -= info['alloted_cpu']
         avail_memory -= info['alloted_memory']
         assert avail_cpu >= 0 and avail_memory >= 0, str(app_info)
 
-    # re-allocate cpu/memory to consume all resource while preserving ratio
+    # rectify and re-allocate cpu/memory to consume all resource while preserving ratio
     cpus = np.array(map(itemgetter('alloted_cpu'), app_info.values()))
     cpus = total_cpu * cpus / np.sum(cpus)
     mems = np.array(map(itemgetter('alloted_memory'), app_info.values()))
@@ -79,8 +85,8 @@ def schedule(run_config, total_cpu, total_memory):
                 }
             })
 
-            tokens = info['alloted_tokens']
-            tokens_per_client = tokens / len(app_to_users[app])
+            tokens = 1 + int(info['alloted_workers'] * 1.5)  # 1.0~2.0
+            tokens_per_client = int(tokens / len(app_to_users[app]))
 
             for u in app_to_users[app]:
                 start_feed_calls.append({

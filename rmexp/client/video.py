@@ -165,7 +165,7 @@ class RTVideoClient(VideoClient):
 
 
 if __name__ == "__main__":
-    video_uri = 'data/lego-trace/1/video.mp4'
+    video_uri = '/home/junjuew/work/resource-management/data/lego-trace/1/video.mp4'
     vc = RTVideoClient('lego', video_uri, None)
     idx = 0
     while True:

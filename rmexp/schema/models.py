@@ -28,6 +28,7 @@ class ExpLatency(Base):
     arrival = Column(Integer)
     finished = Column(Integer)
     reply = Column(Integer)
+    utility = Column(types.Float)
 
 
 class LegoLatency(Base):

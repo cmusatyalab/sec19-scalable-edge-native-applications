@@ -71,6 +71,7 @@ def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
             os.getenv('CLIENT_BROKER_URI'),
             tokens_cap=tokens_cap,
             loop=True,
+            random_start=False, # for sake of the same frames for different exps
             exp=exp,
             client_id=client_id
         )
@@ -102,7 +103,8 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
     # retrieve cgroup info
     global CGROUP_INFO
     cg_name = run_config.get('cgroup', CGROUP_INFO['name'])
-    cg_cpus = float(len(open('/sys/fs/cgroup/cpuset{}/cpuset.cpus'.format(cg_name), 'r').readline().strip().split(',')))
+    cpus_str = open('/sys/fs/cgroup/cpuset{}/cpuset.cpus'.format(cg_name), 'r').readline().strip()
+    cg_cpus = sum(map(lambda t: int(t[-1]) - int(t[0]) + 1, map(lambda s: s.split('-'), cpus_str.split(','))))
     cg_memory = float(open('/sys/fs/cgroup/memory{}/memory.limit_in_bytes'.format(cg_name), 'r').readline().strip())
     CGROUP_INFO = {'name': cg_name, 'cpu': cg_cpus, 'memory': cg_memory}
     logger.info("cgroup info: {}".format(CGROUP_INFO))
