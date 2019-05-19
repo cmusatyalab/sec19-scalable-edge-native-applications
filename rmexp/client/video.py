@@ -8,7 +8,6 @@ import random
 import cv2
 from logzero import logger
 from rmexp import gabriel_pb2, cvutils
-from twisted.internet import reactor, task
 
 
 class VideoClient(object):
@@ -74,7 +73,6 @@ class VideoClient(object):
             return img
         else:
             self._cam.release()
-            reactor.callFromThread(reactor.stop)
             raise ValueError("Failed to get another frame.")
 
     def get_and_send_frame(self, filter_func=None, reply=False, **kwargs):

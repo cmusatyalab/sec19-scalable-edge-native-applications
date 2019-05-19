@@ -17,7 +17,7 @@ from rmexp.schema import models
 from rmexp.client import emulator
 
 import logzero
-logzero.logfile("/tmp/feed.log", mode='w')
+
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
 #     from twisted.internet import reactor, task
