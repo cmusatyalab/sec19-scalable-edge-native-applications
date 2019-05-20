@@ -32,7 +32,7 @@ GiB = 2.**30
 
 # logzero.loglevel(logging.INFO)
 
-def start_worker(app, num, docker_run_kwargs):
+def start_worker(app, num, docker_run_kwargs, busy_wait=None):
     omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
 
     cli = docker.from_env()
@@ -42,6 +42,8 @@ def start_worker(app, num, docker_run_kwargs):
     bash_cmd = ". .envrc && OMP_NUM_THREADS={} python rmexp/serve.py start --num {} \
                 --broker-type {} --broker-uri {} --app {} " \
         .format(omp_num_threads, num, os.getenv('BROKER_TYPE'), os.getenv('WORKER_BROKER_URI'), app)
+    if busy_wait:
+        bash_cmd += " --busy_wait {}".format(busy_wait)
     logger.debug(bash_cmd)
 
     try:
