@@ -93,7 +93,7 @@ def _get_highest_res_trace(dir_path):
 
 def resize_trace(input_path, output_path, width):
     import subprocess
-    cmd = 'ffmpeg -y -i {} -vf scale={}:-2 -vsync passthrough {}'.format(
+    cmd = 'ffmpeg -y -i {} -vf scale={}:-2 -crf 18 -vsync passthrough {}'.format(
         input_path, width, output_path)
     logger.debug('issuing: {}...'.format(cmd))
     p = subprocess.Popen(cmd, shell=True)

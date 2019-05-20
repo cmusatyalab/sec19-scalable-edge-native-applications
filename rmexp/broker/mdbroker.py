@@ -4,31 +4,149 @@ A minimal implementation of http:#rfc.zeromq.org/spec:7 and spec:8
 
 Author: Min RK <benjaminrk@gmail.com>
 Based on Java example by Arkadiusz Orzechowski
+Modified by Junjue Wang
 """
 
-from binascii import hexlify
-import fire
-import logging
+import enum
 import sys
 import time
-import zmq
+from binascii import hexlify
 
+import fire
+import zmq
+from logzero import logger
+
+import brokerqueue
 # local
 import MDP
 from zhelpers import dump
-import brokerqueue
 
 
 class Service(object):
     """a single Service"""
     name = None  # Service name
-    requests = None  # List of client requests
-    waiting = None  # List of waiting workers
+    _requests = None  # List of client requests
+    _waiting = None  # List of waiting workers
 
     def __init__(self, name, requests_queue=None):
         self.name = name
-        self.requests = [] if requests_queue is None else requests_queue
-        self.waiting = []
+        self._requests = [] if requests_queue is None else requests_queue
+        self._waiting = []
+
+    def add_request(self, msg):
+        self._requests.append(msg)
+
+    def add_waiting_worker(self, worker):
+        """This is called both when a worker is first initiazlied.
+        And when a worker has finished processing a request.
+        """
+        self._waiting.append(worker)
+
+    def get_ready_to_send(self):
+        return self._requests.pop(0), self._waiting.pop(0)
+
+    def is_ready_to_send(self):
+        return self._requests and self._waiting
+
+    def remove_worker(self, worker):
+        self._waiting.remove(worker)
+
+    def post_worker_processing(self, worker):
+        pass
+
+
+class Scaler(object):
+    Action = enum.Enum('Action', 'send recv')
+    Metric = enum.Enum('Metric', 'throughput latency')
+
+    def __init__(self, service, expected_stats, measurement_time_interval=1):
+        super(Scaler, self).__init__()
+        self._service = service
+        self._expected_throughput = expected_stats[self.Metric.throughput]
+        self._expected_latency = expected_stats[self.Metric.latency]
+        # time interval over throuput is defined. by default 1s
+        # throughput
+        self._measurement_time_interval = float(measurement_time_interval)
+        self._requests_in_time_interval = []
+        self._start_time = None
+        # latency
+        self._sent_to_worker_ts = {}
+        self._worker_proc_latency = {}
+
+    def add_stats(self, action, items):
+        msg, worker = items
+        if action == self.Action.send:
+            self._sent_to_worker_ts[worker] = time.time()
+            self._count_request()
+        elif action == self.Action.recv:
+            proc_latency = time.time() - self._sent_to_worker_ts[worker]
+            if worker in self._worker_proc_latency:
+                last_proc_latency = self._worker_proc_latency[worker]
+                # a averaging window approach
+                proc_latency = 0.9 * last_proc_latency + 0.1 * proc_latency
+            self._worker_proc_latency[worker] = proc_latency
+        else:
+            raise ValueError(
+                "Unrecognized add_stats action: {}".format(action))
+
+    def _count_request(self):
+        ts = time.time()
+        if self._start_time is None:
+            self._start_time = ts
+        while self._requests_in_time_interval:
+            if ts - self._requests_in_time_interval[0] > self._measurement_time_interval:
+                self._requests_in_time_interval.pop(0)
+            else:
+                break
+        self._requests_in_time_interval.append(ts)
+
+    @property
+    def throughput(self):
+        return len(self._requests_in_time_interval) / self._measurement_time_interval
+
+    @property
+    def throughput_time_interval(self):
+        return self._measurement_time_interval
+
+    def scale(self):
+        if time.time() - self._start_time < 2 * self._measurement_time_interval:
+            return 0
+        else:
+            return 0
+
+
+class AdaptiveWorkerPoolService(Service):
+    """A Service that would adapt its active worker pool."""
+
+    # define criteria to scale up and scale down
+    # handle token
+
+    def __init__(self, name, expected_stats=None, requests_queue=None):
+        super(AdaptiveWorkerPoolService, self).__init__(name,
+                                                        requests_queue=requests_queue)
+        self._worker_pool = []
+        self._scaler = Scaler(self, expected_stats)
+
+    def get_ready_to_send(self):
+        worker = self._waiting.pop()
+        msg = self._requests.pop(0)
+        self._scaler.add_stats(Scaler.Action.send, (msg, worker))
+        logger.debug('[{}] Current throughput: {} rps. '.format(
+            self.name,
+            self._scaler.throughput
+        ))
+        return msg, worker
+
+    def is_ready_to_send(self):
+        return self._requests and self._waiting
+
+    def post_worker_processing(self, msg, worker):
+        """Called when worker has just finished processing an item."""
+        self._scaler.add_stats(Scaler.Action.recv, (msg, worker))
+        logger.debug('[{}] worker {} avg latency: {}'.format(
+            self.name,
+            worker.identity,
+            self._scaler._worker_proc_latency[worker]))
 
 
 class Worker(object):
@@ -47,7 +165,7 @@ class Worker(object):
 class MajorDomoBroker(object):
     """
     Majordomo Protocol broker
-    A minimal implementation of http:#rfc.zeromq.org/spec:7 and spec:8
+    A minimal implementation of http:  # rfc.zeromq.org/spec:7 and spec:8
     """
 
     # We'd normally pull these from config data
@@ -84,8 +202,6 @@ class MajorDomoBroker(object):
         self.poller = zmq.Poller()
         self.poller.register(self.socket, zmq.POLLIN)
         self.service_queue_type = service_queue_type
-        logging.basicConfig(format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S",
-                            level=logging.INFO)
 
     # ---------------------------------------------------------------------
 
@@ -99,8 +215,8 @@ class MajorDomoBroker(object):
             if items:
                 msg = self.socket.recv_multipart()
                 if self.verbose:
-                    logging.info("I: received message:")
-                    logging.info(dump(msg))
+                    logger.info("I: received message:")
+                    logger.info(dump(msg))
 
                 sender = msg.pop(0)
                 empty = msg.pop(0)
@@ -112,8 +228,8 @@ class MajorDomoBroker(object):
                 elif (MDP.W_WORKER == header):
                     self.process_worker(sender, msg)
                 else:
-                    logging.error("E: invalid message:")
-                    logging.error(dump(msg))
+                    logger.error("E: invalid message:")
+                    logger.error(dump(msg))
 
             self.purge_workers()
             self.send_heartbeats()
@@ -163,11 +279,12 @@ class MajorDomoBroker(object):
                 client = msg.pop(0)
                 empty = msg.pop(0)  # ?
                 msg = [client, '', MDP.C_CLIENT, worker.service.name] + msg
+                worker.service.post_worker_processing(msg, worker)
                 self.socket.send_multipart(msg)
                 if self.verbose:
-                    logging.info(
+                    logger.info(
                         "I: sending to client from worker {}:".format(sender))
-                    logging.info(dump(msg))
+                    logger.info(dump(msg))
                 self.worker_waiting(worker)
             else:
                 self.delete_worker(worker, True)
@@ -181,8 +298,8 @@ class MajorDomoBroker(object):
         elif (MDP.W_DISCONNECT == command):
             self.delete_worker(worker, False)
         else:
-            logging.error("E: invalid message:")
-            logging.error(dump(msg))
+            logger.error("E: invalid message:")
+            logger.error(dump(msg))
 
     def delete_worker(self, worker, disconnect):
         """Deletes worker from all data structures, and deletes worker."""
@@ -191,11 +308,11 @@ class MajorDomoBroker(object):
             self.send_to_worker(worker, MDP.W_DISCONNECT, None, None)
 
         if worker.service is not None:
-            worker.service.waiting.remove(worker)
+            worker.service.remove_worker(worker)
         self.workers.pop(worker.identity)
 
     def require_worker(self, address):
-        """Finds the worker (creates if necessary)."""
+        """Finds the worker(creates if necessary)."""
         assert (address is not None)
         identity = hexlify(address)
         worker = self.workers.get(identity)
@@ -203,12 +320,12 @@ class MajorDomoBroker(object):
             worker = Worker(identity, address, self.HEARTBEAT_EXPIRY)
             self.workers[identity] = worker
             if self.verbose:
-                logging.info("I: registering new worker: %s", identity)
+                logger.info("I: registering new worker: %s", identity)
 
         return worker
 
     def require_service(self, name):
-        """Locates the service (creates if necessary)."""
+        """Locates the service(creates if necessary)."""
         assert (name is not None)
         service = self.services.get(name)
         if (service is None):
@@ -216,7 +333,8 @@ class MajorDomoBroker(object):
                 requests_queue = []
             else:
                 requests_queue = self.service_queue_type(self)
-            service = Service(name, requests_queue=requests_queue)
+            service = AdaptiveWorkerPoolService(
+                name, expected_stats={Scaler.Metric.throughput: 30, Scaler.Metric.latency: 100}, requests_queue=requests_queue)
             self.services[name] = service
 
         return service
@@ -227,7 +345,7 @@ class MajorDomoBroker(object):
         We use a single socket for both clients and workers.
         """
         self.socket.bind(endpoint)
-        logging.info("I: MDP broker/0.1.1 is active at %s", endpoint)
+        logger.info("I: MDP broker/0.1.1 is active at %s", endpoint)
 
     def service_internal(self, service, msg):
         """Handle internal service according to 8/MMI specification"""
@@ -257,7 +375,7 @@ class MajorDomoBroker(object):
         while self.waiting:
             w = self.waiting[0]
             if w.expiry < time.time():
-                logging.info("I: deleting expired worker: %s", w.identity)
+                logger.info("I: deleting expired worker: %s", w.identity)
                 self.delete_worker(w, False)
                 self.waiting.pop(0)
             else:
@@ -267,7 +385,7 @@ class MajorDomoBroker(object):
         """This worker is now waiting for work."""
         # Queue to broker and service waiting lists
         self.waiting.append(worker)
-        worker.service.waiting.append(worker)
+        worker.service.add_waiting_worker(worker)
         worker.expiry = time.time() + 1e-3*self.HEARTBEAT_EXPIRY
         self.dispatch(worker.service, None)
 
@@ -275,13 +393,11 @@ class MajorDomoBroker(object):
         """Dispatch requests to waiting workers as possible"""
         assert (service is not None)
         if msg is not None:  # Queue message if any
-            service.requests.append(msg)
+            service.add_request(msg)
         self.purge_workers()
-        while service.waiting and service.requests:
-            msg = service.requests.pop(0)
-            worker = service.waiting.pop(0)
+        while service.is_ready_to_send():
+            msg, worker = service.get_ready_to_send()
             self.waiting.remove(worker)
-            logging.info('send msg to worker {}'.format(worker))
             self.send_to_worker(worker, MDP.W_REQUEST, None, msg)
 
     def send_to_worker(self, worker, command, option, msg=None):
@@ -302,8 +418,8 @@ class MajorDomoBroker(object):
         msg = [worker.address, '', MDP.W_WORKER, command] + msg
 
         if self.verbose:
-            logging.info("I: sending %r to worker", command)
-            logging.info(dump(msg))
+            logger.info("I: sending %r to worker", command)
+            logger.info(dump(msg))
 
         self.socket.send_multipart(msg)
 
@@ -318,7 +434,7 @@ def main(broker_uri="tcp://*:5555", verbose=False, service_queue_type='list'):
     assert service_queue_type in service_queue_maps.keys(), 'service_queue_type must be a value of {}'.format(
         service_queue_maps.keys()
     )
-    logging.info("Using queye type: {}".format(service_queue_type))
+    logger.info("Using queye type: {}".format(service_queue_type))
 
     broker = MajorDomoBroker(
         verbose, service_queue_type=service_queue_maps[service_queue_type])
