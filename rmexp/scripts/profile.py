@@ -69,7 +69,7 @@ class Profiler(object):
 
 
 def main(app):
-    profile_exp_name = 'profile-cg-cpu-time-w1'
+    profile_exp_name = 'c001-cg-wall-w1'
     if app == 'lego':
         profiler = Profiler('lego',
                             list(np.arange(1, 5, 1)),
@@ -101,8 +101,8 @@ def main(app):
         profiler = Profiler('face',
                             list(np.arange(1, 5, 1)),
                             list(np.arange(2, 2.5, 0.5)),
-                            'face-trace/2/video.mp4',
-                            'face-tr2-profile',
+                            'face-trace/0/video.mp4',
+                            'face-tr0-profile',
                             profile_exp_name)
         profiler.profile()
 
