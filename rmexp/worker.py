@@ -97,9 +97,9 @@ class Sampler(object):
 
 
 def process_and_measure_cpu_time(img, app_handler):
-    ts = time.clock()
+    ts = time.time()
     result = app_handler.process(img)
-    time_lapse = int(round((time.clock() - ts) * 1000))
+    time_lapse = int(round((time.time() - ts) * 1000))
     return result, time_lapse
 
 
@@ -136,7 +136,12 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
         sess = dbutils.get_session()
     idx = 1
     while True:
-        img = vc.get_frame()
+        try:
+            img = vc.get_frame()
+        except ValueError as e:
+            logger.error(e)
+            logger.info('video ended.')
+            break
         result, time_lapse = process_and_measure_cpu_time(img, app_handler)
         logger.debug("[pid: {}] processing frame {} from {}. {} ms".format(os.getpid(),
                                                                            idx, video_uri, int(time_lapse)))

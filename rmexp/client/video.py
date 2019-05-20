@@ -4,6 +4,7 @@ import os
 import time
 import types
 import random
+import glob
 
 import cv2
 import logging
@@ -11,14 +12,17 @@ import logzero
 from logzero import logger
 from rmexp import gabriel_pb2, cvutils
 
-logzero.formatter(logging.Formatter(fmt='%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s', datefmt='%H:%M:%S'))
+logzero.formatter(logging.Formatter(
+    fmt='%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s', datefmt='%H:%M:%S'))
 logzero.loglevel(logging.DEBUG)
+
 
 class VideoClient(object):
     def __init__(self, app, video_uri,
                  network_connector=None, video_params=None, max_wh=None,
                  loop=False, random_start=False):
         super(VideoClient, self).__init__()
+        self.video_uri = video_uri
         self._cam = self.get_video_capture(video_uri)
         self._fps = self._cam.get(cv2.cv.CV_CAP_PROP_FPS)
         self._start_fid = 0
@@ -56,8 +60,7 @@ class VideoClient(object):
         self._cam.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, fid % self._cam_frame_cnt)
         self._fid = fid
 
-    def send_frame(self, frame, frame_id, reply, **kwargs):
-        frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
+    def send_frame(self, frame_bytes, frame_id, reply, **kwargs):
         gabriel_msg = gabriel_pb2.Message()
         gabriel_msg.data = frame_bytes
         gabriel_msg.timestamp = kwargs['time']
@@ -72,8 +75,6 @@ class VideoClient(object):
         """
         has_frame, img = self._get_frame_and_resize()
         if has_frame and img is not None:
-            logger.debug('[proc {}] acquired a frame of size: {}'.format(
-                os.getpid(), img.shape))
             return img
         else:
             self._cam.release()
@@ -82,15 +83,16 @@ class VideoClient(object):
     def get_and_send_frame(self, filter_func=None, reply=False, **kwargs):
         """Public convenient function to get and send a frame."""
         frame = self.get_frame()
+        frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
         ts = time.time()
-        if filter_func is None or filter_func(frame):
-            self.send_frame(frame, self._fid - 1,
+        if filter_func is None or filter_func(frame_bytes):
+            self.send_frame(frame_bytes, self._fid - 1,
                             reply=reply, time=ts, **kwargs)
 
     def process_reply(self, msg):
         # logger.trace('{} reply ignored'.format(self))
         pass
-        
+
     def _get_frame_and_resize(self):
         has_frame, img = self._cam.read()
         # reset video for looping
@@ -152,7 +154,8 @@ class RTVideoClient(VideoClient):
             if next_fid < self._fid:
                 sleep_time = self._start_time + self._fid * \
                     (1. / self._fps) - time.time()
-                logger.debug("Going to sleep {} for frame {}".format(sleep_time, self._fid))
+                logger.debug("Going to sleep {} for frame {}".format(
+                    sleep_time, self._fid))
                 time.sleep(sleep_time)
                 next_fid = self._fid
 
@@ -180,13 +183,110 @@ class RTVideoClient(VideoClient):
         return img
 
 
+class RTImageSequenceClient(RTVideoClient):
+    def __init__(self, app, video_uri,
+                 network_connector=None, video_params=None, max_wh=None,
+                 loop=False, random_start=False):
+        self.video_uri = video_uri
+        self._cam = None
+        self._start_time = None
+        self._fps = 30
+        self._start_fid = 0
+        if random_start:
+            self._start_fid = random.randint(0, self._cam_frame_cnt - 1)
+        self._fid = self._start_fid
+        self._max_wh = max_wh
+        self._loop = loop
+        self._app = app
+        self._nc = network_connector
+        assert self._app in ['lego', 'pingpong', 'face',
+                             'pool', 'ikea'], 'Unknown app: {}'.format(self._app)
+
+        # configure the cam
+        self._cam_frame_cnt = len(
+            glob.glob(os.path.join(self.video_uri, '*.jpg')))
+        if video_params is not None:
+            self._set_cam_params(video_params)
+        assert self._fid is not None, 'Camera position needs to be initialized using _set_cam_pos'
+        logger.info('initialized a video client. video_uri: {}, video_params: {}, loop: {},\
+                    start_fid: {}, total frame_cnt: {}, fps: {}'.format(
+            video_uri,
+            video_params,
+            self._loop,
+            self._start_fid,
+            self._cam_frame_cnt,
+            self._fps
+        ))
+
+    def _get_frame_bytes(self, frame_index=None):
+        """frame_index is the frame idx one wants to get.
+        frame_index starts with 0 for the 1st frame.
+        """
+        if frame_index is None:
+            frame_index = self._fid
+        if self._loop:
+            frame_index = frame_index % self._cam_frame_cnt
+
+        # on-disk jpeg sequence starts with 1 while our frame index starts with 0
+        jpeg_fp = os.path.join(
+            self.video_uri, '{:010d}.jpg'.format(frame_index + 1))
+        frame_bytes = None
+        with open(jpeg_fp, 'r') as f:
+            frame_bytes = f.read()
+        self._fid = frame_index + 1
+        return True, frame_bytes
+
+    def get_and_send_frame(self, filter_func=None, reply=False, **kwargs):
+        """Public convenient function to get and send a frame."""
+        frame_bytes = self.get_frame()
+        ts = time.time()
+        if filter_func is None or filter_func(frame_bytes):
+            self.send_frame(frame_bytes, self._fid - 1,
+                            reply=reply, time=ts, **kwargs)
+
+    def get_frame(self):
+        """Public function to get a frame.
+        """
+        tic = time.time()
+        if self._fid == self._start_fid:
+            has_frame, img = self._get_frame_bytes()
+            self._start_time = time.time()
+            if not has_frame or img is None:
+                raise ValueError("Failed to get another frame.")
+        else:
+            # _fid starts with 0 and represents next available frame
+            next_fid = self._fps * \
+                (time.time() - self._start_time) + self._start_fid
+            next_fid = int(next_fid)
+
+            # the get_frame is request too soon.
+            # current frame has already sampled. need to block and sleep
+            if next_fid < self._fid:
+                sleep_time = self._start_time + self._fid * \
+                    (1. / self._fps) - time.time()
+                logger.debug("Going to sleep {} for frame {}".format(
+                    sleep_time, self._fid))
+                time.sleep(sleep_time)
+                next_fid = self._fid
+
+            # fast-forward
+            has_frame, img = self._get_frame_bytes(frame_index=next_fid)
+            if not has_frame or img is None:
+                raise ValueError("Failed to get another frame.")
+            logger.debug("get_frame_and_resize: {}".format(time.time() - tic))
+
+        logger.info('[proc {}] RTImageSequenceClient acquired frame id {} pos {}. get frame {} ms'.format(
+            os.getpid(), self._fid - 1, self.current_fid, int(1000*(time.time()-tic))))
+        return img
+
+
 if __name__ == "__main__":
-    video_uri = '/home/junjuew/work/resource-management/data/lego-trace/1/video.mp4'
-    vc = RTVideoClient('lego', video_uri, None)
+    video_uri = '/home/junjuew/work/resource-management/data/lego-trace/1/video-images'
+    vc = RTImageSequenceClient('lego', video_uri, None)
     idx = 0
     while True:
         idx += 1
         img = vc.get_frame()
-        logger.debug("Original frame id {}, obtained frame count {}".format(vc._fid, idx))
-        time.sleep(0.05)
+        logger.debug(
+            "Original frame id {}, obtained frame count {}".format(vc._fid, idx))
         assert img is not None
