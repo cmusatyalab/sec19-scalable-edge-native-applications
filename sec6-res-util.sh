@@ -2,7 +2,7 @@
 
 # exp_cpus="1 0.8 0.6"
 
-exp_cpus="0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6. 1.8 2.0"
+exp_cpus="0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0"
 for exp_cpu in ${exp_cpus};
 do
     docker_name=rmexp-${exp_name};
