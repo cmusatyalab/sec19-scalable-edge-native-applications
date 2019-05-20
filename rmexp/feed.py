@@ -2,22 +2,21 @@
 
 from __future__ import absolute_import, division, print_function
 
+import cv2
+import datetime
+import fire
+from lego import lego_cv
+import logzero
+from logzero import logger
 import multiprocessing
 import os
 import time
-import datetime
-
-import cv2
-import fire
-from lego import lego_cv
-from logzero import logger
 
 from rmexp import dbutils, client, config, gabriel_pb2, networkutil, utils
 from rmexp.schema import models
 from rmexp.client import emulator
+from rmexp.client.video import RTImageSequenceClient, RTVideoClient
 from rmexp.utilityfunc import app_default_utility_func
-
-import logzero
 
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
@@ -90,8 +89,12 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = None
     if client_type == 'video':
-        vc = client.RTVideoClient(
-            app, video_uri, nc, loop=loop, random_start=random_start)
+        if os.path.isdir(video_uri):
+            vc = RTImageSequenceClient(app, video_uri, nc, loop=loop, random_start=random_start)
+        else:
+            assert os.path.isfile(video_uri)
+            vc = client.RTVideoClient(
+                app, video_uri, nc, loop=loop, random_start=random_start)
     elif client_type == 'device':
         trace = utils.video_uri_to_trace(video_uri)
         cam = emulator.VideoAdaptiveSensor(
