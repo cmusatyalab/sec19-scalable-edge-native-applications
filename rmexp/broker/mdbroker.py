@@ -22,13 +22,45 @@ import brokerqueue
 class Service(object):
     """a single Service"""
     name = None  # Service name
-    requests = None  # List of client requests
-    waiting = None  # List of waiting workers
+    _requests = None  # List of client requests
+    _waiting = None  # List of waiting workers
 
     def __init__(self, name, requests_queue=None):
         self.name = name
+        self._requests = [] if requests_queue is None else requests_queue
+        self._waiting = []
+
+    def add_request(self, msg):
+        self._requests.append(msg)
+
+    def add_waiting_worker(self, worker):
+        self._waiting.append(worker)
+
+    def get_request(self):
+        return self._requests.pop(0)
+
+    def get_waiting_worker(self):
+        return self._waiting.pop(0)
+
+    def has_request(self):
+        return len(self._requests) != 0
+
+    def has_waiting_worker(self):
+        return len(self._waiting) != 0
+
+    def remove_worker(self, worker):
+        self._waiting.remove(worker)
+
+
+class AdaptiveWorkerPoolService(Service):
+    """A Service that would adapt its active worker pool."""
+
+    def __init__(self, name, expected_fps, requests_queue=None):
+        self.name = name
         self.requests = [] if requests_queue is None else requests_queue
         self.waiting = []
+        self.expected_fps = expected_fps
+        self._worker_pool = []
 
 
 class Worker(object):
@@ -47,7 +79,7 @@ class Worker(object):
 class MajorDomoBroker(object):
     """
     Majordomo Protocol broker
-    A minimal implementation of http:#rfc.zeromq.org/spec:7 and spec:8
+    A minimal implementation of http:  # rfc.zeromq.org/spec:7 and spec:8
     """
 
     # We'd normally pull these from config data
@@ -191,11 +223,11 @@ class MajorDomoBroker(object):
             self.send_to_worker(worker, MDP.W_DISCONNECT, None, None)
 
         if worker.service is not None:
-            worker.service.waiting.remove(worker)
+            worker.service.remove_worker(worker)
         self.workers.pop(worker.identity)
 
     def require_worker(self, address):
-        """Finds the worker (creates if necessary)."""
+        """Finds the worker(creates if necessary)."""
         assert (address is not None)
         identity = hexlify(address)
         worker = self.workers.get(identity)
@@ -208,7 +240,7 @@ class MajorDomoBroker(object):
         return worker
 
     def require_service(self, name):
-        """Locates the service (creates if necessary)."""
+        """Locates the service(creates if necessary)."""
         assert (name is not None)
         service = self.services.get(name)
         if (service is None):
@@ -267,7 +299,7 @@ class MajorDomoBroker(object):
         """This worker is now waiting for work."""
         # Queue to broker and service waiting lists
         self.waiting.append(worker)
-        worker.service.waiting.append(worker)
+        worker.service.add_waiting_worker(worker)
         worker.expiry = time.time() + 1e-3*self.HEARTBEAT_EXPIRY
         self.dispatch(worker.service, None)
 
@@ -275,11 +307,11 @@ class MajorDomoBroker(object):
         """Dispatch requests to waiting workers as possible"""
         assert (service is not None)
         if msg is not None:  # Queue message if any
-            service.requests.append(msg)
+            service.add_request(msg)
         self.purge_workers()
-        while service.waiting and service.requests:
-            msg = service.requests.pop(0)
-            worker = service.waiting.pop(0)
+        while service.has_waiting_worker() and service.has_request():
+            msg = service.get_request()
+            worker = service.get_waiting_worker()
             self.waiting.remove(worker)
             logging.info('send msg to worker {}'.format(worker))
             self.send_to_worker(worker, MDP.W_REQUEST, None, msg)
