@@ -215,7 +215,7 @@ cd rmexp
 ./harness.py run run_config/face2.yml client --scheduler=rmexp.scheduler.baseline --exp=face2-baseline
 
 # in case worker containers are not removed cleanly:
-# docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q) 
+# docker rm -f $(docker ps --filter 'name=rmexp-harness-*' -a -q) 
 ```
 
 #### Adding and invoking new schedulers

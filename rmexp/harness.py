@@ -32,16 +32,18 @@ GiB = 2.**30
 
 # logzero.loglevel(logging.INFO)
 
-def start_worker(app, num, docker_run_kwargs):
+def start_worker(app, num, docker_run_kwargs, busy_wait=None):
     omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
 
     cli = docker.from_env()
 
-    container_name = 'rmexp-mc-{}-{}'.format(app, str(uuid.uuid4())[:8])
+    container_name = 'rmexp-harness-{}-{}-{}'.format(app, os.getppid(), str(uuid.uuid4())[:8])
 
     bash_cmd = ". .envrc && OMP_NUM_THREADS={} python rmexp/serve.py start --num {} \
                 --broker-type {} --broker-uri {} --app {} " \
         .format(omp_num_threads, num, os.getenv('BROKER_TYPE'), os.getenv('WORKER_BROKER_URI'), app)
+    if busy_wait:
+        bash_cmd += " --busy_wait {}".format(busy_wait)
     logger.debug(bash_cmd)
 
     try:
@@ -61,6 +63,10 @@ def start_worker(app, num, docker_run_kwargs):
 
 
 def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
+    # forced convert video_uri to frame dir
+    if not os.path.isdir(video_uri):
+        os.path.join(os.path.dirname(video_uri), 'video-images')
+
     logger.info('Starting client %d %s @ %s' % (client_id, app, video_uri))
 
     try:
@@ -165,7 +171,7 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
 def kill():
     logger.info('Last effort to remove worker containers')
     ret = subprocess.check_output(
-        "docker rm -f $(docker ps --filter 'name=rmexp-mc-*' -a -q)", shell=True)
+        "docker rm -f $(docker ps --filter 'name=rmexp-harness-{}-*' -a -q)".format(os.getpid()), shell=True)
     logger.info(ret)
 
 

@@ -10,26 +10,56 @@ import multiprocessing
 import cv2
 import fire
 import logzero
-import numpy as np
 from logzero import logger
+import numpy as np
+
 from rmexp import config, cvutils, dbutils, gabriel_pb2, client
 from rmexp.schema import models
 
+logzero.formatter(logging.Formatter(fmt='%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s', datefmt='%H:%M:%S'))
 logzero.loglevel(logging.DEBUG)
 
 
-def work_loop(job_queue, app):
+def work_loop(job_queue, app, busy_wait=None):
+    """[summary]
+    
+    Arguments:
+        job_queue {[type]} -- [description]
+        app {[type]} -- [description]
+    
+    Keyword Arguments:
+        busy_wait {float} -- if not None, busy spin seconds instead of running actual app (default: {None})
+    """
     handler = importlib.import_module(app).Handler()
 
     while True:
+        get_ts = time.time()
         msg = job_queue.get()[0]
+        get_wait = time.time() - get_ts
+        if get_wait > 1e-3:
+            logger.warn("[pid {}] took {} ms to get a new request. Maybe waiting".format(os.getpid(), int(1000*get_wait)))
+
         arrival_ts = time.time()
+
         gabriel_msg = gabriel_pb2.Message()
         gabriel_msg.ParseFromString(msg)
         encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp
-        encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
-        img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
-        result = handler.process(img)
+
+        logger.debug("[pid {}] about to process frame {}".format(os.getpid(), gabriel_msg.index))
+
+        if not busy_wait:
+            # do real work
+            encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
+            img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
+            result = handler.process(img)
+        else:
+            # busy wait fixed time
+            tic = time.time()
+            while True:
+                if time.time() - tic > busy_wait:
+                    break
+            result = '[pid {}] busy wait {}'.format(os.getpid(), busy_wait)
+
         finished_ts = time.time()
         time_lapse = (finished_ts - ts) * 1000
 
@@ -42,9 +72,8 @@ def work_loop(job_queue, app):
             reply.arrival_ts = arrival_ts
             job_queue.put([reply.SerializeToString(), ])
 
-        logger.debug(result)
-        logger.debug('[proc {}] takes {} ms for frame {}'.format(
-            os.getpid(), (time.time() - ts) * 1000, gabriel_msg.index))
+        logger.debug('[pid {}] takes {} ms for frame {}: {}'.format(
+            os.getpid(), (time.time() - ts) * 1000, gabriel_msg.index, result))
 
 
 class Sampler(object):
