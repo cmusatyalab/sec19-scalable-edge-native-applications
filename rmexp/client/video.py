@@ -209,8 +209,9 @@ class RTImageSequenceClient(RTVideoClient):
         if video_params is not None:
             self._set_cam_params(video_params)
         assert self._fid is not None, 'Camera position needs to be initialized using _set_cam_pos'
-        logger.info('initialized a video client. video_uri: {}, video_params: {}, loop: {},\
+        logger.info('[pid {}] initialized a video client. video_uri: {}, video_params: {}, loop: {},\
                     start_fid: {}, total frame_cnt: {}, fps: {}'.format(
+            os.getpid(),
             video_uri,
             video_params,
             self._loop,
