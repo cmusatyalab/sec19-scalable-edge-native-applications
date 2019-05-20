@@ -30,8 +30,6 @@ from object_detection.utils import label_map_util
 import time
 import pkg_resources
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-
 
 MODEL_DIR = 'tf_model'
 FROZEN_INFERENCE_GRAPH = pkg_resources.resource_filename(__name__,
