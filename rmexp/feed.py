@@ -31,8 +31,8 @@ from rmexp.utilityfunc import app_default_utility_func
 #     reactor.run()
 
 
-def store_exp_latency(dbobj, gabriel_msg, util_fn):
-    sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
+def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
+    exp, app, client_id = dbobj['exp'], dbobj['app'], dbobj['client_id']
 
     reply_ms = int(1000 * (time.time() - gabriel_msg.timestamp))
     arrival_ms = int(
@@ -43,13 +43,13 @@ def store_exp_latency(dbobj, gabriel_msg, util_fn):
 
     index = gabriel_msg.index.split('-')[1]
 
-    if sess is not None:
+    if output is not None:
         record = models.ExpLatency(
             name=exp, index=index, app=app, client=str(client_id),
             arrival=arrival_ms, finished=finished_ms,
             reply=reply_ms, utility=utility
         )
-        sess.add(record)
+        output.append(record)
 
         logger.debug("{}: E2E {} ms : {} utility {}".format(
             gabriel_msg.index, reply_ms, gabriel_msg.data, utility))
@@ -62,6 +62,7 @@ def store_exp_latency(dbobj, gabriel_msg, util_fn):
 def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):
     start = time.time()
     tokens = tokens_cap
+    output = list()
 
     while True:
         if stop_after and time.time() - start > stop_after:
@@ -85,13 +86,16 @@ def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):
                 gabriel_msg.ParseFromString(msg)
                 vc.process_reply(gabriel_msg.data)
                 if dbobj is not None:
-                    store_exp_latency(dbobj, gabriel_msg, util_fn)
+                    store_exp_latency(dbobj, gabriel_msg, util_fn, output)
 
-                # logger.debug("Took {} secs to from recv to finish processing reply. DB: {}".format(time.time() - tic, bool(dbobj)))
+                logger.debug("Took {} secs to from recv to finish processing reply. DB: {}".format(time.time() - tic, bool(dbobj)))
 
     if dbobj and 'sess' in dbobj:
-        logger.info("Committing changes to DB.")
-        dbobj['sess'].commit()
+        sess = dbobj['sess']
+        logger.info("[pid {}] Committing changes to DB.".format(os.getpid()))
+        sess.add_all(output)
+        sess.commit()
+        logger.info("[pid {}] Commited".format(os.getpid()))
 
 
 def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
