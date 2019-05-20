@@ -145,6 +145,39 @@ def correct_trace_resolution(app, dir_path, force=False):
         os.symlink(actual_trace, default_trace)
 
 
+def decode_to_imgs(app, dir_path, force=False):
+    import importlib
+    import subprocess
+    app = importlib.import_module(app)
+    trace_num_min, trace_num_max = _get_max_trace_num(dir_path)
+    for i in range(trace_num_min, trace_num_max+1):
+        video_fp = os.path.join(dir_path, str(i), 'video.mp4')
+        if not os.path.islink(video_fp):
+            raise ValueError('{} does not exist'.format(video_fp))
+
+        img_dir_name = 'video-images'
+        img_dir = os.path.join(dir_path, str(i), img_dir_name)
+        if os.path.exists(img_dir):
+            if force:
+                logger.debug(
+                    'WARNING: {} exists! Force removing ...'.format(img_dir))
+                shutil.rmtree(img_dir)
+            else:
+                raise ValueError('{} exists!'.format(img_dir))
+        os.mkdir(img_dir)
+        # q:v 1 is needed to make extracted jpeg images look reasonable.
+        # the default value is 24.8
+        # https://superuser.com/questions/318845/improve-quality-of-ffmpeg-created-jpgs
+        cmd = 'ffmpeg -i {} -q:v 1 -vsync passthrough {}/%010d.jpg'.format(
+            video_fp, img_dir)
+        logger.debug('issuing: {}'.format(cmd))
+        p = subprocess.Popen(cmd, shell=True)
+        p.wait()
+        if p.returncode != 0:
+            raise ValueError(
+                'Cmd Error: {} has return code {}'.format(cmd, p.returncode))
+
+
 def get_dataset_stats(app, dir_path, store=False):
     """Get statistics of datasets"""
     import json
