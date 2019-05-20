@@ -12,8 +12,9 @@ import logzero
 from logzero import logger
 from rmexp import gabriel_pb2, cvutils
 
-logzero.formatter(logging.Formatter(
-    fmt='%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s', datefmt='%H:%M:%S'))
+logzero.formatter(logzero.LogFormatter(
+    fmt='%(color)s[%(levelname)1.1s %(asctime)s.%(msecs)03d %(module)s:%(lineno)d]%(end_color)s %(message)s'))
+
 logzero.loglevel(logging.DEBUG)
 
 
@@ -187,11 +188,17 @@ class RTImageSequenceClient(RTVideoClient):
     def __init__(self, app, video_uri,
                  network_connector=None, video_params=None, max_wh=None,
                  loop=False, random_start=False):
+        assert app in ['lego', 'pingpong', 'face',
+                       'pool', 'ikea'], 'Unknown app: {}'.format(app)
         self.video_uri = video_uri
         self._cam = None
         self._start_time = None
         self._fps = 30
         self._start_fid = 0
+        self._cam_frame_cnt = len(
+            glob.glob(os.path.join(self.video_uri, '*.jpg')))
+        assert self._cam_frame_cnt > 0, '{} has no frames. Is your video_uri correct?'.format(
+            video_uri)
         if random_start:
             self._start_fid = random.randint(0, self._cam_frame_cnt - 1)
         self._fid = self._start_fid
@@ -199,12 +206,6 @@ class RTImageSequenceClient(RTVideoClient):
         self._loop = loop
         self._app = app
         self._nc = network_connector
-        assert self._app in ['lego', 'pingpong', 'face',
-                             'pool', 'ikea'], 'Unknown app: {}'.format(self._app)
-
-        # configure the cam
-        self._cam_frame_cnt = len(
-            glob.glob(os.path.join(self.video_uri, '*.jpg')))
         if video_params is not None:
             self._set_cam_params(video_params)
         assert self._fid is not None, 'Camera position needs to be initialized using _set_cam_pos'
@@ -262,7 +263,7 @@ class RTImageSequenceClient(RTVideoClient):
             # the get_frame is request too soon.
             # current frame has already sampled. need to block and sleep
             if next_fid < self._fid:
-                sleep_time = self._start_time + self._fid * \
+                sleep_time = self._start_time + (self._fid - self._start_fid) * \
                     (1. / self._fps) - time.time()
                 logger.debug("Going to sleep {} for frame {}".format(
                     sleep_time, self._fid))
@@ -273,7 +274,6 @@ class RTImageSequenceClient(RTVideoClient):
             has_frame, img = self._get_frame_bytes(frame_index=next_fid)
             if not has_frame or img is None:
                 raise ValueError("Failed to get another frame.")
-            logger.debug("get_frame_and_resize: {}".format(time.time() - tic))
 
         logger.info('[proc {}] RTImageSequenceClient acquired frame id {} pos {}. get frame {} ms'.format(
             os.getpid(), self._fid - 1, self.current_fid, int(1000*(time.time()-tic))))

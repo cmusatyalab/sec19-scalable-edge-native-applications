@@ -35,7 +35,7 @@ import logzero
 def store_exp_latency(dbobj, gabriel_msg):
     sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
     util_fn = app_default_utility_func[app]
-    
+
     reply_ms = int(1000 * (time.time() - gabriel_msg.timestamp))
     arrival_ms = int(
         1000 * (gabriel_msg.arrival_ts - gabriel_msg.timestamp))
@@ -51,8 +51,8 @@ def store_exp_latency(dbobj, gabriel_msg):
             sess, models.ExpLatency,
             {'name': exp, 'index': index, 'app': app,
                 'client': str(client_id)},
-            {'arrival': arrival_ms, 'finished': finished_ms, 
-                'reply': reply_ms, 'utility': utility }
+            {'arrival': arrival_ms, 'finished': finished_ms,
+                'reply': reply_ms, 'utility': utility}
         )
         sess.commit()
         logger.debug("{}: E2E {} ms : {} utility {}".format(
@@ -61,7 +61,7 @@ def store_exp_latency(dbobj, gabriel_msg):
         print(
             ','.join(map(str,
                          [exp, index, app, client_id, arrival_ms, finished_ms, reply_ms, utility])))
-    
+
 
 def run_loop(vc, nc, tokens_cap, dbobj=None):
     tokens = tokens_cap
@@ -95,7 +95,7 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
     elif client_type == 'device':
         trace = utils.video_uri_to_trace(video_uri)
         cam = emulator.VideoAdaptiveSensor(
-            trace, network_connector=nc, loop=loop, random_start=random_start)
+            trace, video_uri=video_uri, network_connector=nc, loop=loop, random_start=random_start)
         imu = emulator.IMUSensor(trace)
         device = emulator.IMUSuppresedCameraTimedMobileDevice(
             sensors=[cam, imu]

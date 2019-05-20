@@ -4,6 +4,8 @@ import os
 import time
 import types
 
+import cv2
+
 import pandas as pd
 from logzero import logger
 from rmexp import client, schema, utils
@@ -18,9 +20,10 @@ class Sensor(object):
         pass
 
 
-class VideoSensor(client.RTVideoClient):
-    def __init__(self, trace, *args, **kwargs):
-        video_uri = utils.trace_to_video_uri(trace)
+class VideoSensor(client.RTImageSequenceClient):
+    def __init__(self, trace, video_uri=None, *args, **kwargs):
+        if video_uri is None:
+            video_uri = utils.trace_to_video_uri(trace)
         app = utils.trace_to_app(trace)
         super(VideoSensor, self).__init__(app, video_uri, *args, **kwargs)
         logger.debug('created video sensor to read from: {}'.format(video_uri))
@@ -178,9 +181,17 @@ class DeviceToClientAdapter(object):
     def get_and_send_frame(self, **kwargs):
         data = self.device.sample()
         fid, frame = data[0]
+        frame_bytes = None
+        if isinstance(self.device.primary_sensor, client.RTImageSequenceClient):
+            frame_bytes = frame
+        elif isinstance(self.device.primary_sensor, client.RTVideoClient):
+            frame_bytes = cv2.imencode('.jpg', frame)[1].tostring()
+        else:
+            raise TypeError('{} is not supported by the DeviceToClientAdapter'.format(
+                type(self.device.primary_sensor)))
         ts = time.time()
         self.device.primary_sensor.send_frame(
-            frame, fid, time=ts, **kwargs)
+            frame_bytes, fid, time=ts, **kwargs)
 
     def process_reply(self, msg):
         # let the primary sensor to determine how to adjust to reply

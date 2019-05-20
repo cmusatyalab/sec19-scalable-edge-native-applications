@@ -1,1 +1,1 @@
-from rmexp.client.video import VideoClient, RTVideoClient
+from rmexp.client.video import VideoClient, RTVideoClient, RTImageSequenceClient
