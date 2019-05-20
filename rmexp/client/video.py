@@ -6,9 +6,13 @@ import types
 import random
 
 import cv2
+import logging
+import logzero
 from logzero import logger
 from rmexp import gabriel_pb2, cvutils
 
+logzero.formatter(logging.Formatter(fmt='%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s', datefmt='%H:%M:%S'))
+logzero.loglevel(logging.DEBUG)
 
 class VideoClient(object):
     def __init__(self, app, video_uri,
@@ -84,8 +88,9 @@ class VideoClient(object):
                             reply=reply, time=ts, **kwargs)
 
     def process_reply(self, msg):
-        logger.warning('{} reply ignored'.format(self))
-
+        # logger.trace('{} reply ignored'.format(self))
+        pass
+        
     def _get_frame_and_resize(self):
         has_frame, img = self._cam.read()
         # reset video for looping
@@ -129,6 +134,7 @@ class RTVideoClient(VideoClient):
         logger.info('RTVideoClient considers FPS to be {}'.format(self._fps))
 
     def get_frame(self):
+        tic = time.time()
         if self._fid == self._start_fid:
             has_frame, img = self._get_frame_and_resize()
             self._start_time = time.time()
@@ -139,25 +145,38 @@ class RTVideoClient(VideoClient):
             # _fid starts with 0 and represents next available frame
             next_fid = self._fps * \
                 (time.time() - self._start_time) + self._start_fid
-            next_fid = int(next_fid) + 1
+            next_fid = int(next_fid)
 
             # the get_frame is request too soon.
             # current frame has already sampled. need to block and sleep
             if next_fid < self._fid:
                 sleep_time = self._start_time + self._fid * \
                     (1. / self._fps) - time.time()
+                logger.debug("Going to sleep {} for frame {}".format(sleep_time, self._fid))
                 time.sleep(sleep_time)
                 next_fid = self._fid
 
             # fast-forward
-            self._set_cam_pos(next_fid)
-            has_frame, img = self._get_frame_and_resize()
+            for _ in range(next_fid + 1 - self._fid):
+                has_frame, img = self._get_frame_and_resize()
+                if has_frame and img is not None:
+                    pass
+                else:
+                    self._cam.release()
+                    raise ValueError("Failed to get another frame.")
+
+            logger.debug("get_frame_and_resize: {}".format(time.time() - tic))
+
+            # # self._set_cam_pos(next_fid) #  this takes 50 ms. WTH?!
+            # has_frame, img = self._get_frame_and_resize()
+            # self._fid = next_fid
+
             if not has_frame or img is None:
                 self._cam.release()
                 raise ValueError("Failed to get another frame.")
 
-        logger.debug('[proc {}] RTVideoClient acquired frame id {} pos {} of size: {}'.format(
-            os.getpid(), self._fid - 1, self.current_fid, img.shape))
+        logger.debug('[proc {}] RTVideoClient acquired frame id {} pos {} of size: {}. get frame {} ms'.format(
+            os.getpid(), self._fid - 1, self.current_fid, img.shape, int(1000*(time.time()-tic))))
         return img
 
 
@@ -168,5 +187,6 @@ if __name__ == "__main__":
     while True:
         idx += 1
         img = vc.get_frame()
-        logger.debug(idx)
+        logger.debug("Original frame id {}, obtained frame count {}".format(vc._fid, idx))
+        time.sleep(0.05)
         assert img is not None
