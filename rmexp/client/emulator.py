@@ -122,7 +122,7 @@ class IMUSensor(Sensor):
             logger.warning(
                 """imu is_passive look up idx ({}) invalid. 
                 A single of this warning might due to h264 encoding requires even number of frames""".format(idx))
-            return True
+            return False
 
 
 class MobileDevice(object):

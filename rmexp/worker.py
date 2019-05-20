@@ -138,6 +138,8 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
     if store_result or store_latency or store_profile:
         sess = dbutils.get_session()
     idx = 1
+    if trace is None:
+        trace = os.path.basename(os.path.dirname(video_uri))
     while True:
         try:
             img = vc.get_frame()
@@ -155,7 +157,7 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
                 models.SS,
                 name=config.EXP,
                 index=idx,
-                trace=os.path.basename(os.path.dirname(video_uri)))
+                trace=trace)
             rec.val = str(result)
         if store_latency:
             rec, _ = dbutils.get_or_create(
