@@ -37,7 +37,7 @@ def start_worker(app, num, docker_run_kwargs, busy_wait=None):
 
     cli = docker.from_env()
 
-    container_name = 'rmexp-harness-{}-{}-{}'.format(app, os.getppid(), str(uuid.uuid4())[:8])
+    container_name = 'rmexp-harness-{}-{}-{}'.format(os.getppid(), app, str(uuid.uuid4())[:8])
 
     bash_cmd = ". .envrc && OMP_NUM_THREADS={} python rmexp/serve.py start --num {} \
                 --broker-type {} --broker-uri {} --app {} " \
@@ -65,7 +65,7 @@ def start_worker(app, num, docker_run_kwargs, busy_wait=None):
 def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
     # forced convert video_uri to frame dir
     if not os.path.isdir(video_uri):
-        os.path.join(os.path.dirname(video_uri), 'video-images')
+        video_uri = os.path.join(os.path.dirname(video_uri), 'video-images')
 
     logger.info('Starting client %d %s @ %s' % (client_id, app, video_uri))
 

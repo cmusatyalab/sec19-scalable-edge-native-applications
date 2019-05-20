@@ -58,7 +58,7 @@ def work_loop(job_queue, app, busy_wait=None):
             while True:
                 if time.time() - tic > busy_wait:
                     break
-            result = '[pid {}] busy wait {}'.format(os.getpid(), busy_wait)
+            result = 'busy wait {}'.format(os.getpid(), busy_wait)
 
         finished_ts = time.time()
         time_lapse = (finished_ts - ts) * 1000
