@@ -16,17 +16,18 @@ import numpy as np
 from rmexp import config, cvutils, dbutils, gabriel_pb2, client
 from rmexp.schema import models
 
-logzero.formatter(logging.Formatter(fmt='%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s', datefmt='%H:%M:%S'))
+logzero.formatter(logging.Formatter(
+    fmt='%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s', datefmt='%H:%M:%S'))
 logzero.loglevel(logging.DEBUG)
 
 
 def work_loop(job_queue, app, busy_wait=None):
     """[summary]
-    
+
     Arguments:
         job_queue {[type]} -- [description]
         app {[type]} -- [description]
-    
+
     Keyword Arguments:
         busy_wait {float} -- if not None, busy spin seconds instead of running actual app (default: {None})
     """
@@ -37,7 +38,8 @@ def work_loop(job_queue, app, busy_wait=None):
         msg = job_queue.get()[0]
         get_wait = time.time() - get_ts
         if get_wait > 1e-3:
-            logger.warn("[pid {}] took {} ms to get a new request. Maybe waiting".format(os.getpid(), int(1000*get_wait)))
+            logger.warn("[pid {}] took {} ms to get a new request. Maybe waiting".format(
+                os.getpid(), int(1000*get_wait)))
 
         arrival_ts = time.time()
 
@@ -45,7 +47,8 @@ def work_loop(job_queue, app, busy_wait=None):
         gabriel_msg.ParseFromString(msg)
         encoded_im, ts = gabriel_msg.data, gabriel_msg.timestamp
 
-        logger.debug("[pid {}] about to process frame {}".format(os.getpid(), gabriel_msg.index))
+        logger.debug("[pid {}] about to process frame {}".format(
+            os.getpid(), gabriel_msg.index))
 
         if not busy_wait:
             # do real work
