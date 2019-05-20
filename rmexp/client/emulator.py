@@ -116,7 +116,13 @@ class IMUSensor(Sensor):
                                   'acc_z']].values
 
     def is_passive(self, idx):
-        return self.df_suppression.iloc[idx][['suppression']].values == '1'
+        if idx < len(self.df_suppression.index):
+            return self.df_suppression.iloc[idx][['suppression']].values == '1'
+        else:
+            logger.warning(
+                """imu is_passive look up idx ({}) invalid. 
+                A single of this warning might due to h264 encoding requires even number of frames""".format(idx))
+            return True
 
 
 class MobileDevice(object):
