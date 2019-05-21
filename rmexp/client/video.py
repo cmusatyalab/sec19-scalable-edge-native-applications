@@ -269,7 +269,8 @@ class RTImageSequenceClient(RTVideoClient):
                     (1. / self._fps) - time.time()
                 logger.debug("Going to sleep {} for frame {}".format(
                     sleep_time, self._fid))
-                time.sleep(sleep_time)
+                if sleep_time > 1e-4:
+                    time.sleep(sleep_time)
                 next_fid = self._fid
 
             # fast-forward

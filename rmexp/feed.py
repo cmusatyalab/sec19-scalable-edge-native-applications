@@ -51,12 +51,13 @@ def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
         )
         output.append(record)
 
-        logger.debug("{}: E2E {} ms : {} utility {}".format(
-            gabriel_msg.index, reply_ms, gabriel_msg.data, utility))
     else:
         print(
             ','.join(map(str,
                          [exp, index, app, client_id, arrival_ms, finished_ms, reply_ms, utility])))
+    
+    logger.debug("{}: E2E {} ms : {} utility {}".format(
+        gabriel_msg.index, reply_ms, gabriel_msg.data, utility))
 
 
 def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):

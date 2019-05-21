@@ -14,9 +14,9 @@ from rmexp.scheduler import best_workers, get_app_to_users
 # greedily allocate to app that has highest util/resource ratio
 # until App's aggregate FPS > clients * TARGET_FPS
 
-GiB = 2.**30
 TARGET_FPS = 15
 
+# CPU only
 def schedule(run_config, total_cpu, total_memory):
     logger.debug("Using greedy ratio scheduler")
     
@@ -81,7 +81,8 @@ def schedule(run_config, total_cpu, total_memory):
                 'kwargs': {
                     'app': app,
                     'num': info['alloted_workers'],
-                    'docker_run_kwargs': docker_run_kwargs
+                    'docker_run_kwargs': docker_run_kwargs,
+                    # 'busy_wait': 1./info['fps_per_worker']  # XXX
                 }
             })
 
