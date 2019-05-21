@@ -188,6 +188,8 @@ class AdaptiveWorkerPoolService(Service):
         if worker in self._active_pool:
             self._waiting.append(worker)
 
+    # TODO(junjuew): still need to determine how to refill/drain tokens
+    # when incr or dec workers
     def inc_worker(self):
         if self._dormant_pool:
             logger.info('increased 1 worker')
