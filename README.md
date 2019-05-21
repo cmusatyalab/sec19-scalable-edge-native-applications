@@ -260,4 +260,8 @@ python fileutils.py rename-default-trace --dir-path ../../data/face-trace
 6. Divide tokens to individual clients.
 7. Run experiments and plot multiple-app multiple-client, baseline vs. ours.
 
-
+8. Commands to run adpative broker
+```bash
+# need to make sure expected-stats.json have valid data
+python -m rmexp.broker.mdbroker --broker-uri tcp://128.2.210.252:9094 --service-type adaptive --service-expected-stats-config-fpath data/profile/expected-stats.json
+```
