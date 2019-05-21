@@ -31,9 +31,8 @@ from rmexp.utilityfunc import app_default_utility_func
 #     reactor.run()
 
 
-def store_exp_latency(dbobj, gabriel_msg):
-    sess, exp, app, client_id = dbobj['sess'], dbobj['exp'], dbobj['app'], dbobj['client_id']
-    util_fn = app_default_utility_func[app]
+def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
+    exp, app, client_id = dbobj['exp'], dbobj['app'], dbobj['client_id']
 
     reply_ms = int(1000 * (time.time() - gabriel_msg.timestamp))
     arrival_ms = int(
@@ -44,16 +43,14 @@ def store_exp_latency(dbobj, gabriel_msg):
 
     index = gabriel_msg.index.split('-')[1]
 
-    if sess is not None:
-        sess = dbobj['sess']
-        dbutils.insert_or_update_one(
-            sess, models.ExpLatency,
-            {'name': exp, 'index': index, 'app': app,
-                'client': str(client_id)},
-            {'arrival': arrival_ms, 'finished': finished_ms,
-                'reply': reply_ms, 'utility': utility}
+    if output is not None:
+        record = models.ExpLatency(
+            name=exp, index=index, app=app, client=str(client_id),
+            arrival=arrival_ms, finished=finished_ms,
+            reply=reply_ms, utility=utility
         )
-        sess.commit()
+        output.append(record)
+
         logger.debug("{}: E2E {} ms : {} utility {}".format(
             gabriel_msg.index, reply_ms, gabriel_msg.data, utility))
     else:
@@ -62,9 +59,16 @@ def store_exp_latency(dbobj, gabriel_msg):
                          [exp, index, app, client_id, arrival_ms, finished_ms, reply_ms, utility])))
 
 
-def run_loop(vc, nc, tokens_cap, dbobj=None):
+def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):
+    start = time.time()
     tokens = tokens_cap
+    output = list()
+
     while True:
+        if stop_after and time.time() - start > stop_after:
+            logger.info("Time's up ({}). Exiting loop".format(stop_after))
+            break
+
         while tokens > 0:
             vc.get_and_send_frame(reply=True)
             tokens -= 1
@@ -74,6 +78,7 @@ def run_loop(vc, nc, tokens_cap, dbobj=None):
             if r is None:
                 break
             else:
+                tic = time.time()
                 (service, msg) = r
                 msg = msg[0]
                 tokens += 1
@@ -81,11 +86,20 @@ def run_loop(vc, nc, tokens_cap, dbobj=None):
                 gabriel_msg.ParseFromString(msg)
                 vc.process_reply(gabriel_msg.data)
                 if dbobj is not None:
-                    store_exp_latency(dbobj, gabriel_msg)
+                    store_exp_latency(dbobj, gabriel_msg, util_fn, output)
+
+                logger.debug("Took {} secs to from recv to finish processing reply. DB: {}".format(time.time() - tic, bool(dbobj)))
+
+    if dbobj and 'sess' in dbobj:
+        sess = dbobj['sess']
+        logger.info("[pid {}] Committing changes to DB.".format(os.getpid()))
+        sess.add_all(output)
+        sess.commit()
+        logger.info("[pid {}] Commited".format(os.getpid()))
 
 
 def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
-                            loop=True, random_start=True, exp='', client_id=0, client_type='video', print_only=False):
+                            loop=True, random_start=True, exp='', client_id=0, client_type='video', print_only=False, stop_after=None):
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = None
     if client_type == 'video':
@@ -118,7 +132,9 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
             'client_id': client_id,
             'app': app
         }
-    run_loop(vc, nc, tokens_cap, dbobj=dbobj)
+
+    util_fn = app_default_utility_func[app]
+    run_loop(vc, nc, tokens_cap, dbobj=dbobj, util_fn=util_fn, stop_after=stop_after)
 
 
 def start(num, video_uri, app, broker_type, broker_uri, tokens_cap,

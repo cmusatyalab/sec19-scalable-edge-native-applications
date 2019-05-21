@@ -37,7 +37,7 @@ def work_loop(job_queue, app, busy_wait=None):
         get_ts = time.time()
         msg = job_queue.get()[0]
         get_wait = time.time() - get_ts
-        if get_wait > 1e-3:
+        if get_wait > 2e-3:
             logger.warn("[pid {}] took {} ms to get a new request. Maybe waiting".format(
                 os.getpid(), int(1000*get_wait)))
 
@@ -61,7 +61,7 @@ def work_loop(job_queue, app, busy_wait=None):
             while True:
                 if time.time() - tic > busy_wait:
                     break
-            result = '[pid {}] busy wait {}'.format(os.getpid(), busy_wait)
+            result = 'busy wait {}'.format(busy_wait)
 
         finished_ts = time.time()
         time_lapse = (finished_ts - ts) * 1000

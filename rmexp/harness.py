@@ -20,9 +20,9 @@ import time
 import uuid
 import yaml
 
-import rmexp.feed
-from rmexp import schema
-from rmexp.schedule import Allocator, AppUtil, ScipySolver
+import feed
+import schema
+from schedule import Allocator, AppUtil, ScipySolver
 
 DOCKER_IMAGE = 'res'
 CGROUP_INFO = {
@@ -37,7 +37,7 @@ def start_worker(app, num, docker_run_kwargs, busy_wait=None):
 
     cli = docker.from_env()
 
-    container_name = 'rmexp-harness-{}-{}-{}'.format(app, os.getppid(), str(uuid.uuid4())[:8])
+    container_name = 'rmexp-harness-{}-{}-{}'.format(os.getppid(), app, str(uuid.uuid4())[:8])
 
     bash_cmd = ". .envrc && OMP_NUM_THREADS={} python rmexp/serve.py start --num {} \
                 --broker-type {} --broker-uri {} --app {} " \
@@ -62,15 +62,15 @@ def start_worker(app, num, docker_run_kwargs, busy_wait=None):
         raise
 
 
-def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
+def start_feed(app, video_uri, tokens_cap, stop_after, exp='', client_id=0):
     # forced convert video_uri to frame dir
     if not os.path.isdir(video_uri):
-        os.path.join(os.path.dirname(video_uri), 'video-images')
+        video_uri = os.path.join(os.path.dirname(video_uri), 'video-images')
 
     logger.info('Starting client %d %s @ %s' % (client_id, app, video_uri))
 
     try:
-        rmexp.feed.start_single_feed_token(
+        feed.start_single_feed_token(
             video_uri,
             app,
             os.getenv('BROKER_TYPE'),
@@ -79,7 +79,8 @@ def start_feed(app, video_uri, tokens_cap, exp='', client_id=0):
             loop=True,
             random_start=False, # for sake of the same frames for different exps
             exp=exp,
-            client_id=client_id
+            client_id=client_id,
+            stop_after=stop_after
         )
     except ValueError:
         logger.info("%s finished" % video_uri)
@@ -128,6 +129,7 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
 
         for call in start_feed_calls:
             call['kwargs']['exp'] = exp
+            call['kwargs']['stop_after'] = run_config.get('stop_after', None)
             logger.debug("start feed: {}".format(call))
             
             if not dry_run:
@@ -153,11 +155,10 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
 
             map(lambda t: t.start(), workers + feeds)
 
-            if component == 'client' and 'stop_after' in run_config:
-                time.sleep(run_config['stop_after'])
-                raise RuntimeError("run_config time's up")
-
-            map(lambda t: t.join(), workers + feeds)
+            if component == 'server':
+                map(lambda t: t.join(), workers)  # workers run forever
+            elif component == 'client':
+                map(lambda t: t.join(), feeds)
 
         except KeyboardInterrupt:
             pass
