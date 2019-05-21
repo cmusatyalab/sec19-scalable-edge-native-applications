@@ -20,9 +20,8 @@ import time
 import uuid
 import yaml
 
+# local
 import feed
-import schema
-from schedule import Allocator, AppUtil, ScipySolver
 
 DOCKER_IMAGE = 'res'
 CGROUP_INFO = {

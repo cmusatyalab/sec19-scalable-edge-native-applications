@@ -39,14 +39,14 @@ def schedule(run_config, total_cpu, total_memory):
     for app, info in sorted(app_info.iteritems(), key=lambda p: p[1]['best_ratio'], reverse=True):
         if avail_cpu < 0.1:
             # don't allocate too little CPUs
-            avail_cpu = avail_memory = 0.
+            avail_cpu = 0.
         
         au= AppUtil(app, 'c001-cg-wall-w1')
         num_clients = len(app_to_users[app])
         c1 = info['best_cpu']
         fps_per_worker = 1000. / au.latency_func(c1, 2.)
-        feasible_workers = int(avail_cpu / c1) + 1     # round up
-        max_needed_workers = int(num_clients * TARGET_FPS / fps_per_worker) + 1   # round up
+        feasible_workers = int(math.ceil(avail_cpu / c1))      # round up 
+        max_needed_workers = int(math.ceil(num_clients * TARGET_FPS / fps_per_worker))   # round up
         alloted_workers = min(feasible_workers, max_needed_workers)
         info['fps_per_worker'] = fps_per_worker
         info['alloted_workers'] = alloted_workers
@@ -56,11 +56,13 @@ def schedule(run_config, total_cpu, total_memory):
         avail_cpu -= info['alloted_cpu']
         assert avail_cpu >= 0
 
+    # under-loaded
     # rectify and re-scale cpu to consume all resource while preserving ratio
     cpus = np.array(map(itemgetter('alloted_cpu'), app_info.values()))
     cpus = total_cpu * cpus / np.sum(cpus)
     for info, c in zip(app_info.values(), cpus):
         info['alloted_cpu'] = c
+        info['alloted_workers'] = int(math.ceil(c / info['best_cpu']))
 
     logger.info(json.dumps(app_info, indent=2))
     
