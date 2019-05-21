@@ -117,17 +117,18 @@ class Allocator(object):
 
 
 class AppUtil(object):
-    def __init__(self, app):
+    def __init__(self, app, exp='c001-cg-wall-w1'):
         super(AppUtil, self).__init__()
         self.app = app
+        self.exp = exp
         self.util_func = self._load_util_func()
         self.latency_func = self._load_latency_func()
         self.x0 = (1, 2)
 
 
     def _load_util_func(self):
-        path = '/home/junjuew/work/resource-management/data/profile/fix-worker-{}.pkl'.format(
-            self.app)
+        path = '/home/junjuew/work/resource-management/data/profile/{}-{}.pkl'.format(
+            self.exp, self.app)
         logger.debug("Using profile {}".format(path))
         with open(path, 'rb') as f:
             util_func = pickle.load(f)
@@ -135,8 +136,8 @@ class AppUtil(object):
 
     def _load_latency_func(self):
         """Latencies are in ms"""
-        path = '/home/junjuew/work/resource-management/data/profile/latency-fix-worker-{}.pkl'.format(
-            self.app)
+        path = '/home/junjuew/work/resource-management/data/profile/latency-{}-{}.pkl'.format(
+            self.exp, self.app)
         logger.debug("Using profile {}".format(path))
         with open(path, 'rb') as f:
             util_func = pickle.load(f)
