@@ -123,14 +123,15 @@ class ZmqMajorDomoConnector(object):
     def setup(cls, broker_uri, *args, **kwargs):
         pass
 
-    def __init__(self, uri, service=None, client=False, verbose=False, *args, **kwargs):
+    def __init__(self, uri, service=None, client=False, verbose=False, dormant=False, *args, **kwargs):
         # client = True: client, otherwise worker
         self.client = client
         if self.client:
             self.sock = MajorDomoClient(uri, verbose)
         else:
             assert service is not None
-            self.sock = MajorDomoWorker(uri, service, verbose)
+            self.sock = MajorDomoWorker(uri, service,
+                                        dormant=dormant, verbose=verbose)
 
         self.reply = None
 

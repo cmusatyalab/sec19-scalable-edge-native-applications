@@ -14,42 +14,44 @@ from zhelpers import dump
 # MajorDomo protocol constants:
 import MDP
 
+
 class MajorDomoWorker(object):
     """Majordomo Protocol Worker API, Python version
 
     Implements the MDP/Worker spec at http:#rfc.zeromq.org/spec:7.
     """
 
-    HEARTBEAT_LIVENESS = 3 # 3-5 is reasonable
+    HEARTBEAT_LIVENESS = 3  # 3-5 is reasonable
     broker = None
     ctx = None
     service = None
 
-    worker = None # Socket to broker
-    heartbeat_at = 0 # When to send HEARTBEAT (relative to time.time(), so in seconds)
-    liveness = 0 # How many attempts left
-    heartbeat = 2500 # Heartbeat delay, msecs
-    reconnect = 2500 # Reconnect delay, msecs
+    worker = None  # Socket to broker
+    # When to send HEARTBEAT (relative to time.time(), so in seconds)
+    heartbeat_at = 0
+    liveness = 0  # How many attempts left
+    heartbeat = 2500  # Heartbeat delay, msecs
+    reconnect = 2500  # Reconnect delay, msecs
 
     # Internal state
-    expect_reply = False # False only at start
+    expect_reply = False  # False only at start
 
-    timeout = 2500 # poller timeout
-    verbose = False # Print activity to stdout
+    timeout = 2500  # poller timeout
+    verbose = False  # Print activity to stdout
 
     # Return address, if any
     reply_to = None
 
-    def __init__(self, broker, service, verbose=False):
+    def __init__(self, broker, service, dormant=False, verbose=False):
         self.broker = broker
         self.service = service
         self.verbose = verbose
+        self.dormant = dormant
         self.ctx = zmq.Context()
         self.poller = zmq.Poller()
         logging.basicConfig(format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S",
-                level=logging.INFO)
+                            level=logging.INFO)
         self.reconnect_to_broker()
-
 
     def reconnect_to_broker(self):
         """Connect or reconnect to broker"""
@@ -64,12 +66,11 @@ class MajorDomoWorker(object):
             logging.info("I: connecting to broker at %s...", self.broker)
 
         # Register service with broker
-        self.send_to_broker(MDP.W_READY, self.service, [])
+        self.send_to_broker(MDP.W_READY, self.service, [bytes(self.dormant)])
 
         # If liveness hits zero, queue is considered disconnected
         self.liveness = self.HEARTBEAT_LIVENESS
         self.heartbeat_at = time.time() + 1e-3 * self.heartbeat
-
 
     def send_to_broker(self, command, option=None, msg=None):
         """Send message to broker.
@@ -90,7 +91,6 @@ class MajorDomoWorker(object):
             dump(msg)
         self.worker.send_multipart(msg)
 
-
     def recv(self, reply=None):
         """Send reply, if any, to broker and wait for next request."""
         # Format and send the reply if we were provided one
@@ -108,7 +108,7 @@ class MajorDomoWorker(object):
             try:
                 items = self.poller.poll(self.timeout)
             except KeyboardInterrupt:
-                break # Interrupted
+                break  # Interrupted
 
             if items:
                 msg = self.worker.recv_multipart()
@@ -135,13 +135,13 @@ class MajorDomoWorker(object):
                     empty = msg.pop(0)
                     assert empty == ''
 
-                    return msg # We have a request to process
+                    return msg  # We have a request to process
                 elif command == MDP.W_HEARTBEAT:
                     # Do nothing for heartbeats
                     pass
                 elif command == MDP.W_DISCONNECT:
                     self.reconnect_to_broker()
-                else :
+                else:
                     logging.error("E: invalid input message: ")
                     dump(msg)
 
@@ -149,7 +149,8 @@ class MajorDomoWorker(object):
                 self.liveness -= 1
                 if self.liveness == 0:
                     if self.verbose:
-                        logging.warn("W: disconnected from broker - retrying...")
+                        logging.warn(
+                            "W: disconnected from broker - retrying...")
                     try:
                         time.sleep(1e-3*self.reconnect)
                     except KeyboardInterrupt:
@@ -163,7 +164,6 @@ class MajorDomoWorker(object):
 
         logging.warn("W: interrupt received, killing worker...")
         return None
-
 
     def destroy(self):
         # context.destroy depends on pyzmq >= 2.1.10

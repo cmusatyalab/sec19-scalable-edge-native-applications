@@ -28,14 +28,18 @@ class JobQueue(object):
         self.connector.put(msg)
 
 
-def start_process_loop(broker_type, broker_uri, listen, tagged, app, busy_wait):
+def start_process_loop(broker_type, broker_uri, listen, tagged, app, busy_wait, dormant):
     nc = networkutil.get_connector(
-        broker_type, broker_uri, listen=listen, tagged=tagged, group_id=config.WORKER_GROUP, service=app)
+        broker_type, broker_uri,
+        listen=listen, tagged=tagged,
+        group_id=config.WORKER_GROUP, service=app,
+        dormant=dormant
+    )
     jq = JobQueue(nc)
     worker.work_loop(jq, app, busy_wait=busy_wait)
 
 
-def start(num, broker_type, broker_uri, app='lego', listen=False, tagged=True, busy_wait=None):
+def start(num, broker_type, broker_uri, app='lego', listen=False, tagged=True, busy_wait=None, dormant=False):
     """[summary]
 
     Arguments:
@@ -50,7 +54,7 @@ def start(num, broker_type, broker_uri, app='lego', listen=False, tagged=True, b
 
     networkutil.setup_broker(broker_type, broker_uri, num_worker=num,)
     procs = [multiprocessing.Process(target=start_process_loop, args=(
-        broker_type, broker_uri, listen, tagged, app, busy_wait)) for i in range(num)]
+        broker_type, broker_uri, listen, tagged, app, busy_wait, dormant)) for i in range(num)]
     map(lambda proc: proc.start(), procs)
     map(lambda proc: proc.join(), procs)
 
