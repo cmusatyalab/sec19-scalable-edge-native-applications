@@ -11,6 +11,7 @@ from logzero import logger
 import multiprocessing
 import os
 import time
+import random
 
 from rmexp import dbutils, client, config, gabriel_pb2, networkutil, utils
 from rmexp.schema import models
@@ -43,7 +44,7 @@ def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
 
     index = gabriel_msg.index.split('-')[1]
 
-    if output is not None:
+    if dbobj['sess'] is not None:
         record = models.ExpLatency(
             name=exp, index=index, app=app, client=str(client_id),
             arrival=arrival_ms, finished=finished_ms,
@@ -55,7 +56,7 @@ def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
         print(
             ','.join(map(str,
                          [exp, index, app, client_id, arrival_ms, finished_ms, reply_ms, utility])))
-    
+
     logger.debug("{}: E2E {} ms : {} utility {}".format(
         gabriel_msg.index, reply_ms, gabriel_msg.data, utility))
 
@@ -89,7 +90,8 @@ def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):
                 if dbobj is not None:
                     store_exp_latency(dbobj, gabriel_msg, util_fn, output)
 
-                logger.debug("Took {} secs to from recv to finish processing reply. DB: {}".format(time.time() - tic, bool(dbobj)))
+                logger.debug("Took {} secs to from recv to finish processing reply. DB: {}".format(
+                    time.time() - tic, bool(dbobj)))
 
     if dbobj and 'sess' in dbobj:
         sess = dbobj['sess']
@@ -103,9 +105,11 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
                             loop=True, random_start=True, exp='', client_id=0, client_type='video', print_only=False, stop_after=None):
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = None
+    time.sleep(random.random() * 10.0)
     if client_type == 'video':
         if os.path.isdir(video_uri):
-            vc = RTImageSequenceClient(app, video_uri, nc, loop=loop, random_start=random_start)
+            vc = RTImageSequenceClient(
+                app, video_uri, nc, loop=loop, random_start=random_start)
         else:
             assert os.path.isfile(video_uri)
             vc = client.RTVideoClient(
@@ -135,7 +139,8 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
         }
 
     util_fn = app_default_utility_func[app]
-    run_loop(vc, nc, tokens_cap, dbobj=dbobj, util_fn=util_fn, stop_after=stop_after)
+    run_loop(vc, nc, tokens_cap, dbobj=dbobj,
+             util_fn=util_fn, stop_after=stop_after)
 
 
 def start(num, video_uri, app, broker_type, broker_uri, tokens_cap,
