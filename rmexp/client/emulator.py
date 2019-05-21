@@ -5,7 +5,7 @@ import time
 import types
 
 import cv2
-
+import numpy as np
 import pandas as pd
 from logzero import logger
 from rmexp import client, schema, utils
@@ -108,12 +108,18 @@ class IMUSensor(Sensor):
         return (self.cur_idx, self.get(self.cur_idx))
 
     def get(self, idx):
-        return self.df.iloc[idx][['rot_x',
-                                  'rot_y',
-                                  'rot_z',
-                                  'acc_x',
-                                  'acc_y',
-                                  'acc_z']].values
+        if idx < len(self.df.index):
+            return self.df.iloc[idx][['rot_x',
+                                      'rot_y',
+                                      'rot_z',
+                                      'acc_x',
+                                      'acc_y',
+                                      'acc_z']].values
+        else:
+            logger.warning(
+                """imu look up idx ({}) invalid. 
+                A single of this warning might due to h264 encoding requires even number of frames""".format(idx))
+            return np.array([0.]*6)
 
     def is_passive(self, idx):
         if idx < len(self.df_suppression.index):
