@@ -14,11 +14,12 @@ from rmexp.scheduler import best_workers, get_app_to_users
 # greedily allocate to app that has highest util/resource ratio
 # until App's aggregate FPS > clients * TARGET_FPS
 
-GiB = 2.**30
-TARGET_FPS = 15
+TARGET_FPS = 15.0
 
+# CPU only
 def schedule(run_config, total_cpu, total_memory):
     logger.debug("Using greedy ratio scheduler")
+    total_memory = None
     
     app_to_users = get_app_to_users(run_config)
 
@@ -27,42 +28,39 @@ def schedule(run_config, total_cpu, total_memory):
     # find each app's best util/resource point
     for app, users in app_to_users.iteritems():
         info = app_info[app]
-        success, best_ratio, (best_cpu, best_memory) = find_best_util_resource_ratio(AppUtil(app))
-        best_memory *= GiB
+        au= AppUtil(app, 'c001-cg-wall-w1')
+        success, best_ratio, (best_cpu,) = find_best_util_cpu_ratio(au)
         assert success
-        logger.debug("{} best ratio {} @ CPU {} mem {}".format(app, best_ratio, best_cpu, best_memory))
-        info['best_ratio'], info['best_cpu'], info['best_memory'] = best_ratio, best_cpu, best_memory
+        logger.debug("{} best ratio {} @ CPU {} ".format(app, best_ratio, best_cpu))
+        info['best_ratio'], info['best_cpu'] = best_ratio, best_cpu
 
-    avail_cpu, avail_memory = total_cpu, total_memory
+    avail_cpu = total_cpu
 
     for app, info in sorted(app_info.iteritems(), key=lambda p: p[1]['best_ratio'], reverse=True):
-        if avail_cpu < 1e-3 or avail_memory < 1024:
-            # docker can't accept too small cpu_quota < 1ms (1000)
+        if avail_cpu < 0.1:
+            # don't allocate too little CPUs
             avail_cpu = avail_memory = 0.
         
+        au= AppUtil(app, 'c001-cg-wall-w1')
         num_clients = len(app_to_users[app])
-        c1, m1 = info['best_cpu'], info['best_memory']
-        fps_per_worker = 1000. / AppUtil(app).latency_func(c1, m1 / GiB)
-        feasible_workers = int(min(math.ceil(avail_cpu / c1), math.ceil(avail_memory / m1)))     # round up
-        max_needed_workers = int(math.ceil(num_clients * TARGET_FPS / float(fps_per_worker)))   # round up
+        c1 = info['best_cpu']
+        fps_per_worker = 1000. / au.latency_func(c1, 2.)
+        feasible_workers = int(avail_cpu / c1) + 1     # round up
+        max_needed_workers = int(num_clients * TARGET_FPS / fps_per_worker) + 1   # round up
         alloted_workers = min(feasible_workers, max_needed_workers)
         info['fps_per_worker'] = fps_per_worker
         info['alloted_workers'] = alloted_workers
         info['estimated_fps'] = fps_per_worker * alloted_workers
         info['alloted_cpu'] = min(c1 * alloted_workers, avail_cpu)
-        info['alloted_memory'] = min(m1 * alloted_workers, avail_memory)
 
         avail_cpu -= info['alloted_cpu']
-        avail_memory -= info['alloted_memory']
-        assert avail_cpu >= 0 and avail_memory >= 0, str(app_info)
+        assert avail_cpu >= 0
 
-    # rectify and re-allocate cpu/memory to consume all resource while preserving ratio
+    # rectify and re-scale cpu to consume all resource while preserving ratio
     cpus = np.array(map(itemgetter('alloted_cpu'), app_info.values()))
     cpus = total_cpu * cpus / np.sum(cpus)
-    mems = np.array(map(itemgetter('alloted_memory'), app_info.values()))
-    mems = total_memory * mems / np.sum(mems)
-    for info, c, m in zip(app_info.values(), cpus, mems):
-        info['alloted_cpu'], info['alloted_memory'] = c, m
+    for info, c in zip(app_info.values(), cpus):
+        info['alloted_cpu'] = c
 
     logger.info(json.dumps(app_info, indent=2))
     
@@ -73,7 +71,6 @@ def schedule(run_config, total_cpu, total_memory):
             docker_run_kwargs = {
                 'cpu_period': int(100000),
                 'cpu_quota': int(info['alloted_cpu'] * 100000),
-                'mem_limit': int(info['alloted_memory'])
             }
 
             start_worker_calls.append({
@@ -105,16 +102,16 @@ def schedule(run_config, total_cpu, total_memory):
 
 
 
-def find_best_util_resource_ratio(apputil):
-    # x = (cpu, memory)
+def find_best_util_cpu_ratio(apputil, mem=2.):
+    # x = (cpu,)
     def objective_fn(x):
-        c, m = x
-        util = apputil.util_func(x)
-        ratio =  util / (c + .1 * m)
-        # print(c, m, ratio, util)
+        c = x
+        util = apputil.util_func(c, mem)
+        ratio =  util / (c)
+        # print("util {} c {} ratio {}".format(util, c, ratio))
         return -ratio   # maximize ratio
 
-    bounds = [(0.1, 4.), (0.1, 4.)]
+    bounds = [(.5, 5.),]
     x0, fval, _, _ = scipy.optimize.brute(objective_fn, bounds, full_output=True)
     return True, -fval, x0
 
@@ -123,5 +120,6 @@ def find_best_util_resource_ratio(apputil):
 if __name__ == "__main__":
     apps = ['lego', 'pingpong', 'pool', 'face',]
     for app in apps:
-        success, best_ratio, (c1, m1) = find_best_util_resource_ratio(AppUtil(app))
-        logger.info("{} best ratio {} @ CPU {} mem {}".format(app, best_ratio, c1, m1))
+        au = AppUtil(app, 'c001-cg-wall-w1')
+        success, best_ratio, (c1,) = find_best_util_cpu_ratio(au)
+        logger.info("{} best ratio {} @ CPU {} latency {}".format(app, best_ratio, c1, au.latency_func(c1, 2.)))
