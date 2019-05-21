@@ -124,7 +124,8 @@ class AdaptiveWorkerPoolService(Service):
     def __init__(self, name, expected_stats=None, requests_queue=None):
         super(AdaptiveWorkerPoolService, self).__init__(name,
                                                         requests_queue=requests_queue)
-        self._worker_pool = []
+        self._dormant_pool = set()
+        self._active_pool = set()
         self._scaler = Scaler(self, expected_stats)
 
     def get_ready_to_send(self):
@@ -147,6 +148,31 @@ class AdaptiveWorkerPoolService(Service):
             self.name,
             worker.identity,
             self._scaler._worker_proc_latency[worker]))
+
+    def add_waiting_worker(self, worker, add_to_active_if_new=True):
+        """This is called both when a worker is first initiazlied.
+        And when a worker has finished processing a request.
+        add_to_active_if_new: whether this worker should be placed in the
+        active pool if this is a new worker
+        """
+        if (worker not in self._dormant_pool) and (worker not in self._active_pool):
+            logger.info('new worker connected: {}. active? {}'.format(
+                worker.identity, add_to_active_if_new))
+            if add_to_active_if_new:
+                self._active_pool.add(worker)
+            else:
+                self._dormant_pool.add(worker)
+
+        if worker in self._active_pool:
+            self._waiting.append(worker)
+
+    def inc_worker(self):
+        if self._dormant_pool:
+            self._active_pool.add(self._dormant_pool.pop())
+
+    def dec_worker(self):
+        if self._active_pool:
+            self._dormant_pool.add(self._dormant_pool.pop())
 
 
 class Worker(object):
@@ -264,13 +290,14 @@ class MajorDomoBroker(object):
         if (MDP.W_READY == command):
             assert len(msg) >= 1  # At least, a service name
             service = msg.pop(0)
+            dormant = ('true' == msg.pop(0).lower())
             # Not first command in session or Reserved service name
             if (worker_ready or service.startswith(self.INTERNAL_SERVICE_PREFIX)):
                 self.delete_worker(worker, True)
             else:
                 # Attach worker to service and mark as idle
                 worker.service = self.require_service(service)
-                self.worker_waiting(worker)
+                self.worker_waiting(worker, add_to_active_if_new=(not dormant))
 
         elif (MDP.W_REPLY == command):
             if (worker_ready):
@@ -381,11 +408,12 @@ class MajorDomoBroker(object):
             else:
                 break
 
-    def worker_waiting(self, worker):
+    def worker_waiting(self, worker, add_to_active_if_new=False):
         """This worker is now waiting for work."""
         # Queue to broker and service waiting lists
         self.waiting.append(worker)
-        worker.service.add_waiting_worker(worker)
+        worker.service.add_waiting_worker(
+            worker, add_to_active_if_new=add_to_active_if_new)
         worker.expiry = time.time() + 1e-3*self.HEARTBEAT_EXPIRY
         self.dispatch(worker.service, None)
 
