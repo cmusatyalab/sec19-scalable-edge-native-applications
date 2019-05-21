@@ -8,11 +8,14 @@ Modified by Junjue Wang
 """
 
 import enum
+import logging
 import sys
 import time
 from binascii import hexlify
+import json
 
 import fire
+import logzero
 import zmq
 from logzero import logger
 
@@ -21,6 +24,7 @@ import brokerqueue
 import MDP
 from zhelpers import dump
 
+logzero.loglevel(logging.INFO)
 
 class Service(object):
     """a single Service"""
@@ -28,7 +32,7 @@ class Service(object):
     _requests = None  # List of client requests
     _waiting = None  # List of waiting workers
 
-    def __init__(self, name, requests_queue=None):
+    def __init__(self, name, requests_queue=None, **kwargs):
         self.name = name
         self._requests = [] if requests_queue is None else requests_queue
         self._waiting = []
@@ -36,7 +40,7 @@ class Service(object):
     def add_request(self, msg):
         self._requests.append(msg)
 
-    def add_waiting_worker(self, worker):
+    def add_waiting_worker(self, worker, **kwargs):
         """This is called both when a worker is first initiazlied.
         And when a worker has finished processing a request.
         """
@@ -51,19 +55,21 @@ class Service(object):
     def remove_worker(self, worker):
         self._waiting.remove(worker)
 
-    def post_worker_processing(self, worker):
+    def post_worker_processing(self, *args, **kwargs):
         pass
 
 
 class Scaler(object):
-    Action = enum.Enum('Action', 'send recv')
-    Metric = enum.Enum('Metric', 'throughput latency')
+    Event = enum.Enum('Event', 'send recv')
+    Metric_throughput = 'throughput'
+    Metric_latency = 'latency'
+    Action = enum.Enum('Action', 'up down')
 
     def __init__(self, service, expected_stats, measurement_time_interval=1):
         super(Scaler, self).__init__()
-        self._service = service
-        self._expected_throughput = expected_stats[self.Metric.throughput]
-        self._expected_latency = expected_stats[self.Metric.latency]
+        self.service = service
+        self._expected_throughput = expected_stats[self.Metric_throughput]
+        self._expected_latency = expected_stats[self.Metric_latency]
         # time interval over throuput is defined. by default 1s
         # throughput
         self._measurement_time_interval = float(measurement_time_interval)
@@ -72,13 +78,16 @@ class Scaler(object):
         # latency
         self._sent_to_worker_ts = {}
         self._worker_proc_latency = {}
+        # scaling interval
+        self._last_scale_ts = time.time()
+        self._min_scale_interval = 3
 
     def add_stats(self, action, items):
         msg, worker = items
-        if action == self.Action.send:
+        if action == self.Event.send:
             self._sent_to_worker_ts[worker] = time.time()
             self._count_request()
-        elif action == self.Action.recv:
+        elif action == self.Event.recv:
             proc_latency = time.time() - self._sent_to_worker_ts[worker]
             if worker in self._worker_proc_latency:
                 last_proc_latency = self._worker_proc_latency[worker]
@@ -109,10 +118,19 @@ class Scaler(object):
         return self._measurement_time_interval
 
     def scale(self):
-        if time.time() - self._start_time < 2 * self._measurement_time_interval:
-            return 0
-        else:
-            return 0
+        if time.time() - self._last_scale_ts < self._min_scale_interval:
+            return
+        action = None
+        # scale up condition
+        active_worker_latencies = [
+            v for (k, v) in self._worker_proc_latency.iteritems() if k in self.service._active_pool]
+        avg_latency = sum(active_worker_latencies) / float(len(active_worker_latencies))
+        if avg_latency > 2. * self._expected_latency:
+            self.service.inc_worker()
+        
+        # scale down condition
+        if avg_latency < 0.5 * self._expected_latency:
+            self.service.dec_worker()
 
 
 class AdaptiveWorkerPoolService(Service):
@@ -126,12 +144,14 @@ class AdaptiveWorkerPoolService(Service):
                                                         requests_queue=requests_queue)
         self._dormant_pool = set()
         self._active_pool = set()
+        assert expected_stats, '{} needs non-empty expected_stats'.format(
+            self.__class__.__name__)
         self._scaler = Scaler(self, expected_stats)
 
     def get_ready_to_send(self):
         worker = self._waiting.pop()
         msg = self._requests.pop(0)
-        self._scaler.add_stats(Scaler.Action.send, (msg, worker))
+        self._scaler.add_stats(Scaler.Event.send, (msg, worker))
         logger.debug('[{}] Current throughput: {} rps. '.format(
             self.name,
             self._scaler.throughput
@@ -143,7 +163,9 @@ class AdaptiveWorkerPoolService(Service):
 
     def post_worker_processing(self, msg, worker):
         """Called when worker has just finished processing an item."""
-        self._scaler.add_stats(Scaler.Action.recv, (msg, worker))
+        self._scaler.add_stats(Scaler.Event.recv, (msg, worker))
+        # scale workers up and down approriately
+        self._scaler.scale()
         logger.debug('[{}] worker {} avg latency: {}'.format(
             self.name,
             worker.identity,
@@ -168,11 +190,14 @@ class AdaptiveWorkerPoolService(Service):
 
     def inc_worker(self):
         if self._dormant_pool:
+            logger.info('increased 1 worker')
             self._active_pool.add(self._dormant_pool.pop())
 
     def dec_worker(self):
-        if self._active_pool:
-            self._dormant_pool.add(self._dormant_pool.pop())
+        # make sure there is at least 1 worker running
+        if len(self._active_pool) > 1:
+            logger.info('decreased 1 worker')
+            self._dormant_pool.add(self._active_pool.pop())
 
 
 class Worker(object):
@@ -215,9 +240,11 @@ class MajorDomoBroker(object):
 
     # ---------------------------------------------------------------------
 
-    def __init__(self, verbose=False, service_queue_type=list):
+    def __init__(self, service_type, service_expected_stats_config=None, verbose=False, service_queue_type=list):
         """Initialize broker state."""
         self.verbose = verbose
+        self.service_type = service_type
+        self.service_expected_stats_config = service_expected_stats_config
         self.services = {}
         self.workers = {}
         self.waiting = []
@@ -228,6 +255,13 @@ class MajorDomoBroker(object):
         self.poller = zmq.Poller()
         self.poller.register(self.socket, zmq.POLLIN)
         self.service_queue_type = service_queue_type
+        logger.info(
+            "Broker initialized. service_type: {}, service_expected_stats_config: {}, service_queue_type: {}".format(
+                service_type,
+                service_expected_stats_config,
+                service_queue_type
+            )
+        )
 
     # ---------------------------------------------------------------------
 
@@ -360,8 +394,10 @@ class MajorDomoBroker(object):
                 requests_queue = []
             else:
                 requests_queue = self.service_queue_type(self)
-            service = AdaptiveWorkerPoolService(
-                name, expected_stats={Scaler.Metric.throughput: 30, Scaler.Metric.latency: 100}, requests_queue=requests_queue)
+            service_expected_stats = self.service_expected_stats_config[
+                name] if name in self.service_expected_stats_config else None
+            service = self.service_type(
+                name, expected_stats=service_expected_stats, requests_queue=requests_queue)
             self.services[name] = service
 
         return service
@@ -451,9 +487,54 @@ class MajorDomoBroker(object):
 
         self.socket.send_multipart(msg)
 
+def write_sample_expected_stats_config():
+    service_expected_stats_config = {
+        'lego': {
+            Scaler.Metric_throughput: 30,
+            Scaler.Metric_latency: 100
+        },
+        'pingpong': {
+            Scaler.Metric_throughput: 30,
+            Scaler.Metric_latency: 100
+        },
+        'face': {
+            Scaler.Metric_throughput: 30,
+            Scaler.Metric_latency: 100
+        },
+        'pool': {
+            Scaler.Metric_throughput: 30,
+            Scaler.Metric_latency: 100
+        },
+        'ikea': {
+            Scaler.Metric_throughput: 30,
+            Scaler.Metric_latency: 100
+        }
+    }
+    with open('data/profile/expected-stats.json', 'w') as f:
+        json.dump(service_expected_stats_config, f)
 
-def main(broker_uri="tcp://*:5555", verbose=False, service_queue_type='list'):
+def load_stats(fpath):
+    service_expected_stats_config = {}
+    if fpath is not None:
+        try:
+            with open(fpath, 'r') as f:
+                service_expected_stats_config = json.load(f)
+        except IOError as e:
+            logger.error(e)
+            logger.error('Error loading service exptected stats')
+    return service_expected_stats_config
+
+def main(broker_uri="tcp://*:5555", verbose=False, service_type='normal', service_queue_type='list', 
+    service_expected_stats_config_fpath=None):
     """create and start new broker"""
+    service_expected_stats_config = load_stats(service_expected_stats_config_fpath)
+    service_type_maps = {
+        'normal': Service,
+        'adaptive': AdaptiveWorkerPoolService
+    }
+    assert service_type in service_type_maps.keys(), 'service_type must be a value of {}'.format(
+        service_type_maps.keys()
+    )
     service_queue_maps = {
         'latency-optimized': brokerqueue.LatencyOptimizedTokenQueue,
         'list': list
@@ -465,7 +546,11 @@ def main(broker_uri="tcp://*:5555", verbose=False, service_queue_type='list'):
     logger.info("Using queye type: {}".format(service_queue_type))
 
     broker = MajorDomoBroker(
-        verbose, service_queue_type=service_queue_maps[service_queue_type])
+        service_type=service_type_maps[service_type], 
+        service_expected_stats_config=service_expected_stats_config,
+        service_queue_type=service_queue_maps[service_queue_type],
+        verbose=verbose, 
+        )
     broker.bind(broker_uri)
     broker.mediate()
 
