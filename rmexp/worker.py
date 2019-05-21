@@ -50,9 +50,10 @@ def work_loop(job_queue, app, busy_wait=None):
         logger.debug("[pid {}] about to process frame {}".format(
             os.getpid(), gabriel_msg.index))
 
+        cts = time.clock()
         if not busy_wait:
             # do real work
-            encoded_im_np = np.asarray(bytearray(encoded_im), dtype=np.uint8)
+            encoded_im_np = np.frombuffer(encoded_im, dtype=np.uint8)
             img = cv2.imdecode(encoded_im_np, cv2.CV_LOAD_IMAGE_UNCHANGED)
             result = handler.process(img)
         else:
@@ -65,6 +66,7 @@ def work_loop(job_queue, app, busy_wait=None):
 
         finished_ts = time.time()
         time_lapse = (finished_ts - ts) * 1000
+        cpu_proc_ms = round((time.clock() - cts) * 1000)
 
         if gabriel_msg.reply:
             reply = gabriel_pb2.Message()
@@ -73,10 +75,11 @@ def work_loop(job_queue, app, busy_wait=None):
             reply.index = gabriel_msg.index
             reply.finished_ts = finished_ts
             reply.arrival_ts = arrival_ts
+            reply.cpu_proc_ms = cpu_proc_ms
             job_queue.put([reply.SerializeToString(), ])
 
-        logger.debug('[pid {}] takes {} ms for frame {}: {}'.format(
-            os.getpid(), (time.time() - ts) * 1000, gabriel_msg.index, result))
+        logger.debug('[pid {}] takes {} ms (cpu: {} ms) for frame {}: {}.'.format(
+            os.getpid(), (time.time() - ts) * 1000, cpu_proc_ms, gabriel_msg.index, result))
 
 
 class Sampler(object):
@@ -147,7 +150,10 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
             logger.error(e)
             logger.info('video ended.')
             break
+        cpu_time_ts = time.clock()
         result, time_lapse = process_and_measure_cpu_time(img, app_handler)
+        logger.debug("[pid: {}] cpu time frame {} from {}. {} ms".format(os.getpid(),
+                                                                         idx, video_uri, (time.clock() - cpu_time_ts) * 1000))
         logger.debug("[pid: {}] processing frame {} from {}. {} ms".format(os.getpid(),
                                                                            idx, video_uri, int(time_lapse)))
         logger.debug(result)

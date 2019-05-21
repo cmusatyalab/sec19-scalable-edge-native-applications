@@ -7,4 +7,5 @@ message Message {
   bool reply = 4;
   double finished_ts = 5;
   double arrival_ts = 6;
+  double cpu_proc_ms = 7;
 }
