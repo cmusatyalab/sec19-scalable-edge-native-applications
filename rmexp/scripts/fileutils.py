@@ -178,6 +178,14 @@ def decode_to_imgs(app, dir_path, force=False):
                 'Cmd Error: {} has return code {}'.format(cmd, p.returncode))
 
 
+def get_image_sequence_resolution(image_sequence_path):
+    import cv2
+    img_ps = glob.glob(os.path.join(image_sequence_path, '*.jpg'))
+    assert len(img_ps) > 0
+    im = cv2.imread(img_ps[0])
+    return im.shape[:2]
+
+
 def get_dataset_stats(app, dir_path, store=False):
     """Get statistics of datasets"""
     import json
@@ -186,10 +194,9 @@ def get_dataset_stats(app, dir_path, store=False):
     import cv2
     trace_num_min, trace_num_max = _get_max_trace_num(dir_path)
     for i in range(trace_num_min, trace_num_max+1):
-        default_trace = os.path.join(dir_path, str(i), 'video.mp4')
-        resolution = get_video_resolution(default_trace)
-        video = cv2.VideoCapture(default_trace)
-        frames = int(video.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
+        default_trace = os.path.join(dir_path, str(i), 'video-images')
+        resolution = get_image_sequence_resolution(default_trace)
+        frames = len(glob.glob(os.path.join(default_trace, '*.jpg')))
         length = round(frames / 30.0, 1)
         stat = json.dumps(
             {

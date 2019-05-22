@@ -19,6 +19,8 @@ from rmexp.client import emulator
 from rmexp.client.video import RTImageSequenceClient, RTVideoClient
 from rmexp.utilityfunc import app_default_utility_func
 
+import logging
+logzero.loglevel(logging.CRITICAL)
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
 #     from twisted.internet import reactor, task
@@ -114,7 +116,15 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
             assert os.path.isfile(video_uri)
             vc = client.RTVideoClient(
                 app, video_uri, nc, loop=loop, random_start=random_start)
-    elif client_type == 'device':
+    elif client_type == 'dutycycle':
+        trace = utils.video_uri_to_trace(video_uri)
+        cam = emulator.VideoAdaptiveSensor(
+            trace, video_uri=video_uri, network_connector=nc, loop=loop, random_start=random_start)
+        device = emulator.CameraTimedMobileDevice(
+            sensors=[cam]
+        )
+        vc = emulator.DeviceToClientAdapter(device)
+    elif client_type == 'dutycycle-imu':
         trace = utils.video_uri_to_trace(video_uri)
         cam = emulator.VideoAdaptiveSensor(
             trace, video_uri=video_uri, network_connector=nc, loop=loop, random_start=random_start)

@@ -3,6 +3,7 @@
 # exp_cpus="1 0.8 0.6"
 
 exp_cpus="8 6 4 2"
+device_type="dutycycle-imu"
 
 for exp_cpu in ${exp_cpus};
 do
@@ -22,16 +23,18 @@ do
     do
         ssh -p "818$j" root@128.2.209.237 "sudo /bin/bash -l -c \" \
         cd /sdcard/resource-management;
-        source .envrc
+        source .envrc;
+        mkdir data/sec6-res-util/${device_type};
         unbuffer timeout 180 python rmexp/feed.py start_single_feed_token \
         --video-uri data/lego-trace/${j}/video-images \
         --broker-uri tcp://128.2.210.252:9094 \
         --broker-type ${BROKER_TYPE} \
         --tokens-cap 2 \
         --app lego \
-        --client_type video \
+        --client_type ${device_type} \
+        --client_id $j \
         --print-only True \
-        --exp ${exp_name} > data/sec6-res-util/${exp_name}.log \"" &
+        --exp ${exp_name} > data/sec6-res-util/${device_type}/${exp_name}.log \"" &
     done
 
     sleep 220;
