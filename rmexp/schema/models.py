@@ -116,3 +116,29 @@ class DataStat(Base):
     app = Column(String(512), nullable=False)
     trace = Column(String(512), nullable=False)
     value = Column(String(1000000))
+
+
+class DutyCycleGT(Base):
+    """IMU suppression decision for each frame"""
+    __tablename__ = 'DutyCycleGT'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(512), nullable=False)
+    trace = Column(String(512), nullable=False)
+    index = Column(String(32), nullable=False)
+    active = Column(String(32))
+
+
+class Sec6IntraApp(Base):
+    """General experiment table."""
+    __tablename__ = 'Sec6IntraApp'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(512), nullable=False)
+    index = Column(Integer)
+    app = Column(String(32))
+    client = Column(String(32))
+    arrival = Column(Integer)
+    finished = Column(Integer)
+    reply = Column(Integer)
+    utility = Column(types.Float)
+    is_gt_active = Column(Integer)  # whether a frame is processed by cloudlet
+    result = Column(String(512))  # processed result

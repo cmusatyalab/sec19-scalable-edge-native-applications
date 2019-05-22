@@ -105,6 +105,14 @@ def main(app):
                             'face-tr0-profile',
                             profile_exp_name)
         profiler.profile()
+    elif app == 'ikea':
+        profiler = Profiler('ikea',
+                            list(np.arange(1, 5, 1)),
+                            list(np.arange(0.5, 2.5, 0.5)),
+                            'ikea-trace/1/video.mp4',
+                            'ikea-tr1-profile',
+                            profile_exp_name)
+        profiler.profile()
 
 
 if __name__ == "__main__":

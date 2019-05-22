@@ -1,6 +1,6 @@
 data
 conda-env-rmexp
-third_party
+third_party/dlib
 app/kivylego
 visualization
 exp

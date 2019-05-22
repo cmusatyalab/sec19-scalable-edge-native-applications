@@ -59,6 +59,7 @@ dependencies:
   - pexpect=4.6.0=py27_1000
   - pickleshare=0.7.5=py27_1000
   - pip=19.0.3=py27_0
+  - pillow
   - prometheus_client=0.6.0=py27_0
   - prompt_toolkit=1.0.15=py_1
   - protobuf=3.6.1
