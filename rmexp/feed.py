@@ -2,25 +2,23 @@
 
 from __future__ import absolute_import, division, print_function
 
-import cv2
 import datetime
-import fire
-from lego import lego_cv
-import logzero
-from logzero import logger
+import logging
 import multiprocessing
 import os
-import time
 import random
+import time
 
-from rmexp import dbutils, client, config, gabriel_pb2, networkutil, utils
-from rmexp.schema import models
+import cv2
+import fire
+import logzero
+from lego import lego_cv
+from logzero import logger
+from rmexp import client, config, dbutils, gabriel_pb2, networkutil, utils
 from rmexp.client import emulator
 from rmexp.client.video import RTImageSequenceClient, RTVideoClient
+from rmexp.schema import models
 from rmexp.utilityfunc import app_default_utility_func
-
-import logging
-logzero.loglevel(logging.CRITICAL)
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
 #     from twisted.internet import reactor, task
@@ -56,8 +54,9 @@ def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
 
     else:
         print(
-            ','.join(map(str,
-                         [exp, index, app, client_id, arrival_ms, finished_ms, reply_ms, utility])))
+            ',,'.join(map(str,
+                          [exp, index, app, client_id, arrival_ms, finished_ms, reply_ms, utility,
+                           gabriel_msg.data])))
 
     logger.debug("{}: E2E {} ms : {} utility {}".format(
         gabriel_msg.index, reply_ms, gabriel_msg.data, utility))
@@ -88,7 +87,7 @@ def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):
                 tokens += 1
                 gabriel_msg = gabriel_pb2.Message()
                 gabriel_msg.ParseFromString(msg)
-                vc.process_reply(gabriel_msg.data)
+                vc.process_reply(gabriel_msg)
                 if dbobj is not None:
                     store_exp_latency(dbobj, gabriel_msg, util_fn, output)
 
@@ -105,6 +104,8 @@ def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):
 
 def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
                             loop=True, random_start=True, exp='', client_id=0, client_type='video', print_only=False, stop_after=None):
+    if print_only:
+        logzero.loglevel(logging.CRITICAL)
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
     vc = None
     time.sleep(random.random() * 10.0)

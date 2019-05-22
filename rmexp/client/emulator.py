@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function
 import os
 import time
 import types
+import collections
 
 import cv2
 import numpy as np
@@ -36,21 +37,24 @@ class VideoSensor(client.RTImageSequenceClient):
         raise NotImplementedError("VideoSensor does not allow ad-hoc query.")
 
 
-# TODO(junjuew): better not use globa var here.
-lego_prev_state = None
+class LegoFSM(object):
+    def __init__(self):
+        self._state = None
+        self._cnt_to_transition = 2
+        self._staging_cnt = collections.defaultdict(int)
 
+    def state_change(self, gabriel_msg):
+        self._state = gabriel_msg.data
+        self._staging_cnt.clear()
+        gabriel_msg.data = gabriel_msg.data + '!!State Change!!'
 
-def trigger_passive(app, msg):
-    global lego_prev_state
-    assert app in ['lego']
-    if app == 'lego':
-        state_change = '[[' in msg and msg != lego_prev_state
-        if state_change:
-            lego_prev_state = msg
-        return state_change
-    else:
-        raise NotImplementedError(
-            'trigger state is not implemented for {}'.format(app))
+    def process_reply(self, gabriel_msg):
+        frame_result = gabriel_msg.data
+        if '[[' in frame_result:
+            self._staging_cnt[frame_result] += 1
+            if self._staging_cnt[frame_result] == self._cnt_to_transition:
+                if self._state != frame_result:
+                    self.state_change(gabriel_msg)
 
 
 class VideoAdaptiveSensor(VideoSensor):
@@ -60,6 +64,11 @@ class VideoAdaptiveSensor(VideoSensor):
         self._last_trigger_time = float("-inf")
         # the timestamp of last sample
         self._last_sample_time = float("-inf")
+        app_fsms = {
+            'lego': LegoFSM
+        }
+        assert self._app in app_fsms.keys(), '{} does not have a fsm'.format(self._app)
+        self._fsm = app_fsms[self._app]()
 
     def set_passive_trigger(self):
         self._last_trigger_time = time.time()
@@ -82,8 +91,9 @@ class VideoAdaptiveSensor(VideoSensor):
         self._last_sample_time = time.time()
         return (self.current_fid, frame)
 
-    def process_reply(self, msg):
-        if trigger_passive(self._app, msg):
+    def process_reply(self, gabriel_msg):
+        self._fsm.process_reply(gabriel_msg)
+        if '!!State Change!!' in gabriel_msg.data:
             self.set_passive_trigger()
 
 
