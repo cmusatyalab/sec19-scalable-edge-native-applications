@@ -23,3 +23,10 @@ def get_app_to_users(run_config):
             client_count += 1
 
     return app_to_users
+
+app_slack_tokens = {
+    'pool': 0,
+    'lego': 11,
+    'pingpong': 5,
+    'face': 3,
+}
