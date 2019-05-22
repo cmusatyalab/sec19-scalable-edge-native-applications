@@ -102,8 +102,18 @@ def run_loop(vc, nc, tokens_cap, dbobj=None, util_fn=None, stop_after=None):
         logger.info("[pid {}] Commited".format(os.getpid()))
 
 
-def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
-                            loop=True, random_start=True, exp='', client_id=0, client_type='video', print_only=False, stop_after=None):
+def start_single_feed_token(video_uri,
+                            app,
+                            broker_type,
+                            broker_uri,
+                            tokens_cap,
+                            loop=True,
+                            random_start=True,
+                            exp='',
+                            client_id=0,
+                            client_type='video',
+                            print_only=False,
+                            stop_after=None):
     if print_only:
         logzero.loglevel(logging.CRITICAL)
     nc = networkutil.get_connector(broker_type, broker_uri, client=True)
@@ -117,10 +127,28 @@ def start_single_feed_token(video_uri, app, broker_type, broker_uri, tokens_cap,
             assert os.path.isfile(video_uri)
             vc = client.RTVideoClient(
                 app, video_uri, nc, loop=loop, random_start=random_start)
+    elif client_type == 'baseline':
+        trace = utils.video_uri_to_trace(video_uri)
+        cam = emulator.VideoAdaptiveSensor(
+            trace,
+            dutycycle_sampling_on=False,
+            video_uri=video_uri,
+            network_connector=nc,
+            loop=loop,
+            random_start=random_start)
+        device = emulator.CameraTimedMobileDevice(
+            sensors=[cam]
+        )
+        vc = emulator.DeviceToClientAdapter(device)
     elif client_type == 'dutycycle':
         trace = utils.video_uri_to_trace(video_uri)
         cam = emulator.VideoAdaptiveSensor(
-            trace, video_uri=video_uri, network_connector=nc, loop=loop, random_start=random_start)
+            trace,
+            dutycycle_sampling_on=True,
+            video_uri=video_uri,
+            network_connector=nc,
+            loop=loop,
+            random_start=random_start)
         device = emulator.CameraTimedMobileDevice(
             sensors=[cam]
         )

@@ -58,7 +58,10 @@ class LegoFSM(object):
 
 
 class VideoAdaptiveSensor(VideoSensor):
-    def __init__(self, *args, **kwargs):
+    def __init__(self,
+                 *args,
+                 **kwargs):
+        self._dutycycle_sampling = kwargs.pop('dutycycle_sampling_on')
         super(VideoAdaptiveSensor, self).__init__(*args, **kwargs)
         # the timestamp of last passive phase trigger condition
         self._last_trigger_time = float("-inf")
@@ -93,7 +96,7 @@ class VideoAdaptiveSensor(VideoSensor):
 
     def process_reply(self, gabriel_msg):
         self._fsm.process_reply(gabriel_msg)
-        if '!!State Change!!' in gabriel_msg.data:
+        if self._dutycycle_sampling and '!!State Change!!' in gabriel_msg.data:
             self.set_passive_trigger()
 
 
