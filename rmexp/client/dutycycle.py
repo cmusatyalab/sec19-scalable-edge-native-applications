@@ -5,7 +5,7 @@ from scipy.stats import norm
 
 
 mu, sigma = 14.98, 4.25589438744
-sr_min = 2.58286698235
+sr_min = 0.891662951404
 sr_max = 30.0
 recover_factor = 2
 

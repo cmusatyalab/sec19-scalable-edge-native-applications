@@ -57,6 +57,14 @@ class LegoFSM(object):
                     self.state_change(gabriel_msg)
 
 
+class DummyFSM(object):
+    def __init__(self):
+        super(DummyFSM, self).__init__()
+
+    def process_reply(self, gabriel_msg):
+        pass
+
+
 class VideoAdaptiveSensor(VideoSensor):
     def __init__(self,
                  *args,
@@ -68,7 +76,9 @@ class VideoAdaptiveSensor(VideoSensor):
         # the timestamp of last sample
         self._last_sample_time = float("-inf")
         app_fsms = {
-            'lego': LegoFSM
+            'lego': LegoFSM,
+            'pingpong': DummyFSM,
+            'pool': DummyFSM
         }
         assert self._app in app_fsms.keys(), '{} does not have a fsm'.format(self._app)
         self._fsm = app_fsms[self._app]()

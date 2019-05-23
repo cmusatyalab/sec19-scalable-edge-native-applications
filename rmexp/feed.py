@@ -107,6 +107,7 @@ def start_single_feed_token(video_uri,
                             broker_type,
                             broker_uri,
                             tokens_cap,
+                            dutycycle_sampling_on=False,
                             loop=True,
                             random_start=True,
                             exp='',
@@ -153,10 +154,15 @@ def start_single_feed_token(video_uri,
             sensors=[cam]
         )
         vc = emulator.DeviceToClientAdapter(device)
-    elif client_type == 'dutycycle-imu':
+    elif client_type == 'dutycycleimu':
         trace = utils.video_uri_to_trace(video_uri)
         cam = emulator.VideoAdaptiveSensor(
-            trace, video_uri=video_uri, network_connector=nc, loop=loop, random_start=random_start)
+            trace,
+            dutycycle_sampling_on=dutycycle_sampling_on,
+            video_uri=video_uri,
+            network_connector=nc,
+            loop=loop,
+            random_start=random_start)
         imu = emulator.IMUSensor(trace)
         device = emulator.IMUSuppresedCameraTimedMobileDevice(
             sensors=[cam, imu]
