@@ -40,6 +40,13 @@ pool_device_to_trace[1]=1
 pool_device_to_trace[2]=2
 pool_device_to_trace[3]=3
 pool_device_to_trace[4]=4
+
+declare -A ikea_device_to_trace
+ikea_device_to_trace[1]=1
+ikea_device_to_trace[2]=4
+ikea_device_to_trace[3]=1
+ikea_device_to_trace[4]=4
+
 # this is controlling for dutycycle-imu, whether dutyccycle should
 # be on
 declare -A dutycycle_sampling_on
@@ -85,7 +92,7 @@ do
         --exp ${exp_name} > data/sec6-res-util/${device_type}/${exp_name}.log \"" &
     done
 
-    sleep 220;
+    sleep 200;
 done
 
 docker_name=rmexp-${exp_name};

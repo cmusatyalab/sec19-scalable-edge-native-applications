@@ -10,9 +10,9 @@ with open('README.md') as readme_file:
 
 requirements = []
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = []
 
-test_requirements = ['pytest', ]
+test_requirements = []
 
 setup(
     author="Junjue Wang",
@@ -39,8 +39,6 @@ setup(
     name='rmexp',
     packages=find_packages(),
     setup_requires=setup_requirements,
-    test_suite='tests',
-    tests_require=test_requirements,
     url='https://github.com/junjuew/resource-management',
     version='0.0.1',
     zip_safe=False,

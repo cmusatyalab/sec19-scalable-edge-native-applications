@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from logzero import logger
 from rmexp import client, schema, utils
-from rmexp.client import dutycycle
+from rmexp.client import dutycycle, fsm
 
 
 class Sensor(object):
@@ -37,34 +37,6 @@ class VideoSensor(client.RTImageSequenceClient):
         raise NotImplementedError("VideoSensor does not allow ad-hoc query.")
 
 
-class LegoFSM(object):
-    def __init__(self):
-        self._state = None
-        self._cnt_to_transition = 2
-        self._staging_cnt = collections.defaultdict(int)
-
-    def state_change(self, gabriel_msg):
-        self._state = gabriel_msg.data
-        self._staging_cnt.clear()
-        gabriel_msg.data = gabriel_msg.data + '!!State Change!!'
-
-    def process_reply(self, gabriel_msg):
-        frame_result = gabriel_msg.data
-        if '[[' in frame_result:
-            self._staging_cnt[frame_result] += 1
-            if self._staging_cnt[frame_result] == self._cnt_to_transition:
-                if self._state != frame_result:
-                    self.state_change(gabriel_msg)
-
-
-class DummyFSM(object):
-    def __init__(self):
-        super(DummyFSM, self).__init__()
-
-    def process_reply(self, gabriel_msg):
-        pass
-
-
 class VideoAdaptiveSensor(VideoSensor):
     def __init__(self,
                  *args,
@@ -76,9 +48,10 @@ class VideoAdaptiveSensor(VideoSensor):
         # the timestamp of last sample
         self._last_sample_time = float("-inf")
         app_fsms = {
-            'lego': LegoFSM,
-            'pingpong': DummyFSM,
-            'pool': DummyFSM
+            'lego': fsm.LegoFSM,
+            'pingpong': fsm.DummyFSM,
+            'pool': fsm.DummyFSM,
+            'ikea': fsm.IkeaFSM
         }
         assert self._app in app_fsms.keys(), '{} does not have a fsm'.format(self._app)
         self._fsm = app_fsms[self._app]()
@@ -146,7 +119,7 @@ class IMUSensor(Sensor):
 
     def is_passive(self, idx):
         if idx < len(self.df_suppression.index):
-            return self.df_suppression.iloc[idx][['suppression']].values == '1'
+            return str(self.df_suppression['suppression'].iloc[idx]) == '1'
         else:
             logger.warning(
                 """imu is_passive look up idx ({}) invalid. 
