@@ -104,7 +104,16 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
     # parse run_config
     if not isinstance(run_config, dict):
         run_config = yaml.load(open(run_config, 'r'))
-    run_config.update(kwargs)    
+    run_config.update(kwargs)
+
+    # quick hack for section 6
+    simple_apps = ('lego', 'pingpong', 'face', 'pool', 'ikea', )
+    run_config['clients'] = run_config.get('clients', list())
+    for app in simple_apps:
+        if app in run_config:
+            run_config['clients'].append({
+                'app': app, 'num': int(run_config[app]), 
+                'video_uri': 'dummy_video_uri'})
 
     # retrieve cgroup info
     global CGROUP_INFO
