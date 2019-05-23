@@ -1,0 +1,1 @@
+{"ikea": {"latency": 100, "throughput": 30}, "face": {"latency": 100, "throughput": 30}, "pool": {"latency": 100, "throughput": 30}, "pingpong": {"latency": 100, "throughput": 30}, "lego": {"latency": 100, "throughput": 30}}
