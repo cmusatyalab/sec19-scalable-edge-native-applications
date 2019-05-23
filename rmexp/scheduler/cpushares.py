@@ -52,10 +52,15 @@ def schedule(run_config, total_cpu, total_memory):
 
         avail_cpu -= info['alloted_cpu']
         assert avail_cpu >= 0
-
-    # under-loaded
+        
+    # fine-tune
     # rectify and re-scale cpu to consume all resource while preserving ratio
     cpus = np.array(map(itemgetter('alloted_cpu'), app_info.values()))
+
+    logger.debug("Primary allocation: {}".format(zip(app_info.keys(), cpus)))
+    if avail_cpu > 0.1:
+        logger.warn("There's left-over CPUs {}.".format(avail_cpu))
+    
     cpus = total_cpu * cpus / np.sum(cpus)
     for info, c in zip(app_info.values(), cpus):
         info['alloted_cpu'] = c
@@ -67,8 +72,8 @@ def schedule(run_config, total_cpu, total_memory):
     print(max_alloted_cpu)
     max_cpu_shares = 1024
     for info in app_info.values():
-        # cpu_shares requires >= 1
-        info['cpu_shares'] =  max(int(max_cpu_shares * info['alloted_cpu'] / max_alloted_cpu), 1) 
+        # cpu_shares requires >= 2
+        info['cpu_shares'] =  max(int(max_cpu_shares * info['alloted_cpu'] / max_alloted_cpu), 2) 
 
     logger.info(json.dumps(app_info, indent=2))
 
@@ -89,7 +94,7 @@ def schedule(run_config, total_cpu, total_memory):
         })
 
         tokens = info['alloted_workers'] + app_slack_tokens[app]
-        logger.info("{} tokens: {} @ {} clients".format(app, tokens, len(app_to_users[app])))
+        logger.info("{} tokens: {} @ {} workers @ {} clients".format(app, tokens, info['alloted_workers'], len(app_to_users[app])))
         tokens_per_client = max(int(tokens / len(app_to_users[app])), 1)
         for u in app_to_users[app]:
             if tokens > 0:
