@@ -29,4 +29,5 @@ app_slack_tokens = {
     'lego': 11,
     'pingpong': 5,
     'face': 3,
+    'ikea': 5,
 }

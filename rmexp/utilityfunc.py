@@ -9,14 +9,6 @@ def create_latency_sigmoid(lo_x, hi_x, lo_y=0.9, hi_y=0.1):
     return lambda x: 1. / (1. + np.exp(a*x - b))
 
 
-# # Based on Zhuo's SEC'17
-# app_default_utility_func = {
-#     'lego': create_latency_sigmoid(600, 2700),
-#     'pingpong': create_latency_sigmoid(150, 230),
-#     'pool': create_latency_sigmoid(95, 105),
-#     'face': create_latency_sigmoid(370, 1000),
-# }
-
 def get_slow_exponential(slow_decay_st, expo_decay_st, half_life):
     slow_decay_st, expo_decay_st, half_life = map(float, 
                                                   [slow_decay_st, expo_decay_st, half_life])
@@ -42,5 +34,6 @@ app_default_utility_func = {
     'pingpong': get_slow_exponential(150, 230, (230-150)/8.0), # decay twice faster
     'pool': get_slow_exponential(95, 105, (105-95)/4.0),
     'face': get_slow_exponential(370, 1000, (1000-370)/4.0),    
+    'ikea':  get_slow_exponential(600, 2700, (2700-600)/4.0),
 #    'face': create_latency_sigmoid(370, 1000),
 }
