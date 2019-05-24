@@ -7,7 +7,7 @@ import numpy as np
 class LegoFSM(object):
     def __init__(self):
         self._state = None
-        self._cnt_to_transition = 5
+        self._cnt_to_transition = 3
         self._staging_cnt = {}
         self._staging_ss = None
 
@@ -56,7 +56,8 @@ class IkeaFSM(object):
         self.two_buckle_frame_counter = 0
 
     def state_change(self, gabriel_msg):
-        gabriel_msg.data = gabriel_msg.data + '!!State Change!!'
+        gabriel_msg.data = gabriel_msg.data + \
+            '|| {} !!State Change!!'.format(self.current_state)
 
     def process_reply(self, gabriel_msg):
         if self.process_ss(gabriel_msg):
@@ -133,6 +134,8 @@ class IkeaFSM(object):
             if object_counts[3] > 0 and object_counts[8] > 0:
                 if self._check_bulbtop(objects):
                     self.current_state = "bulbtop"
+        elif self.current_state == "bulbtop":
+            self.current_state = "nothing"
 
         if prev_state != self.current_state:
             return True

@@ -118,6 +118,15 @@ class DataStat(Base):
     value = Column(String(1000000))
 
 
+class GTInst(Base):
+    """Ground Truth Instructions."""
+    __tablename__ = 'GTInst'
+    id = Column(Integer, primary_key=True)
+    app = Column(String(512), nullable=False)
+    trace = Column(String(512), nullable=False)
+    value = Column(String(16384))
+
+
 class DutyCycleGT(Base):
     """IMU suppression decision for each frame"""
     __tablename__ = 'DutyCycleGT'
