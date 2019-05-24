@@ -1,0 +1,98 @@
+cgroup: /rmexp2
+
+clients:
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/1/video.mp4 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/2/video.mp4 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/3/video.mp4 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/4/video.mp4 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/5/video.mp4 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/6/video.mp4 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/7/video.mp4
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/8/video.mp4 
+
+
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/1/video.mp4 
+    num: 2
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/2/video.mp4 
+    num: 2
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/3/video.mp4 
+    num: 2
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/4/video.mp4
+    num: 2
+
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/1/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/2/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/3/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/4/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/5/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/6/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/7/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/8/video.mp4 
+
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/1/video.mp4 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/2/video.mp4 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/3/video.mp4 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/4/video.mp4 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/5/video.mp4 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/6/video.mp4 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/7/video.mp4
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/8/video.mp4
+
+   
+stop_after: 90
