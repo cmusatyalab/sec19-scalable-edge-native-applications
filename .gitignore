@@ -69,3 +69,6 @@ data/*trace*
 .vscode
 
 third_party
+data/*/*.sql
+data/lego-wrk
+data/profile

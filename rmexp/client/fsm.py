@@ -7,7 +7,7 @@ import numpy as np
 class LegoFSM(object):
     def __init__(self):
         self._state = None
-        self._cnt_to_transition = 3
+        self._cnt_to_transition = 5
         self._staging_cnt = {}
         self._staging_ss = None
 

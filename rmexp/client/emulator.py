@@ -51,7 +51,8 @@ class VideoAdaptiveSensor(VideoSensor):
             'lego': fsm.LegoFSM,
             'pingpong': fsm.DummyFSM,
             'pool': fsm.DummyFSM,
-            'ikea': fsm.IkeaFSM
+            'ikea': fsm.IkeaFSM,
+            'face': fsm.DummyFSM
         }
         assert self._app in app_fsms.keys(), '{} does not have a fsm'.format(self._app)
         self._fsm = app_fsms[self._app]()

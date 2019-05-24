@@ -1,0 +1,78 @@
+cgroup: /rmexp
+
+clients:
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/1/video-images 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/2/video-images 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/3/video-images 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/4/video-images 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/1/video-images 
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/3/video-images 
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/1/video-images 
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/2/video-images 
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/3/video-images 
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/4/video-images 
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/3/video-images 
+  -
+    app: pool
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/4/video-images 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/6/video-images 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/7/video-images 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/8/video-images 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/9/video-images 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/8/video-images 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/9/video-images 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/1/video-images 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/3/video-images 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/4/video-images 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/6/video-images 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/1/video-images 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/3/video-images 
+
+   
+stop_after: 90

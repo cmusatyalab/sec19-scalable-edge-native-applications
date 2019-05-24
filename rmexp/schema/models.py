@@ -29,6 +29,7 @@ class ExpLatency(Base):
     finished = Column(Integer)
     reply = Column(Integer)
     utility = Column(types.Float)
+    result = Column(String(8192))
 
 
 class LegoLatency(Base):

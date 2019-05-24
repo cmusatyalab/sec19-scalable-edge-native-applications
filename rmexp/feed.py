@@ -33,7 +33,7 @@ from rmexp.utilityfunc import app_default_utility_func
 
 
 def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
-    exp, app, client_id = dbobj['exp'], dbobj['app'], dbobj['client_id']
+    exp, app, client_id, trace_id = dbobj['exp'], dbobj['app'], dbobj['client_id'], dbobj['trace_id']
 
     reply_ms = int(1000 * (time.time() - gabriel_msg.timestamp))
     arrival_ms = int(
@@ -48,7 +48,7 @@ def store_exp_latency(dbobj, gabriel_msg, util_fn, output):
         record = models.ExpLatency(
             name=exp, index=index, app=app, client=str(client_id),
             arrival=arrival_ms, finished=finished_ms,
-            reply=reply_ms, utility=utility
+            reply=reply_ms, utility=utility, val=trace_id, result=gabriel_msg.data
         )
         output.append(record)
 
@@ -176,10 +176,12 @@ def start_single_feed_token(video_uri,
             sess = None
         else:
             sess = dbutils.get_session()
+        trace_id = str(int(video_uri.rstrip('/').split('/')[-2]))
         dbobj = {
             'sess': sess,
             'exp': exp,
             'client_id': client_id,
+            'trace_id': trace_id,
             'app': app
         }
 

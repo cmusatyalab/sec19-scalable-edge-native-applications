@@ -29,6 +29,7 @@ lego_device_to_trace[2]=3
 lego_device_to_trace[3]=4
 lego_device_to_trace[4]=6
 
+# pingong is given token cap 3
 declare -A pingpong_device_to_trace
 pingpong_device_to_trace[1]=6
 pingpong_device_to_trace[2]=7
@@ -44,8 +45,8 @@ pool_device_to_trace[4]=4
 declare -A ikea_device_to_trace
 ikea_device_to_trace[1]=1
 ikea_device_to_trace[2]=4
-ikea_device_to_trace[3]=1
-ikea_device_to_trace[4]=4
+ikea_device_to_trace[3]=7
+ikea_device_to_trace[4]=11
 
 # this is controlling for dutycycle-imu, whether dutyccycle should
 # be on
@@ -84,7 +85,7 @@ do
         --app ${app} \
         --broker-uri tcp://128.2.210.252:9094 \
         --broker-type ${BROKER_TYPE} \
-        --tokens-cap 3 \
+        --tokens-cap 1 \
         --dutycycle_sampling_on ${dutycycle_sampling_on[$app]}\
         --client_type ${device_type} \
         --client_id ${device_to_trace[$j]} \
