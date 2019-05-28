@@ -21,7 +21,7 @@ def interval_extract(list, slack=30):
     i = 0
     while (i < length):
         low = list[i]
-        while i < length-1 and (list[i + 1] - list[i]) < 30:
+        while i < length-1 and (list[i + 1] - list[i]) < slack:
             i += 1
         high = list[i]
         if (high - low >= 1):
@@ -158,7 +158,7 @@ def get_face_inst_idx(ss_df):
         ss_df_inst = ss_df[ss_df['val'] == label]
         label_idx = ss_df_inst['index'].values.tolist()
         label_idx = map(int, label_idx)
-        label_idx_intervals = list(interval_extract(label_idx, slack=30))
+        label_idx_intervals = list(interval_extract(label_idx, slack=3))
         label_inst_idx = [interval[0] for interval in label_idx_intervals]
         inst_idx.extend(label_inst_idx)
     inst_idx = sorted(inst_idx)
