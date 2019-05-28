@@ -8,11 +8,20 @@
 * [data](data): experimental input data including application input traces, not version controlled under git. available on cloudlet002.
 * [exp](exp): experiment figures and results saved as htmls.
 * [infra](infra): experiment infrastructure, including container resource usage monitoring tools (cadvisor, prometheus, grafana), and a MySQL database for experiment data. All these tools are set up using containers.
-* [trace-app](trace-app): android app to record video and sensor data to collect traces
 * [rmexp](rmexp): main python module "Resource Management Experiment".
+  * [rmexp/broker](rmexp/broker): Python implementation of ZMQ message broker Majordomo Pattern.
+  * [rmexp/alembic](rmexp/alembic): Alembic-based database migration scripts.
+  * [rmexp/client](rmexp/client): Emulated mobile client devices.
+  * [rmexp/proto](rmexp/proto): Protobuf definition for client and server communication.
+  * [rmexp/scheduler](rmexp/scheduler): Resource allocator: cpushare are the capped allocation using docker cpushares. Greedyratio (deprecated) is a greedy implementation that does cpu limitation even when utilization is not high.
+  * [rmexp/schema](rmexp/schema): Database schema definition
+* [wcautils](wcautils): python module for utilities commonly used by wearable cognitive assistance.
 * [visualization](visualization): Python Jupyter interactive plotting scripts. Used to pull data out from MySQL database and plot figures.
 * [writeup](writeup): Thoughts and notes.
-* [mkt](mkt): Message Broker to connect multiple feeds to multiple workers (golang + zmq).
+* [scripts](scripts): Scripts to launch experiments.
+* [mkt](mkt): \[Deprecated\] Message Broker to connect multiple feeds to multiple workers (golang + zmq).
+* [third_party](third_party): Third party libaries required: dlib, tensorflow object detection API, and trace-app
+  * [third_party/trace-app](third_party/trace-app): android app to record video and sensor data to collect traces
 
 ## Infrastructure
 
@@ -90,13 +99,6 @@ source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
 | Face      |      8      |
 | Ping-pong |      11     |
 | Pool      |      4      |
-
-## TODO steps
-
-1. setup cloudlet002 as lego server.
-2. use cloudlet001 to mimic many (16, 32, 48) clients.
-3. compare dummy clients with moving some part of processing pipeline to the client.
-4. Trace collection: 10x(10 min) face ; 10x(5min) lego 
 
 ## Mobile Device
 
@@ -236,6 +238,18 @@ conda activate ./conda-env-rmexp
 python rmexp/harness.py run --run_config rmexp/run_config/example.yml client
 ```
 
+### Adaptive Brokers
+
+Dynamic token management to match clients' request throughput to server processing throughput.
+Servers' processing throughput are not constant as the execution time is content dependent.
+
+```bash
+# need to make sure expected-stats.json have valid data
+python -m rmexp.broker.mdbroker --broker-uri tcp://128.2.210.252:9094 --service-type adaptive --service-expected-stats-config-fpath data/profile/expected-stats.json
+```
+
+## Section 6
+
 ### Make Sure Client is Sending the Right Resolution
 
 * [rmexp/script/fileutils.py](rmexp/script/fileutils.py) creates a symlink to the video file with correct resolution
@@ -247,21 +261,14 @@ python fileutils.py correct-trace-resolution --app pool --dir-path ../../data/po
 python fileutils.py rename-default-trace --dir-path ../../data/face-trace
 ```
 
+### Commands to Run Section 6 Instruction Latency Experiments
 
-
-
-## Scheduling and Resource Allocation
-
-1. For each app, find max utility per resource on utility curve (find cpu, memory, latency) at P
-2. Find FPS at P (look up latency from trace)
-3. Among all apps, choose highest P, keep allocating workers until total FPS > client * 30
-4. Iterate until all resources are allocated
-5. For each app, calculate total tokens = num_workers * FPS per worker * 1~2
-6. Divide tokens to individual clients.
-7. Run experiments and plot multiple-app multiple-client, baseline vs. ours.
-
-8. Commands to run adpative broker
 ```bash
-# need to make sure expected-stats.json have valid data
-python -m rmexp.broker.mdbroker --broker-uri tcp://128.2.210.252:9094 --service-type adaptive --service-expected-stats-config-fpath data/profile/expected-stats.json
+cd rmexp/scripts
+bash ./sec6_harness.sh face4pool4pingpong4lego4 cpushares sec6-ours-4
+bash ./sec6_harness.sh face6pool6pingpong6lego6 cpushares sec6-ours-6
+bash ./sec6_harness.sh face8pool8pingpong8lego8 cpushares sec6-ours-8
+bash ./sec6_harness.sh face4pool4pingpong4lego4 baseline sec6-baseline-4
+bash ./sec6_harness.sh face6pool6pingpong6lego6 baseline sec6-baseline-6
+bash ./sec6_harness.sh face8pool8pingpong8lego8 baseline sec6-baseline-8
 ```

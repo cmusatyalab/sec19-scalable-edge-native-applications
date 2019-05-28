@@ -17,14 +17,14 @@ image: Dockerfile-conda-env Dockerfile
 	docker build -t res .
 
 serve-container:
-	bash serve-container.sh
+	bash scripts/serve-container.sh
 
 kill-container:
 	docker stop -t 0 rmexp
 	docker stop -t 0 rmexp-monitor
 
 feed:
-	bash feed.sh
+	bash scripts/feed.sh
 
 serve:
 	python rmexp/serve.py start --num 1 --broker-type ${BROKER_TYPE} --broker-uri ${BROKER_URI}
