@@ -68,7 +68,8 @@ data/*trace*
 .envrc
 .vscode
 
-third_party
+third_party/dlib
+third_party/models
 data/*/*.sql
 data/lego-wrk
 data/profile

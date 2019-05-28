@@ -5,7 +5,7 @@
 * [Makefile](Makefile): Entry point for building and running experiments.
 * [environment.yml](environment.yml): Conda environment dependency file.
 * [app](app): Wearable cognitive assistance applications packaged as python modules for stateless vision processing.
-* [data](data): experimental input data including application input traces, not version controlled under git. available on cloudlet001
+* [data](data): experimental input data including application input traces, not version controlled under git. available on cloudlet002.
 * [exp](exp): experiment figures and results saved as htmls.
 * [infra](infra): experiment infrastructure, including container resource usage monitoring tools (cadvisor, prometheus, grafana), and a MySQL database for experiment data. All these tools are set up using containers.
 * [trace-app](trace-app): android app to record video and sensor data to collect traces
