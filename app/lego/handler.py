@@ -45,6 +45,58 @@ from lego.tasks.task_Turtle import bitmaps, time_estimates
 display_list = config.DISPLAY_LIST
 
 
+class LegoFSM(object):
+    def __init__(self):
+        self._state = None
+        self._cnt_to_transition = 3
+        self._staging_cnt = {}
+        self._staging_ss = None
+
+    def change_state_for_instruction(self, symbolic_state):
+        self._state = symbolic_state
+        self._staging_cnt.clear()
+        return '!!State Change!!'
+
+    def _process_reply_consecutive(self, symbolic_state):
+        """An instruction requires consecutive detection of a video stream.
+        When # of consecutive detection equals _cnt_to_transitions,
+        then transition and clear counter.
+        Used in sec'19 paper submission.
+        """
+        if '[[' in symbolic_state:
+            if symbolic_state != self._staging_ss:
+                self._staging_cnt.clear()
+
+            if symbolic_state not in self._staging_cnt:
+                self._staging_cnt[symbolic_state] = 0
+            self._staging_cnt[symbolic_state] += 1
+            self._staging_ss = symbolic_state
+
+            if (self._staging_cnt[symbolic_state] == self._cnt_to_transition):
+                if self._state != symbolic_state:
+                    return self.change_state_for_instruction(symbolic_state)
+        return None
+
+    def _process_reply_cumulative(self, symbolic_state):
+        """An instruction requires cumulative detection of a video stream.
+        When # of detection cumulates to _cnt_to_transitions,
+        then transition and clear counter.
+        """
+        if '[[' in symbolic_state:
+            if symbolic_state not in self._staging_cnt:
+                self._staging_cnt[symbolic_state] = 0
+            self._staging_cnt[symbolic_state] += 1
+
+            if (self._staging_cnt[symbolic_state] >=
+                    self._cnt_to_transition):
+                if self._state != symbolic_state:
+                    return self.change_state_for_instruction(symbolic_state)
+        return None
+
+    def add_symbolic_state_for_instruction(self, symbolic_state):
+        return self._process_reply_cumulative(symbolic_state)
+
+
 class LegoHandler(object):
     def __init__(self):
         super(LegoHandler, self).__init__()
@@ -52,6 +104,7 @@ class LegoHandler(object):
         self.commited_bitmap = np.zeros((1, 1), np.int)  # basically nothing
         self.temp_bitmap = {'start_time': None, 'bitmap': None, 'count': 0}
         self.task = Task.Task(bitmaps)
+        self._fsm = LegoFSM()
         if time_estimates is not None:
             self.task.update_time_estimates(time_estimates)
         self.counter = {'confident': 0,
@@ -160,3 +213,12 @@ class LegoHandler(object):
         else:
             result = rtn_msg['message']
         return result
+
+    def add_symbolic_state_for_instruction(self, symbolic_state):
+        """Get current instruction from symbolic states.
+        This is a stateful action, the order of symbolic_state passed
+        has an effect on instruction produced.
+
+        symbolic_state: the results returned from process function above.
+        """
+        return self._fsm.add_symbolic_state_for_instruction(symbolic_state)

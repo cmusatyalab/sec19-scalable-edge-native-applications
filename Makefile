@@ -54,6 +54,9 @@ nexus:
 	# adb push rmexp /sdcard/resource-management/
 	# adb push Makefile /sdcard/resource-management/
 
+test:
+	pytest
+
 clean:
 	rm -rf build dist rmexp.egg-info .eggs
 	cd app && rm -rf build dist app.egg-info .eggs

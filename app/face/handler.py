@@ -95,6 +95,15 @@ class FaceHandler(object):
 
         return "Unknown Face"
 
+    def add_symbolic_state_for_instruction(self, symbolic_state):
+        """Get current instruction from symbolic states.
+        This is a stateful action, the order of symbolic_state passed
+        has an effect on instruction produced.
+
+        symbolic_state: the results returned from process function above.
+        """
+        return symbolic_state
+
 
 def main():
     handler = FaceHandler()

@@ -4,70 +4,10 @@ import collections
 import numpy as np
 
 
-class LegoFSM(object):
-    def __init__(self):
-        self._state = None
-        self._cnt_to_transition = 3
-        self._staging_cnt = {}
-        self._staging_ss = None
-
-    def state_change(self, gabriel_msg):
-        self._state = gabriel_msg.data
-        self._staging_cnt.clear()
-        gabriel_msg.data = gabriel_msg.data + '!!State Change!!'
-
-    def _process_reply_consecutive(self, gabriel_msg):
-        """An instruction requires consecutive detection of a video stream.
-        When # of consecutive detection equals _cnt_to_transitions,
-        then transition and clear counter.
-        Used in sec'19 paper submission.
-        """
-        frame_result = gabriel_msg.data
-        if '[[' in frame_result:
-            if frame_result != self._staging_ss:
-                self._staging_cnt.clear()
-
-            if frame_result not in self._staging_cnt:
-                self._staging_cnt[frame_result] = 0
-            self._staging_cnt[frame_result] += 1
-            self._staging_ss = frame_result
-
-            if (self._staging_cnt[frame_result] == self._cnt_to_transition):
-                if self._state != frame_result:
-                    self.state_change(gabriel_msg)
-
-    def _process_reply_cumulative(self, gabriel_msg):
-        """An instruction requires cumulative detection of a video stream.
-        When # of detection cumulates to _cnt_to_transitions,
-        then transition and clear counter.
-        """
-        frame_result = gabriel_msg.data
-        if '[[' in frame_result:
-            if frame_result not in self._staging_cnt:
-                self._staging_cnt[frame_result] = 0
-            self._staging_cnt[frame_result] += 1
-
-            if (self._staging_cnt[frame_result] >=
-                    self._cnt_to_transition):
-                if self._state != frame_result:
-                    self.state_change(gabriel_msg)
-
-    def process_reply(self, gabriel_msg):
-        self._process_reply_cumulative(gabriel_msg)
-
-
-class DummyFSM(object):
-    def __init__(self):
-        super(DummyFSM, self).__init__()
-
-    def process_reply(self, gabriel_msg):
-        pass
-
-
 class IkeaFSM(object):
     """A Lego FSM based on cumulative model."""
 
-    def __init__(self, im_h=200, im_w=300):
+    def __init__(self, im_h, im_w):
         self._states = ["start", "nothing", "base", "pipe", "shade", "buckle",
                         "blackcircle", "shadebase", "bulb", "bulbtop"]
         self.current_state = "nothing"
@@ -79,13 +19,16 @@ class IkeaFSM(object):
         self.one_buckle_frame_counter = 0
         self.two_buckle_frame_counter = 0
 
-    def state_change(self, gabriel_msg):
+    def change_state_for_instruction(self, gabriel_msg):
         gabriel_msg.data = gabriel_msg.data + \
             '|| {} !!State Change!!'.format(self.current_state)
 
-    def process_reply(self, gabriel_msg):
-        if self.process_ss(gabriel_msg):
-            self.state_change(gabriel_msg)
+    def add_symbolic_state_for_instruction(self,
+                                           symbolic_state):
+        if self.process_ss(symbolic_state):
+            return '|| {} !!State Change!!'.format(self.current_state)
+        else:
+            return None
 
     def _get_objects(self, ss):
         objs = []

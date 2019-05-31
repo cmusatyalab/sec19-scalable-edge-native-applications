@@ -10,9 +10,9 @@ with open('README.md') as readme_file:
 
 requirements = []
 
-setup_requirements = []
+setup_requirements = ['pytest-runner', ]
 
-test_requirements = []
+test_requirements = ['pytest', ]
 
 setup(
     author="Junjue Wang",

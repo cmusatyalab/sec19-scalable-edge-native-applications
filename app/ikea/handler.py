@@ -21,15 +21,17 @@
 
 from __future__ import print_function
 
-import numpy as np
-import tensorflow as tf
 import os
-import cv2
-from PIL import Image
-from object_detection.utils import label_map_util
 import time
-import pkg_resources
 
+import cv2
+import numpy as np
+import pkg_resources
+from PIL import Image
+
+import tensorflow as tf
+from object_detection.utils import label_map_util
+from ikea import fsm
 
 MODEL_DIR = 'tf_model'
 FROZEN_INFERENCE_GRAPH = pkg_resources.resource_filename(__name__,
@@ -59,7 +61,8 @@ def load_image_into_numpy_array(image):
 
 
 class IkeaHandler(object):
-    def __init__(self, tfconfig=None):
+    def __init__(self, tfconfig=None, im_h=200, im_w=300):
+        self._fsm = fsm.IkeaFSM(im_h=im_h, im_w=im_w)
         self.category_index = label_map_util.create_category_index_from_labelmap(
             LABEL_MAP, use_display_name=True)
         self.detection_graph = create_detection_graph()
@@ -110,6 +113,15 @@ class IkeaHandler(object):
         else:
             concatenated_detections = ', '.join(detections_to_print)
             return 'Detected Objects: {}'.format(concatenated_detections)
+
+    def add_symbolic_state_for_instruction(self, symbolic_state):
+        """Get current instruction from symbolic states.
+        This is a stateful action, the order of symbolic_state passed
+        has an effect on instruction produced.
+
+        symbolic_state: the results returned from process function above.
+        """
+        return self._fsm.add_symbolic_state_for_instruction(symbolic_state)
 
 
 def main():

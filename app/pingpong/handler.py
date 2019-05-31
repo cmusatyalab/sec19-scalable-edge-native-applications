@@ -131,7 +131,7 @@ class PingpongHandler(object):
                              fy=resize_ratio, interpolation=cv2.INTER_AREA)
 
         # check if two frames are too close
-        ### jjw: removed. as such suppresion can be done on the client
+        # jjw: removed. as such suppresion can be done on the client
         # if self.prev_frame_info is not None and frame_time - self.prev_frame_info['time'] < 80:
         #     return "two frames too close!"
 
@@ -178,7 +178,7 @@ class PingpongHandler(object):
             self.state['ball_position'] = self.ball_trace.leftOrRight()
 
             # find position (relatively, left or right) of your opponent
-            ## jjw: find_opponent depends on both current frame and previous frame
+            # jjw: find_opponent depends on both current frame and previous frame
             rtn_msg, objects = pc.find_opponent(
                 img_rotated, self.prev_frame_info['img_rotated'], display_list)
             if rtn_msg['status'] != 'success':
@@ -208,3 +208,12 @@ class PingpongHandler(object):
                     return 'Found table, pingpong, and opponent. inst: left'
             else:
                 return 'Found table, pingpong, and opponent. idle'
+
+    def add_symbolic_state_for_instruction(self, symbolic_state):
+        """Get current instruction from symbolic states.
+        This is a stateful action, the order of symbolic_state passed
+        has an effect on instruction produced.
+
+        symbolic_state: the results returned from process function above.
+        """
+        return symbolic_state

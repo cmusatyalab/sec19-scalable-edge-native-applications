@@ -47,15 +47,9 @@ class VideoAdaptiveSensor(VideoSensor):
         self._last_trigger_time = float("-inf")
         # the timestamp of last sample
         self._last_sample_time = float("-inf")
-        app_fsms = {
-            'lego': fsm.LegoFSM,
-            'pingpong': fsm.DummyFSM,
-            'pool': fsm.DummyFSM,
-            'ikea': fsm.IkeaFSM,
-            'face': fsm.DummyFSM
-        }
-        assert self._app in app_fsms.keys(), '{} does not have a fsm'.format(self._app)
-        self._fsm = app_fsms[self._app]()
+        # self._fsm = fsm.get_app_fsm(self._app)
+        raise NotImplementedError(
+            'FSM now moved to application itself. needs to double-check what has changed.')
 
     def set_passive_trigger(self):
         self._last_trigger_time = time.time()
