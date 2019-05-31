@@ -1,4 +1,4 @@
-.PHONY: all app feed serve image serve-container
+.PHONY: all app feed serve image serve-container test
 
 all: 
 	if [ "$(shell uname -m)" = "x86_64" ]; then\

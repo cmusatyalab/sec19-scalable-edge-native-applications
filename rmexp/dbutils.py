@@ -44,6 +44,8 @@ def get_or_create(session, model, **kwargs):
 
 
 def insert_or_update_one(sess, model, keys_dict, vals_dict):
+    if sess is None:
+        return None
     record = sess.query(model).filter_by(**keys_dict).one_or_none()
     if record is not None:
         sess.query(model).filter_by(**keys_dict).update(vals_dict)

@@ -2,6 +2,7 @@
 from __future__ import absolute_import, division, print_function
 
 import glob
+import importlib
 import json
 import os
 import re
@@ -12,46 +13,46 @@ import fire
 import pandas as pd
 from logzero import logger
 from rmexp import dbutils
+from rmexp.schema import models
 
 supported_apps = ['lego', 'pingpong', 'ikea', 'pool', 'face']
 
 
-class Trace(object):
-    def __init__(self, trace_dir):
-        pass
-
-
-def _assert_trace_dir_integrity(trace_dir, relative_video_uri='video-images/%010d.jpg', imu_fname='imu.csv'):
+def _assert_trace_dir_integrity(trace_dir, relative_video_uri, imu_fname):
     """Make sure the integrity of the trace directory"""
     app_name, trace_id = _parse_trace_dir(trace_dir)
     assert app_name in supported_apps, '{} is not supported'.format(app_name)
 
     video_uri = os.path.join(trace_dir, relative_video_uri)
     cam = cv2.VideoCapture(video_uri)
-    cam.release()
     # check the frame numbers are the same
     imu_fpath = os.path.join(trace_dir, imu_fname)
     df = pd.read_csv(imu_fpath, index_col='frame_id')
-    assert len(df.index) == cam.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
+    # assert len(
+    #     df.index) == cam.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT), 'imu data has {} samples while video has {} frames'.format(
+    #         len(df.index), cam.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
+    cam.release()
 
 
 def _parse_trace_dir(trace_dir):
     trace_dir_fpath = os.path.abspath(trace_dir).rstrip('/')
     trace_dir_fpath_parts = trace_dir_fpath.split('/')
     trace_id = int(trace_dir_fpath_parts[-1])
-    app_name = trace_dir_fpath_parts[-2]
+    app_name = trace_dir_fpath_parts[-2].replace('-trace', '')
     return app_name, trace_id
 
-# TODO(junjuew): check the correctness of this function and add all fields in models.py Trace table, e.g.
-# active, ground truth instruction
 
-
-def load_trace_dir_to_db(trace_dir, relative_video_uri='video-images/%010d.jpg', imu_fname='imu.csv', store=False):
+def load_trace_dir_to_db(trace_dir,
+                         relative_video_uri='video-images/%010d.jpg',
+                         imu_fname='imu.csv',
+                         store=False):
     """Load trace directory to database.
     The trace_dir should ends with a particular naming path:
     ...../<app-name>/<trace-id>/
     """
-    create_imu_csv(trace_dir)
+    logger.debug('loading from dir: {}, video uri: {}'.format(
+        trace_dir, os.path.join(trace_dir, relative_video_uri)))
+    _create_imu_csv(trace_dir)
     _assert_trace_dir_integrity(
         trace_dir, relative_video_uri=relative_video_uri, imu_fname=imu_fname)
     app_name, trace_id = _parse_trace_dir(trace_dir)
@@ -67,28 +68,49 @@ def load_trace_dir_to_db(trace_dir, relative_video_uri='video-images/%010d.jpg',
     imu_df = pd.read_csv(imu_fpath, index_col='frame_id')
     imu_df['sensor_timestamp'] = pd.to_datetime(imu_df['sensor_timestamp'])
 
+    sess = None
+    if store:
+        sess = dbutils.get_session()
+
     for row in imu_df.itertuples():
-        fid = row.frame_id
+        fid = row.Index
         cam.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, fid)
-        _, frame = cam.read()
+        _, img = cam.read()
         symbolic_state = app_handler.process(img)
+        instruction = app_handler.add_symbolic_state_for_instruction(
+            symbolic_state)
         keys_dict = {'name': app_name,
                      'trace': trace_id,
                      'fid': fid}
-        vals_dict = {'sensor_timestamp': row.sensor_timestamp.to_pydatetime(),
-                     'rot_x': row.rot_x,
-                     'rot_y': row.rot_y,
-                     'rot_z': row.rot_z,
-                     'acc_x': row.acc_x,
-                     'acc_y': row.acc_y,
-                     'acc_z': row.acc_z,
-                     'symbolic_state': symbolic_state
-                     }
+        vals_dict = {
+            'symbolic_state': symbolic_state,
+            'rot_x': row.rot_x,
+            'rot_y': row.rot_y,
+            'rot_z': row.rot_z,
+            'acc_x': row.acc_x,
+            'acc_y': row.acc_y,
+            'acc_z': row.acc_z,
+            'sensor_timestamp': row.sensor_timestamp.to_pydatetime(),
+            'instruction': instruction,
+            'height': img.shape[0],
+            'width': img.shape[1]
+        }
+        logger.debug('{}: {}'.format(
+            json.dumps(keys_dict), json.dumps(vals_dict, default=str)))
+
+        dbutils.insert_or_update_one(sess,
+                                     models.Trace,
+                                     keys_dict,
+                                     vals_dict)
+    cam.release()
+    if store:
+        sess.commit()
+        sess.close()
 
 
-def create_imu_csv(trace_dir, output_fname='imu.csv'):
+def _create_imu_csv(trace_dir, output_fname='imu.csv'):
     '''
-    Combines video frame number with nearest sensor data 
+    Combines video frame number with nearest sensor data
     can ref pd df as df.loc[frame_num] = {'sensor_timestamp','rot_{x,y,z}','acc_{x,y,z}'}
     '''
     path = trace_dir

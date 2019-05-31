@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, types
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, types, Text
 
 from rmexp.schema import Base
 
@@ -163,7 +163,7 @@ class Trace(Base):
     name = Column(String(512), nullable=False)
     trace = Column(String(512), nullable=False)
     fid = Column(String(32), nullable=False)
-    symbolic_state = Column(String(60000))
+    symbolic_state = Column(Text)
     rot_x = Column(types.FLOAT(53))
     rot_y = Column(types.FLOAT(53))
     rot_z = Column(types.FLOAT(53))
@@ -172,4 +172,6 @@ class Trace(Base):
     acc_z = Column(types.FLOAT(53))
     sensor_timestamp = Column(types.DateTime)
     active = Column(String(32))
-    instruction = Column(String(16384))
+    instruction = Column(Text)
+    height = Column(Integer)
+    width = Column(Integer)
