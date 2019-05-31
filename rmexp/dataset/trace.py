@@ -12,7 +12,7 @@ import cv2
 import fire
 import pandas as pd
 from logzero import logger
-from rmexp import dbutils
+from rmexp import dbutils, utils
 from rmexp.schema import models
 
 supported_apps = ['lego', 'pingpong', 'ikea', 'pool', 'face']
@@ -77,13 +77,15 @@ def load_trace_dir_to_db(trace_dir,
         cam.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, fid)
         _, img = cam.read()
         symbolic_state = app_handler.process(img)
+        symbolic_state_str = json.dumps(
+            symbolic_state, cls=utils.NumpyCompatibleEncoder)
         instruction = app_handler.add_symbolic_state_for_instruction(
             symbolic_state)
         keys_dict = {'name': app_name,
                      'trace': trace_id,
                      'fid': fid}
         vals_dict = {
-            'symbolic_state': symbolic_state,
+            'symbolic_state': symbolic_state_str,
             'rot_x': row.rot_x,
             'rot_y': row.rot_y,
             'rot_z': row.rot_z,

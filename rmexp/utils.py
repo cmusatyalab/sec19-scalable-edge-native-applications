@@ -1,8 +1,11 @@
 from __future__ import absolute_import, division, print_function
 
+import json
 import os
 import time
 from functools import wraps
+
+import numpy as np
 
 
 def timeit(time_log):
@@ -49,3 +52,10 @@ def video_uri_to_trace(video_uri):
 
 def trace_to_app(trace):
     return trace.split('-')[0]
+
+
+class NumpyCompatibleEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
