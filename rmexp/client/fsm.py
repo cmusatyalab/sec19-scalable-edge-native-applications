@@ -7,7 +7,7 @@ import numpy as np
 class LegoFSM(object):
     def __init__(self):
         self._state = None
-        self._cnt_to_transition = 5
+        self._cnt_to_transition = 3
         self._staging_cnt = {}
         self._staging_ss = None
 
@@ -16,7 +16,12 @@ class LegoFSM(object):
         self._staging_cnt.clear()
         gabriel_msg.data = gabriel_msg.data + '!!State Change!!'
 
-    def process_reply(self, gabriel_msg):
+    def _process_reply_consecutive(self, gabriel_msg):
+        """An instruction requires consecutive detection of a video stream.
+        When # of consecutive detection equals _cnt_to_transitions,
+        then transition and clear counter.
+        Used in sec'19 paper submission.
+        """
         frame_result = gabriel_msg.data
         if '[[' in frame_result:
             if frame_result != self._staging_ss:
@@ -30,6 +35,25 @@ class LegoFSM(object):
             if (self._staging_cnt[frame_result] == self._cnt_to_transition):
                 if self._state != frame_result:
                     self.state_change(gabriel_msg)
+
+    def _process_reply_cumulative(self, gabriel_msg):
+        """An instruction requires cumulative detection of a video stream.
+        When # of detection cumulates to _cnt_to_transitions,
+        then transition and clear counter.
+        """
+        frame_result = gabriel_msg.data
+        if '[[' in frame_result:
+            if frame_result not in self._staging_cnt:
+                self._staging_cnt[frame_result] = 0
+            self._staging_cnt[frame_result] += 1
+
+            if (self._staging_cnt[frame_result] >=
+                    self._cnt_to_transition):
+                if self._state != frame_result:
+                    self.state_change(gabriel_msg)
+
+    def process_reply(self, gabriel_msg):
+        self._process_reply_cumulative(gabriel_msg)
 
 
 class DummyFSM(object):
