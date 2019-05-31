@@ -42,6 +42,7 @@ pool_device_to_trace[2]=2
 pool_device_to_trace[3]=3
 pool_device_to_trace[4]=4
 
+# Ikea Traces 1,4,7,11,12
 declare -A ikea_device_to_trace
 ikea_device_to_trace[1]=1
 ikea_device_to_trace[2]=4
