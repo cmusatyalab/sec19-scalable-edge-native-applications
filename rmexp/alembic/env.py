@@ -1,8 +1,10 @@
 from __future__ import (absolute_import, division, print_function,
                         with_statement)
+from schema import models
 
 import os
 import sys
+import re
 from logging.config import fileConfig
 
 from alembic import context
@@ -10,7 +12,6 @@ from sqlalchemy import engine_from_config, pool
 
 sys.path.append(os.path.join(
     os.path.dirname(os.path.realpath(__file__)), '..'))
-from schema import models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -35,6 +36,33 @@ target_metadata = models.Base.metadata
 # ... etc.
 
 
+# added to exclude certain tables from alembic
+def get_exclude_tables_from_config(config_):
+    tables_ = config_.get('table_name_regex', None)
+    if tables_ is not None:
+        tables = tables_.split(' ')
+    print(tables)
+    return tables
+
+
+exclude_tables = get_exclude_tables_from_config(
+    config.get_section('alembic:exclude'))
+
+
+def should_exclude_table(table_name, exclude_tables):
+    for exclude_table_pattern in exclude_tables:
+        if re.match(exclude_table_pattern, table_name):
+            return True
+    return False
+
+
+def include_object(object, name, type_, reflected, compare_to):
+    if type_ == "table" and should_exclude_table(name, exclude_tables):
+        return False
+    else:
+        return True
+
+
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
 
@@ -49,7 +77,8 @@ def run_migrations_offline():
     """
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
-        url=url, target_metadata=target_metadata, literal_binds=True
+        url=url, target_metadata=target_metadata, literal_binds=True,
+        include_object=include_object
     )
 
     with context.begin_transaction():
@@ -71,7 +100,8 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, target_metadata=target_metadata,
+            include_object=include_object
         )
 
         with context.begin_transaction():
