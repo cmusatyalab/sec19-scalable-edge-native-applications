@@ -162,7 +162,7 @@ class Trace(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(512), nullable=False)
     trace = Column(String(512), nullable=False)
-    fid = Column(String(32), nullable=False)
+    fid = Column(Integer, nullable=False)
     symbolic_state = Column(Text)
     rot_x = Column(types.FLOAT(53))
     rot_y = Column(types.FLOAT(53))
