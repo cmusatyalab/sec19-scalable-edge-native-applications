@@ -213,16 +213,13 @@ def get_dataset_stats(app, dir_path, store=False):
             }
         )
         logger.info('{} ({}): {}'.format(app, i, stat))
-        if store:
-            sess = dbutils.get_session()
+        with dbutils.session_scope(dry_run=not store) as sess:
             dbutils.insert_or_update_one(
                 sess,
                 models.DataStat,
                 {'app': app, 'trace': str(i)},
                 {'value': stat}
             )
-            sess.commit()
-            sess.close()
 
 
 if __name__ == '__main__':

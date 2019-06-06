@@ -68,15 +68,13 @@ def get_gt_active_df(app, trace_id):
 
 
 def store_to_gt_inst(app, trace_id, stat):
-    sess = dbutils.get_session()
-    dbutils.insert_or_update_one(
-        sess,
-        models.GTInst,
-        {'app': app, 'trace': str(trace_id)},
-        {'value': stat}
-    )
-    sess.commit()
-    sess.close()
+    with dbutils.session_scope(dry_run=False) as sess:
+        dbutils.insert_or_update_one(
+            sess,
+            models.GTInst,
+            {'app': app, 'trace': str(trace_id)},
+            {'value': stat}
+        )
 
 # Note all these index start from 1.
 

@@ -171,11 +171,8 @@ def start_single_feed_token(video_uri,
     else:
         raise ValueError('Not Supoprted client_type {}'.format(client_type))
     dbobj = None
-    if exp:
-        if print_only:
-            sess = None
-        else:
-            sess = dbutils.get_session()
+    db_dry_run = bool(not exp or print_only)
+    with dbutils.session_scope(dry_run=db_dry_run) as sess:
         trace_id = str(int(video_uri.rstrip('/').split('/')[-2]))
         dbobj = {
             'sess': sess,
@@ -184,10 +181,9 @@ def start_single_feed_token(video_uri,
             'trace_id': trace_id,
             'app': app
         }
-
-    util_fn = app_default_utility_func[app]
-    run_loop(vc, nc, tokens_cap, dbobj=dbobj,
-             util_fn=util_fn, stop_after=stop_after)
+        util_fn = app_default_utility_func[app]
+        run_loop(vc, nc, tokens_cap, dbobj=dbobj,
+                 util_fn=util_fn, stop_after=stop_after)
 
 
 def start(num, video_uri, app, broker_type, broker_uri, tokens_cap,

@@ -121,7 +121,15 @@ def batch_process_multiple(worker_num,
     map(lambda proc: proc.join(), procs)
 
 
-def batch_process(video_uri, app, store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None, num_worker=1):
+def batch_process(video_uri,
+                  app,
+                  store_result=False,
+                  store_latency=False,
+                  store_profile=False,
+                  trace=None,
+                  cpu=None,
+                  memory=None,
+                  num_worker=1):
     """Batch process a lego video. Able to store both the result and the frame processing latency.
 
     Arguments:
@@ -133,6 +141,7 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
         store_result {bool} -- [description] (default: {False})
         store_latency {bool} -- [description] (default: {False})
     """
+    # TODO(junjuew): reorganize this function with dbutils.session_scope and insert_or_update
     app = importlib.import_module(app)
     app_handler = app.Handler()
     vc = client.VideoClient(
@@ -191,20 +200,18 @@ def batch_process(video_uri, app, store_result=False, store_latency=False, store
 def phash(video_uri):
     cam = cv2.VideoCapture(video_uri)
     has_frame = True
-    sess = dbutils.get_session()
-    trace_name = os.path.basename(os.path.dirname(video_uri))
-    idx = 1
-    while has_frame:
-        has_frame, img = cam.read()
-        if img is not None:
-            cur_hash = cvutils.phash(img)
-            sess.add(models.SS(
-                name='{}-f{}-phash'.format(trace_name, idx),
-                val=str(cur_hash),
-                trace=trace_name))
-            sess.commit()
-        idx += 1
-    sess.close()
+    with dbutils.session_scope(dry_run=False) as sess:
+        trace_name = os.path.basename(os.path.dirname(video_uri))
+        idx = 1
+        while has_frame:
+            has_frame, img = cam.read()
+            if img is not None:
+                cur_hash = cvutils.phash(img)
+                sess.add(models.SS(
+                    name='{}-f{}-phash'.format(trace_name, idx),
+                    val=str(cur_hash),
+                    trace=trace_name))
+            idx += 1
 
 
 def phash_diff_adjacent_frame(video_uri, output_dir):
