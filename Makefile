@@ -39,6 +39,9 @@ upgradedb:
 	alembic revision --autogenerate -m "updated db"
 	alembic upgrade head
 
+backupdb:
+	docker exec res-db /usr/bin/mysqldump -u root --password=${DB_PASSWORD} --all-databases > data/cloudlet002-mysql-bk/backup-$$(date +%Y%m%d).sql
+
 dependency:
 	echo "We should manage enviroment.yml manually from now on"
 	false
