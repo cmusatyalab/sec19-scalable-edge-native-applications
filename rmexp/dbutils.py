@@ -1,14 +1,14 @@
 
 from __future__ import absolute_import, division, print_function
 
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from sqlalchemy.ext.declarative import declarative_base
+import contextlib
+
+from rmexp import config, schema
+from sqlalchemy import Column, DateTime, Integer, String, create_engine
 from sqlalchemy.engine.url import URL
-from rmexp import config
-from rmexp import schema
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 
 def get_session():
@@ -16,6 +16,31 @@ def get_session():
     Session.configure(bind=schema.engine)
     session = Session()
     return session
+
+
+@contextlib.contextmanager
+def session_scope(dry_run=True):
+    """Provide a transactional scope around a series of session operations.
+    To use:
+    with session_scope() as sess:
+        blah...
+    """
+    if dry_run:
+        session = None
+    else:
+        session = get_session()
+
+    try:
+        yield session
+        if session is not None:
+            session.commit()
+    except:
+        if session is not None:
+            session.rollback()
+        raise
+    finally:
+        if session is not None:
+            session.close()
 
 
 def insert(sess, model, vals_dict):

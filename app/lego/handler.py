@@ -45,6 +45,13 @@ from lego.tasks.task_Turtle import bitmaps, time_estimates
 display_list = config.DISPLAY_LIST
 
 
+class NumpyCompatibleEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
+
+
 class LegoFSM(object):
     def __init__(self):
         self._state = None
@@ -212,7 +219,8 @@ class LegoHandler(object):
             result = bitmap
         else:
             result = rtn_msg['message']
-        return result
+
+        return json.dumps(result, cls=NumpyCompatibleEncoder)
 
     def add_symbolic_state_for_instruction(self, symbolic_state):
         """Get current instruction from symbolic states.

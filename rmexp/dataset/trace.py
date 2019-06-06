@@ -12,7 +12,7 @@ import cv2
 import fire
 import pandas as pd
 from logzero import logger
-from rmexp import dbutils, utils
+from rmexp import dbutils, schema, utils
 from rmexp.schema import models
 
 supported_apps = ['lego', 'pingpong', 'ikea', 'pool', 'face']
@@ -45,7 +45,7 @@ def _parse_trace_dir(trace_dir):
 def load_trace_dir_to_db(trace_dir,
                          relative_video_uri='video-images/%010d.jpg',
                          imu_fname='imu.csv',
-                         store=False):
+                         dry_run=True):
     """Load trace directory to database.
     The trace_dir should ends with a particular naming path:
     ...../<app-name>/<trace-id>/
@@ -68,46 +68,38 @@ def load_trace_dir_to_db(trace_dir,
     imu_df = pd.read_csv(imu_fpath, index_col='frame_id')
     imu_df['sensor_timestamp'] = pd.to_datetime(imu_df['sensor_timestamp'])
 
-    sess = None
-    if store:
-        sess = dbutils.get_session()
+    with dbutils.session_scope(dry_run=dry_run) as sess:
+        for row in imu_df.itertuples():
+            fid = row.Index
+            cam.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, fid)
+            _, img = cam.read()
+            symbolic_state = app_handler.process(img)
+            instruction = app_handler.add_symbolic_state_for_instruction(
+                symbolic_state)
+            keys_dict = {'name': app_name,
+                         'trace': trace_id,
+                         'fid': fid}
+            vals_dict = {
+                'symbolic_state': symbolic_state,
+                'rot_x': row.rot_x,
+                'rot_y': row.rot_y,
+                'rot_z': row.rot_z,
+                'acc_x': row.acc_x,
+                'acc_y': row.acc_y,
+                'acc_z': row.acc_z,
+                'sensor_timestamp': row.sensor_timestamp.to_pydatetime(),
+                'instruction': instruction,
+                'height': img.shape[0],
+                'width': img.shape[1]
+            }
+            logger.debug('{}: {}'.format(
+                json.dumps(keys_dict), json.dumps(vals_dict, default=str)))
 
-    for row in imu_df.itertuples():
-        fid = row.Index
-        cam.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, fid)
-        _, img = cam.read()
-        symbolic_state = app_handler.process(img)
-        symbolic_state_str = json.dumps(
-            symbolic_state, cls=utils.NumpyCompatibleEncoder)
-        instruction = app_handler.add_symbolic_state_for_instruction(
-            symbolic_state)
-        keys_dict = {'name': app_name,
-                     'trace': trace_id,
-                     'fid': fid}
-        vals_dict = {
-            'symbolic_state': symbolic_state_str,
-            'rot_x': row.rot_x,
-            'rot_y': row.rot_y,
-            'rot_z': row.rot_z,
-            'acc_x': row.acc_x,
-            'acc_y': row.acc_y,
-            'acc_z': row.acc_z,
-            'sensor_timestamp': row.sensor_timestamp.to_pydatetime(),
-            'instruction': instruction,
-            'height': img.shape[0],
-            'width': img.shape[1]
-        }
-        logger.debug('{}: {}'.format(
-            json.dumps(keys_dict), json.dumps(vals_dict, default=str)))
-
-        dbutils.insert_or_update_one(sess,
-                                     models.Trace,
-                                     keys_dict,
-                                     vals_dict)
+            dbutils.insert_or_update_one(sess,
+                                         models.Trace,
+                                         keys_dict,
+                                         vals_dict)
     cam.release()
-    if store:
-        sess.commit()
-        sess.close()
 
 
 def _create_imu_csv(trace_dir, output_fname='imu.csv'):
@@ -140,36 +132,39 @@ def _create_imu_csv(trace_dir, output_fname='imu.csv'):
     df.to_csv(save_csv)
 
 
-def load_imu_csv_to_DB(trace_name, base_dir):
-    trace_num = re.search('\d+', trace_name).group(0)
-    csv_name = glob.glob(os.path.join(base_dir,
-                                      trace_num, '*.csv'))[0]
-    print("Using file as IMU data:", csv_name)
-    df = pd.read_csv(csv_name, index_col='frame_id')
-    df['sensor_timestamp'] = pd.to_datetime(df['sensor_timestamp'])
+def create_instruction_from_symbolic_state_in_db(app, trace_id,
+                                                 dry_run=True):
+    """Read symbolic state from db and update the instruction field.
 
-    new = 0
-    sess = dbutils.get_session()
-    for row in df.itertuples():
-        keys_dict = {'name': trace_name,
-                     'trace': trace_num,
-                     'index': row.Index
-                     }
-        vals_dict = {'sensor_timestamp': row.sensor_timestamp.to_pydatetime(),
-                     'rot_x': row.rot_x,
-                     'rot_y': row.rot_y,
-                     'rot_z': row.rot_z,
-                     'acc_x': row.acc_x,
-                     'acc_y': row.acc_y,
-                     'acc_z': row.acc_z
-                     }
+    This method is used to allow fsm instruction changes while 
+    avoiding re-running all symbolic state extractions.
+    """
+    app_name = app
+    df = pd.read_sql(
+        "select symbolic_state, fid from Trace where name=%(app)s and trace=%(trace_id)s order by fid",
+        schema.engine,
+        params={'app': app_name, 'trace_id': trace_id}
+    )
 
-        insert_or_update_one(sess, models.IMU, keys_dict, vals_dict)
+    app = importlib.import_module(app)
+    app_handler = app.Handler()
 
-    logger.debug("Updated: ", len(sess.dirty))
-    logger.debug("New: ", len(sess.new))
-    sess.commit()
-    sess.close()
+    with dbutils.session_scope(dry_run=dry_run) as sess:
+        for row in df.itertuples():
+            instruction = app_handler.add_symbolic_state_for_instruction(
+                row.symbolic_state)
+            keys_dict = {'name': app_name,
+                         'trace': trace_id,
+                         'fid': row.fid}
+            vals_dict = {
+                'instruction': instruction,
+            }
+            logger.debug('update {}: {}'.format(
+                json.dumps(keys_dict), json.dumps(vals_dict, default=str)))
+            dbutils.insert_or_update_one(sess,
+                                         models.Trace,
+                                         keys_dict,
+                                         vals_dict)
 
 
 if __name__ == "__main__":
