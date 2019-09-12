@@ -261,6 +261,11 @@ python fileutils.py correct-trace-resolution --app pool --dir-path ../../data/po
 python fileutils.py rename-default-trace --dir-path ../../data/face-trace
 ```
 
+### Section 5 experiment
+
+using harness.sh
+
+
 ### Commands to Run Section 6 Instruction Latency Experiments
 
 ```bash
