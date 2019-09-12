@@ -5,10 +5,10 @@ import numpy as np
 
 
 class IkeaFSM(object):
-    """A Lego FSM based on cumulative model."""
+    """A Ikea FSM based on CV processing results."""
 
     def __init__(self, im_h, im_w):
-        self._states = ["start", "nothing", "base", "pipe", "shade", "buckle",
+        self._states = ["nothing", "base", "pipe", "shade", "buckle",
                         "blackcircle", "shadebase", "bulb", "bulbtop"]
         self.current_state = "nothing"
         self._objects = ["base", "pipe", "shade", "shadetop",
@@ -68,10 +68,7 @@ class IkeaFSM(object):
 
         prev_state = self.current_state
         if self.current_state == "nothing":
-            if object_counts[0] > 0 and object_counts[1] > 0:
-                if self._check_pipe(objects):
-                    self.current_state = "pipe"
-            elif object_counts[0] > 0:
+            if object_counts[0] > 0:
                 self.current_state = "base"
         elif self.current_state == "base":
             if object_counts[0] > 0 and object_counts[1] > 0:
@@ -102,7 +99,7 @@ class IkeaFSM(object):
                 if self._check_bulbtop(objects):
                     self.current_state = "bulbtop"
         elif self.current_state == "bulbtop":
-            self.current_state = "nothing"
+            pass
 
         if prev_state != self.current_state:
             return True

@@ -12,7 +12,6 @@ import numpy as np
 import pandas as pd
 from logzero import logger
 from rmexp import client, schema, utils, dbutils
-from rmexp.client import fsm
 from rmexp.schema import models
 
 
@@ -21,7 +20,7 @@ def interval_extract(list, slack=30):
     i = 0
     while (i < length):
         low = list[i]
-        while i < length-1 and (list[i + 1] - list[i]) < slack:
+        while i < length - 1 and (list[i + 1] - list[i]) < slack:
             i += 1
         high = list[i]
         if (high - low >= 1):
@@ -46,13 +45,16 @@ def get_trace_frames(app, trace_id):
 
 
 def get_ss_df(app, trace_id):
+    """Return symbolic state dataframes in the same order as they appear in the database.
+    By default, they are ordered as frame sequence.
+    """
     name = '{}-tr{}'.format(app, trace_id)
     df = pd.read_sql(
         "select * from SS where name like %(name)s",
         schema.engine,
         params={'name': name}
     )
-    # SS's database index somehow started from 1, this is to fix it
+    # SS's database frame index somehow started from 1, this is to fix it
     df['index'] = df['index'].astype('int32') - 1
     return df
 
@@ -76,17 +78,29 @@ def store_to_gt_inst(app, trace_id, stat):
             {'value': stat}
         )
 
-# Note all these index start from 1.
-
-# called by duty-cycle.ipynb
-
 
 def upload_lego_gt_inst_idx(trace_id, detected_stages, store=False):
+    """called by duty-cycle.ipynb
+    """
     stage_idx = [int(stage[0]) for stage in detected_stages]
     app = 'lego'
     stat = json.dumps(
         {
             'inst_idx': stage_idx
+        }
+    )
+    logger.info('{} trace {}: {}'.format(app, trace_id, stat))
+    if store:
+        store_to_gt_inst(app, trace_id, stat)
+
+
+def upload_ikea_gt_inst_idx(trace_id, key_fids, store=False):
+    """called by ikea_stats.ipynb
+    """
+    app = 'ikea'
+    stat = json.dumps(
+        {
+            'inst_idx': key_fids
         }
     )
     logger.info('{} trace {}: {}'.format(app, trace_id, stat))
@@ -187,7 +201,7 @@ def get_gt_inst_idx(app, trace_id):
     assert len(df.index) == 1
     datastat = json.loads(df['value'].iloc[0])
     # correct the index to start from 0
-    correct_idx = map(lambda x: int(x)-1, datastat['inst_idx'])
+    correct_idx = map(lambda x: int(x) - 1, datastat['inst_idx'])
     return correct_idx
 
 
@@ -223,7 +237,7 @@ def get_exp_app_inst_delay_for_client(exp, app, client_id, trace_id):
         for inst_idx in exp_inst_idx:
             frame_delay = inst_idx - gt_idx[gt_idx <= inst_idx][-1]
             proc_delay = df[df['index'] == str(inst_idx)]['reply'].mean()
-            delays.append(round(frame_delay * 1000./30.+proc_delay))
+            delays.append(round(frame_delay * 1000. / 30. + proc_delay))
         return exp_inst_idx, delays
 
 

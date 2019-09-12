@@ -7,3 +7,5 @@ There is a option to create a pma table in the database
 which stores all phpmyadmin(pma) data.
 */
 $cfg['ZeroConf'] = true;
+$cfg['LoginCookieValidity'] = 186400;
+$cfg['LoginCookieStore'] = 0;

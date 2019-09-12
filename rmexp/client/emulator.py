@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from logzero import logger
 from rmexp import client, schema, utils
-from rmexp.client import dutycycle, fsm
+from rmexp.client import dutycycle
 
 
 class Sensor(object):
@@ -47,7 +47,6 @@ class VideoAdaptiveSensor(VideoSensor):
         self._last_trigger_time = float("-inf")
         # the timestamp of last sample
         self._last_sample_time = float("-inf")
-        # self._fsm = fsm.get_app_fsm(self._app)
         raise NotImplementedError(
             'FSM now moved to application itself. needs to double-check what has changed.')
 
@@ -110,7 +109,7 @@ class IMUSensor(Sensor):
             logger.warning(
                 """imu look up idx ({}) invalid. 
                 A single of this warning might due to h264 encoding requires even number of frames""".format(idx))
-            return np.array([0.]*6)
+            return np.array([0.] * 6)
 
     def is_passive(self, idx):
         if idx < len(self.df_suppression.index):
@@ -145,7 +144,7 @@ class CameraTimedMobileDevice(MobileDevice):
     def sample(self):
         (idx, pdata) = self.primary_sensor.sample()
         data = map(lambda x: x.get(idx), self.secondary_sensors)
-        data = zip([idx]*len(data), data)
+        data = zip([idx] * len(data), data)
         data.insert(0, (idx, pdata))
         return data
 
@@ -168,7 +167,7 @@ class IMUSuppresedCameraTimedMobileDevice(CameraTimedMobileDevice):
             suppression = self.imu.is_passive(idx)
 
         data = map(lambda x: x.get(idx), self.secondary_sensors)
-        data = zip([idx]*len(data), data)
+        data = zip([idx] * len(data), data)
         data.insert(0, (idx, pdata))
         return data
 

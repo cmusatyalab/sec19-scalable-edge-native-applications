@@ -31,12 +31,14 @@ GiB = 2.**30
 
 # logzero.loglevel(logging.INFO)
 
+
 def start_worker(app, num, docker_run_kwargs, busy_wait=None):
     omp_num_threads = importlib.import_module(app).OMP_NUM_THREADS
 
     cli = docker.from_env()
 
-    container_name = 'rmexp-harness-{}-{}-{}'.format(os.getppid(), app, str(uuid.uuid4())[:8])
+    container_name = 'rmexp-harness-{}-{}-{}'.format(
+        os.getppid(), app, str(uuid.uuid4())[:8])
 
     bash_cmd = ". .envrc && OMP_NUM_THREADS={} python rmexp/serve.py start --num {} \
                 --broker-type {} --broker-uri {} --app {} " \
@@ -76,7 +78,7 @@ def start_feed(app, video_uri, tokens_cap, stop_after, exp='', client_id=0):
             os.getenv('CLIENT_BROKER_URI'),
             tokens_cap=tokens_cap,
             loop=True,
-            random_start=False, # for sake of the same frames for different exps
+            random_start=False,  # for sake of the same frames for different exps
             exp=exp,
             client_id=client_id,
             stop_after=stop_after
@@ -99,7 +101,8 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
 
     # parse role server/client
     component = component.lower()
-    assert component in ['client', 'server'], 'Component needs to be either client or server'
+    assert component in [
+        'client', 'server'], 'Component needs to be either client or server'
 
     # parse run_config
     if not isinstance(run_config, dict):
@@ -107,20 +110,24 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
     run_config.update(kwargs)
 
     # quick hack for section 6
+    # used to show dry_run results
     simple_apps = ('lego', 'pingpong', 'face', 'pool', 'ikea', )
     run_config['clients'] = run_config.get('clients', list())
     for app in simple_apps:
         if app in run_config:
             run_config['clients'].append({
-                'app': app, 'num': int(run_config[app]), 
+                'app': app, 'num': int(run_config[app]),
                 'video_uri': 'dummy_video_uri'})
 
     # retrieve cgroup info
     global CGROUP_INFO
     cg_name = run_config.get('cgroup', CGROUP_INFO['name'])
-    cpus_str = open('/sys/fs/cgroup/cpuset{}/cpuset.cpus'.format(cg_name), 'r').readline().strip()
-    cg_cpus = sum(map(lambda t: int(t[-1]) - int(t[0]) + 1, map(lambda s: s.split('-'), cpus_str.split(','))))
-    cg_memory = float(open('/sys/fs/cgroup/memory{}/memory.limit_in_bytes'.format(cg_name), 'r').readline().strip())
+    cpus_str = open(
+        '/sys/fs/cgroup/cpuset{}/cpuset.cpus'.format(cg_name), 'r').readline().strip()
+    cg_cpus = sum(map(lambda t: int(
+        t[-1]) - int(t[0]) + 1, map(lambda s: s.split('-'), cpus_str.split(','))))
+    cg_memory = float(open(
+        '/sys/fs/cgroup/memory{}/memory.limit_in_bytes'.format(cg_name), 'r').readline().strip())
     CGROUP_INFO = {'name': cg_name, 'cpu': cg_cpus, 'memory': cg_memory}
     logger.info("cgroup info: {}".format(CGROUP_INFO))
 
@@ -130,7 +137,8 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
 
     # invoke scheduler
     sched_module = importlib.import_module(scheduler)
-    start_worker_calls, start_feed_calls = sched_module.schedule(run_config, CGROUP_INFO['cpu'], CGROUP_INFO['memory'])
+    start_worker_calls, start_feed_calls = sched_module.schedule(
+        run_config, CGROUP_INFO['cpu'], CGROUP_INFO['memory'])
 
     # create subprocess
     if component == 'client':
@@ -139,7 +147,7 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
             call['kwargs']['exp'] = exp
             call['kwargs']['stop_after'] = run_config.get('stop_after', None)
             logger.debug("start feed: {}".format(call))
-            
+
             if not dry_run:
                 feeds.append(mp.Process(
                     target=start_feed, args=call['args'], kwargs=call['kwargs']

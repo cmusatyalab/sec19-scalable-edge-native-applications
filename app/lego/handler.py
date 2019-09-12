@@ -39,6 +39,7 @@ from logzero import logger
 from lego import bitmap as bm
 from lego import lego_cv as lc
 from lego import zhuocv as zc
+from lego import fsm
 from lego.tasks import Task
 from lego.tasks.task_Turtle import bitmaps, time_estimates
 
@@ -52,58 +53,6 @@ class NumpyCompatibleEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-class LegoFSM(object):
-    def __init__(self):
-        self._state = None
-        self._cnt_to_transition = 3
-        self._staging_cnt = {}
-        self._staging_ss = None
-
-    def change_state_for_instruction(self, symbolic_state):
-        self._state = symbolic_state
-        self._staging_cnt.clear()
-        return '!!State Change!!'
-
-    def _process_reply_consecutive(self, symbolic_state):
-        """An instruction requires consecutive detection of a video stream.
-        When # of consecutive detection equals _cnt_to_transitions,
-        then transition and clear counter.
-        Used in sec'19 paper submission.
-        """
-        if '[[' in symbolic_state:
-            if symbolic_state != self._staging_ss:
-                self._staging_cnt.clear()
-
-            if symbolic_state not in self._staging_cnt:
-                self._staging_cnt[symbolic_state] = 0
-            self._staging_cnt[symbolic_state] += 1
-            self._staging_ss = symbolic_state
-
-            if (self._staging_cnt[symbolic_state] == self._cnt_to_transition):
-                if self._state != symbolic_state:
-                    return self.change_state_for_instruction(symbolic_state)
-        return None
-
-    def _process_reply_cumulative(self, symbolic_state):
-        """An instruction requires cumulative detection of a video stream.
-        When # of detection cumulates to _cnt_to_transitions,
-        then transition and clear counter.
-        """
-        if '[[' in symbolic_state:
-            if symbolic_state not in self._staging_cnt:
-                self._staging_cnt[symbolic_state] = 0
-            self._staging_cnt[symbolic_state] += 1
-
-            if (self._staging_cnt[symbolic_state] >=
-                    self._cnt_to_transition):
-                if self._state != symbolic_state:
-                    return self.change_state_for_instruction(symbolic_state)
-        return None
-
-    def add_symbolic_state_for_instruction(self, symbolic_state):
-        return self._process_reply_cumulative(symbolic_state)
-
-
 class LegoHandler(object):
     def __init__(self):
         super(LegoHandler, self).__init__()
@@ -111,7 +60,7 @@ class LegoHandler(object):
         self.commited_bitmap = np.zeros((1, 1), np.int)  # basically nothing
         self.temp_bitmap = {'start_time': None, 'bitmap': None, 'count': 0}
         self.task = Task.Task(bitmaps)
-        self._fsm = LegoFSM()
+        self._fsm = fsm.LegoFSM()
         if time_estimates is not None:
             self.task.update_time_estimates(time_estimates)
         self.counter = {'confident': 0,

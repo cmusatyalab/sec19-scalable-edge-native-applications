@@ -18,7 +18,7 @@ from rmexp import client, config, dbutils, gabriel_pb2, networkutil, utils
 from rmexp.client import emulator
 from rmexp.client.video import RTImageSequenceClient, RTVideoClient
 from rmexp.schema import models
-from rmexp.utilityfunc import app_default_utility_func
+from rmexp.app_utility_profile import app_default_utility_func
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
 #     from twisted.internet import reactor, task

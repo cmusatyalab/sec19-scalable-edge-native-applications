@@ -263,7 +263,7 @@ python fileutils.py rename-default-trace --dir-path ../../data/face-trace
 
 ### Section 5 experiment
 
-using harness.sh
+Using harness.sh
 
 
 ### Commands to Run Section 6 Instruction Latency Experiments
@@ -277,3 +277,13 @@ bash ./sec6_harness.sh face4pool4pingpong4lego4 baseline sec6-baseline-4
 bash ./sec6_harness.sh face6pool6pingpong6lego6 baseline sec6-baseline-6
 bash ./sec6_harness.sh face8pool8pingpong8lego8 baseline sec6-baseline-8
 ```
+
+## Database Tables
+
+ResourceLatency: Contains all the profiling information. 'c001-cg-wall-fixed' is the profiling set to use.
+
+ExpLatency: Contains section 5 experimental results.
+
+## Hand labeled dataset
+
+Are contained in dutycycle.ipynb
