@@ -6,8 +6,7 @@
 * [environment.yml](environment.yml): Conda environment dependency file.
 * [app](app): Wearable cognitive assistance applications packaged as python modules for stateless vision processing.
 * [data](data): experimental input data including application input traces, not version controlled under git. available on cloudlet002.
-  * [data/plots](data/plots): experiment figures and results saved as htmls.
-* [infra](infra): experiment infrastructure, including container resource usage monitoring tools (cadvisor, prometheus, grafana), and a MySQL database for experiment data. All these tools are set up using containers.
+* [infra](infra): experiment infrastructure, including a MySQL database for experiment data. All these tools are set up using containers.
 * [rmexp](rmexp): main python module "Resource Management Experiment".
   * [rmexp/broker](rmexp/broker): Python implementation of ZMQ message broker Majordomo Pattern.
   * [rmexp/alembic](rmexp/alembic): Alembic-based database migration scripts.
@@ -19,19 +18,10 @@
 * [visualization](visualization): Python Jupyter interactive plotting scripts. Used to pull data out from MySQL database and plot figures.
 * [writeup](writeup): Thoughts and notes.
 * [scripts](scripts): Scripts to launch experiments.
-* [mkt](mkt): \[Deprecated\] Message Broker to connect multiple feeds to multiple workers (golang + zmq).
 * [third_party](third_party): Third party libaries required: dlib, tensorflow object detection API, and trace-app
   * [third_party/trace-app](third_party/trace-app): android app to record video and sensor data to collect traces
 
 ## Infrastructure
-
-### cadvisor, prometheus, and Grafana Setup
-
-cadvisor is metric collection tool.
-prometheus is a time-series database.
-grafana is a visualization tool.
-
-## Experiment Machine and Path
 
 * machine: cloudlet002
 * main path: /home/junjuew/work/resource-management
@@ -44,45 +34,30 @@ envs_dirs:
 ```
   * activate conda environment with
 ```bash
-conda activate conda-env-rmexp
+conda activate ./conda-env-rmexp
 ```
   * NOTE: dlib and tensorflow is installed through pip, since opencv 2.4.13 has a fixed dependency of numpy (1.11) that is conflicting with the newest dlib and tf. conda won't allow such conflict to co-exists. However, just updating numpy to 1.16.3 still seems to be working for lego, pingpong, and pool those legacy applications.
   * NOTE: tensorflow object detection is using Tan's installation on cloudlet002.
 * Infrastructure service uris
   * MySQL database: cloudlet002.elijah.cs.cmu.edu:13306
   * database UI: http://cloudlet002.elijah.cs.cmu.edu:8081
-  * container resource usage monitoring (cAdvisor) UI: http://cloudlet002.elijah.cs.cmu.edu:8080
-  * time-series database for storing past container resource usages (prometheus) UI: http://cloudlet002.elijah.cs.cmu.edu:9090
-  * container resource usage visualization dashboard (grafana):
-    http://cloudlet002.elijah.cs.cmu.edu:3000
 
 ## Dataset
 
-Problems:
-* for lego trace 2, one of the steps is too short.
-* lego trace 4 has error steps in them.
+Dataset for 5 applications are collected and labeled: face, lego, pingpong, pool, ikea
+Their data are stored in data/<app>-trace.
 
-## Experiment
+Traces used for experiemnts
+* face: 1, 2, 3, 4
+* pool: 1, 2, 3, 4
+* pingpong: 6, 7, 8, 9
+* lego: 1, 3, 4, 6
+* ikea: 1, 7, 11, 12
 
-- prefix pwifi: -30dbm
-- prefix ppoorwifi: -46dbm
-- lelzmqf\*: sending the string 'load' as replacement for images, as the data
-  rate is really low when sending images.
-- processlatency-c1-lego_0_905: used to identify process latency of different
-  lego DAG elements. batch process. used taskset to fix worker.py to a single
-  core. cloudlet001. 2.3Ghz
-- zmqc4m2g: used to identify process latency of different
-  lego DAG elements. batch process. used taskset to fix worker.py to a single
-  core. cloudlet001. 2.3Ghz
-- etherzmqc8m4w8: same machine localhost, 4 clients, 2 fps
-- etherzmqc8m4w8f8: same machine localhost, 8 clients, 2 fps
-
-## Turbo-boost
-
-Turbo-boost is restricted on cloudlet001 with for the experiments
-(double-checked on 04/07.). The max clock speed is 2.3 Ghz.
-
-## Trace Dataset
+Pool and pingpong's trace selection are restricted to the ones that we have IMU suppression prediction.
+Lego and ikea's trace selection are restricted to the videos that triggers less computer vision processing errors.
+For lego, many traces have too short of a step or wrong color detection, causing CV errors.
+For ikea, many traces have too short of a step, providing too little chances for a detection, especially client sampling rate is low.
 
 ### Recording Video and Sensor data
 
@@ -90,18 +65,9 @@ Android app VideoSensorRecorder:
 Records Video, Audio, GPS, gyroscope and accelerometer data 
 source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
 
-### Trace Collected
+## Mobile Device Setup
 
-| Apps      | # of Traces |
-| --------- | :---------: |
-| Lego      |      9      |
-| Ikea      |      7      |
-| Face      |      8      |
-| Ping-pong |      11     |
-| Pool      |      4      |
-
-## Mobile Device
-
+### Use Linux Box to Run Ubuntu on mobile device
 * essential phone:
   Followed [this](https://forum.xda-developers.com/essential-phone/how-to/guide-how-to-install-twrp-root-t3841922) and [this](https://github.com/thehappydinoa/root-PH1) to root Essential Phone.
 The patch in the root.py in the second link needs to be applied to the Magisk zip file.
@@ -177,13 +143,9 @@ rsync -av --delete junjuew@cloudlet002.elijah.cs.cmu.edu:/home/junjuew/work/reso
     return 'inst: left'
 ```
 
-## Section 5
+## Section 5 Experiments
 
-* mainly trying to give a little bit more resources for each application so that they don't queue up.
-* have a threshold on how large the queue is. disgard those that are not longer hopeful.
-* how to manage wireless and supress clientsudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
-
-### CGroup for experiments
+### Restrict Cloudlet Resources through CGroup
 ```bash
 # create cgroup
 sudo cgcreate -g cpuset,memory:/rmexp
@@ -196,9 +158,10 @@ sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
 * profile cgroup on cloudlet002: core 0-31, memory 16g
 
-### Running Multi-client Experiments with Harness
+### Running Experiments
 
-#### Launch zmq broker
+* zmq msg broker:
+
 ```bash
 # Note: we only need one port now for every component: client, worker and controller
 # export BROKER_TYPE="zmq-md"
@@ -207,38 +170,19 @@ sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
 ```
 
-#### Start experiments using harness.py
+* scripts/run-sec5-resource-allocation-exp.sh:
 
 ```bash
-# make sure broker is running
-cd rmexp
-./harness.py run run_config/face2.yml server --scheduler=rmexp.scheduler.baseline
-# run in a different shell
-./harness.py run run_config/face2.yml client --scheduler=rmexp.scheduler.baseline --exp=face2-baseline
-
-# in case worker containers are not removed cleanly:
-# docker rm -f $(docker ps --filter 'name=rmexp-harness-*' -a -q) 
+# baseline
+./scripts/run-sec5-resource-allocation-exp.sh face8pool8pingpong8lego8ikea8 baseline sec5-face8pool8pingpong8lego8ikea8-baseline
+# scalable gabriel
+./scripts/run-sec5-resource-allocation-exp.sh face8pool8pingpong8lego8ikea8 cpushares sec5-face8pool8pingpong8lego8ikea8-cpushares
 ```
 
 #### Adding and invoking new schedulers
 Add a module under `rmexp/scheduler`. Module must expose a function `schedule(run_config, total_cpu, total_memory)`. See `rmexp/scheduler/baseline.py` for an example.
 
-#### cloudlet001 as client
-
-```bash
-# change to sec19 group
-newgrp sec19
-# first rsync from cloudlet002. Use the exact location and command so that rsync doesn't
-# re-transfer everything.
-cd /home/junjuew/work
-rsync -av --delete junjuew@10.1.1.191:/home/junjuew/work/resource-management .
-# activate conda
-conda activate ./conda-env-rmexp
-# launch client
-python rmexp/harness.py run --run_config rmexp/run_config/example.yml client
-```
-
-### Adaptive Brokers
+## Adaptive Brokers (Explored but eventually not used)
 
 Dynamic token management to match clients' request throughput to server processing throughput.
 Servers' processing throughput are not constant as the execution time is content dependent.
@@ -249,6 +193,15 @@ python -m rmexp.broker.mdbroker --broker-uri tcp://128.2.210.252:9094 --service-
 ```
 
 ## Section 6
+
+### Commands to Run Section 6 Instruction Latency Experiments
+
+```bash
+# baseline
+./scripts/run-sec6-instruction-latency-exp.sh face8pool8pingpong8lego8ikea8 baseline sec6-fppli8-baseline
+# scalable gabriel
+./scripts/run-sec6-instruction-latency-exp.sh face8pool8pingpong8lego8ikea8 cpushares sec6-fppli8-cpushares
+```
 
 ### Make Sure Client is Sending the Right Resolution
 
@@ -261,36 +214,21 @@ python fileutils.py correct-trace-resolution --app pool --dir-path ../../data/po
 python fileutils.py rename-default-trace --dir-path ../../data/face-trace
 ```
 
-### Section 5 experiment
-
-Using harness.sh
-
-
-### Commands to Run Section 6 Instruction Latency Experiments
-
-```bash
-cd rmexp/scripts
-bash ./sec6_harness.sh face4pool4pingpong4lego4 cpushares sec6-ours-4
-bash ./sec6_harness.sh face6pool6pingpong6lego6 cpushares sec6-ours-6
-bash ./sec6_harness.sh face8pool8pingpong8lego8 cpushares sec6-ours-8
-bash ./sec6_harness.sh face4pool4pingpong4lego4 baseline sec6-baseline-4
-bash ./sec6_harness.sh face6pool6pingpong6lego6 baseline sec6-baseline-6
-bash ./sec6_harness.sh face8pool8pingpong8lego8 baseline sec6-baseline-8
-```
-
 ## Database Tables
 
-ResourceLatency: Contains all the profiling information. 'c001-cg-wall-fixed' is the profiling set to use.
-
-ExpLatency: Contains section 5 experimental results.
+* DataStat: dataset statistics, e.g. length of a trace, resolution of a trace
+* GTInst: ground truth (GT) for instructions. Stored are the frames that triggers instruction when all frames are processed.
+* DutyCycleGT: ground truth (GT) for duty cycle. Frames are manually labeled to be in either active duty cycle or passive duty cycle.
+* IMU: raw imu data for the dataset.
+* IMUSuppression: imu suppression predictions made by trained SVMs. used by rmexp/client/emulator.py to simulate whether a frame should suppressed from transmission based on imu data.
+* ResourceLatency: Contains all application profiling information. 'c001-cg-wall-w1' is the profiling set to use, which are profiled on cloudlet001 with 1 worker process and wall clock time stored in a cgroup of 32 hyper threads and 16G memory.
+* ExpLatency: experiment results table for section 5 (run-sec5-resource-allocation-exp.sh) and section 6 (run-sec6-instruction-latency-exp.sh) experiment. See scripts dir for more. Camera-ready experiments used experiement name **sec5-face{}pool{}pingpong{}lego{}ikea{}-{baseline, cpushares}** and **sec6-fppli{4,6,8}-{baseline, cpushares}**.
+* Sec6IntraApp: experiment of dutycycleimu on the client vs resource utilization at the cloudlet (run-sec6-dutycycleimu.sh).
+* SS: symbolic state table. CV processing results of all the frames in the dataset.
+* Trace: deprecated. not used.
+* LegoLatency: deprecated. not used.
+* Profile: deprecated. not used.
 
 ## Hand labeled dataset
 
 Are contained in dutycycle.ipynb
-
-## Experiment names
-
-Section 6 experiments with dutycycleimu on face, pingpong, pool, lego, adn ikea:
-
-sec6-fppli4-baseline
-sec6-fppli4-cpushares

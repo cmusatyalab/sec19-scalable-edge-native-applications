@@ -1,5 +1,7 @@
 #! /bin/bash -ex
 
+# launch feeds to emulate client streaming video feeds
+
 # get basic environ setup
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 

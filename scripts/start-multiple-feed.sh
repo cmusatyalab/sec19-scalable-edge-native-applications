@@ -1,4 +1,6 @@
 #! /bin/bash -ex
+# Launcher script to start multiple emulated clients streaming videos
+# to cloudlet for processing
 
 while [[ $# -gt 1 ]]
 do

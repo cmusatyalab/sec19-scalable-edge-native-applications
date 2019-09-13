@@ -1,5 +1,8 @@
 #! /bin/bash -ex
 
+# launcher script to start workers on the cloudlet to process video feeds
+# used together with start-feed.sh on start-multiple-feed.sh
+
 while [[ $# -gt 1 ]]
 do
 key="$1"

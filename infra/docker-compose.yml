@@ -1,9 +1,5 @@
 version: "3.2"
 volumes:
-  # res_prometheus_data:
-  #   external: true
-  # res_grafana_data:
-  #   external: true
   res_mysql_data:
     external: true
   res_mysql_phpmyadmin:
@@ -33,39 +29,6 @@ services:
       - ./phpmyadmin-config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
     depends_on:
       - db
-  # cadvisor:
-  #   image: google/cadvisor:latest
-  #   container_name: cadvisor
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - /:/rootfs:ro
-  #     - /var/run:/var/run:rw
-  #     - /sys:/sys:ro
-  #     - /var/lib/docker/:/var/lib/docker:ro
-  # prometheus:
-  #   image: prom/prometheus:latest
-  #   container_name: prometheus
-  #   ports:
-  #     - 9090:9090
-  #   command:
-  #     - --config.file=/etc/prometheus/prometheus.yml
-  #   volumes:
-  #     - ./prometheus-config.yml:/etc/prometheus/prometheus.yml:ro
-  #     - res_prometheus_data:/prometheus
-  #   depends_on:
-  #     - cadvisor
-  # grafana:
-  #   image: grafana/grafana:latest
-  #   container_name: grafana
-  #   depends_on:
-  #     - prometheus
-  #   ports:
-  #     - 3000:3000
-  #   volumes:
-  #     - res_grafana_data:/var/lib/grafana
-  #   env_file:
-  #     - ./grafana.env
   # db-adminer:
   #   image: adminer
   #   container_name: res-db-adminer

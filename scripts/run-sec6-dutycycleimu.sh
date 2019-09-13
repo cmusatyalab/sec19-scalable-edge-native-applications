@@ -1,5 +1,8 @@
 #/bin/bash -ex
 
+# Launcher script for running experiment of dutycycle + imu suppresion on clident vs resource utlization on the cloudlet
+# Data are stored at data/sec6-dutycycleimu
+
 exp_cpus="8 6 4 2"
 while [[ $# -gt 1 ]]
 do
