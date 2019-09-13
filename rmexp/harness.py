@@ -29,7 +29,33 @@ CGROUP_INFO = {
 }
 GiB = 2.**30
 
-# logzero.loglevel(logging.INFO)
+# logger.setLevel(logging.DEBUG)
+
+
+# configuration setup when dutycycle and imu is enabled
+device_type_map = {
+    'lego': 'dutycycleimu',
+    'pingpong': 'dutycycleimu',
+    'pool': 'dutycycleimu',
+    'ikea': 'dutycycleimu',
+    'face': 'baseline',
+}
+
+dutycycle_sampling_on_map = {
+    'lego': True,
+    'ikea': True,
+    'pingpong': False,
+    'pool': False,
+    'face': False,
+}
+
+random_start_map = {
+    'lego': True,
+    'ikea': False,  # ikea fsm cannot handle random starts
+    'pingpong': True,
+    'pool': True,
+    'face': True,
+}
 
 
 def start_worker(app, num, docker_run_kwargs, busy_wait=None):
@@ -63,7 +89,9 @@ def start_worker(app, num, docker_run_kwargs, busy_wait=None):
         raise
 
 
-def start_feed(app, video_uri, tokens_cap, stop_after, exp='', client_id=0):
+def start_feed(app, video_uri, tokens_cap, stop_after,
+               random_start=False, client_type='video', dutycycle_sampling_on=False,
+               exp='', client_id=0):
     # forced convert video_uri to frame dir
     if not os.path.isdir(video_uri):
         video_uri = os.path.join(os.path.dirname(video_uri), 'video-images')
@@ -78,7 +106,9 @@ def start_feed(app, video_uri, tokens_cap, stop_after, exp='', client_id=0):
             os.getenv('CLIENT_BROKER_URI'),
             tokens_cap=tokens_cap,
             loop=True,
-            random_start=False,  # for sake of the same frames for different exps
+            random_start=random_start,  # for sake of the same frames for different exps
+            client_type=client_type,
+            dutycycle_sampling_on=dutycycle_sampling_on,
             exp=exp,
             client_id=client_id,
             stop_after=stop_after
@@ -87,7 +117,7 @@ def start_feed(app, video_uri, tokens_cap, stop_after, exp='', client_id=0):
         logger.info("%s finished" % video_uri)
 
 
-def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
+def run(run_config, component, scheduler, exp='', dry_run=False, enable_dutycycleimu=False, **kwargs):
     """[summary]
 
     Arguments:
@@ -96,6 +126,7 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
         schduler {string} -- name of Python module that provides a schduler() function
         exp {string} -- if not empty, will write latency to DB
         dry_run {bool} -- if true, only print scheduling results and not run processes
+        enable_dutycycleimu {bool} -- if true, enable dutycycle and imu suppression on the client
         **kwargs -- override values in run_config
     """
 
@@ -111,13 +142,13 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
 
     # quick hack for section 6
     # used to show dry_run results
-    simple_apps = ('lego', 'pingpong', 'face', 'pool', 'ikea', )
-    run_config['clients'] = run_config.get('clients', list())
-    for app in simple_apps:
-        if app in run_config:
-            run_config['clients'].append({
-                'app': app, 'num': int(run_config[app]),
-                'video_uri': 'dummy_video_uri'})
+    # simple_apps = ('lego', 'pingpong', 'face', 'pool', 'ikea', )
+    # run_config['clients'] = run_config.get('clients', list())
+    # for app in simple_apps:
+    #     if app in run_config:
+    #         run_config['clients'].append({
+    #             'app': app, 'num': int(run_config[app]),
+    #             'video_uri': 'dummy_video_uri'})
 
     # retrieve cgroup info
     global CGROUP_INFO
@@ -144,6 +175,22 @@ def run(run_config, component, scheduler, exp='', dry_run=False, **kwargs):
     if component == 'client':
 
         for call in start_feed_calls:
+            if enable_dutycycleimu:
+                # random start needs to be true to avoid synchronizations among clients
+                app = call['kwargs']['app']
+                if scheduler == 'baseline':
+                    call['kwargs']['random_start'] = random_start_map[app]
+                    call['kwargs']['client_type'] = 'baseline'
+                    call['kwargs']['dutycycle_sampling_on'] = False
+                else:
+                    call['kwargs']['random_start'] = random_start_map[app]
+                    call['kwargs']['client_type'] = device_type_map[app]
+                    call['kwargs']['dutycycle_sampling_on'] = dutycycle_sampling_on_map[app]
+            else:
+                # this is for pure resource allocation experiments. making sure the frames processed are the same.
+                call['kwargs']['random_start'] = False
+                call['kwargs']['client_type'] = 'video'
+                call['kwargs']['dutycycle_sampling_on'] = False
             call['kwargs']['exp'] = exp
             call['kwargs']['stop_after'] = run_config.get('stop_after', None)
             logger.debug("start feed: {}".format(call))

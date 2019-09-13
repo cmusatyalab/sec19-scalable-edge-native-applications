@@ -9,4 +9,4 @@ echo "Running $1 $2 exp=$3"
     sleep 2
     pkill -f harness.py
     docker rm -f $(docker ps --filter 'name=rmexp-harness-*' -a -q)
-) 2>&1 | tee log/$3.log
+) > log/$3.log 2>&1

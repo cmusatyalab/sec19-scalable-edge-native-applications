@@ -163,6 +163,12 @@ def get_pool_inst_idx(ss_df):
     return inst_idx
 
 
+def get_ikea_inst_idx(ss_df):
+    ss_df_inst = ss_df[ss_df['val'].str.contains('Detected', regex=False)]
+    inst_idx = ss_df_inst['index'].values.tolist()
+    return inst_idx
+
+
 def get_face_inst_idx(ss_df):
     labels = ['Edmund', 'Jan', 'Junjue', 'Tom', 'Wenlu', 'Zhuo']
     inst_idx = []
@@ -186,7 +192,8 @@ def get_inst_idx(app, df):
         'lego': get_lego_inst_idx,
         'pingpong': get_pingpong_inst_idx,
         'pool': get_pool_inst_idx,
-        'face': get_face_inst_idx
+        'face': get_face_inst_idx,
+        'ikea': get_ikea_inst_idx
     }
     inst_idx = func_map[app](df)
     return map(int, inst_idx)
@@ -227,7 +234,8 @@ def get_exp_app_inst_delay_for_client(exp, app, client_id, trace_id):
     exp_inst_idx = get_exp_app_inst_for_client(exp, app, client_id)
     delays = []
     # pool, and pingpong are just proc delays
-    if app == 'pool' or app == 'pingpong':
+    # ikea uses proc delays as well for now
+    if app == 'pool' or app == 'pingpong' or app == 'ikea':
         for inst_idx in exp_inst_idx:
             proc_delay = df[df['index'] == str(inst_idx)]['reply'].mean()
             delays.append(round(proc_delay))

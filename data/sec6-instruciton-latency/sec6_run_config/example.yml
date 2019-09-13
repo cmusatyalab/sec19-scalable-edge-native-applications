@@ -1,15 +1,7 @@
 clients:
   -
-    app: lego
-    video_uri: /home/junjuew/work/resource-management/data/lego-trace/1/video.mp4 
-    num: 2
-  -
-    app: lego
-    video_uri: /home/junjuew/work/resource-management/data/lego-trace/6/video.mp4 
-    num: 1
-  -
-    app: pingpong
-    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/10/video.mp4 
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/1/video.mp4 
     num: 1
 
 stop_after: 90

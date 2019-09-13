@@ -9,6 +9,9 @@ import cv2
 import numpy as np
 import pandas as pd
 from logzero import logger
+
+import lego
+import ikea
 from rmexp import client, schema, utils
 from rmexp.client import dutycycle
 
@@ -37,25 +40,39 @@ class VideoSensor(client.RTImageSequenceClient):
         raise NotImplementedError("VideoSensor does not allow ad-hoc query.")
 
 
+app_fsm = {
+    'lego': lego.fsm.LegoFSM,
+    # 'ikea': ikea.fsm.IkeaFSM,
+    # do not use fsm for now as ikea traces
+    # have only a few images that trigger state change, which makes it
+    # extremely difficult to detect once we're sampling
+    'ikea': None,
+    'pingpong': None,
+    'face': None,
+    'pool': None
+}
+
+
 class VideoAdaptiveSensor(VideoSensor):
     def __init__(self,
                  *args,
                  **kwargs):
         self._dutycycle_sampling = kwargs.pop('dutycycle_sampling_on')
+        self._dynamic_sampling_rate_fn = kwargs.pop('dynamic_sampling_rate_fn')
         super(VideoAdaptiveSensor, self).__init__(*args, **kwargs)
         # the timestamp of last passive phase trigger condition
         self._last_trigger_time = float("-inf")
         # the timestamp of last sample
         self._last_sample_time = float("-inf")
-        raise NotImplementedError(
-            'FSM now moved to application itself. needs to double-check what has changed.')
+        self.fsm = app_fsm[
+            self._app]() if app_fsm[self._app] is not None else None
 
     def set_passive_trigger(self):
         self._last_trigger_time = time.time()
         logger.debug('set passive trigger')
 
     def get_sample_period(self):
-        fr = dutycycle.lego_dynamic_sampling_rate(
+        fr = self._dynamic_sampling_rate_fn(
             time.time() - self._last_trigger_time)
         if abs(fr - self._fps) < 10e-4:
             fr = self._fps
@@ -72,9 +89,17 @@ class VideoAdaptiveSensor(VideoSensor):
         return (self.current_fid, frame)
 
     def process_reply(self, gabriel_msg):
-        self._fsm.process_reply(gabriel_msg)
-        if self._dutycycle_sampling and '!!State Change!!' in gabriel_msg.data:
-            self.set_passive_trigger()
+        if self.fsm:
+            logger.debug(
+                '(fsm) index: {}, symbolic state: {}'.format(gabriel_msg.index, gabriel_msg.data))
+            # get instructions from fsm
+            inst = self.fsm.add_symbolic_state_for_instruction(
+                gabriel_msg.data)
+            gabriel_msg.data = inst if inst is not None else ''
+            logger.debug('(fsm) instruction: {}'.format(gabriel_msg.data))
+            if self._dutycycle_sampling and '!!State Change!!' in gabriel_msg.data:
+                logger.debug('state change!')
+                self.set_passive_trigger()
 
 
 class IMUSensor(Sensor):

@@ -97,5 +97,30 @@ clients:
   -
     app: lego
     video_uri: /home/junjuew/work/resource-management/data/lego-trace/6/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/1/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/7/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/11/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/12/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/1/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/7/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/11/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/12/video-images 
 
+   
 stop_after: 90

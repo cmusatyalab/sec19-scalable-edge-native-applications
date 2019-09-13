@@ -7,7 +7,7 @@ import numpy as np
 class IkeaFSM(object):
     """A Ikea FSM based on CV processing results."""
 
-    def __init__(self, im_h, im_w):
+    def __init__(self, im_h=200, im_w=300):
         self._states = ["nothing", "base", "pipe", "shade", "buckle",
                         "blackcircle", "shadebase", "bulb", "bulbtop"]
         self.current_state = "nothing"

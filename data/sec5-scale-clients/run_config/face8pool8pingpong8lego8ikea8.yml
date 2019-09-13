@@ -12,10 +12,20 @@ clients:
     video_uri: /home/junjuew/work/resource-management/data/face-trace/3/video.mp4 
   -
     app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/4/video.mp4 
+  -
+    app: face
     video_uri: /home/junjuew/work/resource-management/data/face-trace/5/video.mp4 
   -
     app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/6/video.mp4 
+  -
+    app: face
     video_uri: /home/junjuew/work/resource-management/data/face-trace/7/video.mp4
+  -
+    app: face
+    video_uri: /home/junjuew/work/resource-management/data/face-trace/8/video.mp4 
+
 
   -
     app: pool
@@ -28,9 +38,11 @@ clients:
   -
     app: pool
     video_uri: /home/junjuew/work/resource-management/data/pool-trace/3/video.mp4 
+    num: 2
   -
     app: pool
-    video_uri: /home/junjuew/work/resource-management/data/pool-trace/4/video.mp4 
+    video_uri: /home/junjuew/work/resource-management/data/pool-trace/4/video.mp4
+    num: 2
 
   -
     app: pingpong
@@ -49,7 +61,13 @@ clients:
     video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/5/video.mp4 
   -
     app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/6/video.mp4 
+  -
+    app: pingpong
     video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/7/video.mp4 
+  -
+    app: pingpong
+    video_uri: /home/junjuew/work/resource-management/data/pingpong-trace/8/video.mp4 
 
   -
     app: lego
@@ -68,7 +86,37 @@ clients:
     video_uri: /home/junjuew/work/resource-management/data/lego-trace/5/video.mp4 
   -
     app: lego
-    video_uri: /home/junjuew/work/resource-management/data/lego-trace/7/video.mp4 
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/6/video.mp4 
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/7/video.mp4
+  -
+    app: lego
+    video_uri: /home/junjuew/work/resource-management/data/lego-trace/8/video.mp4
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/1/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/7/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/11/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/12/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/1/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/7/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/11/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/12/video-images 
 
    
 stop_after: 90

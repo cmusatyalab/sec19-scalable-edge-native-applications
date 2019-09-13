@@ -287,3 +287,10 @@ ExpLatency: Contains section 5 experimental results.
 ## Hand labeled dataset
 
 Are contained in dutycycle.ipynb
+
+## Experiment names
+
+Section 6 experiments with dutycycleimu on face, pingpong, pool, lego, adn ikea:
+
+sec6-fppli4-baseline
+sec6-fppli4-cpushares

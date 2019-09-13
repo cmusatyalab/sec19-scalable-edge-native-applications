@@ -181,7 +181,7 @@ class RTVideoClient(VideoClient):
                 raise ValueError("Failed to get another frame.")
 
         logger.debug('[proc {}] RTVideoClient acquired frame id {} pos {} of size: {}. get frame {} ms'.format(
-            os.getpid(), self._fid - 1, self.current_fid, img.shape, int(1000*(time.time()-tic))))
+            os.getpid(), self._fid - 1, self.current_fid, img.shape, int(1000 * (time.time() - tic))))
         return img
 
 
@@ -200,6 +200,7 @@ class RTImageSequenceClient(RTVideoClient):
             glob.glob(os.path.join(self.video_uri, '*.jpg')))
         assert self._cam_frame_cnt > 0, '{} has no frames. Is your video_uri correct?'.format(
             video_uri)
+        logger.info('random_start: {}'.format(random_start))
         if random_start:
             self._start_fid = random.randint(0, self._cam_frame_cnt - 1)
         self._fid = self._start_fid
@@ -279,7 +280,7 @@ class RTImageSequenceClient(RTVideoClient):
                 raise ValueError("Failed to get another frame.")
 
         logger.info('[proc {}] RTImageSequenceClient acquired frame id {} pos {}. get frame {} ms'.format(
-            os.getpid(), self._fid - 1, self.current_fid, int(1000*(time.time()-tic))))
+            os.getpid(), self._fid - 1, self.current_fid, int(1000 * (time.time() - tic))))
         return img
 
 

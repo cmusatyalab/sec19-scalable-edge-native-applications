@@ -24,6 +24,7 @@ clients:
   -
     app: pool
     video_uri: /home/junjuew/work/resource-management/data/pool-trace/2/video.mp4 
+    num: 2
   -
     app: pool
     video_uri: /home/junjuew/work/resource-management/data/pool-trace/3/video.mp4 
@@ -65,6 +66,21 @@ clients:
   -
     app: lego
     video_uri: /home/junjuew/work/resource-management/data/lego-trace/7/video.mp4 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/1/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/7/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/11/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/12/video-images 
+  -
+    app: ikea
+    video_uri: /home/junjuew/work/resource-management/data/ikea-trace/1/video-images 
 
    
 stop_after: 90

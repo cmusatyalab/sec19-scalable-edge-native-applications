@@ -30,5 +30,14 @@ def ikea_dynamic_sampling_rate(x):
         x, mu, sigma), 1.0)
 
 
+dynamic_sampling_rate = {
+    'lego': lego_dynamic_sampling_rate,
+    'ikea': ikea_dynamic_sampling_rate,
+    'face': lambda x: 30.0,
+    'pingpong': lambda x: 30.0,
+    'pool': lambda x: 30.0,
+}
+
+
 if __name__ == "__main__":
     pass

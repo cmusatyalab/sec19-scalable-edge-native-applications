@@ -15,7 +15,7 @@ import logzero
 from lego import lego_cv
 from logzero import logger
 from rmexp import client, config, dbutils, gabriel_pb2, networkutil, utils
-from rmexp.client import emulator
+from rmexp.client import emulator, dutycycle
 from rmexp.client.video import RTImageSequenceClient, RTVideoClient
 from rmexp.schema import models
 from rmexp.app_utility_profile import app_default_utility_func
@@ -136,7 +136,9 @@ def start_single_feed_token(video_uri,
             video_uri=video_uri,
             network_connector=nc,
             loop=loop,
-            random_start=random_start)
+            random_start=random_start,
+            dynamic_sampling_rate_fn=dutycycle.dynamic_sampling_rate[app]
+        )
         device = emulator.CameraTimedMobileDevice(
             sensors=[cam]
         )
@@ -149,7 +151,9 @@ def start_single_feed_token(video_uri,
             video_uri=video_uri,
             network_connector=nc,
             loop=loop,
-            random_start=random_start)
+            random_start=random_start,
+            dynamic_sampling_rate_fn=dutycycle.dynamic_sampling_rate[app]
+        )
         device = emulator.CameraTimedMobileDevice(
             sensors=[cam]
         )
@@ -162,7 +166,9 @@ def start_single_feed_token(video_uri,
             video_uri=video_uri,
             network_connector=nc,
             loop=loop,
-            random_start=random_start)
+            random_start=random_start,
+            dynamic_sampling_rate_fn=dutycycle.dynamic_sampling_rate[app]
+        )
         imu = emulator.IMUSensor(trace)
         device = emulator.IMUSuppresedCameraTimedMobileDevice(
             sensors=[cam, imu]
