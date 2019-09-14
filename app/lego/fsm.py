@@ -3,9 +3,11 @@
 
 
 class LegoFSM(object):
-    def __init__(self):
+    def __init__(self, cnt_to_transition=3):
+        """cnt_to_transition: min cumulative/consecutive frames needed for a transition
+        """
         self._state = None
-        self._cnt_to_transition = 3
+        self._cnt_to_transition = cnt_to_transition
         self._staging_cnt = {}
         self._staging_ss = None
 
