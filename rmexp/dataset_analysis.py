@@ -274,5 +274,45 @@ def run_fsm_on_ss_for_inst(fsm, ss):
     return ss['val'].apply(fsm.add_symbolic_state_for_instruction)
 
 
+def run_fsm_on_ss_for_samples_with_dynamic_rate(fsm, ss, dynamic_sampling_rate_func):
+    """Simulate dynamic sampling rate.
+    sample_rate_func: function of dynamic sample rate. Input should the the time after a given instruction.
+    max_mute_t: maximum time this sample_rate_func is in place
+
+    Return simulated trace, stage_frame_idx
+    """
+    last_inst_t = -np.inf  # timestamp of last instruction
+    cur_t = 0.0  # current timestamp in (s)
+    # timestamp to get next frame. => no frame is sampled when cur_t < next_frame_t
+    next_frame_t = 0.0
+    trace_frame_rate = 30.0  # frame rate of trace
+    # time between two adjacent records in the traces
+    trace_frame_interval = 1.0 / trace_frame_rate
+    cur_sample_rate = dynamic_sampling_rate_func(cur_t - last_inst_t)
+
+    sampled_ss = []
+    detected_stages = []
+    for fid, fss in ss.iterrows():
+        # when its' time to sample
+        if cur_t >= next_frame_t:
+            # sample
+            sampled_ss.append(fss)
+            # get instruction
+            inst = fsm.add_symbolic_state_for_instruction(fss['val'])
+            # state transition occurred
+            if inst is not None:
+                cur_sample_rate = dynamic_sampling_rate_func(
+                    1e-6)  # numerical approximation
+                last_inst_t = cur_t
+                detected_stages.append(fss['index'])
+            else:
+                cur_sample_rate = dynamic_sampling_rate_func(
+                    cur_t - last_inst_t)
+            next_frame_t = cur_t + 1.0 / cur_sample_rate
+        # advance time
+        cur_t += trace_frame_interval
+    return pd.DataFrame(sampled_ss), detected_stages
+
+
 if __name__ == "__main__":
     fire.Fire()
