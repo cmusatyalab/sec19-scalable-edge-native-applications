@@ -268,5 +268,11 @@ def get_exp_app_inst_delay(exp, app):
     return delays
 
 
+def run_fsm_on_ss_for_inst(fsm, ss):
+    """Run FSM with a sequence of CV symbolic states as inputs and get instructions.
+    """
+    return ss['val'].apply(fsm.add_symbolic_state_for_instruction)
+
+
 if __name__ == "__main__":
     fire.Fire()

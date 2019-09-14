@@ -8,6 +8,11 @@ class IkeaFSM(object):
     """A Ikea FSM based on CV processing results."""
 
     def __init__(self, im_h=200, im_w=300):
+        """
+        im_h, im_w: image height and width are needed as they are used for relative resolution calculation.
+        Note: in IKEA's trace collection: 
+        Traces 1, 13, 14 has dimension (200,300) while others' dimensions are (168, 300)
+        """
         self._states = ["nothing", "base", "pipe", "shade", "buckle",
                         "blackcircle", "shadebase", "bulb", "bulbtop"]
         self.current_state = "nothing"
