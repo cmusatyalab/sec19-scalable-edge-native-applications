@@ -18,7 +18,7 @@ from rmexp import client, config, dbutils, gabriel_pb2, networkutil, utils
 from rmexp.client import emulator, dutycycle
 from rmexp.client.video import RTImageSequenceClient, RTVideoClient
 from rmexp.schema import models
-from rmexp.app_utility_profile import app_default_utility_func
+from rmexp import app_utility_func
 
 # def start_single_feed(video_uri, fps, broker_type, broker_uri):
 #     from twisted.internet import reactor, task
@@ -187,7 +187,7 @@ def start_single_feed_token(video_uri,
             'trace_id': trace_id,
             'app': app
         }
-        util_fn = app_default_utility_func[app]
+        util_fn = app_utility_func.func_dict[app]
         run_loop(vc, nc, tokens_cap, dbobj=dbobj,
                  util_fn=util_fn, stop_after=stop_after)
 
