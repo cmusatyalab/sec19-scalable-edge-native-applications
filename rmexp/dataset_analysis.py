@@ -184,7 +184,7 @@ def get_face_inst_idx(ss_df):
 
 
 def get_inst_idx(app, df):
-    """Get instruction indexs from df. 
+    """Get instruction indexs from df.
     df must have a column named val that contains processed results.
     and index that represents frame ids
     """
@@ -235,18 +235,29 @@ def get_exp_app_inst_delay_for_client(exp, app, client_id, trace_id):
     delays = []
     # pool, and pingpong are just proc delays
     # ikea uses proc delays as well for now
-    if app == 'pool' or app == 'pingpong' or app == 'ikea':
+    if app == 'pool' or app == 'pingpong':
         for inst_idx in exp_inst_idx:
             proc_delay = df[df['index'] == str(inst_idx)]['reply'].mean()
             delays.append(round(proc_delay))
-        return exp_inst_idx, delays
+        return delays
     else:
+        # for each state in the ground truth, try to find a corresponding instruction
+        # this is done because for IKEA, the results may not actually be a state-change.
+        # but we're considering a successsful detection of any object to be a state-change as
+        # the video itself is not giving many chances for CV to produce the correct CV state
         gt_idx = np.array(get_gt_inst_idx(app, trace_id))
+        prev_gt_idx = -1
         for inst_idx in exp_inst_idx:
-            frame_delay = inst_idx - gt_idx[gt_idx <= inst_idx][-1]
+            matched_gt_idx = gt_idx[gt_idx <= inst_idx][-1]
+            # if a ground truth instruction has been matched then
+            # do not match it again.
+            if matched_gt_idx <= prev_gt_idx:
+                continue
+            frame_delay = inst_idx - matched_gt_idx
+            prev_gt_idx = matched_gt_idx
             proc_delay = df[df['index'] == str(inst_idx)]['reply'].mean()
             delays.append(round(frame_delay * 1000. / 30. + proc_delay))
-        return exp_inst_idx, delays
+        return delays
 
 
 def get_exp_app_inst_delay(exp, app):
