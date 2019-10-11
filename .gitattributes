@@ -1,7 +1,6 @@
-data/face-trace filter=lfs diff=lfs merge=lfs -text
-data/ikea-trace filter=lfs diff=lfs merge=lfs -text
-data/lego-trace filter=lfs diff=lfs merge=lfs -text
-data/mysql-bk filter=lfs diff=lfs merge=lfs -text
-data/pingpong-trace filter=lfs diff=lfs merge=lfs -text
-data/pool-trace filter=lfs diff=lfs merge=lfs -text
+data/ikea-trace/** filter=lfs diff=lfs merge=lfs -text
+data/lego-trace/** filter=lfs diff=lfs merge=lfs -text
+data/mysql-bk/** filter=lfs diff=lfs merge=lfs -text
+data/pingpong-trace/** filter=lfs diff=lfs merge=lfs -text
+data/pool-trace/** filter=lfs diff=lfs merge=lfs -text
 data/face-trace/** filter=lfs diff=lfs merge=lfs -text
