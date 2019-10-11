@@ -70,7 +70,6 @@ data/*trace*
 
 third_party/dlib
 third_party/models
-third_party/trace-app/VideoSensorRecord
 
 data/mysql-bk
 
