@@ -21,6 +21,15 @@
 * [third_party](third_party): Third party libaries required: dlib, tensorflow object detection API, and trace-app
   * [third_party/trace-app](third_party/trace-app): android app to record video and sensor data to collect traces
 
+## Installation
+
+1. install [git lfs](https://git-lfs.github.com)
+2. Clone this repository
+
+```bash
+git clone https://github.com/junjuew/edge-resource-management.git
+```
+
 ## Infrastructure
 
 * machine: cloudlet002
