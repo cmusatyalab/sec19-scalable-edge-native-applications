@@ -1,0 +1,859 @@
+sec6-res-util-pingpong-c2m2,,3338,,pingpong,,9,,194,,394,,420,,1.71661376953e-06,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,3339,,pingpong,,9,,329,,532,,477,,3.30218664411e-08,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,3340,,pingpong,,9,,468,,516,,484,,2.03273431936e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3351,,pingpong,,9,,343,,404,,350,,0.0002197265625,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3354,,pingpong,,9,,329,,383,,327,,0.00108206051954,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3355,,pingpong,,9,,345,,367,,333,,0.000713893707735,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3363,,pingpong,,9,,201,,222,,168,,0.999743710938,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3365,,pingpong,,9,,219,,242,,188,,0.994909335937,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3366,,pingpong,,9,,219,,242,,231,,0.839729692383,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3369,,pingpong,,9,,270,,294,,241,,0.419864846192,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3372,,pingpong,,9,,342,,397,,343,,0.000356946853867,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3374,,pingpong,,9,,303,,324,,292,,0.0122421172964,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3378,,pingpong,,9,,291,,315,,260,,0.1125,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3383,,pingpong,,9,,346,,364,,412,,2.98879816805e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3384,,pingpong,,9,,328,,390,,400,,6.86645507813e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3387,,pingpong,,9,,325,,392,,417,,2.11339945223e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3397,,pingpong,,9,,371,,394,,1459,,9.07101828412e-38,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3400,,pingpong,,9,,380,,403,,1379,,2.32218068074e-35,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3441,,pingpong,,9,,296,,324,,270,,0.05625,,Cannot find table. Detected table too small: 0.013056
+sec6-res-util-pingpong-c2m2,,3442,,pingpong,,9,,253,,285,,232,,0.783495506967,,Cannot find table. Detected table too small: 0.013960
+sec6-res-util-pingpong-c2m2,,3443,,pingpong,,9,,262,,287,,285,,0.0198873782209,,Cannot find table. Detected table too small: 0.014272
+sec6-res-util-pingpong-c2m2,,3450,,pingpong,,9,,466,,499,,517,,2.06386665257e-09,,Cannot find table. Detected table too small: 0.015431
+sec6-res-util-pingpong-c2m2,,3451,,pingpong,,9,,487,,560,,508,,3.85131135396e-09,,Cannot find table. Detected table too small: 0.021094
+sec6-res-util-pingpong-c2m2,,3452,,pingpong,,9,,485,,557,,1195,,8.03244809512e-30,,Cannot find table. Detected table too small: 0.009514
+sec6-res-util-pingpong-c2m2,,3487,,pingpong,,9,,410,,481,,460,,1.07288360596e-07,,Cannot find table. Detected table too small: 0.059054
+sec6-res-util-pingpong-c2m2,,3488,,pingpong,,9,,384,,454,,424,,1.30094996439e-06,,Cannot find table. Table top line tilted too much
+sec6-res-util-pingpong-c2m2,,3489,,pingpong,,9,,508,,543,,488,,1.54052454158e-08,,Cannot find table. Table top line tilted too much
+sec6-res-util-pingpong-c2m2,,3501,,pingpong,,9,,418,,521,,561,,9.77574023864e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3503,,pingpong,,9,,448,,633,,586,,1.72812305347e-11,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,3505,,pingpong,,9,,568,,768,,713,,2.59713017926e-15,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,3519,,pingpong,,9,,604,,665,,661,,9.5466213268e-14,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3521,,pingpong,,9,,645,,668,,642,,3.56292506224e-13,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3527,,pingpong,,9,,460,,516,,502,,5.83749642198e-09,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,3541,,pingpong,,9,,452,,482,,454,,1.62618745549e-07,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,3542,,pingpong,,9,,439,,520,,464,,8.13093727743e-08,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,3543,,pingpong,,9,,431,,508,,460,,1.07288360596e-07,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,3556,,pingpong,,9,,439,,476,,475,,3.79321636598e-08,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3557,,pingpong,,9,,424,,455,,459,,1.14988817725e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3558,,pingpong,,9,,435,,526,,516,,2.21199750844e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3572,,pingpong,,9,,311,,416,,452,,1.86799885503e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3573,,pingpong,,9,,398,,598,,547,,2.57983331571e-10,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,3574,,pingpong,,9,,478,,591,,566,,6.91249221386e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3587,,pingpong,,9,,550,,653,,681,,2.3866553317e-14,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3592,,pingpong,,9,,586,,699,,645,,2.89399441985e-13,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3591,,pingpong,,9,,533,,742,,715,,2.2609331405e-15,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,3609,,pingpong,,9,,516,,615,,669,,5.48309410694e-14,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3612,,pingpong,,9,,508,,609,,566,,6.91249221386e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3613,,pingpong,,9,,489,,585,,543,,3.40411046855e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3630,,pingpong,,9,,413,,490,,453,,1.7429045599e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3633,,pingpong,,9,,516,,551,,497,,8.25546661027e-09,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3632,,pingpong,,9,,445,,646,,592,,1.14013601992e-11,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,3645,,pingpong,,9,,366,,461,,466,,7.07839202699e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3648,,pingpong,,9,,304,,411,,378,,3.15499426116e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3650,,pingpong,,9,,332,,431,,409,,3.67964216722e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3662,,pingpong,,9,,434,,465,,440,,4.29153442383e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3661,,pingpong,,9,,285,,481,,459,,1.14988817725e-07,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,3663,,pingpong,,9,,422,,488,,475,,3.79321636598e-08,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3676,,pingpong,,9,,169,,275,,220,,0.941381835938,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3678,,pingpong,,9,,227,,324,,268,,0.0646142824686,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3679,,pingpong,,9,,284,,317,,261,,0.104966211548,,Cannot find table. Detected table too small: 0.052643
+sec6-res-util-pingpong-c2m2,,3685,,pingpong,,9,,299,,374,,383,,2.23091783667e-05,,Cannot find table. Detected table too small: 0.040392
+sec6-res-util-pingpong-c2m2,,3686,,pingpong,,9,,315,,351,,352,,0.000191283082755,,Cannot find table. Detected table too small: 0.041157
+sec6-res-util-pingpong-c2m2,,3687,,pingpong,,9,,308,,410,,368,,6.30998852232e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3698,,pingpong,,9,,237,,322,,360,,0.00010986328125,,Cannot find table. Detected table too small: 0.046006
+sec6-res-util-pingpong-c2m2,,3699,,pingpong,,9,,253,,329,,355,,0.000155370142351,,Cannot find table. Detected table too small: 0.035640
+sec6-res-util-pingpong-c2m2,,3700,,pingpong,,9,,291,,325,,340,,0.000439453125,,Cannot find table. Detected table too small: 0.034219
+sec6-res-util-pingpong-c2m2,,3710,,pingpong,,9,,249,,349,,346,,0.000289930937426,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3713,,pingpong,,9,,362,,460,,406,,4.53017089728e-06,,Pingpong outside the table. Lost track of ball: 153
+sec6-res-util-pingpong-c2m2,,3712,,pingpong,,9,,332,,531,,518,,1.92565567698e-09,,Found table, pingpong, and opponent. No instruction. oppo on right, last played left.
+sec6-res-util-pingpong-c2m2,,3722,,pingpong,,9,,419,,521,,553,,1.70205523428e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3728,,pingpong,,9,,384,,458,,406,,4.53017089728e-06,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3726,,pingpong,,9,,398,,507,,520,,1.67638063431e-09,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3742,,pingpong,,9,,357,,451,,423,,1.39432364792e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3743,,pingpong,,9,,414,,457,,447,,2.64174931529e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3741,,pingpong,,9,,378,,584,,540,,4.19095158577e-10,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,3756,,pingpong,,9,,467,,502,,556,,1.38249844277e-10,,Cannot find table. Detected table too small: 0.039523
+sec6-res-util-pingpong-c2m2,,3758,,pingpong,,9,,460,,539,,532,,7.29687052748e-10,,Cannot find table. Detected table too small: 0.036948
+sec6-res-util-pingpong-c2m2,,3759,,pingpong,,9,,446,,525,,507,,4.12773330514e-09,,Cannot find table. Detected table too small: 0.033911
+sec6-res-util-pingpong-c2m2,,3775,,pingpong,,9,,189,,286,,232,,0.783495506967,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3776,,pingpong,,9,,243,,348,,292,,0.0122421172964,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3777,,pingpong,,9,,250,,449,,396,,9.06034179455e-06,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,3783,,pingpong,,9,,295,,402,,348,,0.000252399540893,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3786,,pingpong,,9,,243,,346,,292,,0.0122421172964,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3789,,pingpong,,9,,216,,462,,409,,3.67964216722e-06,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,3797,,pingpong,,9,,378,,578,,571,,4.88787011932e-11,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,3796,,pingpong,,9,,392,,596,,592,,1.14013601992e-11,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,3803,,pingpong,,9,,436,,639,,586,,1.72812305347e-11,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,3815,,pingpong,,9,,447,,482,,428,,9.85935706613e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3816,,pingpong,,9,,433,,534,,479,,2.87472044314e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3822,,pingpong,,9,,506,,686,,728,,9.18224180688e-16,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,3829,,pingpong,,9,,499,,570,,556,,1.38249844277e-10,,Cannot find table. Detected table too small: 0.039981
+sec6-res-util-pingpong-c2m2,,3831,,pingpong,,9,,492,,517,,495,,9.48304091495e-09,,Cannot find table. Detected table too small: 0.023005
+sec6-res-util-pingpong-c2m2,,3845,,pingpong,,9,,252,,321,,267,,0.0692518732507,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3847,,pingpong,,9,,288,,498,,444,,3.25237491097e-07,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,3848,,pingpong,,9,,342,,533,,478,,3.08104908317e-08,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,3855,,pingpong,,9,,624,,718,,763,,8.11603181017e-17,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3861,,pingpong,,9,,465,,576,,541,,3.91029609546e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3863,,pingpong,,9,,459,,658,,601,,6.10983764915e-12,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,3881,,pingpong,,9,,290,,377,,422,,1.49439908403e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3879,,pingpong,,9,,308,,408,,458,,1.23241963327e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3882,,pingpong,,9,,354,,446,,408,,3.94374282645e-06,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3896,,pingpong,,9,,433,,539,,531,,7.82059219091e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3895,,pingpong,,9,,405,,591,,553,,1.70205523428e-10,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,3897,,pingpong,,9,,522,,710,,655,,1.44699720992e-13,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,3913,,pingpong,,9,,431,,469,,446,,2.8313568108e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3914,,pingpong,,9,,449,,544,,487,,1.65109332205e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3917,,pingpong,,9,,441,,640,,585,,1.8521564287e-11,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,3928,,pingpong,,9,,364,,467,,413,,2.78864729584e-06,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3930,,pingpong,,9,,400,,505,,448,,2.46483926653e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3936,,pingpong,,9,,273,,474,,420,,1.71661376953e-06,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,3942,,pingpong,,9,,278,,387,,334,,0.000666086381767,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3944,,pingpong,,9,,341,,444,,390,,1.37329101563e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3950,,pingpong,,9,,307,,407,,353,,0.000178473426934,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3954,,pingpong,,9,,226,,330,,298,,0.00807678530857,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3957,,pingpong,,9,,306,,391,,338,,0.000504799081786,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,3963,,pingpong,,9,,382,,416,,364,,8.32607977209e-05,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3964,,pingpong,,9,,386,,464,,409,,3.67964216722e-06,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,3968,,pingpong,,9,,317,,407,,352,,0.000191283082755,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3975,,pingpong,,9,,275,,378,,324,,0.00133217276353,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3977,,pingpong,,9,,329,,430,,374,,4.16303988605e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3980,,pingpong,,9,,403,,438,,385,,1.94212677938e-05,,Cannot find table. Detected table too small: 0.044955
+sec6-res-util-pingpong-c2m2,,3986,,pingpong,,9,,415,,521,,560,,1.04773789644e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,3989,,pingpong,,9,,419,,522,,499,,7.18680110784e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,3993,,pingpong,,9,,278,,488,,432,,7.47199542014e-07,,Found table, pingpong, and opponent. No instruction. oppo on right, last played left.
+sec6-res-util-pingpong-c2m2,,4005,,pingpong,,9,,303,,399,,355,,0.000155370142351,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4006,,pingpong,,9,,286,,391,,337,,0.000541030259771,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4008,,pingpong,,9,,313,,385,,332,,0.000765132331022,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4017,,pingpong,,9,,210,,311,,302,,0.00612105864818,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4019,,pingpong,,9,,334,,389,,332,,0.000765132331022,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4020,,pingpong,,9,,325,,532,,479,,2.87472044314e-08,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,4028,,pingpong,,9,,529,,726,,724,,1.21160407028e-15,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,4029,,pingpong,,9,,541,,733,,700,,6.39488462184e-15,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,4035,,pingpong,,9,,517,,613,,558,,1.20353479811e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4051,,pingpong,,9,,476,,517,,501,,6.25647375273e-09,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,4052,,pingpong,,9,,475,,553,,539,,4.4917506924e-10,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,4053,,pingpong,,9,,486,,516,,493,,1.08931534994e-08,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4067,,pingpong,,9,,406,,512,,534,,6.35229474799e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4069,,pingpong,,9,,396,,507,,513,,2.72328837484e-09,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4070,,pingpong,,9,,460,,563,,542,,3.64843526374e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4085,,pingpong,,9,,363,,456,,465,,7.58643273196e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4086,,pingpong,,9,,439,,515,,461,,1.00103580044e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4087,,pingpong,,9,,425,,529,,520,,1.67638063431e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4100,,pingpong,,9,,492,,532,,549,,2.2458753462e-10,,Cannot find table. Angle between two side edge not right
+sec6-res-util-pingpong-c2m2,,4103,,pingpong,,9,,492,,565,,512,,2.91874821099e-09,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4102,,pingpong,,9,,487,,595,,540,,4.19095158577e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4119,,pingpong,,9,,445,,581,,561,,9.77574023864e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4120,,pingpong,,9,,485,,590,,547,,2.57983331571e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4121,,pingpong,,9,,544,,691,,636,,5.40038454208e-13,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,4137,,pingpong,,9,,368,,410,,452,,1.86799885503e-07,,Cannot find table. Angle between two side edge not right
+sec6-res-util-pingpong-c2m2,,4138,,pingpong,,9,,386,,485,,432,,7.47199542014e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4140,,pingpong,,9,,392,,586,,532,,7.29687052748e-10,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,4152,,pingpong,,9,,298,,374,,320,,0.0017578125,,Cannot find table. Detected table too small: 0.042773
+sec6-res-util-pingpong-c2m2,,4154,,pingpong,,9,,337,,372,,358,,0.000126199770446,,Cannot find table. Detected table too small: 0.054385
+sec6-res-util-pingpong-c2m2,,4158,,pingpong,,9,,248,,338,,281,,0.026241552887,,Cannot find table. Angle between two side edge not right
+sec6-res-util-pingpong-c2m2,,4164,,pingpong,,9,,224,,290,,236,,0.593778559848,,Cannot find table. Detected table too small: 0.042307
+sec6-res-util-pingpong-c2m2,,4165,,pingpong,,9,,246,,274,,252,,0.195873876742,,Cannot find table. Detected table too small: 0.033524
+sec6-res-util-pingpong-c2m2,,4167,,pingpong,,9,,221,,254,,218,,0.947799375,,Cannot find table. Detected table too small: 0.047383
+sec6-res-util-pingpong-c2m2,,4172,,pingpong,,9,,214,,244,,189,,0.994351950684,,Cannot find table. Detected table too small: 0.028967
+sec6-res-util-pingpong-c2m2,,4174,,pingpong,,9,,196,,225,,173,,0.999316794434,,Cannot find table. Detected table too small: 0.026531
+sec6-res-util-pingpong-c2m2,,4175,,pingpong,,9,,187,,242,,210,,0.968359375,,Cannot find table. Detected table too small: 0.031795
+sec6-res-util-pingpong-c2m2,,4180,,pingpong,,9,,243,,274,,219,,0.944660349121,,Cannot find table. Detected table too small: 0.019581
+sec6-res-util-pingpong-c2m2,,4181,,pingpong,,9,,256,,330,,273,,0.045689197295,,Cannot find table. Detected table too small: 0.040570
+sec6-res-util-pingpong-c2m2,,4182,,pingpong,,9,,324,,398,,400,,6.86645507813e-06,,Cannot find table. Detected table too small: 0.039954
+sec6-res-util-pingpong-c2m2,,4190,,pingpong,,9,,272,,346,,292,,0.0122421172964,,Cannot find table. Detected table too small: 0.041404
+sec6-res-util-pingpong-c2m2,,4188,,pingpong,,9,,306,,409,,379,,2.94371373377e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4195,,pingpong,,9,,274,,342,,288,,0.0161535706171,,Cannot find table. Detected table too small: 0.027032
+sec6-res-util-pingpong-c2m2,,4200,,pingpong,,9,,221,,297,,242,,0.391747753483,,Cannot find table. Detected table too small: 0.047944
+sec6-res-util-pingpong-c2m2,,4201,,pingpong,,9,,215,,283,,230,,0.9,,Cannot find table. Detected table too small: 0.042529
+sec6-res-util-pingpong-c2m2,,4205,,pingpong,,9,,223,,297,,242,,0.391747753483,,Cannot find table. Detected table too small: 0.055498
+sec6-res-util-pingpong-c2m2,,4209,,pingpong,,9,,221,,292,,237,,0.554014986005,,Cannot find table. Detected table too small: 0.020798
+sec6-res-util-pingpong-c2m2,,4210,,pingpong,,9,,210,,285,,230,,0.9,,Cannot find table. Detected table too small: 0.020806
+sec6-res-util-pingpong-c2m2,,4214,,pingpong,,9,,247,,322,,267,,0.0692518732507,,Cannot find table. Detected table too small: 0.028132
+sec6-res-util-pingpong-c2m2,,4217,,pingpong,,9,,337,,368,,313,,0.00285557483094,,Cannot find table. Detected table too small: 0.029893
+sec6-res-util-pingpong-c2m2,,4218,,pingpong,,9,,308,,388,,333,,0.000713893707735,,Cannot find table. Detected table too small: 0.026869
+sec6-res-util-pingpong-c2m2,,4224,,pingpong,,9,,236,,307,,253,,0.18275678918,,Cannot find table. Detected table too small: 0.011123
+sec6-res-util-pingpong-c2m2,,4227,,pingpong,,9,,307,,379,,326,,0.0011597237497,,Cannot find table. Detected table too small: 0.009628
+sec6-res-util-pingpong-c2m2,,4229,,pingpong,,9,,284,,354,,300,,0.00703125,,Cannot find table. Detected table too small: 0.010255
+sec6-res-util-pingpong-c2m2,,4233,,pingpong,,9,,313,,384,,331,,0.000820048527718,,Cannot find table. Detected table too small: 0.008493
+sec6-res-util-pingpong-c2m2,,4239,,pingpong,,9,,223,,277,,221,,0.937959763184,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4240,,pingpong,,9,,259,,282,,251,,0.209932423096,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4244,,pingpong,,9,,120,,193,,137,,1.0,,Cannot find table. Detected table too small: 0.004014
+sec6-res-util-pingpong-c2m2,,4247,,pingpong,,9,,109,,141,,84,,1.0,,Cannot find table. Detected table too small: 0.011378
+sec6-res-util-pingpong-c2m2,,4248,,pingpong,,9,,106,,133,,96,,1.0,,Cannot find table. Detected table too small: 0.010628
+sec6-res-util-pingpong-c2m2,,4250,,pingpong,,9,,260,,335,,306,,0.00463889499881,,Cannot find table. Detected table too small: 0.011147
+sec6-res-util-pingpong-c2m2,,4251,,pingpong,,9,,292,,320,,267,,0.0692518732507,,Cannot find table. Detected table too small: 0.014484
+sec6-res-util-pingpong-c2m2,,4252,,pingpong,,9,,283,,314,,310,,0.003515625,,Cannot find table. Detected table too small: 0.006916
+sec6-res-util-pingpong-c2m2,,4260,,pingpong,,9,,328,,389,,363,,8.92367134669e-05,,Cannot find table. Detected table too small: 0.047295
+sec6-res-util-pingpong-c2m2,,4261,,pingpong,,9,,372,,407,,352,,0.000191283082755,,Cannot find table. Detected table too small: 0.055858
+sec6-res-util-pingpong-c2m2,,4262,,pingpong,,9,,354,,465,,411,,3.2033145614e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4272,,pingpong,,9,,260,,369,,346,,0.000289930937426,,Pingpong outside the table. Lost track of ball: 129
+sec6-res-util-pingpong-c2m2,,4274,,pingpong,,9,,260,,370,,334,,0.000666086381767,,Pingpong outside the table. Lost track of ball: 149
+sec6-res-util-pingpong-c2m2,,4275,,pingpong,,9,,324,,424,,370,,5.4931640625e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4285,,pingpong,,9,,350,,449,,455,,1.51728654639e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4286,,pingpong,,9,,385,,482,,444,,3.25237491097e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4287,,pingpong,,9,,418,,523,,479,,2.87472044314e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4300,,pingpong,,9,,442,,476,,457,,1.32087465764e-07,,Cannot find table. Detected table too small: 0.033603
+sec6-res-util-pingpong-c2m2,,4301,,pingpong,,9,,419,,452,,433,,6.9716182396e-07,,Cannot find table. Detected table too small: 0.035967
+sec6-res-util-pingpong-c2m2,,4302,,pingpong,,9,,415,,488,,472,,4.66999713759e-08,,Cannot find table. Detected table too small: 0.040440
+sec6-res-util-pingpong-c2m2,,4315,,pingpong,,9,,330,,364,,350,,0.0002197265625,,Cannot find table. Detected table too small: 0.010277
+sec6-res-util-pingpong-c2m2,,4317,,pingpong,,9,,321,,352,,338,,0.000504799081786,,Cannot find table. Detected table too small: 0.010290
+sec6-res-util-pingpong-c2m2,,4318,,pingpong,,9,,317,,394,,373,,4.46183567334e-05,,Cannot find table. Detected table too small: 0.008627
+sec6-res-util-pingpong-c2m2,,4328,,pingpong,,9,,354,,432,,457,,1.32087465764e-07,,Cannot find table. Detected table too small: 0.007312
+sec6-res-util-pingpong-c2m2,,4329,,pingpong,,9,,412,,441,,446,,2.8313568108e-07,,Cannot find table. Detected table too small: 0.007607
+sec6-res-util-pingpong-c2m2,,4330,,pingpong,,9,,392,,424,,424,,1.30094996439e-06,,Cannot find table. Detected table too small: 0.008287
+sec6-res-util-pingpong-c2m2,,4343,,pingpong,,9,,249,,322,,351,,0.000205012131929,,Cannot find table. Detected table too small: 0.019586
+sec6-res-util-pingpong-c2m2,,4344,,pingpong,,9,,293,,327,,339,,0.000470994197404,,Cannot find table. Detected table too small: 0.013151
+sec6-res-util-pingpong-c2m2,,4345,,pingpong,,9,,291,,369,,327,,0.00108206051954,,Cannot find table. Detected table too small: 0.011851
+sec6-res-util-pingpong-c2m2,,4355,,pingpong,,9,,238,,312,,257,,0.138503746501,,Cannot find table. Detected table too small: 0.009258
+sec6-res-util-pingpong-c2m2,,4357,,pingpong,,9,,227,,295,,243,,0.36551357836,,Cannot find table. Detected table too small: 0.008535
+sec6-res-util-pingpong-c2m2,,4358,,pingpong,,9,,270,,347,,291,,0.0131207764435,,Cannot find table. Detected table too small: 0.014548
+sec6-res-util-pingpong-c2m2,,4365,,pingpong,,9,,387,,418,,453,,1.7429045599e-07,,Cannot find table. Detected table too small: 0.004471
+sec6-res-util-pingpong-c2m2,,4366,,pingpong,,9,,403,,475,,441,,4.00414320175e-07,,Cannot find table. Detected table too small: 0.006565
+sec6-res-util-pingpong-c2m2,,4367,,pingpong,,9,,427,,455,,401,,6.4066291228e-06,,Cannot find table. Detected table too small: 0.021376
+sec6-res-util-pingpong-c2m2,,4380,,pingpong,,9,,491,,522,,554,,1.588073687e-10,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4381,,pingpong,,9,,503,,577,,540,,4.19095158577e-10,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4382,,pingpong,,9,,489,,743,,689,,1.37077352673e-14,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,4398,,pingpong,,9,,465,,578,,558,,1.20353479811e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4399,,pingpong,,9,,564,,663,,607,,4.0309895558e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4403,,pingpong,,9,,508,,608,,553,,1.70205523428e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4418,,pingpong,,9,,577,,720,,735,,5.65233285126e-16,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4417,,pingpong,,9,,569,,762,,776,,3.29613314336e-17,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,4422,,pingpong,,9,,601,,754,,740,,3.99680288865e-16,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,4441,,pingpong,,9,,348,,376,,321,,0.00164009705544,,Cannot find table. Detected table too small: 0.017112
+sec6-res-util-pingpong-c2m2,,4442,,pingpong,,9,,346,,418,,363,,8.92367134669e-05,,Cannot find table. Detected table too small: 0.028162
+sec6-res-util-pingpong-c2m2,,4445,,pingpong,,9,,251,,315,,259,,0.120574514535,,Cannot find table. Detected table too small: 0.022841
+sec6-res-util-pingpong-c2m2,,4452,,pingpong,,9,,267,,295,,291,,0.0131207764435,,Cannot find table. Detected table too small: 0.042934
+sec6-res-util-pingpong-c2m2,,4454,,pingpong,,9,,264,,326,,302,,0.00612105864818,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4455,,pingpong,,9,,315,,337,,287,,0.0173129683127,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4463,,pingpong,,9,,255,,276,,221,,0.937959763184,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4464,,pingpong,,9,,251,,313,,560,,1.04773789644e-10,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4465,,pingpong,,9,,285,,308,,535,,5.92690057184e-10,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4480,,pingpong,,9,,261,,282,,227,,0.914177145996,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4482,,pingpong,,9,,232,,299,,2785,,1.09920480278e-77,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4483,,pingpong,,9,,282,,301,,2771,,2.90081886566e-77,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4566,,pingpong,,9,,224,,312,,257,,0.138503746501,,Cannot find pingpong. No good color candidate
+sec6-res-util-pingpong-c2m2,,4567,,pingpong,,9,,278,,376,,321,,0.00164009705544,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4568,,pingpong,,9,,279,,367,,340,,0.000439453125,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4574,,pingpong,,9,,245,,317,,262,,0.0979369383708,,Cannot find table. Detected table too small: 0.056298
+sec6-res-util-pingpong-c2m2,,4577,,pingpong,,9,,220,,251,,217,,0.950802927246,,Cannot find table. Detected table too small: 0.003798
+sec6-res-util-pingpong-c2m2,,4578,,pingpong,,9,,230,,291,,237,,0.554014986005,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4583,,pingpong,,9,,224,,289,,236,,0.593778559848,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4585,,pingpong,,9,,298,,318,,261,,0.104966211548,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4586,,pingpong,,9,,269,,327,,270,,0.05625,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,4592,,pingpong,,9,,236,,341,,286,,0.0185555799952,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4595,,pingpong,,9,,249,,347,,291,,0.0131207764435,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4593,,pingpong,,9,,319,,418,,362,,9.56415413777e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4602,,pingpong,,9,,522,,618,,622,,1.4251700249e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4605,,pingpong,,9,,493,,548,,553,,1.70205523428e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4606,,pingpong,,9,,528,,625,,616,,2.16015381683e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4622,,pingpong,,9,,228,,436,,472,,4.66999713759e-08,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,4623,,pingpong,,9,,298,,498,,463,,8.7145227995e-08,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,4625,,pingpong,,9,,407,,512,,456,,1.4156784054e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4638,,pingpong,,9,,307,,409,,461,,1.00103580044e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4639,,pingpong,,9,,373,,482,,442,,3.73599771007e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4640,,pingpong,,9,,347,,551,,497,,8.25546661027e-09,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,4653,,pingpong,,9,,492,,523,,570,,5.23868948221e-11,,Cannot find table. Detected table too small: 0.059171
+sec6-res-util-pingpong-c2m2,,4654,,pingpong,,9,,513,,583,,562,,9.12108815935e-11,,Cannot find table. Detected table too small: 0.054730
+sec6-res-util-pingpong-c2m2,,4656,,pingpong,,9,,499,,531,,481,,2.50258950109e-08,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4672,,pingpong,,9,,289,,387,,356,,0.000144965468713,,Pingpong outside the table. Lost track of ball: 138
+sec6-res-util-pingpong-c2m2,,4673,,pingpong,,9,,369,,477,,420,,1.71661376953e-06,,Pingpong outside the table. Lost track of ball: 144
+sec6-res-util-pingpong-c2m2,,4674,,pingpong,,9,,431,,528,,474,,4.06546863872e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4684,,pingpong,,9,,385,,460,,467,,6.60437328822e-08,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4686,,pingpong,,9,,414,,488,,443,,3.4858091198e-07,,Cannot find table. Detected table too small: 0.043900
+sec6-res-util-pingpong-c2m2,,4689,,pingpong,,9,,389,,420,,365,,7.76850711753e-05,,Cannot find table. Detected table too small: 0.033497
+sec6-res-util-pingpong-c2m2,,4699,,pingpong,,9,,359,,386,,359,,0.000117748549351,,Cannot find table. Detected table too small: 0.000631
+sec6-res-util-pingpong-c2m2,,4701,,pingpong,,9,,416,,446,,390,,1.37329101563e-05,,Cannot find table. Detected table too small: 0.013824
+sec6-res-util-pingpong-c2m2,,4702,,pingpong,,9,,407,,480,,424,,1.30094996439e-06,,Cannot find table. Detected table too small: 0.022009
+sec6-res-util-pingpong-c2m2,,4711,,pingpong,,9,,334,,437,,462,,9.33999427517e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4713,,pingpong,,9,,403,,440,,440,,4.29153442383e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4715,,pingpong,,9,,365,,436,,423,,1.39432364792e-06,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4727,,pingpong,,9,,363,,430,,456,,1.4156784054e-07,,Cannot find table. Detected table too small: 0.003616
+sec6-res-util-pingpong-c2m2,,4729,,pingpong,,9,,398,,422,,427,,1.05669972611e-06,,Cannot find table. Detected table too small: 0.008865
+sec6-res-util-pingpong-c2m2,,4728,,pingpong,,9,,417,,496,,450,,2.14576721191e-07,,Cannot find table. Detected table too small: 0.002967
+sec6-res-util-pingpong-c2m2,,4742,,pingpong,,9,,204,,236,,182,,0.99744,,Cannot find table. Detected table too small: 0.033088
+sec6-res-util-pingpong-c2m2,,4743,,pingpong,,9,,224,,303,,246,,0.296889279924,,Cannot find table. Detected table too small: 0.017156
+sec6-res-util-pingpong-c2m2,,4744,,pingpong,,9,,291,,325,,267,,0.0692518732507,,Cannot find table. Detected table too small: 0.016683
+sec6-res-util-pingpong-c2m2,,4749,,pingpong,,9,,272,,306,,251,,0.209932423096,,Cannot find table. Detected table too small: 0.051863
+sec6-res-util-pingpong-c2m2,,4751,,pingpong,,9,,249,,325,,271,,0.0524831057739,,Cannot find table. Detected table too small: 0.059100
+sec6-res-util-pingpong-c2m2,,4752,,pingpong,,9,,223,,293,,237,,0.554014986005,,Cannot find table. Detected table too small: 0.058311
+sec6-res-util-pingpong-c2m2,,4758,,pingpong,,9,,166,,206,,152,,0.999999960937,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4760,,pingpong,,9,,150,,244,,190,,0.99375,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4761,,pingpong,,9,,189,,300,,245,,0.318198051534,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4764,,pingpong,,9,,211,,323,,269,,0.0602872572677,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4767,,pingpong,,9,,196,,306,,249,,0.241149029071,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4769,,pingpong,,9,,225,,339,,284,,0.0213147642166,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4774,,pingpong,,9,,255,,359,,304,,0.00532869105414,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4776,,pingpong,,9,,227,,334,,311,,0.00328019411087,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4779,,pingpong,,9,,206,,280,,224,,0.926790585937,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4784,,pingpong,,9,,217,,324,,269,,0.0602872572677,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4786,,pingpong,,9,,301,,404,,349,,0.000235497098702,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4788,,pingpong,,9,,340,,446,,392,,1.19551926722e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4794,,pingpong,,9,,375,,479,,425,,1.21382923711e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4797,,pingpong,,9,,285,,383,,329,,0.000941988394807,,Pingpong outside the table. Lost track of ball: 189
+sec6-res-util-pingpong-c2m2,,4800,,pingpong,,9,,310,,513,,460,,1.07288360596e-07,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,4810,,pingpong,,9,,393,,497,,496,,8.84799003374e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4808,,pingpong,,9,,406,,514,,515,,2.37076022874e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4816,,pingpong,,9,,357,,406,,354,,0.000166521595442,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4825,,pingpong,,9,,244,,339,,285,,0.0198873782209,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4826,,pingpong,,9,,266,,418,,365,,7.76850711753e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4827,,pingpong,,9,,301,,397,,360,,0.00010986328125,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4835,,pingpong,,9,,254,,349,,294,,0.0106573821083,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4838,,pingpong,,9,,230,,333,,278,,0.0323071412343,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4839,,pingpong,,9,,233,,336,,301,,0.00656038822174,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4845,,pingpong,,9,,287,,488,,512,,2.91874821099e-09,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,4848,,pingpong,,9,,417,,505,,499,,7.18680110784e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4849,,pingpong,,9,,400,,590,,534,,6.35229474799e-10,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,4862,,pingpong,,9,,301,,414,,454,,1.62618745549e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4864,,pingpong,,9,,365,,478,,425,,1.21382923711e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4866,,pingpong,,9,,343,,436,,442,,3.73599771007e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4879,,pingpong,,9,,381,,492,,524,,1.2704589496e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4877,,pingpong,,9,,342,,587,,558,,1.20353479811e-10,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,4880,,pingpong,,9,,466,,580,,569,,5.6146883655e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4896,,pingpong,,9,,421,,532,,563,,8.51027617139e-11,,Pingpong outside the table. Lost track of ball: 123
+sec6-res-util-pingpong-c2m2,,4897,,pingpong,,9,,460,,580,,547,,2.57983331571e-10,,Pingpong outside the table. Lost track of ball: 171
+sec6-res-util-pingpong-c2m2,,4898,,pingpong,,9,,490,,645,,591,,1.22196752983e-11,,Pingpong outside the table. Lost track of ball: 132
+sec6-res-util-pingpong-c2m2,,4914,,pingpong,,9,,381,,480,,458,,1.23241963327e-07,,Pingpong outside the table. Lost track of ball: 154
+sec6-res-util-pingpong-c2m2,,4916,,pingpong,,9,,464,,558,,501,,6.25647375273e-09,,Pingpong outside the table. Lost track of ball: 153
+sec6-res-util-pingpong-c2m2,,4917,,pingpong,,9,,412,,511,,454,,1.62618745549e-07,,Pingpong outside the table. Lost track of ball: 148
+sec6-res-util-pingpong-c2m2,,4930,,pingpong,,9,,402,,498,,476,,3.5391960135e-08,,Pingpong outside the table. Lost track of ball: 169
+sec6-res-util-pingpong-c2m2,,4932,,pingpong,,9,,424,,520,,468,,6.16209816633e-08,,Pingpong outside the table. Lost track of ball: 169
+sec6-res-util-pingpong-c2m2,,4933,,pingpong,,9,,487,,575,,520,,1.67638063431e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4945,,pingpong,,9,,286,,437,,455,,1.51728654639e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4947,,pingpong,,9,,318,,434,,428,,9.85935706613e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4949,,pingpong,,9,,322,,428,,380,,2.74658203125e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4960,,pingpong,,9,,346,,449,,459,,1.14988817725e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4962,,pingpong,,9,,422,,530,,503,,5.44657674969e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4963,,pingpong,,9,,388,,488,,456,,1.4156784054e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,4977,,pingpong,,9,,397,,433,,433,,6.9716182396e-07,,Cannot find table. Table top line tilted too much
+sec6-res-util-pingpong-c2m2,,4976,,pingpong,,9,,350,,455,,459,,1.14988817725e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4978,,pingpong,,9,,421,,492,,501,,6.25647375273e-09,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,4991,,pingpong,,9,,307,,425,,444,,3.25237491097e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4993,,pingpong,,9,,315,,428,,437,,5.28349863057e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,4994,,pingpong,,9,,367,,580,,525,,1.18538011437e-09,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5007,,pingpong,,9,,407,,519,,555,,1.48172514296e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5008,,pingpong,,9,,386,,504,,528,,9.62827838489e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5011,,pingpong,,9,,387,,498,,486,,1.76959800675e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5025,,pingpong,,9,,295,,377,,358,,0.000126199770446,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5026,,pingpong,,9,,365,,400,,351,,0.000205012131929,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5027,,pingpong,,9,,381,,584,,530,,8.38190317154e-10,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5037,,pingpong,,9,,503,,575,,569,,5.6146883655e-11,,Cannot find table. Detected table too small: 0.047016
+sec6-res-util-pingpong-c2m2,,5038,,pingpong,,9,,478,,552,,547,,2.57983331571e-10,,Cannot find table. Detected table too small: 0.043532
+sec6-res-util-pingpong-c2m2,,5043,,pingpong,,9,,471,,682,,628,,9.40261561025e-13,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5056,,pingpong,,9,,471,,581,,547,,2.57983331571e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5057,,pingpong,,9,,545,,744,,690,,1.27897692437e-14,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5064,,pingpong,,9,,532,,610,,554,,1.588073687e-10,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5074,,pingpong,,9,,483,,680,,676,,3.3752403388e-14,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5079,,pingpong,,9,,490,,597,,545,,2.96345028592e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5082,,pingpong,,9,,464,,617,,560,,1.04773789644e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5095,,pingpong,,9,,562,,633,,669,,5.48309410694e-14,,Cannot find table. Detected table too small: 0.045017
+sec6-res-util-pingpong-c2m2,,5097,,pingpong,,9,,517,,596,,620,,1.63709046319e-12,,Cannot find table. Detected table too small: 0.059531
+sec6-res-util-pingpong-c2m2,,5099,,pingpong,,9,,530,,750,,694,,9.69283256225e-15,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5117,,pingpong,,9,,318,,345,,291,,0.0131207764435,,Cannot find table. Detected table too small: 0.041593
+sec6-res-util-pingpong-c2m2,,5118,,pingpong,,9,,379,,483,,428,,9.85935706613e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5121,,pingpong,,9,,334,,436,,399,,7.35928433443e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5127,,pingpong,,9,,512,,599,,626,,1.08007690842e-12,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5132,,pingpong,,9,,516,,604,,547,,2.57983331571e-10,,Cannot find table. Detected table too small: 0.041001
+sec6-res-util-pingpong-c2m2,,5134,,pingpong,,9,,529,,591,,571,,4.88787011932e-11,,Cannot find table. Detected table too small: 0.025638
+sec6-res-util-pingpong-c2m2,,5148,,pingpong,,9,,393,,596,,566,,6.91249221386e-11,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5150,,pingpong,,9,,330,,529,,490,,1.34110450745e-08,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5151,,pingpong,,9,,508,,707,,652,,1.78146253112e-13,,Found table, pingpong, and opponent. No instruction. oppo on right, last played left.
+sec6-res-util-pingpong-c2m2,,5166,,pingpong,,9,,318,,412,,357,,0.000135257564943,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5167,,pingpong,,9,,386,,490,,436,,5.6627136216e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5172,,pingpong,,9,,408,,484,,430,,8.58306884766e-07,,Cannot find table. Detected table too small: 0.038529
+sec6-res-util-pingpong-c2m2,,5178,,pingpong,,9,,310,,385,,330,,0.00087890625,,Cannot find table. Detected table too small: 0.033177
+sec6-res-util-pingpong-c2m2,,5181,,pingpong,,9,,313,,385,,331,,0.000820048527718,,Cannot find table. Detected table too small: 0.043719
+sec6-res-util-pingpong-c2m2,,5186,,pingpong,,9,,309,,341,,290,,0.0140625,,Cannot find table. Detected table too small: 0.043231
+sec6-res-util-pingpong-c2m2,,5190,,pingpong,,9,,328,,439,,384,,2.08151994302e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5193,,pingpong,,9,,438,,502,,449,,2.29977635451e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5196,,pingpong,,9,,374,,402,,386,,1.81206835891e-05,,Cannot find table. Table top line tilted too much
+sec6-res-util-pingpong-c2m2,,5203,,pingpong,,9,,473,,495,,486,,1.76959800675e-08,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5207,,pingpong,,9,,401,,417,,2967,,3.65033477874e-83,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5209,,pingpong,,9,,394,,452,,2943,,1.92665824701e-82,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5298,,pingpong,,9,,218,,245,,191,,0.993101169434,,Cannot find table. Detected table too small: 0.008297
+sec6-res-util-pingpong-c2m2,,5299,,pingpong,,9,,213,,282,,225,,0.922752380371,,Cannot find table. Detected table too small: 0.002945
+sec6-res-util-pingpong-c2m2,,5300,,pingpong,,9,,191,,252,,195,,0.989988708496,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5304,,pingpong,,9,,266,,289,,239,,0.482298058141,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5306,,pingpong,,9,,233,,256,,200,,0.984741210938,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5312,,pingpong,,9,,380,,436,,435,,6.06914618557e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5313,,pingpong,,9,,446,,510,,460,,1.07288360596e-07,,Cannot find table. Detected table too small: 0.008110
+sec6-res-util-pingpong-c2m2,,5314,,pingpong,,9,,418,,474,,419,,1.83982108361e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5326,,pingpong,,9,,303,,378,,365,,7.76850711753e-05,,Cannot find table. Detected table too small: 0.054638
+sec6-res-util-pingpong-c2m2,,5327,,pingpong,,9,,327,,355,,344,,0.000333043190884,,Cannot find table. Detected table too small: 0.056962
+sec6-res-util-pingpong-c2m2,,5328,,pingpong,,9,,337,,413,,399,,7.35928433443e-06,,Cannot find table. Detected table too small: 0.059324
+sec6-res-util-pingpong-c2m2,,5338,,pingpong,,9,,338,,544,,551,,1.95514804773e-10,,Found table, pingpong, and opponent. No instruction. oppo on right, last played left.
+sec6-res-util-pingpong-c2m2,,5340,,pingpong,,9,,462,,541,,542,,3.64843526374e-10,,Cannot find table. Detected table too small: 0.057141
+sec6-res-util-pingpong-c2m2,,5341,,pingpong,,9,,507,,612,,569,,5.6146883655e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5357,,pingpong,,9,,360,,436,,472,,4.66999713759e-08,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5358,,pingpong,,9,,422,,534,,503,,5.44657674969e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5359,,pingpong,,9,,490,,526,,484,,2.03273431936e-08,,Cannot find table. Detected table too small: 0.039941
+sec6-res-util-pingpong-c2m2,,5372,,pingpong,,9,,259,,337,,365,,7.76850711753e-05,,Cannot find table. Detected table too small: 0.026196
+sec6-res-util-pingpong-c2m2,,5373,,pingpong,,9,,293,,331,,344,,0.000333043190884,,Cannot find table. Detected table too small: 0.013595
+sec6-res-util-pingpong-c2m2,,5374,,pingpong,,9,,289,,368,,323,,0.00142778741547,,Cannot find table. Detected table too small: 0.018306
+sec6-res-util-pingpong-c2m2,,5384,,pingpong,,9,,619,,693,,661,,9.5466213268e-14,,Cannot find table. Detected table too small: 0.056877
+sec6-res-util-pingpong-c2m2,,5387,,pingpong,,9,,635,,675,,641,,3.81864853072e-13,,Cannot find table. Detected table too small: 0.058157
+sec6-res-util-pingpong-c2m2,,5386,,pingpong,,9,,612,,881,,828,,8.96703301453e-19,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,5406,,pingpong,,9,,604,,645,,678,,2.9383173782e-14,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,5407,,pingpong,,9,,587,,693,,662,,8.90731265561e-14,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5411,,pingpong,,9,,460,,545,,499,,7.18680110784e-09,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,5427,,pingpong,,9,,561,,711,,759,,1.07091681776e-16,,Found table, pingpong, and opponent. No instruction. oppo on right, last played left.
+sec6-res-util-pingpong-c2m2,,5429,,pingpong,,9,,640,,750,,749,,2.14183363552e-16,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5430,,pingpong,,9,,672,,814,,799,,6.69323011101e-18,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5454,,pingpong,,9,,351,,431,,432,,7.47199542014e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5452,,pingpong,,9,,363,,474,,453,,1.7429045599e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5455,,pingpong,,9,,404,,567,,512,,2.91874821099e-09,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5467,,pingpong,,9,,345,,455,,460,,1.07288360596e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5468,,pingpong,,9,,353,,513,,486,,1.76959800675e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5471,,pingpong,,9,,411,,451,,403,,5.57729459168e-06,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5483,,pingpong,,9,,465,,568,,567,,6.44958328927e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5484,,pingpong,,9,,550,,629,,610,,3.27418092638e-12,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5485,,pingpong,,9,,609,,690,,634,,6.20341283984e-13,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5501,,pingpong,,9,,435,,546,,559,,1.1229376731e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5503,,pingpong,,9,,472,,588,,571,,4.88787011932e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5504,,pingpong,,9,,474,,746,,692,,1.11341408195e-14,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5519,,pingpong,,9,,441,,603,,559,,1.1229376731e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5521,,pingpong,,9,,480,,599,,545,,2.96345028592e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5526,,pingpong,,9,,422,,529,,474,,4.06546863872e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5538,,pingpong,,9,,363,,411,,448,,2.46483926653e-07,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,5539,,pingpong,,9,,371,,452,,435,,6.06914618557e-07,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,5541,,pingpong,,9,,370,,489,,434,,6.50474982195e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5553,,pingpong,,9,,265,,374,,353,,0.000178473426934,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5555,,pingpong,,9,,296,,562,,508,,3.85131135396e-09,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5556,,pingpong,,9,,320,,549,,526,,1.10599875422e-09,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5565,,pingpong,,9,,384,,498,,444,,3.25237491097e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5571,,pingpong,,9,,279,,338,,322,,0.00153026466204,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5572,,pingpong,,9,,295,,413,,356,,0.000144965468713,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5580,,pingpong,,9,,434,,586,,596,,8.64061526733e-12,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5582,,pingpong,,9,,482,,640,,603,,5.31892260712e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5584,,pingpong,,9,,499,,705,,650,,2.04636307899e-13,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,5599,,pingpong,,9,,280,,437,,464,,8.13093727743e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5601,,pingpong,,9,,330,,554,,500,,6.70552253723e-09,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5605,,pingpong,,9,,363,,579,,524,,1.2704589496e-09,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,5615,,pingpong,,9,,350,,457,,457,,1.32087465764e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5616,,pingpong,,9,,428,,644,,624,,1.24068256797e-12,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,5622,,pingpong,,9,,498,,727,,673,,4.15540828681e-14,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5630,,pingpong,,9,,605,,837,,873,,3.96290615731e-20,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,5636,,pingpong,,9,,746,,829,,774,,3.78626271963e-17,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5644,,pingpong,,9,,782,,859,,824,,1.18320709988e-18,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5658,,pingpong,,9,,508,,621,,567,,6.44958328927e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5660,,pingpong,,9,,599,,638,,584,,1.98509210875e-11,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5670,,pingpong,,9,,392,,493,,464,,8.13093727743e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5676,,pingpong,,9,,308,,418,,406,,4.53017089728e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5680,,pingpong,,9,,376,,453,,398,,7.8874856529e-06,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5685,,pingpong,,9,,407,,485,,431,,8.0082864035e-07,,Cannot find table. Detected table too small: 0.054053
+sec6-res-util-pingpong-c2m2,,5690,,pingpong,,9,,364,,519,,465,,7.58643273196e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5693,,pingpong,,9,,412,,521,,466,,7.07839202699e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5700,,pingpong,,9,,484,,596,,588,,1.50441849764e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5705,,pingpong,,9,,513,,563,,934,,5.7773784174e-22,,Cannot find table. Angle between two side edge not right
+sec6-res-util-pingpong-c2m2,,5709,,pingpong,,9,,478,,580,,809,,3.3466150555e-18,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5719,,pingpong,,9,,345,,447,,463,,8.7145227995e-08,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,5735,,pingpong,,9,,337,,361,,364,,8.32607977209e-05,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5736,,pingpong,,9,,345,,410,,355,,0.000155370142351,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5737,,pingpong,,9,,374,,400,,2566,,4.3016544655e-71,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5813,,pingpong,,9,,155,,251,,197,,0.988086716309,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5815,,pingpong,,9,,324,,431,,376,,3.62413671782e-05,,Pingpong outside the table. Lost track of ball: 182
+sec6-res-util-pingpong-c2m2,,5814,,pingpong,,9,,243,,512,,460,,1.07288360596e-07,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5820,,pingpong,,9,,422,,639,,692,,1.11341408195e-14,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5827,,pingpong,,9,,408,,486,,463,,8.7145227995e-08,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5828,,pingpong,,9,,427,,469,,442,,3.73599771007e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5842,,pingpong,,9,,379,,629,,658,,1.17532695128e-13,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5843,,pingpong,,9,,529,,632,,645,,2.89399441985e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5844,,pingpong,,9,,597,,638,,631,,7.63729706144e-13,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,5864,,pingpong,,9,,364,,471,,462,,9.33999427517e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5865,,pingpong,,9,,459,,560,,504,,5.0818357984e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5866,,pingpong,,9,,412,,513,,456,,1.4156784054e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5880,,pingpong,,9,,492,,595,,647,,2.51936847237e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5879,,pingpong,,9,,515,,624,,678,,2.9383173782e-14,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5881,,pingpong,,9,,584,,695,,642,,3.56292506224e-13,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5901,,pingpong,,9,,234,,343,,289,,0.0150718143169,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5902,,pingpong,,9,,234,,386,,329,,0.000941988394807,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5903,,pingpong,,9,,342,,443,,388,,1.57749713058e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5911,,pingpong,,9,,263,,377,,322,,0.00153026466204,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5912,,pingpong,,9,,249,,365,,326,,0.0011597237497,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5915,,pingpong,,9,,240,,346,,289,,0.0150718143169,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5922,,pingpong,,9,,304,,411,,358,,0.000126199770446,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5923,,pingpong,,9,,325,,420,,392,,1.19551926722e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5925,,pingpong,,9,,293,,403,,349,,0.000235497098702,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5933,,pingpong,,9,,314,,428,,387,,1.69071956178e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5935,,pingpong,,9,,369,,475,,418,,1.97187141323e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5937,,pingpong,,9,,361,,464,,411,,3.2033145614e-06,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5946,,pingpong,,9,,206,,309,,252,,0.195873876742,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5948,,pingpong,,9,,246,,466,,411,,3.2033145614e-06,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,5951,,pingpong,,9,,345,,450,,397,,8.45359780892e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5955,,pingpong,,9,,329,,437,,382,,2.39103853444e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,5961,,pingpong,,9,,224,,378,,323,,0.00142778741547,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,5964,,pingpong,,9,,275,,302,,277,,0.0346259366253,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5967,,pingpong,,9,,214,,270,,214,,0.95904,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5972,,pingpong,,9,,147,,209,,153,,0.999999802246,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5974,,pingpong,,9,,185,,203,,177,,0.998702536621,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5975,,pingpong,,9,,154,,219,,162,,0.999949375,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5978,,pingpong,,9,,152,,213,,158,,0.99999,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5980,,pingpong,,9,,192,,212,,179,,0.998273239746,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5981,,pingpong,,9,,167,,230,,174,,0.99919,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5984,,pingpong,,9,,142,,205,,150,,1.0,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5986,,pingpong,,9,,199,,223,,174,,0.99919,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5987,,pingpong,,9,,164,,237,,181,,0.997745310059,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5990,,pingpong,,9,,256,,325,,271,,0.0524831057739,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5993,,pingpong,,9,,198,,265,,214,,0.95904,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,5994,,pingpong,,9,,236,,259,,255,,0.159099025767,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6000,,pingpong,,9,,325,,383,,420,,1.71661376953e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6001,,pingpong,,9,,367,,390,,410,,3.43322753906e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6002,,pingpong,,9,,352,,375,,396,,9.06034179455e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6014,,pingpong,,9,,330,,351,,352,,0.000191283082755,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6015,,pingpong,,9,,338,,401,,346,,0.000289930937426,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6016,,pingpong,,9,,390,,414,,4019,,7.8338842868e-115,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6135,,pingpong,,9,,234,,304,,250,,0.225,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6136,,pingpong,,9,,292,,354,,299,,0.00753590715846,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6137,,pingpong,,9,,276,,336,,282,,0.0244842345927,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6143,,pingpong,,9,,303,,327,,272,,0.0489684691854,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6146,,pingpong,,9,,326,,350,,880,,2.43945488809e-20,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6147,,pingpong,,9,,333,,394,,867,,6.00664251416e-20,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6173,,pingpong,,9,,271,,374,,411,,3.2033145614e-06,,Cannot find pingpong. No good color candidate
+sec6-res-util-pingpong-c2m2,,6174,,pingpong,,9,,318,,415,,388,,1.57749713058e-05,,Cannot find pingpong. No good color candidate
+sec6-res-util-pingpong-c2m2,,6175,,pingpong,,9,,474,,526,,471,,5.00517900218e-08,,Cannot find pingpong. No good color candidate
+sec6-res-util-pingpong-c2m2,,6186,,pingpong,,9,,306,,404,,359,,0.000117748549351,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6187,,pingpong,,9,,376,,474,,417,,2.11339945223e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6190,,pingpong,,9,,394,,494,,440,,4.29153442383e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6198,,pingpong,,9,,486,,576,,566,,6.91249221386e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6200,,pingpong,,9,,437,,530,,503,,5.44657674969e-09,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6204,,pingpong,,9,,385,,484,,458,,1.23241963327e-07,,Pingpong outside the table. Lost track of ball: 110
+sec6-res-util-pingpong-c2m2,,6217,,pingpong,,9,,577,,691,,664,,7.7542660498e-14,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6219,,pingpong,,9,,623,,705,,648,,2.35065390256e-13,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,6218,,pingpong,,9,,567,,830,,775,,3.53270803204e-17,,Found table, pingpong, and opponent. No instruction. oppo on right, last played left.
+sec6-res-util-pingpong-c2m2,,6238,,pingpong,,9,,449,,569,,567,,6.44958328927e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6240,,pingpong,,9,,438,,549,,543,,3.40411046855e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6242,,pingpong,,9,,429,,536,,514,,2.5409178992e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6258,,pingpong,,9,,334,,484,,532,,7.29687052748e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6257,,pingpong,,9,,361,,525,,570,,5.23868948221e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6259,,pingpong,,9,,460,,574,,520,,1.67638063431e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6277,,pingpong,,9,,568,,690,,723,,1.29856508963e-15,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6276,,pingpong,,9,,474,,711,,745,,2.82616642563e-16,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,6278,,pingpong,,9,,674,,783,,779,,2.6772920444e-17,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6300,,pingpong,,9,,514,,626,,660,,1.02318153949e-13,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6301,,pingpong,,9,,582,,699,,649,,2.19323764277e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6302,,pingpong,,9,,588,,853,,798,,7.17362641163e-18,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,6322,,pingpong,,9,,556,,597,,654,,1.55085320996e-13,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,6321,,pingpong,,9,,572,,686,,676,,3.3752403388e-14,,Pingpong outside the table. Lost track of ball: 157
+sec6-res-util-pingpong-c2m2,,6327,,pingpong,,9,,435,,530,,499,,7.18680110784e-09,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6343,,pingpong,,9,,374,,473,,467,,6.60437328822e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6344,,pingpong,,9,,388,,479,,456,,1.4156784054e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6345,,pingpong,,9,,437,,529,,525,,1.18538011437e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6358,,pingpong,,9,,327,,442,,449,,2.29977635451e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6361,,pingpong,,9,,393,,503,,456,,1.4156784054e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6360,,pingpong,,9,,330,,599,,542,,3.64843526374e-10,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,6373,,pingpong,,9,,438,,550,,558,,1.20353479811e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6375,,pingpong,,9,,499,,613,,593,,1.06378452142e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6377,,pingpong,,9,,445,,557,,509,,3.59340055392e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6393,,pingpong,,9,,376,,492,,529,,8.9835013848e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6392,,pingpong,,9,,351,,563,,567,,6.44958328927e-11,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,6394,,pingpong,,9,,481,,700,,645,,2.89399441985e-13,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,6410,,pingpong,,9,,126,,225,,170,,0.999609375,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6412,,pingpong,,9,,158,,268,,211,,0.966196677246,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6414,,pingpong,,9,,189,,301,,246,,0.296889279924,,Pingpong outside the table. Lost track of ball: 130
+sec6-res-util-pingpong-c2m2,,6417,,pingpong,,9,,113,,265,,209,,0.970416599121,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6420,,pingpong,,9,,200,,316,,261,,0.104966211548,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6423,,pingpong,,9,,121,,271,,216,,0.953674960938,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6425,,pingpong,,9,,157,,269,,213,,0.961540622559,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6429,,pingpong,,9,,137,,241,,232,,0.783495506967,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6431,,pingpong,,9,,69,,214,,160,,0.999975585938,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6432,,pingpong,,9,,181,,293,,237,,0.554014986005,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6437,,pingpong,,9,,206,,311,,257,,0.138503746501,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6438,,pingpong,,9,,208,,318,,287,,0.0173129683127,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6440,,pingpong,,9,,233,,347,,292,,0.0122421172964,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6446,,pingpong,,9,,149,,305,,250,,0.225,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6448,,pingpong,,9,,223,,336,,322,,0.00153026466204,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6450,,pingpong,,9,,203,,358,,303,,0.00571114966188,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6455,,pingpong,,9,,199,,314,,260,,0.1125,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6458,,pingpong,,9,,307,,422,,368,,6.30998852232e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6461,,pingpong,,9,,324,,448,,393,,1.11545891834e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6465,,pingpong,,9,,282,,508,,453,,1.7429045599e-07,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,6471,,pingpong,,9,,419,,537,,482,,2.33499856879e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6474,,pingpong,,9,,431,,520,,465,,7.58643273196e-08,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,6480,,pingpong,,9,,406,,633,,605,,4.63039107175e-12,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,6487,,pingpong,,9,,494,,571,,516,,2.21199750844e-09,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,6489,,pingpong,,9,,473,,525,,516,,2.21199750844e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6499,,pingpong,,9,,274,,343,,287,,0.0173129683127,,Cannot find table. Detected table too small: 0.036357
+sec6-res-util-pingpong-c2m2,,6504,,pingpong,,9,,219,,295,,243,,0.36551357836,,Cannot find table. Detected table too small: 0.012405
+sec6-res-util-pingpong-c2m2,,6506,,pingpong,,9,,169,,241,,186,,0.995899375,,Cannot find table. Detected table too small: 0.014290
+sec6-res-util-pingpong-c2m2,,6509,,pingpong,,9,,215,,242,,187,,0.995424411621,,Cannot find table. Detected table too small: 0.011273
+sec6-res-util-pingpong-c2m2,,6514,,pingpong,,9,,124,,192,,134,,1.0,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6513,,pingpong,,9,,141,,216,,161,,0.999964255371,,Cannot find table. Detected table too small: 0.006023
+sec6-res-util-pingpong-c2m2,,6516,,pingpong,,9,,129,,209,,154,,0.999999375,,Cannot find table. Detected table too small: 0.009612
+sec6-res-util-pingpong-c2m2,,6518,,pingpong,,9,,130,,208,,151,,0.999999997559,,Cannot find table. Detected table too small: 0.014605
+sec6-res-util-pingpong-c2m2,,6519,,pingpong,,9,,123,,197,,140,,1.0,,Cannot find table. Detected table too small: 0.028110
+sec6-res-util-pingpong-c2m2,,6522,,pingpong,,9,,380,,413,,434,,6.50474982195e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,6524,,pingpong,,9,,355,,432,,385,,1.94212677938e-05,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,6525,,pingpong,,9,,345,,449,,443,,3.4858091198e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6536,,pingpong,,9,,437,,595,,555,,1.48172514296e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6538,,pingpong,,9,,496,,613,,605,,4.63039107175e-12,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6539,,pingpong,,9,,555,,783,,728,,9.18224180688e-16,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,6555,,pingpong,,9,,499,,609,,655,,1.44699720992e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6557,,pingpong,,9,,477,,587,,628,,9.40261561025e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6561,,pingpong,,9,,425,,529,,474,,4.06546863872e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6578,,pingpong,,9,,179,,280,,227,,0.914177145996,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6577,,pingpong,,9,,173,,387,,332,,0.000765132331022,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,6579,,pingpong,,9,,248,,459,,404,,5.20379985756e-06,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,6585,,pingpong,,9,,486,,590,,595,,9.26078214351e-12,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6588,,pingpong,,9,,407,,522,,501,,6.25647375273e-09,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6591,,pingpong,,9,,374,,612,,557,,1.28991665785e-10,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,6605,,pingpong,,9,,440,,552,,527,,1.03193332628e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6604,,pingpong,,9,,465,,688,,631,,7.63729706144e-13,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,6609,,pingpong,,9,,499,,579,,521,,1.56411843818e-09,,Cannot find table. Detected table too small: 0.024101
+sec6-res-util-pingpong-c2m2,,6622,,pingpong,,9,,451,,485,,559,,1.1229376731e-10,,Cannot find table. Detected table too small: 0.007945
+sec6-res-util-pingpong-c2m2,,6624,,pingpong,,9,,479,,510,,520,,1.67638063431e-09,,Cannot find table. Detected table too small: 0.005859
+sec6-res-util-pingpong-c2m2,,6626,,pingpong,,9,,522,,557,,504,,5.0818357984e-09,,Cannot find table. Detected table too small: 0.007327
+sec6-res-util-pingpong-c2m2,,6641,,pingpong,,9,,335,,540,,570,,5.23868948221e-11,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,6642,,pingpong,,9,,325,,536,,561,,9.77574023864e-11,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,6643,,pingpong,,9,,510,,605,,607,,4.0309895558e-12,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,6659,,pingpong,,9,,333,,394,,354,,0.000166521595442,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6661,,pingpong,,9,,323,,387,,342,,0.000382566165511,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6662,,pingpong,,9,,329,,347,,297,,0.00865648415633,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6672,,pingpong,,9,,185,,203,,8536,,8.29331403937e-251,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6928,,pingpong,,9,,306,,403,,434,,6.50474982195e-07,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,6929,,pingpong,,9,,291,,395,,415,,2.42765847423e-06,,Cannot find pingpong. No good color candidate
+sec6-res-util-pingpong-c2m2,,6930,,pingpong,,9,,350,,434,,387,,1.69071956178e-05,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,6943,,pingpong,,9,,319,,391,,446,,2.8313568108e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,6942,,pingpong,,9,,329,,433,,466,,7.07839202699e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6944,,pingpong,,9,,374,,459,,435,,6.06914618557e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6957,,pingpong,,9,,315,,418,,456,,1.4156784054e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6959,,pingpong,,9,,377,,474,,440,,4.29153442383e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6960,,pingpong,,9,,410,,512,,477,,3.30218664411e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,6973,,pingpong,,9,,369,,394,,357,,0.000135257564943,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6975,,pingpong,,9,,352,,411,,364,,8.32607977209e-05,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6974,,pingpong,,9,,376,,437,,390,,1.37329101563e-05,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,6985,,pingpong,,9,,465,,547,,567,,6.44958328927e-11,,Cannot find table. Detected table too small: 0.047236
+sec6-res-util-pingpong-c2m2,,6986,,pingpong,,9,,462,,541,,546,,2.76499688554e-10,,Cannot find table. Detected table too small: 0.047662
+sec6-res-util-pingpong-c2m2,,6987,,pingpong,,9,,506,,546,,533,,6.80822093711e-10,,Cannot find table. Detected table too small: 0.050884
+sec6-res-util-pingpong-c2m2,,7004,,pingpong,,9,,345,,427,,443,,3.4858091198e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7003,,pingpong,,9,,357,,472,,467,,6.60437328822e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7005,,pingpong,,9,,411,,518,,500,,6.70552253723e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7019,,pingpong,,9,,364,,442,,459,,1.14988817725e-07,,Cannot find table. Detected table too small: 0.024277
+sec6-res-util-pingpong-c2m2,,7020,,pingpong,,9,,422,,501,,446,,2.8313568108e-07,,Cannot find table. Detected table too small: 0.023003
+sec6-res-util-pingpong-c2m2,,7021,,pingpong,,9,,399,,481,,427,,1.05669972611e-06,,Cannot find table. Detected table too small: 0.022167
+sec6-res-util-pingpong-c2m2,,7034,,pingpong,,9,,310,,351,,354,,0.000166521595442,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7035,,pingpong,,9,,312,,425,,389,,1.47185686689e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7036,,pingpong,,9,,321,,481,,425,,1.21382923711e-06,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7046,,pingpong,,9,,551,,644,,670,,5.11590769747e-14,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7048,,pingpong,,9,,596,,710,,655,,1.44699720992e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7049,,pingpong,,9,,545,,821,,766,,6.59226628672e-17,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,7068,,pingpong,,9,,581,,697,,660,,1.02318153949e-13,,Pingpong outside the table. Lost track of ball: 144
+sec6-res-util-pingpong-c2m2,,7069,,pingpong,,9,,617,,771,,714,,2.42320814056e-15,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7074,,pingpong,,9,,506,,618,,561,,9.77574023864e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7089,,pingpong,,9,,468,,500,,458,,1.23241963327e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7091,,pingpong,,9,,469,,567,,513,,2.72328837484e-09,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7092,,pingpong,,9,,432,,637,,582,,2.28027203984e-11,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,7105,,pingpong,,9,,459,,566,,558,,1.20353479811e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7107,,pingpong,,9,,522,,625,,568,,6.01767399056e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7110,,pingpong,,9,,513,,779,,788,,1.43472528233e-17,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,7123,,pingpong,,9,,539,,649,,595,,9.26078214351e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7125,,pingpong,,9,,600,,715,,660,,1.02318153949e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7135,,pingpong,,9,,430,,537,,482,,2.33499856879e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7143,,pingpong,,9,,413,,510,,456,,1.4156784054e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7146,,pingpong,,9,,396,,497,,443,,3.4858091198e-07,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,7151,,pingpong,,9,,503,,561,,653,,1.66216331472e-13,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,7157,,pingpong,,9,,539,,635,,581,,2.44393505966e-11,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,7160,,pingpong,,9,,624,,707,,652,,1.78146253112e-13,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7173,,pingpong,,9,,482,,513,,458,,1.23241963327e-07,,Cannot find table. Detected table too small: 0.015581
+sec6-res-util-pingpong-c2m2,,7176,,pingpong,,9,,443,,462,,448,,2.46483926653e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7181,,pingpong,,9,,442,,464,,410,,3.43322753906e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7188,,pingpong,,9,,414,,478,,443,,3.4858091198e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7190,,pingpong,,9,,461,,486,,463,,8.7145227995e-08,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7195,,pingpong,,9,,442,,468,,413,,2.78864729584e-06,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7203,,pingpong,,9,,414,,479,,461,,1.00103580044e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7204,,pingpong,,9,,469,,505,,492,,1.1674992844e-08,,Cannot find table. Detected table too small: 0.006344
+sec6-res-util-pingpong-c2m2,,7209,,pingpong,,9,,381,,408,,352,,0.000191283082755,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7218,,pingpong,,9,,373,,396,,366,,7.24827343564e-05,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7220,,pingpong,,9,,461,,485,,5465,,2.31760692221e-158,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7221,,pingpong,,9,,419,,493,,5417,,6.45630083722e-157,,Cannot find table. Detected table too small: 0.003195
+sec6-res-util-pingpong-c2m2,,7384,,pingpong,,9,,396,,434,,409,,3.67964216722e-06,,Cannot find table. Detected table too small: 0.052122
+sec6-res-util-pingpong-c2m2,,7385,,pingpong,,9,,386,,483,,425,,1.21382923711e-06,,Cannot find pingpong. No good color candidate
+sec6-res-util-pingpong-c2m2,,7386,,pingpong,,9,,551,,641,,586,,1.72812305347e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7396,,pingpong,,9,,468,,563,,572,,4.56054407967e-11,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,7398,,pingpong,,9,,409,,498,,501,,6.25647375273e-09,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,7404,,pingpong,,9,,406,,479,,422,,1.49439908403e-06,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7415,,pingpong,,9,,426,,458,,562,,9.12108815935e-11,,Cannot find table. Detected table too small: 0.005403
+sec6-res-util-pingpong-c2m2,,7416,,pingpong,,9,,476,,512,,536,,5.52999377109e-10,,Cannot find table. Detected table too small: 0.002446
+sec6-res-util-pingpong-c2m2,,7418,,pingpong,,9,,433,,470,,496,,8.84799003374e-09,,Cannot find table. Detected table too small: 0.019291
+sec6-res-util-pingpong-c2m2,,7434,,pingpong,,9,,404,,438,,463,,8.7145227995e-08,,Cannot find table. Detected table too small: 0.018733
+sec6-res-util-pingpong-c2m2,,7435,,pingpong,,9,,393,,427,,443,,3.4858091198e-07,,Cannot find table. Detected table too small: 0.023153
+sec6-res-util-pingpong-c2m2,,7436,,pingpong,,9,,392,,467,,425,,1.21382923711e-06,,Cannot find table. Detected table too small: 0.020694
+sec6-res-util-pingpong-c2m2,,7449,,pingpong,,9,,396,,419,,454,,1.62618745549e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7450,,pingpong,,9,,399,,461,,442,,3.73599771007e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7451,,pingpong,,9,,389,,451,,429,,9.19910541804e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,7464,,pingpong,,9,,384,,463,,455,,1.51728654639e-07,,Cannot find table. Detected table too small: 0.025374
+sec6-res-util-pingpong-c2m2,,7465,,pingpong,,9,,388,,472,,444,,3.25237491097e-07,,Cannot find table. Detected table too small: 0.024514
+sec6-res-util-pingpong-c2m2,,7466,,pingpong,,9,,434,,472,,433,,6.9716182396e-07,,Cannot find table. Detected table too small: 0.026297
+sec6-res-util-pingpong-c2m2,,7480,,pingpong,,9,,286,,387,,363,,8.92367134669e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7481,,pingpong,,9,,283,,389,,351,,0.000205012131929,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7482,,pingpong,,9,,319,,534,,478,,3.08104908317e-08,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,7492,,pingpong,,9,,287,,393,,338,,0.000504799081786,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7493,,pingpong,,9,,287,,386,,371,,5.12530329824e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7497,,pingpong,,9,,280,,390,,335,,0.000621480569402,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7503,,pingpong,,9,,198,,295,,240,,0.45,,Cannot find table. Valid area too small after rotation
+sec6-res-util-pingpong-c2m2,,7505,,pingpong,,9,,186,,449,,395,,9.71063389691e-06,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,7509,,pingpong,,9,,384,,618,,604,,4.96273027187e-12,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,7512,,pingpong,,9,,324,,586,,555,,1.48172514296e-10,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,7517,,pingpong,,9,,340,,446,,398,,7.8874856529e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7529,,pingpong,,9,,159,,271,,216,,0.953674960938,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7531,,pingpong,,9,,317,,428,,373,,4.46183567334e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7530,,pingpong,,9,,249,,507,,451,,2.00207160087e-07,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,7536,,pingpong,,9,,462,,580,,612,,2.8503400498e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7543,,pingpong,,9,,379,,406,,420,,1.71661376953e-06,,Cannot find table. Detected table too small: 0.057079
+sec6-res-util-pingpong-c2m2,,7544,,pingpong,,9,,345,,375,,385,,1.94212677938e-05,,Cannot find table. Detected table too small: 0.056465
+sec6-res-util-pingpong-c2m2,,7556,,pingpong,,9,,236,,509,,557,,1.28991665785e-10,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,7558,,pingpong,,9,,410,,526,,543,,3.40411046855e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7559,,pingpong,,9,,464,,577,,522,,1.4593741055e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7575,,pingpong,,9,,216,,297,,242,,0.391747753483,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7576,,pingpong,,9,,225,,301,,275,,0.0397747564417,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7577,,pingpong,,9,,280,,404,,349,,0.000235497098702,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7583,,pingpong,,9,,422,,527,,584,,1.98509210875e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7585,,pingpong,,9,,423,,527,,569,,5.6146883655e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7588,,pingpong,,9,,497,,769,,714,,2.42320814056e-15,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,7602,,pingpong,,9,,371,,482,,428,,9.85935706613e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7603,,pingpong,,9,,395,,500,,465,,7.58643273196e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7610,,pingpong,,9,,412,,445,,390,,1.37329101563e-05,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7616,,pingpong,,9,,322,,429,,375,,3.88425355876e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7618,,pingpong,,9,,372,,476,,418,,1.97187141323e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7623,,pingpong,,9,,380,,482,,427,,1.05669972611e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7631,,pingpong,,9,,359,,466,,411,,3.2033145614e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7629,,pingpong,,9,,396,,504,,452,,1.86799885503e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7637,,pingpong,,9,,338,,442,,521,,1.56411843818e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7644,,pingpong,,9,,292,,399,,343,,0.000356946853867,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7645,,pingpong,,9,,300,,452,,394,,1.04075997151e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7655,,pingpong,,9,,236,,344,,289,,0.0150718143169,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7656,,pingpong,,9,,246,,327,,272,,0.0489684691854,,Cannot find table. Detected table too small: 0.034782
+sec6-res-util-pingpong-c2m2,,7658,,pingpong,,9,,233,,268,,256,,0.148444639962,,Cannot find table. Detected table too small: 0.032108
+sec6-res-util-pingpong-c2m2,,7665,,pingpong,,9,,131,,202,,146,,1.0,,Cannot find table. Detected table too small: 0.022152
+sec6-res-util-pingpong-c2m2,,7667,,pingpong,,9,,151,,235,,181,,0.997745310059,,Cannot find table. Detected table too small: 0.051009
+sec6-res-util-pingpong-c2m2,,7666,,pingpong,,9,,186,,302,,278,,0.0323071412343,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7671,,pingpong,,9,,229,,304,,338,,0.000504799081786,,Cannot find table. Detected table too small: 0.048548
+sec6-res-util-pingpong-c2m2,,7673,,pingpong,,9,,212,,314,,303,,0.00571114966188,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7675,,pingpong,,9,,205,,321,,278,,0.0323071412343,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7684,,pingpong,,9,,453,,568,,618,,1.88052312205e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7682,,pingpong,,9,,402,,624,,667,,6.29842118093e-14,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,7685,,pingpong,,9,,552,,656,,609,,3.50918022844e-12,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7704,,pingpong,,9,,332,,406,,363,,8.92367134669e-05,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,7705,,pingpong,,9,,389,,492,,439,,4.59955270902e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7706,,pingpong,,9,,368,,467,,413,,2.78864729584e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7716,,pingpong,,9,,419,,631,,664,,7.7542660498e-14,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,7718,,pingpong,,9,,576,,734,,677,,3.14921059047e-14,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7719,,pingpong,,9,,598,,728,,695,,9.04373256202e-15,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7737,,pingpong,,9,,587,,703,,673,,4.15540828681e-14,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7739,,pingpong,,9,,543,,667,,622,,1.4251700249e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7740,,pingpong,,9,,622,,783,,728,,9.18224180688e-16,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7759,,pingpong,,9,,485,,740,,765,,7.06541606408e-17,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,7760,,pingpong,,9,,656,,722,,746,,2.63690651469e-16,,Cannot find table. Detected table too small: 0.059324
+sec6-res-util-pingpong-c2m2,,7763,,pingpong,,9,,613,,648,,645,,2.89399441985e-13,,Cannot find table. Detected table too small: 0.039477
+sec6-res-util-pingpong-c2m2,,7784,,pingpong,,9,,266,,347,,348,,0.000252399540893,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7785,,pingpong,,9,,321,,404,,386,,1.81206835891e-05,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7786,,pingpong,,9,,317,,481,,424,,1.30094996439e-06,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7796,,pingpong,,9,,442,,533,,563,,8.51027617139e-11,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,7797,,pingpong,,9,,499,,618,,591,,1.22196752983e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7799,,pingpong,,9,,450,,563,,534,,6.35229474799e-10,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7814,,pingpong,,9,,521,,558,,568,,6.01767399056e-11,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7816,,pingpong,,9,,531,,687,,632,,7.12585012449e-13,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7817,,pingpong,,9,,528,,650,,594,,9.92546054374e-12,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7833,,pingpong,,9,,586,,697,,669,,5.48309410694e-14,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7836,,pingpong,,9,,503,,615,,572,,4.56054407967e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7837,,pingpong,,9,,584,,619,,564,,7.94036843499e-11,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7854,,pingpong,,9,,190,,272,,217,,0.950802927246,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7855,,pingpong,,9,,204,,282,,252,,0.195873876742,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7856,,pingpong,,9,,249,,380,,324,,0.00133217276353,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,7862,,pingpong,,9,,244,,420,,401,,6.4066291228e-06,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,7864,,pingpong,,9,,311,,421,,375,,3.88425355876e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7866,,pingpong,,9,,340,,551,,496,,8.84799003374e-09,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,7877,,pingpong,,9,,428,,522,,531,,7.82059219091e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7876,,pingpong,,9,,451,,559,,564,,7.94036843499e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7882,,pingpong,,9,,357,,391,,364,,8.32607977209e-05,,Cannot find table. Detected table too small: 0.045791
+sec6-res-util-pingpong-c2m2,,7894,,pingpong,,9,,167,,248,,193,,0.991653317871,,Cannot find table. Detected table too small: 0.051201
+sec6-res-util-pingpong-c2m2,,7896,,pingpong,,9,,236,,326,,270,,0.05625,,Cannot find table. Angle between two side edge not right
+sec6-res-util-pingpong-c2m2,,7897,,pingpong,,9,,300,,577,,611,,3.05491882458e-12,,Found table, pingpong, and opponent. inst: left
+sec6-res-util-pingpong-c2m2,,7902,,pingpong,,9,,425,,515,,467,,6.60437328822e-08,,Cannot find table. Angle between two side edge not right
+sec6-res-util-pingpong-c2m2,,7904,,pingpong,,9,,348,,518,,463,,8.7145227995e-08,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7916,,pingpong,,9,,324,,443,,461,,1.00103580044e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7917,,pingpong,,9,,309,,439,,444,,3.25237491097e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7920,,pingpong,,9,,335,,409,,359,,0.000117748549351,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7931,,pingpong,,9,,312,,430,,452,,1.86799885503e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7932,,pingpong,,9,,381,,422,,435,,6.06914618557e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7933,,pingpong,,9,,396,,480,,430,,8.58306884766e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,7948,,pingpong,,9,,388,,493,,529,,8.9835013848e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7947,,pingpong,,9,,361,,547,,581,,2.44393505966e-11,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,7949,,pingpong,,9,,476,,587,,581,,2.44393505966e-11,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,7965,,pingpong,,9,,281,,391,,354,,0.000166521595442,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7966,,pingpong,,9,,304,,408,,400,,6.86645507813e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7967,,pingpong,,9,,440,,548,,495,,9.48304091495e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7977,,pingpong,,9,,387,,498,,468,,6.16209816633e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7979,,pingpong,,9,,386,,486,,439,,4.59955270902e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7982,,pingpong,,9,,416,,518,,463,,8.7145227995e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7993,,pingpong,,9,,278,,391,,336,,0.000579861874851,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7994,,pingpong,,9,,284,,438,,382,,2.39103853444e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,7997,,pingpong,,9,,329,,359,,410,,3.43322753906e-06,,Cannot find table. Detected table too small: 0.056631
+sec6-res-util-pingpong-c2m2,,8004,,pingpong,,9,,281,,319,,262,,0.0979369383708,,Cannot find table. Detected table too small: 0.053264
+sec6-res-util-pingpong-c2m2,,8006,,pingpong,,9,,266,,339,,283,,0.0228445986475,,Cannot find table. Detected table too small: 0.039158
+sec6-res-util-pingpong-c2m2,,8011,,pingpong,,9,,360,,396,,341,,0.000410024263859,,Cannot find table. Detected table too small: 0.019865
+sec6-res-util-pingpong-c2m2,,8015,,pingpong,,9,,348,,423,,368,,6.30998852232e-05,,Cannot find table. Detected table too small: 0.020085
+sec6-res-util-pingpong-c2m2,,8013,,pingpong,,9,,404,,483,,431,,8.0082864035e-07,,Cannot find table. Detected table too small: 0.029046
+sec6-res-util-pingpong-c2m2,,8023,,pingpong,,9,,373,,408,,353,,0.000178473426934,,Cannot find table. Detected table too small: 0.014024
+sec6-res-util-pingpong-c2m2,,8028,,pingpong,,9,,397,,433,,416,,2.26508544864e-06,,Cannot find table. Detected table too small: 0.008429
+sec6-res-util-pingpong-c2m2,,8029,,pingpong,,9,,398,,430,,447,,2.64174931529e-07,,Cannot find table. Detected table too small: 0.009063
+sec6-res-util-pingpong-c2m2,,8034,,pingpong,,9,,395,,472,,417,,2.11339945223e-06,,Cannot find table. Detected table too small: 0.054095
+sec6-res-util-pingpong-c2m2,,8042,,pingpong,,9,,324,,434,,466,,7.07839202699e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8043,,pingpong,,9,,316,,428,,451,,2.00207160087e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8048,,pingpong,,9,,207,,326,,291,,0.0131207764435,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8057,,pingpong,,9,,226,,328,,369,,5.88742746755e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8058,,pingpong,,9,,251,,407,,361,,0.000102506065965,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8059,,pingpong,,9,,384,,593,,539,,4.4917506924e-10,,Cannot find opponent. Motion too small, probably no one in the scene
+sec6-res-util-pingpong-c2m2,,8071,,pingpong,,9,,475,,584,,623,,1.32973065178e-12,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8069,,pingpong,,9,,429,,644,,666,,6.7504806776e-14,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,8075,,pingpong,,9,,437,,539,,519,,1.79670027696e-09,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8091,,pingpong,,9,,286,,396,,360,,0.00010986328125,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8092,,pingpong,,9,,300,,414,,389,,1.47185686689e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8093,,pingpong,,9,,360,,403,,389,,1.47185686689e-05,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,8103,,pingpong,,9,,281,,402,,366,,7.24827343564e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8104,,pingpong,,9,,290,,401,,348,,0.000252399540893,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8105,,pingpong,,9,,341,,571,,516,,2.21199750844e-09,,Found table, pingpong, and opponent. inst: right
+sec6-res-util-pingpong-c2m2,,8115,,pingpong,,9,,370,,483,,457,,1.32087465764e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8117,,pingpong,,9,,376,,534,,478,,3.08104908317e-08,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8122,,pingpong,,9,,378,,461,,407,,4.22679890446e-06,,Cannot find table. Table doesn't occupy bottom part of image
+sec6-res-util-pingpong-c2m2,,8131,,pingpong,,9,,286,,396,,341,,0.000410024263859,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8132,,pingpong,,9,,283,,438,,381,,2.56265164912e-05,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8135,,pingpong,,9,,242,,514,,459,,1.14988817725e-07,,Found table, pingpong, and opponent. idle
+sec6-res-util-pingpong-c2m2,,8144,,pingpong,,9,,382,,478,,456,,1.4156784054e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8142,,pingpong,,9,,420,,618,,561,,9.77574023864e-11,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,8150,,pingpong,,9,,438,,614,,629,,8.7729505711e-13,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,8158,,pingpong,,9,,373,,472,,428,,9.85935706613e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8160,,pingpong,,9,,351,,451,,394,,1.04075997151e-05,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8171,,pingpong,,9,,356,,461,,456,,1.4156784054e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8173,,pingpong,,9,,312,,462,,407,,4.22679890446e-06,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8174,,pingpong,,9,,390,,480,,456,,1.4156784054e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,8186,,pingpong,,9,,419,,527,,558,,1.20353479811e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8187,,pingpong,,9,,488,,600,,547,,2.57983331571e-10,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8188,,pingpong,,9,,579,,694,,639,,4.38647528555e-13,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8204,,pingpong,,9,,424,,545,,580,,2.61934474111e-11,,Pingpong outside the table. Lost track of ball: 194
+sec6-res-util-pingpong-c2m2,,8205,,pingpong,,9,,501,,724,,668,,5.8766347564e-14,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,8208,,pingpong,,9,,614,,718,,663,,8.31081657362e-14,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8223,,pingpong,,9,,528,,673,,661,,9.5466213268e-14,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8226,,pingpong,,9,,503,,614,,562,,9.12108815935e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8229,,pingpong,,9,,513,,586,,530,,8.38190317154e-10,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,8244,,pingpong,,9,,358,,467,,457,,1.32087465764e-07,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8246,,pingpong,,9,,373,,475,,445,,3.03457309278e-07,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8247,,pingpong,,9,,421,,457,,419,,1.83982108361e-06,,Cannot find table. Detected table too small: 0.049787
+sec6-res-util-pingpong-c2m2,,8260,,pingpong,,9,,476,,500,,463,,8.7145227995e-08,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,8262,,pingpong,,9,,443,,502,,450,,2.14576721191e-07,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,8261,,pingpong,,9,,486,,549,,496,,8.84799003374e-09,,Cannot find table.
+sec6-res-util-pingpong-c2m2,,8275,,pingpong,,9,,483,,561,,574,,3.9701842175e-11,,Cannot find table. Detected table too small: 0.059311
+sec6-res-util-pingpong-c2m2,,8277,,pingpong,,9,,521,,557,,536,,5.52999377109e-10,,Cannot find table. Detected table too small: 0.042259
+sec6-res-util-pingpong-c2m2,,8276,,pingpong,,9,,536,,622,,618,,1.88052312205e-12,,Cannot find table. Detected table too small: 0.051777
+sec6-res-util-pingpong-c2m2,,8294,,pingpong,,9,,459,,528,,562,,9.12108815935e-11,,Cannot find table. Detected table too small: 0.046844
+sec6-res-util-pingpong-c2m2,,8295,,pingpong,,9,,465,,530,,554,,1.588073687e-10,,Cannot find table. Detected table too small: 0.057798
+sec6-res-util-pingpong-c2m2,,8296,,pingpong,,9,,489,,526,,537,,5.15966663142e-10,,Cannot find table. Detected table too small: 0.057836
+sec6-res-util-pingpong-c2m2,,8312,,pingpong,,9,,147,,242,,187,,0.995424411621,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8313,,pingpong,,9,,293,,522,,540,,4.19095158577e-10,,Found table, pingpong, and opponent. No instruction. oppo on left, last played right.
+sec6-res-util-pingpong-c2m2,,8314,,pingpong,,9,,453,,559,,511,,3.12823687637e-09,,Pingpong outside the table. Lost track of ball: 112
+sec6-res-util-pingpong-c2m2,,8319,,pingpong,,9,,416,,492,,437,,5.28349863057e-07,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,8330,,pingpong,,9,,239,,344,,351,,0.000205012131929,,Pingpong outside the table. Lost track of ball: 174
+sec6-res-util-pingpong-c2m2,,8332,,pingpong,,9,,308,,399,,344,,0.000333043190884,,No mark frame. Pingpong in table. Use as a reference frame
+sec6-res-util-pingpong-c2m2,,8333,,pingpong,,9,,327,,351,,327,,0.00108206051954,,Cannot find table. Detected table too small: 0.035499
+sec6-res-util-pingpong-c2m2,,8343,,pingpong,,9,,494,,532,,576,,3.45624610693e-11,,Cannot find table. Table top line too short
+sec6-res-util-pingpong-c2m2,,8344,,pingpong,,9,,493,,606,,567,,6.44958328927e-11,,Pingpong outside the table. Cannot initialize a location of ball
+sec6-res-util-pingpong-c2m2,,8345,,pingpong,,9,,492,,602,,545,,2.96345028592e-10,,Pingpong outside the table. Cannot initialize a location of ball

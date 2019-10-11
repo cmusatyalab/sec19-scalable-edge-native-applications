@@ -1,0 +1,876 @@
+sec6-res-util-lego-c6m2,,454,,lego,,4,,465,,513,,99,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,457,,lego,,4,,429,,477,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,459,,lego,,4,,425,,474,,63,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,462,,lego,,4,,426,,477,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,465,,lego,,4,,426,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,468,,lego,,4,,427,,486,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,471,,lego,,4,,426,,491,,76,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,474,,lego,,4,,426,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,477,,lego,,4,,428,,529,,114,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,481,,lego,,4,,427,,480,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,484,,lego,,4,,427,,531,,117,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,488,,lego,,4,,429,,493,,78,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,492,,lego,,4,,431,,532,,116,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,496,,lego,,4,,430,,530,,115,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,500,,lego,,4,,427,,516,,100,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,504,,lego,,4,,433,,533,,117,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,509,,lego,,4,,426,,525,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,513,,lego,,4,,432,,508,,92,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,516,,lego,,4,,427,,526,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,521,,lego,,4,,429,,497,,82,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,524,,lego,,4,,426,,495,,80,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,527,,lego,,4,,426,,533,,117,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,532,,lego,,4,,431,,522,,106,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,536,,lego,,4,,425,,527,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,540,,lego,,4,,429,,502,,86,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,543,,lego,,4,,427,,530,,202,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,550,,lego,,4,,427,,525,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,555,,lego,,4,,431,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,558,,lego,,4,,428,,483,,67,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,561,,lego,,4,,426,,476,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,564,,lego,,4,,429,,474,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,566,,lego,,4,,427,,463,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,569,,lego,,4,,426,,472,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,571,,lego,,4,,428,,474,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,574,,lego,,4,,427,,473,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,577,,lego,,4,,427,,474,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,579,,lego,,4,,427,,471,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,582,,lego,,4,,428,,480,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,585,,lego,,4,,427,,485,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,588,,lego,,4,,426,,873,,476,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,603,,lego,,4,,428,,870,,482,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,618,,lego,,4,,427,,909,,586,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,636,,lego,,4,,425,,901,,586,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,655,,lego,,4,,428,,922,,585,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]!!State Change!!
+sec6-res-util-lego-c6m2,,688,,lego,,4,,432,,872,,497,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,721,,lego,,4,,433,,903,,518,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,753,,lego,,4,,436,,888,,490,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,782,,lego,,4,,433,,902,,544,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,807,,lego,,4,,433,,478,,62,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,880,,lego,,4,,434,,475,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,892,,lego,,4,,441,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,902,,lego,,4,,430,,498,,82,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,910,,lego,,4,,430,,480,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,918,,lego,,4,,436,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1031,,lego,,4,,435,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1034,,lego,,4,,425,,480,,66,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1037,,lego,,4,,427,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1040,,lego,,4,,427,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1044,,lego,,4,,426,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1047,,lego,,4,,429,,528,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1051,,lego,,4,,426,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1054,,lego,,4,,427,,506,,91,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1058,,lego,,4,,424,,525,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1062,,lego,,4,,426,,527,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1066,,lego,,4,,427,,527,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1071,,lego,,4,,426,,495,,79,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1074,,lego,,4,,427,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1078,,lego,,4,,427,,523,,206,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1085,,lego,,4,,427,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1089,,lego,,4,,429,,526,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1093,,lego,,4,,427,,522,,108,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1097,,lego,,4,,427,,530,,114,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1102,,lego,,4,,427,,518,,134,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1106,,lego,,4,,429,,525,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1111,,lego,,4,,427,,500,,84,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1114,,lego,,4,,428,,500,,84,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1118,,lego,,4,,427,,506,,90,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1121,,lego,,4,,427,,525,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1125,,lego,,4,,428,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1130,,lego,,4,,428,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1134,,lego,,4,,428,,529,,116,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1138,,lego,,4,,429,,526,,113,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1142,,lego,,4,,427,,526,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1147,,lego,,4,,427,,529,,113,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1151,,lego,,4,,427,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1154,,lego,,4,,428,,479,,63,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1156,,lego,,4,,427,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1160,,lego,,4,,427,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1163,,lego,,4,,431,,480,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1165,,lego,,4,,428,,504,,88,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1169,,lego,,4,,431,,491,,76,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1172,,lego,,4,,426,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1175,,lego,,4,,424,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1178,,lego,,4,,427,,478,,63,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1180,,lego,,4,,427,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1183,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1185,,lego,,4,,427,,475,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1188,,lego,,4,,426,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1191,,lego,,4,,426,,476,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1193,,lego,,4,,429,,482,,66,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1196,,lego,,4,,427,,481,,66,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1199,,lego,,4,,426,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1202,,lego,,4,,428,,898,,566,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1220,,lego,,4,,427,,881,,481,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1235,,lego,,4,,425,,889,,485,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1251,,lego,,4,,427,,908,,574,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1270,,lego,,4,,427,,884,,578,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1288,,lego,,4,,428,,908,,583,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1306,,lego,,4,,426,,909,,575,,1.0,,[[0 0 1 6]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,1325,,lego,,4,,426,,863,,481,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1340,,lego,,4,,425,,888,,579,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1358,,lego,,4,,425,,469,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1361,,lego,,4,,426,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1363,,lego,,4,,426,,455,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1365,,lego,,4,,426,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1368,,lego,,4,,426,,470,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1370,,lego,,4,,426,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1372,,lego,,4,,426,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1375,,lego,,4,,426,,469,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1377,,lego,,4,,426,,460,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1379,,lego,,4,,424,,454,,36,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1381,,lego,,4,,425,,473,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1383,,lego,,4,,425,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1386,,lego,,4,,423,,469,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1388,,lego,,4,,426,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1391,,lego,,4,,427,,473,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1393,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1396,,lego,,4,,426,,465,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1398,,lego,,4,,425,,457,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1400,,lego,,4,,424,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1403,,lego,,4,,426,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1406,,lego,,4,,426,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1408,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1411,,lego,,4,,427,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1413,,lego,,4,,426,,472,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1416,,lego,,4,,426,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1418,,lego,,4,,426,,468,,52,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1421,,lego,,4,,426,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1423,,lego,,4,,426,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1426,,lego,,4,,425,,461,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1428,,lego,,4,,426,,451,,35,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1430,,lego,,4,,427,,449,,32,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1432,,lego,,4,,424,,446,,29,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1434,,lego,,4,,424,,444,,27,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1435,,lego,,4,,424,,446,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1437,,lego,,4,,427,,459,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1439,,lego,,4,,426,,460,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1441,,lego,,4,,426,,459,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1443,,lego,,4,,425,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1446,,lego,,4,,430,,456,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1448,,lego,,4,,426,,455,,39,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1450,,lego,,4,,425,,460,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1452,,lego,,4,,425,,456,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1454,,lego,,4,,426,,454,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1456,,lego,,4,,428,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1459,,lego,,4,,427,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1461,,lego,,4,,426,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1463,,lego,,4,,426,,463,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1466,,lego,,4,,426,,464,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1468,,lego,,4,,426,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1470,,lego,,4,,426,,455,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1472,,lego,,4,,425,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1475,,lego,,4,,427,,468,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1477,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1480,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1482,,lego,,4,,425,,451,,34,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1484,,lego,,4,,427,,467,,52,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1486,,lego,,4,,426,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1489,,lego,,4,,427,,469,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1491,,lego,,4,,429,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1494,,lego,,4,,426,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1496,,lego,,4,,426,,466,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1499,,lego,,4,,426,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1501,,lego,,4,,428,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1504,,lego,,4,,427,,460,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1506,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1508,,lego,,4,,426,,460,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1511,,lego,,4,,428,,462,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1513,,lego,,4,,426,,459,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1515,,lego,,4,,426,,462,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1517,,lego,,4,,426,,461,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1520,,lego,,4,,426,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1522,,lego,,4,,426,,462,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1525,,lego,,4,,426,,462,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1527,,lego,,4,,426,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1529,,lego,,4,,426,,464,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1531,,lego,,4,,427,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1534,,lego,,4,,425,,468,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1536,,lego,,4,,427,,485,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1539,,lego,,4,,427,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1542,,lego,,4,,427,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1545,,lego,,4,,427,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1548,,lego,,4,,427,,487,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1552,,lego,,4,,426,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1554,,lego,,4,,426,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1557,,lego,,4,,426,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1560,,lego,,4,,426,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1563,,lego,,4,,427,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1565,,lego,,4,,427,,470,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1568,,lego,,4,,427,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1571,,lego,,4,,427,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1574,,lego,,4,,426,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1577,,lego,,4,,427,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1580,,lego,,4,,426,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1583,,lego,,4,,427,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1586,,lego,,4,,427,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1589,,lego,,4,,427,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1591,,lego,,4,,427,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1594,,lego,,4,,429,,892,,497,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1610,,lego,,4,,426,,910,,586,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1629,,lego,,4,,428,,897,,583,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1647,,lego,,4,,426,,899,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1666,,lego,,4,,428,,893,,586,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1684,,lego,,4,,428,,908,,577,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1702,,lego,,4,,427,,907,,585,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1721,,lego,,4,,426,,894,,571,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1739,,lego,,4,,428,,889,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1758,,lego,,4,,426,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1760,,lego,,4,,426,,452,,36,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1762,,lego,,4,,427,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1764,,lego,,4,,427,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1767,,lego,,4,,427,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1790,,lego,,4,,434,,469,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1792,,lego,,4,,427,,460,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1794,,lego,,4,,426,,450,,34,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1796,,lego,,4,,427,,453,,35,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1798,,lego,,4,,423,,461,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1800,,lego,,4,,425,,449,,33,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1802,,lego,,4,,425,,452,,36,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1808,,lego,,4,,432,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1810,,lego,,4,,427,,469,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1813,,lego,,4,,428,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1815,,lego,,4,,426,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1818,,lego,,4,,428,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1820,,lego,,4,,426,,469,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1823,,lego,,4,,426,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1825,,lego,,4,,425,,446,,30,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1827,,lego,,4,,425,,453,,37,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1829,,lego,,4,,435,,464,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1831,,lego,,4,,426,,447,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1833,,lego,,4,,427,,451,,35,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1835,,lego,,4,,426,,451,,35,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1837,,lego,,4,,426,,444,,28,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1839,,lego,,4,,425,,452,,36,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1841,,lego,,4,,426,,458,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1843,,lego,,4,,424,,454,,36,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1845,,lego,,4,,426,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1847,,lego,,4,,430,,494,,78,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1851,,lego,,4,,429,,516,,100,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1855,,lego,,4,,426,,523,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1859,,lego,,4,,427,,499,,83,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1862,,lego,,4,,427,,503,,86,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1866,,lego,,4,,428,,502,,86,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1869,,lego,,4,,429,,524,,108,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1873,,lego,,4,,430,,530,,114,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1878,,lego,,4,,427,,527,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1882,,lego,,4,,427,,518,,132,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1887,,lego,,4,,428,,517,,101,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1891,,lego,,4,,427,,519,,103,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1895,,lego,,4,,428,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1899,,lego,,4,,427,,523,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1903,,lego,,4,,427,,517,,101,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1907,,lego,,4,,427,,505,,89,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1911,,lego,,4,,427,,524,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1915,,lego,,4,,427,,498,,82,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1919,,lego,,4,,428,,528,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1923,,lego,,4,,427,,517,,101,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1927,,lego,,4,,427,,526,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1931,,lego,,4,,494,,566,,150,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1937,,lego,,4,,428,,496,,80,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1940,,lego,,4,,431,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1942,,lego,,4,,427,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1945,,lego,,4,,426,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1948,,lego,,4,,427,,468,,52,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1950,,lego,,4,,427,,472,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1953,,lego,,4,,435,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1955,,lego,,4,,427,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1958,,lego,,4,,427,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1960,,lego,,4,,428,,459,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1962,,lego,,4,,428,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1965,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1967,,lego,,4,,427,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1970,,lego,,4,,427,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1972,,lego,,4,,426,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1975,,lego,,4,,426,,462,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1977,,lego,,4,,428,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1980,,lego,,4,,426,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1982,,lego,,4,,427,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1985,,lego,,4,,427,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1987,,lego,,4,,428,,878,,525,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2004,,lego,,4,,428,,882,,576,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2022,,lego,,4,,428,,855,,469,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2037,,lego,,4,,475,,931,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2056,,lego,,4,,427,,907,,581,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2074,,lego,,4,,428,,876,,473,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2090,,lego,,4,,428,,897,,571,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2108,,lego,,4,,428,,899,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2126,,lego,,4,,428,,917,,570,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2145,,lego,,4,,427,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2148,,lego,,4,,428,,478,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2151,,lego,,4,,427,,465,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2153,,lego,,4,,428,,476,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2156,,lego,,4,,424,,461,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2158,,lego,,4,,427,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2161,,lego,,4,,429,,463,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2163,,lego,,4,,427,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2165,,lego,,4,,427,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2353,,lego,,4,,431,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2355,,lego,,4,,427,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2358,,lego,,4,,427,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2360,,lego,,4,,427,,453,,37,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2362,,lego,,4,,426,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2365,,lego,,4,,426,,482,,66,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2368,,lego,,4,,428,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2371,,lego,,4,,427,,483,,67,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2374,,lego,,4,,427,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2376,,lego,,4,,427,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2379,,lego,,4,,427,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2381,,lego,,4,,428,,483,,67,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2384,,lego,,4,,428,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2387,,lego,,4,,430,,486,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2390,,lego,,4,,428,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2394,,lego,,4,,427,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2396,,lego,,4,,428,,487,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2399,,lego,,4,,428,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2402,,lego,,4,,428,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2406,,lego,,4,,429,,526,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2410,,lego,,4,,428,,523,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2414,,lego,,4,,426,,529,,113,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2418,,lego,,4,,426,,525,,171,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2424,,lego,,4,,427,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2429,,lego,,4,,428,,517,,101,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2433,,lego,,4,,428,,527,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2437,,lego,,4,,428,,525,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2441,,lego,,4,,428,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2445,,lego,,4,,426,,524,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,2449,,lego,,4,,428,,478,,62,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2452,,lego,,4,,426,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2455,,lego,,4,,427,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2457,,lego,,4,,427,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2460,,lego,,4,,427,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2462,,lego,,4,,428,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2465,,lego,,4,,427,,457,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2467,,lego,,4,,428,,457,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2469,,lego,,4,,427,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2471,,lego,,4,,427,,459,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2473,,lego,,4,,428,,480,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2476,,lego,,4,,427,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2479,,lego,,4,,427,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2482,,lego,,4,,428,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2484,,lego,,4,,429,,485,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2487,,lego,,4,,427,,470,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2490,,lego,,4,,427,,480,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2493,,lego,,4,,430,,926,,559,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2510,,lego,,4,,427,,904,,582,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2529,,lego,,4,,428,,898,,570,,1.0,,[[0 2 1 1]
+ [0 2 1 4]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,2547,,lego,,4,,430,,902,,583,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2566,,lego,,4,,428,,905,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2584,,lego,,4,,427,,892,,573,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2603,,lego,,4,,428,,880,,570,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2621,,lego,,4,,428,,906,,582,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2639,,lego,,4,,428,,908,,575,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2658,,lego,,4,,426,,480,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2661,,lego,,4,,426,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2664,,lego,,4,,429,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2666,,lego,,4,,427,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2669,,lego,,4,,428,,479,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2671,,lego,,4,,427,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2675,,lego,,4,,427,,472,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2677,,lego,,4,,430,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2680,,lego,,4,,429,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2683,,lego,,4,,426,,477,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2686,,lego,,4,,427,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2765,,lego,,4,,436,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2767,,lego,,4,,427,,460,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2769,,lego,,4,,427,,483,,67,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2772,,lego,,4,,428,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2775,,lego,,4,,425,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2778,,lego,,4,,427,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2781,,lego,,4,,427,,491,,75,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2784,,lego,,4,,426,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2787,,lego,,4,,428,,486,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2790,,lego,,4,,427,,486,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2794,,lego,,4,,427,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2797,,lego,,4,,425,,486,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2800,,lego,,4,,426,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2803,,lego,,4,,430,,492,,76,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2806,,lego,,4,,429,,492,,76,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2809,,lego,,4,,427,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2812,,lego,,4,,426,,485,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2815,,lego,,4,,427,,491,,75,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2818,,lego,,4,,427,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2821,,lego,,4,,427,,489,,167,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2827,,lego,,4,,427,,470,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2829,,lego,,4,,427,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2832,,lego,,4,,428,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2835,,lego,,4,,427,,483,,67,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2838,,lego,,4,,427,,491,,75,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2841,,lego,,4,,427,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2844,,lego,,4,,426,,488,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2847,,lego,,4,,426,,477,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2850,,lego,,4,,427,,466,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2852,,lego,,4,,424,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2854,,lego,,4,,426,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2857,,lego,,4,,426,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2859,,lego,,4,,427,,470,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2861,,lego,,4,,426,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2864,,lego,,4,,429,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2867,,lego,,4,,426,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2869,,lego,,4,,426,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2872,,lego,,4,,427,,478,,62,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2875,,lego,,4,,428,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2877,,lego,,4,,427,,482,,66,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2880,,lego,,4,,427,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2883,,lego,,4,,427,,871,,533,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2901,,lego,,4,,428,,944,,572,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2919,,lego,,4,,429,,866,,481,,1.0,,[[0 2 2 2]
+ [0 2 1 1]
+ [0 2 1 4]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,2934,,lego,,4,,428,,915,,584,,1.0,,[[0 2 2 2]
+ [0 2 1 1]
+ [0 2 1 4]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,2953,,lego,,4,,426,,890,,578,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2971,,lego,,4,,428,,909,,586,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2990,,lego,,4,,427,,881,,572,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,3008,,lego,,4,,427,,890,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,3027,,lego,,4,,427,,906,,567,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,3045,,lego,,4,,428,,921,,575,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,3063,,lego,,4,,427,,877,,569,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,3082,,lego,,4,,426,,492,,76,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 2
+sec6-res-util-lego-c6m2,,3085,,lego,,4,,426,,515,,98,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 2
+sec6-res-util-lego-c6m2,,3089,,lego,,4,,427,,828,,428,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,3103,,lego,,4,,426,,489,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 2
+sec6-res-util-lego-c6m2,,3106,,lego,,4,,428,,513,,97,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 2
+sec6-res-util-lego-c6m2,,3110,,lego,,4,,427,,512,,96,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 2
+sec6-res-util-lego-c6m2,,3,,lego,,4,,431,,495,,79,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,6,,lego,,4,,427,,504,,87,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,9,,lego,,4,,429,,529,,113,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,14,,lego,,4,,429,,523,,106,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,18,,lego,,4,,429,,527,,113,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,22,,lego,,4,,427,,501,,85,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,26,,lego,,4,,429,,528,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,30,,lego,,4,,428,,523,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,34,,lego,,4,,427,,488,,118,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,38,,lego,,4,,429,,491,,75,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,42,,lego,,4,,427,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,45,,lego,,4,,428,,491,,77,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,48,,lego,,4,,426,,521,,105,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,52,,lego,,4,,428,,524,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,56,,lego,,4,,427,,527,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,60,,lego,,4,,428,,497,,167,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,66,,lego,,4,,427,,499,,82,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,69,,lego,,4,,429,,504,,88,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,73,,lego,,4,,432,,518,,102,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,77,,lego,,4,,427,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,81,,lego,,4,,427,,520,,104,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,85,,lego,,4,,428,,524,,108,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,89,,lego,,4,,427,,519,,114,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,94,,lego,,4,,424,,498,,81,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,97,,lego,,4,,427,,498,,82,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,101,,lego,,4,,427,,519,,103,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,105,,lego,,4,,429,,499,,120,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,109,,lego,,4,,428,,520,,104,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,113,,lego,,4,,430,,526,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,117,,lego,,4,,427,,529,,113,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,122,,lego,,4,,428,,523,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,126,,lego,,4,,428,,527,,122,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,131,,lego,,4,,427,,526,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,185,,lego,,4,,426,,473,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,187,,lego,,4,,427,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,189,,lego,,4,,426,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,191,,lego,,4,,425,,473,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,194,,lego,,4,,427,,477,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,196,,lego,,4,,427,,468,,52,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,199,,lego,,4,,426,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,201,,lego,,4,,426,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,204,,lego,,4,,427,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,206,,lego,,4,,429,,462,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,208,,lego,,4,,427,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,211,,lego,,4,,427,,463,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,213,,lego,,4,,425,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,215,,lego,,4,,427,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,218,,lego,,4,,426,,470,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,220,,lego,,4,,426,,467,,52,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,223,,lego,,4,,428,,467,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,225,,lego,,4,,427,,459,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,227,,lego,,4,,426,,470,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,230,,lego,,4,,429,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,232,,lego,,4,,427,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,235,,lego,,4,,427,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,237,,lego,,4,,426,,470,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,240,,lego,,4,,426,,475,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,243,,lego,,4,,427,,477,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,246,,lego,,4,,427,,484,,67,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,249,,lego,,4,,427,,486,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,252,,lego,,4,,428,,890,,542,,1.0,,[[2 2 2 2]]
+sec6-res-util-lego-c6m2,,269,,lego,,4,,427,,902,,579,,1.0,,[[2 2 2 2]]
+sec6-res-util-lego-c6m2,,287,,lego,,4,,429,,911,,573,,1.0,,[[2 2 2 2]]
+sec6-res-util-lego-c6m2,,306,,lego,,4,,427,,903,,491,,1.0,,[[2 2 2 2]]
+sec6-res-util-lego-c6m2,,322,,lego,,4,,426,,454,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,324,,lego,,4,,426,,452,,34,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,326,,lego,,4,,424,,467,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,328,,lego,,4,,428,,467,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,446,,lego,,4,,432,,462,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,447,,lego,,4,,426,,456,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,449,,lego,,4,,427,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,451,,lego,,4,,427,,460,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,453,,lego,,4,,428,,465,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,454,,lego,,4,,428,,471,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,456,,lego,,4,,427,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,459,,lego,,4,,427,,459,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,461,,lego,,4,,427,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,464,,lego,,4,,427,,479,,63,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,466,,lego,,4,,427,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,469,,lego,,4,,427,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,472,,lego,,4,,427,,486,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,475,,lego,,4,,427,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,479,,lego,,4,,427,,488,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,482,,lego,,4,,428,,473,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,485,,lego,,4,,427,,526,,110,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,489,,lego,,4,,428,,528,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,493,,lego,,4,,427,,527,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,497,,lego,,4,,427,,532,,116,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,501,,lego,,4,,426,,523,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,506,,lego,,4,,427,,500,,84,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,509,,lego,,4,,428,,501,,85,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,512,,lego,,4,,428,,522,,170,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,518,,lego,,4,,427,,516,,100,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,522,,lego,,4,,431,,530,,114,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,527,,lego,,4,,428,,522,,105,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,531,,lego,,4,,428,,526,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,535,,lego,,4,,426,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,539,,lego,,4,,428,,525,,204,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,546,,lego,,4,,428,,530,,113,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,550,,lego,,4,,426,,514,,98,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,554,,lego,,4,,428,,465,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,556,,lego,,4,,425,,466,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,559,,lego,,4,,426,,464,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,561,,lego,,4,,425,,476,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,564,,lego,,4,,426,,473,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,566,,lego,,4,,426,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,569,,lego,,4,,425,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,572,,lego,,4,,425,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,574,,lego,,4,,425,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,577,,lego,,4,,425,,472,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,579,,lego,,4,,429,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,582,,lego,,4,,426,,481,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,585,,lego,,4,,425,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,588,,lego,,4,,426,,859,,528,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,604,,lego,,4,,427,,873,,467,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,620,,lego,,4,,430,,928,,582,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,638,,lego,,4,,426,,884,,573,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,657,,lego,,4,,427,,928,,570,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,675,,lego,,4,,428,,910,,574,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,694,,lego,,4,,426,,882,,479,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,709,,lego,,4,,425,,849,,481,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,724,,lego,,4,,425,,894,,574,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,743,,lego,,4,,425,,928,,583,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,761,,lego,,4,,428,,882,,572,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,780,,lego,,4,,426,,916,,572,,1.0,,[[0 0 1 0]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,798,,lego,,4,,426,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,801,,lego,,4,,425,,470,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,803,,lego,,4,,425,,474,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,806,,lego,,4,,428,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,808,,lego,,4,,424,,469,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,811,,lego,,4,,425,,470,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,813,,lego,,4,,425,,462,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,816,,lego,,4,,427,,477,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,818,,lego,,4,,426,,474,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,880,,lego,,4,,433,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,882,,lego,,4,,425,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,884,,lego,,4,,425,,479,,62,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,887,,lego,,4,,425,,481,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,890,,lego,,4,,425,,480,,63,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,893,,lego,,4,,428,,487,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,896,,lego,,4,,425,,485,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,899,,lego,,4,,425,,482,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,902,,lego,,4,,425,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,905,,lego,,4,,427,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,908,,lego,,4,,426,,486,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,911,,lego,,4,,425,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,914,,lego,,4,,425,,448,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,916,,lego,,4,,425,,446,,30,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,917,,lego,,4,,428,,457,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,920,,lego,,4,,426,,449,,32,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1030,,lego,,4,,433,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1033,,lego,,4,,425,,489,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1036,,lego,,4,,426,,493,,76,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1039,,lego,,4,,425,,488,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1042,,lego,,4,,426,,489,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1045,,lego,,4,,426,,491,,75,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1048,,lego,,4,,426,,504,,90,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1052,,lego,,4,,427,,523,,107,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1056,,lego,,4,,425,,485,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1059,,lego,,4,,425,,517,,165,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1065,,lego,,4,,425,,522,,177,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1071,,lego,,4,,428,,528,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1076,,lego,,4,,428,,529,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1080,,lego,,4,,426,,523,,106,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1084,,lego,,4,,425,,523,,106,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1088,,lego,,4,,425,,513,,137,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1093,,lego,,4,,426,,527,,111,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1097,,lego,,4,,425,,522,,106,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1101,,lego,,4,,426,,503,,87,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1105,,lego,,4,,427,,523,,106,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1109,,lego,,4,,426,,514,,151,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1114,,lego,,4,,426,,517,,100,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1118,,lego,,4,,426,,518,,101,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1122,,lego,,4,,426,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1126,,lego,,4,,426,,518,,101,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1130,,lego,,4,,424,,523,,106,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1134,,lego,,4,,426,,510,,93,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1138,,lego,,4,,424,,526,,209,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1145,,lego,,4,,425,,525,,108,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1149,,lego,,4,,428,,499,,82,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1153,,lego,,4,,426,,464,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1155,,lego,,4,,426,,478,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1158,,lego,,4,,426,,486,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1161,,lego,,4,,426,,490,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1164,,lego,,4,,425,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1166,,lego,,4,,426,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1169,,lego,,4,,426,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1172,,lego,,4,,425,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1174,,lego,,4,,426,,476,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1177,,lego,,4,,424,,473,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1179,,lego,,4,,424,,463,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1181,,lego,,4,,426,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1184,,lego,,4,,428,,476,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1187,,lego,,4,,426,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1189,,lego,,4,,429,,477,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1192,,lego,,4,,428,,478,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1195,,lego,,4,,425,,462,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1197,,lego,,4,,424,,478,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1199,,lego,,4,,428,,481,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1202,,lego,,4,,427,,915,,529,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1219,,lego,,4,,425,,881,,481,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1234,,lego,,4,,426,,907,,581,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1253,,lego,,4,,427,,893,,581,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1271,,lego,,4,,428,,904,,571,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1290,,lego,,4,,426,,861,,468,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1305,,lego,,4,,426,,879,,485,,1.0,,[[0 0 1 6]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,1320,,lego,,4,,426,,883,,578,,1.0,,[[0 0 1 6]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,1339,,lego,,4,,427,,852,,478,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1354,,lego,,4,,427,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1357,,lego,,4,,427,,472,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1359,,lego,,4,,426,,455,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1361,,lego,,4,,425,,467,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1363,,lego,,4,,426,,460,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1366,,lego,,4,,425,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1368,,lego,,4,,425,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1370,,lego,,4,,426,,470,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1373,,lego,,4,,425,,461,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1375,,lego,,4,,429,,457,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1377,,lego,,4,,425,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1379,,lego,,4,,426,,474,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1382,,lego,,4,,425,,473,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1385,,lego,,4,,426,,474,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1387,,lego,,4,,425,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1390,,lego,,4,,425,,462,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1392,,lego,,4,,425,,463,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1394,,lego,,4,,425,,458,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1396,,lego,,4,,424,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1398,,lego,,4,,425,,470,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1401,,lego,,4,,425,,465,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1403,,lego,,4,,423,,455,,37,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1405,,lego,,4,,424,,469,,52,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1407,,lego,,4,,425,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1410,,lego,,4,,424,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1412,,lego,,4,,425,,473,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1415,,lego,,4,,424,,470,,53,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1417,,lego,,4,,425,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1420,,lego,,4,,427,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1422,,lego,,4,,433,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1425,,lego,,4,,425,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1427,,lego,,4,,427,,450,,33,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1429,,lego,,4,,424,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1431,,lego,,4,,423,,455,,37,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1433,,lego,,4,,424,,456,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1435,,lego,,4,,424,,448,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1437,,lego,,4,,427,,451,,33,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1438,,lego,,4,,427,,461,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1440,,lego,,4,,426,,459,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1442,,lego,,4,,425,,454,,37,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1444,,lego,,4,,425,,447,,29,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1446,,lego,,4,,424,,449,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1448,,lego,,4,,428,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1450,,lego,,4,,425,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1452,,lego,,4,,426,,456,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1455,,lego,,4,,425,,448,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1456,,lego,,4,,429,,453,,37,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1458,,lego,,4,,424,,447,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1460,,lego,,4,,425,,460,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1462,,lego,,4,,425,,457,,39,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1464,,lego,,4,,423,,458,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1467,,lego,,4,,425,,462,,45,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1469,,lego,,4,,425,,466,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1471,,lego,,4,,425,,464,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1474,,lego,,4,,425,,456,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1476,,lego,,4,,427,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1478,,lego,,4,,426,,465,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1481,,lego,,4,,425,,452,,35,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1483,,lego,,4,,425,,457,,41,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1485,,lego,,4,,427,,462,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1487,,lego,,4,,427,,465,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1489,,lego,,4,,426,,466,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1492,,lego,,4,,425,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1494,,lego,,4,,425,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1496,,lego,,4,,428,,466,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1499,,lego,,4,,425,,466,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1501,,lego,,4,,425,,467,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1504,,lego,,4,,425,,463,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1506,,lego,,4,,425,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1509,,lego,,4,,425,,457,,41,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1511,,lego,,4,,425,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1513,,lego,,4,,424,,462,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1515,,lego,,4,,425,,460,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1517,,lego,,4,,424,,449,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1519,,lego,,4,,424,,459,,41,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1521,,lego,,4,,425,,449,,32,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1523,,lego,,4,,425,,457,,40,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1525,,lego,,4,,427,,455,,37,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1527,,lego,,4,,427,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1529,,lego,,4,,427,,456,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1531,,lego,,4,,425,,451,,34,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1533,,lego,,4,,432,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1536,,lego,,4,,426,,485,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1539,,lego,,4,,427,,477,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1542,,lego,,4,,426,,480,,64,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1545,,lego,,4,,428,,489,,73,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1548,,lego,,4,,427,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1551,,lego,,4,,428,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1553,,lego,,4,,427,,488,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1556,,lego,,4,,427,,469,,52,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1559,,lego,,4,,427,,487,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1562,,lego,,4,,428,,487,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1565,,lego,,4,,428,,486,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1568,,lego,,4,,428,,488,,71,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1571,,lego,,4,,428,,491,,75,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1574,,lego,,4,,427,,487,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1577,,lego,,4,,426,,478,,61,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1579,,lego,,4,,428,,485,,69,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1583,,lego,,4,,427,,467,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1585,,lego,,4,,428,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1588,,lego,,4,,428,,489,,72,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1591,,lego,,4,,429,,490,,74,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1594,,lego,,4,,432,,886,,550,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1612,,lego,,4,,428,,884,,481,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1627,,lego,,4,,429,,891,,579,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1646,,lego,,4,,428,,901,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1664,,lego,,4,,428,,892,,571,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1683,,lego,,4,,428,,918,,569,,1.0,,[[0 0 1 1]
+ [0 0 1 6]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,1701,,lego,,4,,429,,918,,569,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1720,,lego,,4,,428,,911,,583,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1738,,lego,,4,,428,,901,,568,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,1756,,lego,,4,,428,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1759,,lego,,4,,426,,454,,36,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1761,,lego,,4,,426,,463,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1763,,lego,,4,,429,,454,,38,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1765,,lego,,4,,431,,471,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1790,,lego,,4,,437,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1792,,lego,,4,,426,,452,,35,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1794,,lego,,4,,427,,466,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1796,,lego,,4,,429,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1798,,lego,,4,,427,,461,,44,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1801,,lego,,4,,430,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1808,,lego,,4,,429,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1810,,lego,,4,,427,,471,,54,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1812,,lego,,4,,427,,466,,153,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1818,,lego,,4,,426,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1820,,lego,,4,,425,,468,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1823,,lego,,4,,426,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1825,,lego,,4,,428,,459,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1827,,lego,,4,,427,,445,,28,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1829,,lego,,4,,427,,446,,29,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1831,,lego,,4,,426,,451,,34,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1833,,lego,,4,,426,,452,,34,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1834,,lego,,4,,425,,450,,32,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1836,,lego,,4,,425,,445,,27,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1838,,lego,,4,,426,,459,,43,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1840,,lego,,4,,426,,442,,26,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1841,,lego,,4,,425,,449,,31,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1843,,lego,,4,,426,,459,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1845,,lego,,4,,428,,486,,70,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1848,,lego,,4,,426,,466,,50,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1850,,lego,,4,,427,,467,,51,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1852,,lego,,4,,428,,497,,81,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1856,,lego,,4,,428,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1860,,lego,,4,,428,,513,,96,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1864,,lego,,4,,428,,510,,93,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1867,,lego,,4,,427,,498,,82,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1871,,lego,,4,,428,,522,,157,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1876,,lego,,4,,427,,497,,81,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1879,,lego,,4,,427,,508,,91,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1883,,lego,,4,,428,,502,,85,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1886,,lego,,4,,430,,528,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1891,,lego,,4,,430,,517,,100,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1894,,lego,,4,,428,,529,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1899,,lego,,4,,428,,519,,102,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1903,,lego,,4,,430,,501,,84,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1906,,lego,,4,,428,,499,,83,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1910,,lego,,4,,428,,500,,85,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1913,,lego,,4,,432,,522,,105,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1917,,lego,,4,,428,,525,,108,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1921,,lego,,4,,427,,506,,90,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1925,,lego,,4,,428,,502,,85,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1928,,lego,,4,,432,,507,,90,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1932,,lego,,4,,428,,525,,109,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1936,,lego,,4,,428,,528,,112,,1.0,,Cannot find a large enough foreground near the center of board
+sec6-res-util-lego-c6m2,,1940,,lego,,4,,429,,465,,49,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1943,,lego,,4,,427,,474,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1945,,lego,,4,,427,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1948,,lego,,4,,428,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1950,,lego,,4,,428,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1953,,lego,,4,,428,,457,,41,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1955,,lego,,4,,428,,459,,42,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1957,,lego,,4,,427,,473,,56,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1959,,lego,,4,,428,,464,,48,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1962,,lego,,4,,428,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1964,,lego,,4,,428,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1967,,lego,,4,,429,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1970,,lego,,4,,431,,477,,60,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1972,,lego,,4,,427,,474,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1975,,lego,,4,,428,,474,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1977,,lego,,4,,428,,476,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1980,,lego,,4,,426,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1983,,lego,,4,,426,,464,,47,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1985,,lego,,4,,426,,463,,46,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,1987,,lego,,4,,428,,887,,582,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2005,,lego,,4,,428,,902,,583,,1.0,,[[0 0 1 1]
+ [0 2 1 4]
+ [2 2 2 2]]
+sec6-res-util-lego-c6m2,,2024,,lego,,4,,428,,924,,583,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2042,,lego,,4,,429,,888,,482,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2058,,lego,,4,,430,,893,,585,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2076,,lego,,4,,429,,914,,584,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2094,,lego,,4,,427,,901,,577,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2113,,lego,,4,,428,,887,,576,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2131,,lego,,4,,428,,864,,470,,1.0,,Not confident about reconstruction, maybe too much noise
+sec6-res-util-lego-c6m2,,2147,,lego,,4,,427,,481,,65,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2149,,lego,,4,,427,,475,,58,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2152,,lego,,4,,427,,475,,59,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2155,,lego,,4,,427,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2157,,lego,,4,,428,,472,,55,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2160,,lego,,4,,428,,473,,57,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2163,,lego,,4,,428,,484,,67,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1
+sec6-res-util-lego-c6m2,,2166,,lego,,4,,428,,484,,68,,1.0,,Cannot locate board border, maybe not the full board is in the scene. Failed at stage 1

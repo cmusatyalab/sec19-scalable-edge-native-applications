@@ -64,14 +64,11 @@ target/
 venv
 conda-env-*
 
-data/*trace*
 .envrc
 .vscode
 
 third_party/dlib
 third_party/models
-
-data/mysql-bk
 
 unused
 
