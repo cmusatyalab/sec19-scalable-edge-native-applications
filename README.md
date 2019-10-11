@@ -48,11 +48,11 @@ Dataset for 5 applications are collected and labeled: face, lego, pingpong, pool
 Their data are stored in data/<app>-trace.
 
 Traces used for experiemnts
-* face: 1, 2, 3, 4
-* pool: 1, 2, 3, 4
-* pingpong: 6, 7, 8, 9
-* lego: 1, 3, 4, 6
-* ikea: 1, 7, 11, 12
+* face: 1-8
+* pool: 1-4
+* pingpong: 1-10
+* lego: 1-8, 16, 18
+* ikea: 1, 4, 7, 11, 12
 
 Pool and pingpong's trace selection are restricted to the ones that we have IMU suppression prediction.
 Lego and ikea's trace selection are restricted to the videos that triggers less computer vision processing errors.
