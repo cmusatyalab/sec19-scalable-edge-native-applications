@@ -10,11 +10,11 @@ services:
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     ports:
-      - 13306:3306
+      - 3306:3306
     volumes:
       - res_mysql_data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: exp
+      MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
   db-phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -29,11 +29,3 @@ services:
       - ./phpmyadmin-config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
     depends_on:
       - db
-  # db-adminer:
-  #   image: adminer
-  #   container_name: res-db-adminer
-  #   restart: always
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - 8081:8080
