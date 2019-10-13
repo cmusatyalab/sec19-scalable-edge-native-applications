@@ -64,7 +64,7 @@ class Profiler(object):
         docker_cmd = 'docker run --rm --cgroup-parent=profile --cpus={} --memory={}g -v /home/junjuew/work/resource-management/data:/root/data:ro res /bin/bash -i -c'.format(
             cpu, mem).split()
         docker_cmd.append(
-            '". .envrc; OMP_NUM_THREADS={} EXP={} python rmexp/worker.py batch-process --video-uri /root/data/{} --app {} --store-profile True --trace {} --cpu {} --memory {}"'.format(
+            '". .envrc; OMP_NUM_THREADS={} python rmexp/worker.py batch-process --experiment-name {} --video-uri /root/data/{} --app {} --store-profile True --trace {} --cpu {} --memory {}"'.format(
                 omp_num_threads, profile_exp_name, relative_video_uri, app, trace, cpu, mem
             ))
         return docker_cmd

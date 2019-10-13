@@ -39,7 +39,7 @@ def work_loop(job_queue, app, busy_wait=None):
         get_wait = time.time() - get_ts
         if get_wait > 2e-3:
             logger.warn("[pid {}] took {} ms to get a new request. Maybe waiting".format(
-                os.getpid(), int(1000*get_wait)))
+                os.getpid(), int(1000 * get_wait)))
 
         arrival_ts = time.time()
 
@@ -102,99 +102,101 @@ class Sampler(object):
             self._sf()
 
 
-def process_and_measure_cpu_time(img, app_handler):
+def process_and_time(img, app_handler):
     ts = time.time()
     result = app_handler.process(img)
     time_lapse = int(round((time.time() - ts) * 1000))
     return result, time_lapse
 
 
-def batch_process_multiple(worker_num,
-                           video_uri, app,
-                           store_result=False, store_latency=False, store_profile=False, trace=None, cpu=None, memory=None):
-    """Multiple batch process at the same time. mainly used for profiling.
-    Arguments are the same as batch_process, except worker_num.
-    """
-    procs = [multiprocessing.Process(target=batch_process, args=(
-        video_uri, app, store_result, store_latency, store_profile, trace, cpu, memory, worker_num)) for _ in range(worker_num)]
-    map(lambda proc: proc.start(), procs)
-    map(lambda proc: proc.join(), procs)
+def store(
+        data,
+        session,
+        store_result,
+        store_latency,
+        store_profile,
+        **kwargs):
+    name, trace, idx, result, time_lapse = data
+    if store_result:
+        rec, _ = dbutils.get_or_create(
+            session,
+            models.SS,
+            name=name,
+            index=idx,
+            trace=trace)
+        rec.val = str(result)
+    if store_latency:
+        rec, _ = dbutils.get_or_create(
+            session,
+            models.LegoLatency,
+            name=name,
+            index=idx)
+        rec.val = int(time_lapse)
+    if store_profile:
+        rec = kwargs
+        rec.update(
+            {'trace': trace,
+             'index': idx,
+             'name': name,
+             'latency': time_lapse
+             }
+        )
+        dbutils.insert(
+            session,
+            models.ResourceLatency,
+            rec
+        )
 
 
 def batch_process(video_uri,
                   app,
+                  experiment_name,
+                  trace=None,
                   store_result=False,
                   store_latency=False,
                   store_profile=False,
-                  trace=None,
-                  cpu=None,
-                  memory=None,
-                  num_worker=1):
-    """Batch process a lego video. Able to store both the result and the frame processing latency.
+                  **kwargs):
+    """Batch process a video. Able to store both the result and the frame processing latency.
 
     Arguments:
-        video_uri {[type]} -- [description]
-        worker_num: This is just used when store_profile is true. it does not launch multiple processes.
-        Use batch_process_multiple to launch multiple workers.
+        video_uri {string} -- Video URI
+        app {string} -- Applicaiton name
+        experiment_name {string} -- Experiment name
 
     Keyword Arguments:
+        trace {string} -- Trace id
+        store_result {bool} -- Whether to store result into database
         store_result {bool} -- [description] (default: {False})
         store_latency {bool} -- [description] (default: {False})
+        cpu {string} -- No of CPUs used. Used to populate profile database
+        memory {string} -- No of memory used. Used to populate profile database
+        num_worker {int} -- No of simultaneous workers. Used to populate profile database
     """
-    # TODO(junjuew): reorganize this function with dbutils.session_scope and insert_or_update
+    if trace is None:
+        trace = os.path.basename(os.path.dirname(video_uri))
+
     app = importlib.import_module(app)
     app_handler = app.Handler()
     vc = client.VideoClient(
         app.__name__, video_uri, None, loop=False, random_start=False)
-    sess = None
-    if store_result or store_latency or store_profile:
-        sess = dbutils.get_session()
-    idx = 1
-    if trace is None:
-        trace = os.path.basename(os.path.dirname(video_uri))
-    while True:
-        try:
-            img = vc.get_frame()
-        except ValueError as e:
-            logger.error(e)
-            logger.info('video ended.')
-            break
-        cpu_time_ts = time.clock()
-        result, time_lapse = process_and_measure_cpu_time(img, app_handler)
-        logger.debug("[pid: {}] cpu time frame {} from {}. {} ms".format(os.getpid(),
-                                                                         idx, video_uri, (time.clock() - cpu_time_ts) * 1000))
-        logger.debug("[pid: {}] processing frame {} from {}. {} ms".format(os.getpid(),
-                                                                           idx, video_uri, int(time_lapse)))
-        logger.debug(result)
-        if store_result:
-            rec, _ = dbutils.get_or_create(
-                sess,
-                models.SS,
-                name=config.EXP,
-                index=idx,
-                trace=trace)
-            rec.val = str(result)
-        if store_latency:
-            rec, _ = dbutils.get_or_create(
-                sess,
-                models.LegoLatency,
-                name=config.EXP,
-                index=idx)
-            rec.val = int(time_lapse)
-        if store_profile:
-            dbutils.insert(
-                sess,
-                models.ResourceLatency,
-                {'trace': trace, 'index': idx, 'name': config.EXP,
-                    'cpu': cpu, 'memory': memory,
-                    'latency': time_lapse, 'num_worker': num_worker}
-            )
-        if sess is not None:
-            sess.commit()
-        idx += 1
 
-    if sess is not None:
-        sess.close()
+    idx = 1
+    with dbutils.session_scope() as session:
+        for img in vc.get_frame_generator():
+            cpu_time_ts = time.clock()
+            result, time_lapse = process_and_time(img, app_handler)
+            logger.debug("[pid: {}] processing frame {} from {}. {} ms".format(os.getpid(),
+                                                                               idx, video_uri, int(time_lapse)))
+            logger.debug(result)
+            store(
+                (experiment_name, trace, idx, result, time_lapse),
+                session,
+                store_result,
+                store_latency,
+                store_profile,
+                **kwargs
+            )
+            idx += 1
 
 
 def phash(video_uri):

@@ -2,6 +2,7 @@
 from __future__ import absolute_import, division, print_function
 
 import contextlib
+import functools
 
 from rmexp import config, schema
 from sqlalchemy import Column, DateTime, Integer, String, create_engine
@@ -19,13 +20,14 @@ def get_session():
 
 
 @contextlib.contextmanager
-def session_scope(dry_run=True):
+def session_scope(dry_run=False):
     """Provide a transactional scope around a series of session operations.
     To use:
     with session_scope() as sess:
         blah...
     """
     if dry_run:
+        # return an dummy session
         session = None
     else:
         session = get_session()

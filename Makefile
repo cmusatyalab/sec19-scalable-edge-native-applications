@@ -29,9 +29,6 @@ feed:
 serve:
 	python rmexp/serve.py start --num 1 --broker-type ${BROKER_TYPE} --broker-uri ${BROKER_URI}
 
-batch-process:
-	python rmexp/worker.py batch_process --video-uri ${VIDEO_URI} --store-result True
-
 monitor:
 	python rmexp/monitor.py start --broker-type ${BROKER_TYPE} --broker-uri ${BROKER_URI}
 

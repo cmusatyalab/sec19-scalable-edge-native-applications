@@ -70,6 +70,16 @@ class VideoClient(object):
         self._nc.put([gabriel_msg.SerializeToString(), ],
                      service=self._app)
 
+    def get_frame_generator(self):
+        while True:
+            try:
+                img = self.get_frame()
+                yield img
+            except ValueError as e:
+                logger.error(e)
+                logger.info('video ended.')
+                break
+
     def get_frame(self):
         """Public function to get a frame.
         Internally, invoke _get_frame_and_resize to get a correct sized frame
