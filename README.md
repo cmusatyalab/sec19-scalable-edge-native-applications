@@ -78,8 +78,7 @@ source: https://github.com/waiwnf/pilotguru/tree/master/mobile/android
 
 ### Use Linux Box to Run Ubuntu on mobile device
 * essential phone:
-  Followed [this](https://forum.xda-developers.com/essential-phone/how-to/guide-how-to-install-twrp-root-t3841922) and [this](https://github.com/thehappydinoa/root-PH1) to root Essential Phone.
-The patch in the root.py in the second link needs to be applied to the Magisk zip file.
+  Follow [this](https://android.gadgethacks.com/how-to/root-your-essential-ph-1-with-magisk-0187784/1) to root Essential Phone.
 * Nexus 6:
   followed [this](https://android.gadgethacks.com/how-to/magisk-101-install-magisk-root-with-twrp-0179668/):
     * first install twrp
