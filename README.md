@@ -55,3 +55,6 @@ cd infra && docker-compose up
     * MySQL database: <host>:3306
     * database management dashboard: <host>:8081
 
+## Experiment Details
+
+To access all experiment data and reproduce the experiements. See [this document](experiements.md).
