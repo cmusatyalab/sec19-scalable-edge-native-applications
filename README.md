@@ -33,31 +33,27 @@ Data used and generated from the experiments can be downloaded from [here](https
 
 1. install [git lfs](https://git-lfs.github.com)
 2. Clone this repository
-
 ```bash
 git clone https://github.com/junjuew/edge-resource-management.git
 ```
 
-## Infrastructure
-
-* machine: cloudlet002
-* main path: /home/junjuew/work/resource-management
-* conda environment:
-  * install miniconda
-  * add the following to ~/.condarc
-```
-envs_dirs:
-  - /home/junjuew/work/resource-management
-```
-  * activate conda environment with
+3. Setup conda environment.
 ```bash
-conda activate ./conda-env-rmexp
+conda env create --file environment.yml
 ```
+
   * NOTE: dlib and tensorflow is installed through pip, since opencv 2.4.13 has a fixed dependency of numpy (1.11) that is conflicting with the newest dlib and tf. conda won't allow such conflict to co-exists. However, just updating numpy to 1.16.3 still seems to be working for lego, pingpong, and pool those legacy applications.
-  * NOTE: tensorflow object detection is using Tan's installation on cloudlet002.
-* Infrastructure service uris
-  * MySQL database: cloudlet002.elijah.cs.cmu.edu:13306
-  * database UI: http://cloudlet002.elijah.cs.cmu.edu:8081
+
+4. Setup the infrastructure services needed for reading/writing experimental results
+```bash
+mv .envrc.example .envrc # set service passwords
+source .envrc
+cd infra && docker-compose up 
+```
+
+  * Infrastructure service:
+    * MySQL database: <host>:3306
+    * database management dashboard: <host>:8081
 
 ## Dataset
 
@@ -71,10 +67,10 @@ Traces used for experiemnts
 * lego: 1-8, 16, 18
 * ikea: 1, 4, 7, 11, 12
 
-Pool and pingpong's trace selection are restricted to the ones that we have IMU suppression prediction.
-Lego and ikea's trace selection are restricted to the videos that triggers less computer vision processing errors.
-For lego, many traces have too short of a step or wrong color detection, causing CV errors.
-For ikea, many traces have too short of a step, providing too little chances for a detection, especially client sampling rate is low.
+Pool and pingpong traces are restricted to the ones that we have IMU suppression prediction.
+Lego and ikea traces are restricted to the videos that triggers less errors in the original applications due to the failure of CV.
+  * For lego, many traces have too short of a step or wrong color detection, causing CV errors.
+  * For ikea, many traces have too short of a step, providing too little chances for a detection, especially when the client sampling rate is low.
 
 ### Recording Video and Sensor data
 
@@ -161,7 +157,7 @@ rsync -av --delete junjuew@cloudlet002.elijah.cs.cmu.edu:/home/junjuew/work/reso
 
 ## Section 5 Experiments
 
-### Restrict Cloudlet Resources through CGroup
+### Restrict Cloudlet/server Resources through CGroup
 ```bash
 # create cgroup
 sudo cgcreate -g cpuset,memory:/rmexp
@@ -179,10 +175,9 @@ sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 * zmq msg broker:
 
 ```bash
-# Note: we only need one port now for every component: client, worker and controller
 # export BROKER_TYPE="zmq-md"
-# export CLIENT_BROKER_URI="tcp://128.2.210.252:9093"
-# export WORKER_BROKER_URI="tcp://128.2.210.252:9093"
+# export CLIENT_BROKER_URI="tcp://<host>:9093"
+# export WORKER_BROKER_URI="tcp://<host>:9093"
 python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
 ```
 
@@ -197,16 +192,6 @@ python -m rmexp.broker.mdbroker --broker-uri $CLIENT_BROKER_URI
 
 #### Adding and invoking new schedulers
 Add a module under `rmexp/scheduler`. Module must expose a function `schedule(run_config, total_cpu, total_memory)`. See `rmexp/scheduler/baseline.py` for an example.
-
-## Adaptive Brokers (Explored but eventually not used)
-
-Dynamic token management to match clients' request throughput to server processing throughput.
-Servers' processing throughput are not constant as the execution time is content dependent.
-
-```bash
-# need to make sure expected-stats.json have valid data
-python -m rmexp.broker.mdbroker --broker-uri tcp://128.2.210.252:9094 --service-type adaptive --service-expected-stats-config-fpath data/profile/expected-stats.json
-```
 
 ## Section 6
 
@@ -245,6 +230,6 @@ python fileutils.py rename-default-trace --dir-path ../../data/face-trace
 * LegoLatency: deprecated. not used.
 * Profile: deprecated. not used.
 
-## Hand labeled dataset
+## Notes
 
-Are contained in dutycycle.ipynb
+* Ground truth labels for duty cycle experiements are contained in dutycycle.ipynb
