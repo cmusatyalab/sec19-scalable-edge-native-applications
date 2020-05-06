@@ -53,4 +53,4 @@ cd infra && docker-compose up
 
 ## Experiment Details
 
-To access all experiment data and reproduce the experiements. See [this document](experiements.md).
+To access all experiment data and reproduce the experiements. See [this document](experiments.md).
