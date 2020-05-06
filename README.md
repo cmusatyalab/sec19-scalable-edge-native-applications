@@ -27,7 +27,7 @@ Wang, J., Feng, Z., George, S., Iyengar, R., Pillai, P., & Satyanarayanan, M. (2
 
 ## Experiment Data
 
-Data used and generated from the experiments can be downloaded from [here](https://storage.cmusatyalab.org/sec2019/data.tgz) (~20GB).
+Data used and generated from the experiments can be downloaded from [here](https://storage.cmusatyalab.org/sec2019/data.tgz) (~19GB).
 
 ## Installation
 
