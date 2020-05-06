@@ -32,11 +32,7 @@ Data used and generated from the experiments can be downloaded from [here](https
 ## Installation
 
 1. install [git lfs](https://git-lfs.github.com)
-2. Clone this repository
-```bash
-git clone https://github.com/junjuew/edge-resource-management.git
-```
-
+2. Clone this repository.
 3. Setup conda environment.
 ```bash
 conda env create --file environment.yml
