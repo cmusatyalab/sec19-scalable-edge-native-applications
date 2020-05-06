@@ -33,6 +33,9 @@ Data used and generated from the experiments can be downloaded from [here](https
 
 1. install [git lfs](https://git-lfs.github.com)
 2. Clone this repository.
+```bash
+git clone --recurse-submodules git://github.com/junjuew/scalable-edge-native-applications.git
+```
 3. Setup conda environment.
 ```bash
 conda env create --file environment.yml
