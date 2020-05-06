@@ -55,7 +55,6 @@ sudo cgset -r memory.limit_in_bytes=8g rmexp
 # launch a program restricting to cgroups, for containers, user cgroup-parent 
 sudo cgexec -g cpuset,memory:/rmexp stress -m 4 --vm-bytes 8g
 ```
-* profile cgroup on cloudlet002: core 0-31, memory 16g
 
 ### Running Experiments
 
@@ -97,10 +96,10 @@ Add a module under `rmexp/scheduler`. Module must expose a function `schedule(ru
   * install ubuntu 16.04 on linux deploy. enable sshd
 * check out infra/nexus6 directory and Makefile
 * update infra/nexus6/requirements.txt
-* make sure feed.py can run
-* rsync 
+* make sure feed.py can run.
+* rsync the recorded results.
 ```bash
-rsync -av --delete junjuew@cloudlet002.elijah.cs.cmu.edu:/home/junjuew/work/resource-management \
+rsync -av --delete <destination> \
 --exclude resource-management/conda-env-rmexp --exclude resource-management/.git --exclude resource-management/data \
 --exclude resource-management/third_party --exclude resource-management/visualization \
 .
