@@ -1,11 +1,15 @@
-# Edge Resource Management Research Study
+# Towards scalable edge-native applications
+
+This repository contains code and experiments for the following SEC'19 paper.
+
+Wang, J., Feng, Z., George, S., Iyengar, R., Pillai, P., & Satyanarayanan, M. (2019, November). Towards scalable edge-native applications. In Proceedings of the 4th ACM/IEEE Symposium on Edge Computing (pp. 152-165).
 
 ## What's in this repo?
 
 * [Makefile](Makefile): Entry point for building and running experiments.
 * [environment.yml](environment.yml): Conda environment dependency file.
 * [app](app): Wearable cognitive assistance applications packaged as python modules for stateless vision processing.
-* [data](data): experimental input data including application input traces, not version controlled under git. available on cloudlet002.
+* [data](data): experimental input data including application input traces, not version controlled under git. See below for the download link.
 * [infra](infra): experiment infrastructure, including a MySQL database for experiment data. All these tools are set up using containers.
 * [rmexp](rmexp): main python module "Resource Management Experiment".
   * [rmexp/broker](rmexp/broker): Python implementation of ZMQ message broker Majordomo Pattern.
@@ -20,6 +24,10 @@
 * [scripts](scripts): Scripts to launch experiments.
 * [third_party](third_party): Third party libaries required: dlib, tensorflow object detection API, and trace-app
   * [third_party/trace-app](third_party/trace-app): android app to record video and sensor data to collect traces
+
+## Experiment Data
+
+Data used and generated from the experiments can be downloaded from [here](https://storage.cmusatyalab.org/sec2019/data.tgz) (~20GB).
 
 ## Installation
 
